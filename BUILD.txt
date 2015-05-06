@@ -1,0 +1,11 @@
+example.cpp demonstrates how to include the stemming library into your projects.
+
+GCC:
+
+Run this to compile the sample:
+
+g++ example.cpp -o TestStemmer
+
+To run the sample:
+
+./TestStemmer

@@ -1,0 +1,68 @@
+2015 Release
+----------------------------------
+1. Overhaul of Doxygen documentation.
+2. Updates to compile with GCC.
+3. Files are now UTF-8 (without BOM) encoded, which is compatible with Visual Studio 2008 and GCC. Note that this is no longer compatible with earlier versions of Visual Studio.
+
+2010 Release
+----------------------------------
+1. Added Russian stemmer.
+2. Documentation expanded.
+
+2009.1 Release
+----------------------------------
+1. Added support for smart apostrophes.
+
+
+2009 Release
+----------------------------------
+1. Removed "common_lang_constants.cpp" so that the library now consists only of header files.
+
+
+2.0 Release
+----------------------------------
+NOTE: This release is now only compatible with std::wstring (Unicode strings). If you need to stem an ANSI string, then convert it to a wstring using mbstowcs and then stem the wstring.
+
+1. All extended ASCII characters are written in numeric value, so that you can compile on GCC without needing to encode the source code files to UTF-8.
+2. Fixed a few access violations.
+3. Fixed a bug in step1 of the French stemmer.
+4. Updated the English and Spanish stemmers to the newer 2006 algorithms.
+5. General optimizations.
+
+1.2 Release
+----------------------------------
+1. Fixed a couple of bugs when compiling with GCC.
+
+1.1 Release
+----------------------------------
+1. Fixed an error when compiling with Visual Studio 2005.
+
+1.0 Release
+----------------------------------
+1. Added updates to English, Italian, Spanish, Norwegian, and Portuguese stemmers to include latest changes made to the Porter algorithms.
+2. Fixed case-sensitive comparison bug in Portuguese stemmer.
+3. Fixed bug in Portuguese stemmer where an "i" was sometimes incorrectly removed from the suffix.
+4. Fixed a bug in the English stemmer were some words ending in "e" would be incorrectly stemmed.
+5. Unicode now supported. If the symbol UNICODE is globally defined, stemmers now work with std::wstrings; otherwise, std::strings are expected.
+6. Removed template arguments for stemmers. Now you can just declare "english_stem EnglishStemmer;" instead of "english_stem<char> EnglishStemmer;"and it will know whether to expect either std::wstring or std::string types based on whether UNICODE is enabled.
+7. Now licensed under the BSD license.
+8. Added more helper functions in utilities.h and string_util.h
+
+0.3 Release
+----------------------------------
+1. Fixed index bug in Dutch stemmer (wasn't checking size of string when it should have been).
+2. Fixed a compiler bug where a few inclusions were missing.
+3. Added "round" function to utility library for doing accurate integer rounding.
+4. Removed unused variable in English stemmer.
+5. Fixed compiler cast warning in "find_r2" function.
+6. Fixed access violation in "hash_german_yu", "hash_french_yui", and "hash_italian_ui" caused by one letter words.
+7. Fixed compiler error in stricmp function.
+8. Added "strstr" and "strcspn" char/wchar_t wrappers to string_util.h.
+9. Added "size_of_array" macro to utilities.h.
+10. Removed debugging hack code in "is_either" function in utilities.h.
+
+
+0.2 Release
+----------------------------------
+1. Fixed a couple of syntax errors in Finnish and French stemmers that GCC picked up.
+2. Added support for German variant algorithm, where umlauted words are expanded to the English equivalent.
