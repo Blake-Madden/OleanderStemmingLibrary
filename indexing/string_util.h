@@ -22,9 +22,10 @@ it under the terms of the BSD License.
 #include <cassert>
 #include <clocale>
 #include <stdexcept>
-#include "../utilities/utilities.h"
+#include "common_lang_constants.h"
 #include "../utilities/safe_math.h"
-#include "../debug/debug_logic.h"
+#include "../utilities/utilities.h"
+#include "../utilities/debug_logic.h"
 
 namespace string_util
     {
@@ -226,7 +227,7 @@ namespace string_util
         return 0;
         }
     
-    /**Returns whether a character is a space, tab, or newline. Also includes double-width spaces.
+    /**Determines whether a character is a space, tab, or newline. Also includes double-width and no break spaces.
     @param ch The letter to be analyzed.*/
     template<typename T>
     inline bool is_space(const T ch)
@@ -241,114 +242,90 @@ namespace string_util
             true : false;
         }
 
-    /**Converts string in hex format to int. Default figures out how much of the string
-    is a valid hex string, but passing a value to the second parameter overrides this
-    and allows you to indicate how much of the string to try to convert.*/
-	template<typename T>
+    /**Determines whether a character is a hexademical digit (0-9,A-F,a-f).
+    @param ch The letter to be analyzed.*/
+    template<typename T>
     inline bool is_hex_digit(const T ch)
         {
-        return (iswdigit(ch) ||
+        return (iswdigit(wchar_t(ch)) ||
             ((ch >= 0x61/*'a'*/ && ch <= 0x66/*'f'*/) ||
             (ch >= 0x41/*'A'*/ && ch <= 0x46/*'F'*/)) );
         }
 
-    inline int axtoi(const char* hexStg, size_t length = 0)
+    /**Converts string in hex format to int. Default figures out how much of the string
+    is a valid hex string, but passing a value to the second parameter overrides this
+    and allows you to indicate how much of the string to try to convert.
+    @param hexStr The string to convert.
+    @length How much of the string to analyze. The value -1 (the default) will tell the function
+    to read until there are no more valid hexadecimal digits.
+    @returns The value of the string as an integer.*/
+    template<typename T>
+    inline int axtoi(const T* hexStr, size_t length = -1)
         {
-        if (hexStg == NULL)
+        if (hexStr == NULL || *hexStr == 0 || length == 0)
             { return 0; }
-        //skip leading Ox
-        if (hexStg[0] == 0x30/*0*/ && (hexStg[1] == 0x78/*x*/ || hexStg[1] == 0x58/*X*/))
+        //skip leading 0x
+        if (hexStr[0] == 0x30/*0*/ &&
+            length != 1 &&
+            is_either<T>(hexStr[1], 0x78/*x*/, 0x58/*X*/))
             {
-            hexStg += 2;
-            //if they specified a length to read then take into account the Ox that we just skipped over
-            if (length != 0)
-                { length -= 2; }
+            hexStr += 2;
+            //if they specified a length to read then take into account the 0x that we just skipped over
+            if (length != static_cast<size_t>(-1) && length >= 2)
+                {
+                length -= 2;
+                if (length == 0)//just a 0x string, then we're done
+                    { return 0; }
+                }
             }
-        if (length == 0)
+        if (length == static_cast<size_t>(-1))
             {
-            const char* currentPos = hexStg;
+            const T* currentPos = hexStr;
             do
                 {
-                if (!string_util::is_hex_digit(currentPos[0]) || currentPos[0] == 0)
+                if (currentPos[0] == 0 || !string_util::is_hex_digit(currentPos[0]))
                     { break; }
                 }
             while (currentPos++);
 
-            length = currentPos-hexStg;
+            length = currentPos-hexStr;
             //if no valid hex digits then fail and return zero
             if (length == 0)
                 { return 0; }
             }
-        size_t n = 0;      // position in string
-        size_t m = 0;      // position in digit[] to shift
-        int intValue = 0;  // integer value of hex string
-        int* digit = new int[length+1];      // hold values to convert
-        std::memset(digit, 0, length+1);
-        while (n < length)
+        size_t strPos = 0;
+        int intValue = 0;
+        //storage for converted values
+        int* digits = new int[length+1]; std::auto_ptr<int> digitsDeleter(digits);
+        std::memset(digits, 0, sizeof(int)*(length+1));
+        while (strPos < length)
             {
-            if (hexStg[n] == 0)
+            if (hexStr[strPos] == 0)
                 break;
-            if (hexStg[n] > 0x29 && hexStg[n] < 0x40 ) //if 0 to 9
-                digit[n] = hexStg[n] & 0x0f;            //convert to int
-            else if ((hexStg[n] >=0x61/*'a'*/ && hexStg[n] <= 0x66/*'f'*/) ||
-					 (hexStg[n] >=0x41/*'A'*/ && hexStg[n] <= 0x46/*'F'*/))
-                digit[n] = (hexStg[n] & 0x0f) + 9;      //convert to int
-            else break;
-            ++n;
+            //0-9
+            if (is_within<T>(hexStr[strPos], common_lang_constants::NUMBER_0, common_lang_constants::NUMBER_9) )
+                digits[strPos] = (hexStr[strPos]&0x0F);
+            //A-F
+            else if (is_within<T>(hexStr[strPos], common_lang_constants::LOWER_A, common_lang_constants::LOWER_F) ||
+                     is_within<T>(hexStr[strPos], common_lang_constants::UPPER_A, common_lang_constants::UPPER_F) )
+                digits[strPos] = (hexStr[strPos]&0x0F)+9;
+            else
+                { break; }
+            ++strPos;
             }
-        size_t count = n;
-        m = n - 1;
-        n = 0;
-        while(n < count)
+        const size_t count = strPos;
+        size_t digitPos = strPos - 1;
+        strPos = 0;
+        while (strPos < count)
             {
-            // digit[n] is value of hex digit at position n
-            // (m << 2) is the number of positions to shift
-            // OR the bits into return value
-            intValue = intValue | (digit[n] << (m << 2));
-            --m;   // adjust the position to set
-            ++n;   // next digit to process
+            //shift OR the bits into return value.
+            intValue = intValue | (digits[strPos] << (digitPos << 2));
+            --digitPos;
+            ++strPos;
             }
-        delete [] digit;
+
         return intValue;
         }
-
-	inline int axtoi(const wchar_t* hexStg, size_t length = 0)
-		{
-		if (hexStg == NULL)
-            { return 0; }
-		//skip leading Ox
-        if (hexStg[0] == 0x30/*0*/ && (hexStg[1] == 0x78/*x*/ || hexStg[1] == 0x58/*X*/))
-            {
-            hexStg += 2;
-            //if they specified a length to read then take into account the Ox that we just skipped over
-            if (length != 0)
-                { length -= 2; }
-            }
-		if (length == 0)
-            {
-            const wchar_t* currentPos = hexStg;
-            do
-                {
-				if (!string_util::is_hex_digit(currentPos[0]) || currentPos[0] == 0)
-                    { break; }
-                }
-            while (currentPos++);
-
-            length = currentPos-hexStg;
-            //if no valid hex digits then fail and return zero
-            if (length == 0)
-                { return 0; }
-            }
-		char* charHexStr = new char[length+1]; std::auto_ptr<char> bufferDeleter(charHexStr);
-		std::memset(charHexStr, 0, length+1);
-		for (size_t i = 0; i < length; ++i)
-			{
-			if (!string_util::is_hex_digit(hexStg[i]))
-				{ break; }
-			charHexStr[i] = static_cast<char>(hexStg[i]);
-			}
-		return axtoi(charHexStr, std::strlen(charHexStr));
-		}
 
     /**Returns the number of characters in the string pointed to by str, not including the
     terminating '\0' character, but at most maxlen. In doing this, strnlen looks only at
@@ -401,16 +378,16 @@ namespace string_util
         {
         if (!string || !strSearch || string_len == 0 || *strSearch == 0)
             { return NULL; }
-        for (size_t i = 0; i <= string_len; ++i)
+        for (size_t i = 0; i < string_len; ++i)
             {
             //compare the characters one at a time
             size_t j = 0;
             for (j = 0; strSearch[j] != 0; ++j)
                 {
-                if (string_util::tolower(strSearch[j]) != string_util::tolower(string[i+j]) )
-                    { break; }
                 if ((i+j) >= string_len || string[i+j] == 0)
                     { return NULL; }
+                if (string_util::tolower(strSearch[j]) != string_util::tolower(string[i+j]) )
+                    { break; }
                 }
             //if the substring loop completed then the substring was found
             if (strSearch[j] == 0)
@@ -669,7 +646,7 @@ namespace string_util
         }
 
     /**Search for a single character in a string for n number of characters.
-	Size argument should be less than or equal to the length of the string being searched.
+    Size argument should be less than or equal to the length of the string being searched.
     @param string The string to search in.
     @param ch The character to search for.
     @param size The size of the search string.
@@ -1082,8 +1059,8 @@ namespace string_util
         return tempText;
         }
 
-	///Removes all instances of a character from a string.
-	template<typename Tchar_type, typename T>
+    ///Removes all instances of a character from a string.
+    template<typename Tchar_type, typename T>
     inline void remove_all(T& text, Tchar_type char_to_replace)
         {
         size_t start = 0;
@@ -1147,72 +1124,72 @@ namespace string_util
     that there isn't more than one space consecutively.*/
     template<typename string_typeT>
     size_t remove_extra_spaces(string_typeT& Text)
-	    {
-	    size_t numberOfSpacesRemoved = 0;
+        {
+        size_t numberOfSpacesRemoved = 0;
 
-	    if (!Text.length() )
-		    { return 0; }
-	    bool alreadyHasSpace = true;
-	    //make sure that there is only a space between each word
-	    for (unsigned int i = 0; i < Text.length(); ++i)
-		    {
-		    //if this is the first space found after the current
-		    //word then it's OK--just leave it
+        if (!Text.length() )
+            { return 0; }
+        bool alreadyHasSpace = true;
+        //make sure that there is only a space between each word
+        for (unsigned int i = 0; i < Text.length(); ++i)
+            {
+            //if this is the first space found after the current
+            //word then it's OK--just leave it
             if (is_space(static_cast<wchar_t>(Text[i])) && !alreadyHasSpace)
-			    { alreadyHasSpace = true; }
-		    //this is extra space right after another--get rid of it
-		    else if (is_space(static_cast<wchar_t>(Text[i])) && alreadyHasSpace)
-			    {
-			    //make sure it isn't a Windows \r\n
-			    if (i && !(Text[i-1] == 13 && Text[i] == 10))
-				    {
-				    ++numberOfSpacesRemoved;
-				    Text.erase(i--,1);
-				    }
-			    }
-		    //we are starting another word--reset
-		    else if (!is_space(static_cast<wchar_t>(Text[i])))
-			    { alreadyHasSpace = false; }
-		    }
+                { alreadyHasSpace = true; }
+            //this is extra space right after another--get rid of it
+            else if (is_space(static_cast<wchar_t>(Text[i])) && alreadyHasSpace)
+                {
+                //make sure it isn't a Windows \r\n
+                if (i && !(Text[i-1] == 13 && Text[i] == 10))
+                    {
+                    ++numberOfSpacesRemoved;
+                    Text.erase(i--,1);
+                    }
+                }
+            //we are starting another word--reset
+            else if (!is_space(static_cast<wchar_t>(Text[i])))
+                { alreadyHasSpace = false; }
+            }
 
-	    return numberOfSpacesRemoved;
-	    }
+        return numberOfSpacesRemoved;
+        }
 
     /**Removes blank lines from a block of text
     @param Text The text to have blank lines removed from.
     @return Number of characters (not lines) removed from the block.*/
     template<typename string_typeT>
     size_t remove_blank_lines(string_typeT& Text)
-	    {
-	    size_t numberOfLinesRemoved = 0;
+        {
+        size_t numberOfLinesRemoved = 0;
 
-	    if (!Text.length() )
-		    { return 0; }
-	    bool alreadyHasNewLine = true;
-	    //make sure that there is only a space between each word
-	    for (unsigned int i = 0; i < Text.length(); ++i)
-		    {
-		    //if this is the first space found after the current
-		    //word then it's OK--just leave it
+        if (!Text.length() )
+            { return 0; }
+        bool alreadyHasNewLine = true;
+        //make sure that there is only a space between each word
+        for (unsigned int i = 0; i < Text.length(); ++i)
+            {
+            //if this is the first space found after the current
+            //word then it's OK--just leave it
             if (is_either<wchar_t>(static_cast<wchar_t>(Text[i]), 10, 13) && !alreadyHasNewLine)
-			    { alreadyHasNewLine = true; }
-		    //this is extra space right after another--get rid of it
-		    else if (is_either<wchar_t>(static_cast<wchar_t>(Text[i]), 10, 13) && alreadyHasNewLine)
-			    {
-			    //make sure it isn't a Windows \r\n
-			    if (i && !(Text[i-1] == 13 && Text[i] == 10))
-				    {
-				    ++numberOfLinesRemoved;
-				    Text.erase(i--,1);
-				    }
-			    }
-		    //we are starting another word--reset
-		    else if (!is_either<wchar_t>(static_cast<wchar_t>(Text[i]), 10, 13))
-			    { alreadyHasNewLine = false; }
-		    }
+                { alreadyHasNewLine = true; }
+            //this is extra space right after another--get rid of it
+            else if (is_either<wchar_t>(static_cast<wchar_t>(Text[i]), 10, 13) && alreadyHasNewLine)
+                {
+                //make sure it isn't a Windows \r\n
+                if (i && !(Text[i-1] == 13 && Text[i] == 10))
+                    {
+                    ++numberOfLinesRemoved;
+                    Text.erase(i--,1);
+                    }
+                }
+            //we are starting another word--reset
+            else if (!is_either<wchar_t>(static_cast<wchar_t>(Text[i]), 10, 13))
+                { alreadyHasNewLine = false; }
+            }
 
-	    return numberOfLinesRemoved;
-	    }
+        return numberOfLinesRemoved;
+        }
 
     /**Converts strings to double values, but also takes into account ranges (returning the average). For example, a string
     like "5-8" will return 6.5. Hyphens and colons are seen as range separators.*/
@@ -1233,7 +1210,7 @@ namespace string_util
             {
             const double d1 = string_util::strtod(nptr, endptr);
             const double d2 = string_util::strtod(++separator, endptr);
-            return safe_divided<double>(d1+d2, 2);
+            return safe_divide<double>(d1+d2, 2);
             }
         }
 

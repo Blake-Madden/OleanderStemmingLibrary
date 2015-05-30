@@ -14,10 +14,15 @@ it under the terms of the BSD License.
 #include <cmath>
 #include <cassert>
 
-///returns the item count of an array
+///@returns the item count of an array.
 #define size_of_array(x) (sizeof(x)/sizeof(x[0]))
 
-///Range checks a given value and truncates it if it is too high or low
+/**Range checks a given value and truncates it if it is too high or low.
+   @param start The start of the valid range.
+   @param end The end of the valid range.
+   @param value The value to be range checked.
+   @returns The value if within the valid range. If it was too large, then the end of the range
+   is returned. If too low, then the start of the range is returned.*/
 template<typename T>
 inline T within_range(const T start, const T end, const T value)
     {
