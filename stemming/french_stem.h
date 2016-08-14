@@ -1,10 +1,11 @@
-/**
-\date 2004-2015
-\copyright Oleander Software, Ltd.
-\author Oleander Software, Ltd.
-\details This program is free software; you can redistribute it and/or modify
+/**@addtogroup Stemming
+@brief Library for stemming words down to their root words.
+@date 2003-2015
+@copyright Oleander Software, Ltd.
+@author Oleander Software, Ltd.
+@details This program is free software; you can redistribute it and/or modify
 it under the terms of the BSD License.
-*/
+* @{*/
 
 #ifndef __FRENCH_STEM_H__
 #define __FRENCH_STEM_H__
@@ -13,12 +14,10 @@ it under the terms of the BSD License.
 
 namespace stemming
     {
-    /** \addtogroup Stemming
-    * @{*/
     /**
-    \class french_stem
-        French stemming class.
-
+    @brief French stemmer.
+    @date 2004
+    @par Algorithm:
 
     Letters in French include the following accented forms:
         - â à ç ë é ê è ï î ô û ù 
@@ -26,7 +25,7 @@ namespace stemming
     The following letters are vowels:
         - a e i o u y â à ë é ê è ï î ô û ù
 
-    \par Algorithm:
+    @par Algorithm:
 
     <b>Step 1:</b>
 
@@ -140,7 +139,7 @@ namespace stemming
     public:
         french_stem() : m_step_1_successful(false) {}
         //---------------------------------------------
-        /**@param text string to stem*/
+        /**@param[in,out] text string to stem*/
         void operator()(string_typeT& text)
             {
             if (text.length() < 2)
@@ -1393,5 +1392,7 @@ namespace stemming
         bool m_step_1_successful;
         };
     }
+
+/** @}*/
 
 #endif //__FRENCH_STEM_H__

@@ -1,10 +1,11 @@
-/**
-\date 2004-2015
-\copyright Oleander Software, Ltd.
-\author Oleander Software, Ltd.
-\details This program is free software; you can redistribute it and/or modify
+/**@addtogroup Indexing
+@brief Library for stemming words down to their root words.
+@date 2003-2016
+@copyright Oleander Software, Ltd.
+@author Oleander Software, Ltd.
+@details This program is free software; you can redistribute it and/or modify
 it under the terms of the BSD License.
-*/
+* @{*/
 
 #ifndef __COMMON_LANG_CONSTANTS_H__
 #define __COMMON_LANG_CONSTANTS_H__
@@ -13,16 +14,13 @@ it under the terms of the BSD License.
 
 namespace common_lang_constants
     {
-    /** \addtogroup Indexing
-    * Punctuation constants.
-    * @{*/
     const wchar_t TAB = 0x09;
     const wchar_t SPACE = 0x20;
     const wchar_t COMMA = 0x2C;
     const wchar_t LESS_THAN = 60;
     const wchar_t GREATER_THAN = 62;
     const wchar_t POUND = 35;
-    const wchar_t AMPERSAND = 38;
+    const wchar_t AMPERSAND = 0x26;
     const wchar_t SEMICOLON = 59;
     const wchar_t APOSTROPHE = 0x27;
     const wchar_t DOUBLE_QUOTE = 0x22;
@@ -181,5 +179,7 @@ namespace common_lang_constants
         NUMBER_5_FULL_WIDTH, NUMBER_6_FULL_WIDTH, NUMBER_7_FULL_WIDTH, NUMBER_8_FULL_WIDTH, NUMBER_9_FULL_WIDTH,
         PERIOD, 0 };
     }
+
+/** @}*/
 
 #endif //__COMMON_LANG_CONSTANTS_H__

@@ -1,10 +1,11 @@
-/**
-\date 2004-2015
-\copyright Oleander Software, Ltd.
-\author Oleander Software, Ltd.
-\details This program is free software; you can redistribute it and/or modify
+/**@addtogroup Stemming
+@brief Library for stemming words down to their root words.
+@date 2003-2015
+@copyright Oleander Software, Ltd.
+@author Oleander Software, Ltd.
+@details This program is free software; you can redistribute it and/or modify
 it under the terms of the BSD License.
-*/
+* @{*/
 
 #ifndef __SWEDISH_STEM_H__
 #define __SWEDISH_STEM_H__
@@ -13,11 +14,10 @@ it under the terms of the BSD License.
 
 namespace stemming
     {
-    /** \addtogroup Stemming
-    * @{*/
     /**
-    \class swedish_stem
-        Swedish stemming class.
+    @brief Swedish stemmer.
+
+    @par Algorithm:
 
     The Swedish alphabet includes the following additional letters,
         - ä   å   ö
@@ -30,7 +30,7 @@ namespace stemming
     Define a valid s-ending as one of:
         - b c d f g h j k l m n o p r t v y
     
-    \par Algorithm:
+    @par Algorithm:
 
     <b>Step 1:</b>
 
@@ -67,7 +67,7 @@ namespace stemming
         {
     public:
         //---------------------------------------------
-        /**@param text string to stem*/
+        /**@param[in,out] text string to stem*/
         void operator()(string_typeT& text)
             {
             if (text.length() < 3)
@@ -326,5 +326,7 @@ namespace stemming
             }
         };
     }
+
+/** @}*/
 
 #endif //__SWEDISH_STEM_H__

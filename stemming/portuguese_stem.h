@@ -1,10 +1,11 @@
-/**
-\date 2004-2015
-\copyright Oleander Software, Ltd.
-\author Oleander Software, Ltd.
-\details This program is free software; you can redistribute it and/or modify
+/**@addtogroup Stemming
+@brief Library for stemming words down to their root words.
+@date 2003-2015
+@copyright Oleander Software, Ltd.
+@author Oleander Software, Ltd.
+@details This program is free software; you can redistribute it and/or modify
 it under the terms of the BSD License.
-*/
+* @{*/
 
 #ifndef __PORTUGUESE_STEM_H__
 #define __PORTUGUESE_STEM_H__
@@ -13,11 +14,10 @@ it under the terms of the BSD License.
 
 namespace stemming
     {
-    /** \addtogroup Stemming
-    * @{*/
     /**
-    \class portuguese_stem
-        Portuguese stemming class.
+    @brief Portuguese stemmer.
+    @date 2004
+    @par Algorithm:
 
     Letters in Portuguese include the following accented forms,
         - á é í ó ú â ê ô ç ã õ ü ñ
@@ -33,7 +33,7 @@ namespace stemming
     ã and õ are therefore replaced by a~ and o~ in the word, where ~ is a separate character to be treated as a consonant.
     And then R2 and RV have the same definition as in the Spanish stemmer.
 
-    \par Algorithm:
+    @par Algorithm:
 
     <b>Step 1:</b>
 
@@ -42,9 +42,9 @@ namespace stemming
          oso   osa   osos   osas   amento   amentos   imento   imentos   adora   ador   aça~o
          adoras   adores   aço~es   ante   antes   ância
             - Delete if in R2.
-        - logía logías
+        - logia logias
             - Replace with log if in R2.
-        -ución uciones
+        - uça~o uço~es
             - Replace with u if in R2
         - ência ências
             - Replace with ente if in R2.
@@ -52,7 +52,7 @@ namespace stemming
             - Delete if in R1.
             - If preceded by iv, delete if in R2 (and if further preceded by at, delete if in R2), otherwise,
             - If preceded by os, ic or ad, delete if in R2.
-        -mente
+        - mente
             - Delete if in R2.
             - If preceded by ante, avel or ível, delete if in R2.
         - idade idades
@@ -70,14 +70,14 @@ namespace stemming
 
     Search for the longest among the following suffixes in RV, and if found, delete. 
 
-        - ada ida ia aria eria iria ará ara erá era irá ava asse esse isse aste este iste
-        ei arei erei irei am iam ariam eriam iriam aram eram iram avam em arem erem irem
-        assem essem issem ado ido ando endo indo ara~o era~o ira~o ar er ir as adas idas
-        ias arias erias irias arás aras erás eras irás avas es ardes erdes irdes ares eres
-        ires asses esses isses astes estes istes is ais eis íeis aríeis eríeis iríeis áreis
-        areis éreis ereis íreis ireis ásseis ésseis ísseis áveis ados idos ámos amos íamos
-        aríamos eríamos iríamos áramos éramos íramos ávamos emos aremos eremos iremos ássemos
-        êssemos íssemos imos armos ermos irmos eu iu ou ira iras
+    - ada ida ia aria eria iria ará ara erá era irá ava asse esse isse aste este iste
+    ei arei erei irei am iam ariam eriam iriam aram eram iram avam em arem erem irem
+    assem essem issem ado ido ando endo indo ara~o era~o ira~o ar er ir as adas idas
+    ias arias erias irias arás aras erás eras irás avas es ardes erdes irdes ares eres
+    ires asses esses isses astes estes istes is ais eis íeis aríeis eríeis iríeis áreis
+    areis éreis ereis íreis ireis ásseis ésseis ísseis áveis ados idos ámos amos íamos
+    aríamos eríamos iríamos áramos éramos íramos ávamos emos aremos eremos iremos ássemos
+    êssemos íssemos imos armos ermos irmos eu iu ou ira iras
 
     If the last step to be obeyed - either step 1 or 2 - altered the word, do step 3.
 
@@ -111,7 +111,7 @@ namespace stemming
         portuguese_stem() : m_step1_step2_altered(false), m_altered_suffix_index(0)
             {}
         //---------------------------------------------
-        /**@param text string to stem*/
+        /**@param[in,out] text string to stem*/
         void operator()(string_typeT& text)
             {
             if (text.length() < 3)
@@ -153,19 +153,19 @@ namespace stemming
         void step_1(string_typeT& text)
             {
             size_t original_length = text.length();
-            if (stem<string_typeT>::is_suffix_in_r2(text,/*uciones*/common_lang_constants::LOWER_U, common_lang_constants::UPPER_U, common_lang_constants::LOWER_C, common_lang_constants::UPPER_C, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
-                {
-                text.erase(text.length()-6);
-                m_altered_suffix_index = text.length()-1;
-                stem<string_typeT>::update_r_sections(text);
-                //NOOP (fall through to branching statement)
-                }
-            else if (stem<string_typeT>::delete_if_is_in_r2(text,/*amentos*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
+            if (stem<string_typeT>::delete_if_is_in_r2(text,/*amentos*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
                 //NOOP (fall through to branching statement)
                 }
             else if (stem<string_typeT>::delete_if_is_in_r2(text,/*imentos*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
+                //NOOP (fall through to branching statement)
+                }
+            else if (stem<string_typeT>::is_suffix_in_r2(text,/*uço~es*/common_lang_constants::LOWER_U, common_lang_constants::UPPER_U, common_lang_constants::LOWER_C_CEDILLA, common_lang_constants::UPPER_C_CEDILLA, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::TILDE, common_lang_constants::TILDE, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
+                {
+                text.erase(text.length()-5);
+                m_altered_suffix_index = text.length()-1;
+                stem<string_typeT>::update_r_sections(text);
                 //NOOP (fall through to branching statement)
                 }
             else if (stem<string_typeT>::delete_if_is_in_r2(text,/*amento*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) )
@@ -195,7 +195,7 @@ namespace stemming
                 stem<string_typeT>::update_r_sections(text);
                 //NOOP (fall through to branching statement)
                 }
-            else if (stem<string_typeT>::is_suffix_in_r2(text,/*logías*/common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_G, common_lang_constants::UPPER_G, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
+            else if (stem<string_typeT>::is_suffix_in_r2(text,/*logias*/common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_G, common_lang_constants::UPPER_G, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
                 text.erase(text.length()-3);
                 m_altered_suffix_index = text.length()-3;
@@ -229,14 +229,14 @@ namespace stemming
                     }
                 //NOOP (fall through to branching statement)
                 }    
-            else if (stem<string_typeT>::is_suffix_in_r2(text,/*logía*/common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_G, common_lang_constants::UPPER_G, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) )
+            else if (stem<string_typeT>::is_suffix_in_r2(text,/*logia*/common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_G, common_lang_constants::UPPER_G, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) )
                 {
                 text.erase(text.length()-2);
                 m_altered_suffix_index = text.length()-3;
                 stem<string_typeT>::update_r_sections(text);
                 //NOOP (fall through to branching statement)
                 }    
-            else if (stem<string_typeT>::is_suffix_in_r2(text,/*ución*/common_lang_constants::LOWER_U, common_lang_constants::UPPER_U, common_lang_constants::LOWER_C, common_lang_constants::UPPER_C, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_O_ACUTE, common_lang_constants::UPPER_O_ACUTE, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) )
+            else if (stem<string_typeT>::is_suffix_in_r2(text,/*uça~o*/common_lang_constants::LOWER_U, common_lang_constants::UPPER_U, common_lang_constants::LOWER_C_CEDILLA, common_lang_constants::UPPER_C_CEDILLA, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::TILDE, common_lang_constants::TILDE, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) )
                 {
                 text.erase(text.length()-4);
                 m_altered_suffix_index = text.length()-1;
@@ -1010,5 +1010,7 @@ namespace stemming
         size_t m_altered_suffix_index;
         };
     }
+
+/** @}*/
 
 #endif //__PORTUGUESE_STEM_H__

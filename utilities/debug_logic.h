@@ -1,10 +1,11 @@
-/**
-\date 2008-2015
-\copyright Oleander Software, Ltd.
-\author Oleander Software, Ltd.
-\details This program is free software; you can redistribute it and/or modify
-it under the terms of the BSD License.
-*/
+/**@addtogroup Debugging
+   @brief Functions used for debugging.
+   @date 2008-2015
+   @copyright Oleander Software, Ltd.
+   @author Oleander Software, Ltd.
+   @details This program is free software; you can redistribute it and/or modify
+    it under the terms of the BSD License.
+* @{*/
 
 #ifndef __DEBUG_LOGIC_H__
 #define __DEBUG_LOGIC_H__
@@ -13,9 +14,6 @@ it under the terms of the BSD License.
 #include <fstream>
 #include <iterator>
 
-/** \addtogroup Debugging
-   * Functions used for debugging.
-   * @{*/
 /**
 \def __DEBUG_FUNCTION_NAME__
     Expands to the name of the current function. Will not be defined if

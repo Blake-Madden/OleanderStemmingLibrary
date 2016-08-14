@@ -1,10 +1,11 @@
-/**
-\date 2004-2015
-\copyright Oleander Software, Ltd.
-\author Oleander Software, Ltd.
-\details This program is free software; you can redistribute it and/or modify
+﻿/**@addtogroup Stemming
+@brief Library for stemming words down to their root words.
+@date 2003-2015
+@copyright Oleander Software, Ltd.
+@author Oleander Software, Ltd.
+@details This program is free software; you can redistribute it and/or modify
 it under the terms of the BSD License.
-*/
+* @{*/
 
 #ifndef __FINNISH_STEM_H__
 #define __FINNISH_STEM_H__
@@ -13,11 +14,10 @@ it under the terms of the BSD License.
 
 namespace stemming
     {
-    /** \addtogroup Stemming
-    * @{*/
     /**
-    \class finnish_stem
-        Finnish stemming class.
+    @brief Finnish stemmer.
+    @date 2004
+    @par Overview:
 
     Finnish is not an Indo-European language, but belongs to the Finno-Ugric group,
     which again belongs to the Uralic group. Distinctions between a-, i- and d-suffixes
@@ -34,6 +34,8 @@ namespace stemming
     although the common case where strong and weak forms only differ in the single or double form of
     a final consonant can be dealt with.
 
+    @par Algorithm:
+
     Finnish includes the following accented forms:
         - ä ö
 
@@ -42,7 +44,7 @@ namespace stemming
 
     R1 and R2 are then defined in the usual way.
 
-    \par Algorithm:
+    @par Algorithm:
 
     <b>Step 1 (particles etc.):</b>
 
@@ -150,7 +152,7 @@ namespace stemming
     public:
         finnish_stem() : m_step_3_successful(false) {}
         //---------------------------------------------
-        /**@param text string to stem*/
+        /**@param[in,out] text string to stem*/
         void operator()(string_typeT& text)
             {
             if (text.length() < 2)
@@ -542,5 +544,7 @@ namespace stemming
         bool m_step_3_successful;
         };
     }
+
+/** @}*/
 
 #endif //__FINNISH_STEM_H__

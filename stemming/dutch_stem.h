@@ -1,10 +1,11 @@
-/**
-\date 2004-2015
-\copyright Oleander Software, Ltd.
-\author Oleander Software, Ltd.
-\details This program is free software; you can redistribute it and/or modify
+/**@addtogroup Stemming
+@brief Library for stemming words down to their root words.
+@date 2003-2015
+@copyright Oleander Software, Ltd.
+@author Oleander Software, Ltd.
+@details This program is free software; you can redistribute it and/or modify
 it under the terms of the BSD License.
-*/
+* @{*/
 
 #ifndef __DUTCH_STEM_H__
 #define __DUTCH_STEM_H__
@@ -13,15 +14,13 @@ it under the terms of the BSD License.
 
 namespace stemming
     {
-    /** \addtogroup Stemming
-    Language-specific stemming classes.
-    * @{*/
     /**
-    \class dutch_stem
-    Dutch includes the following accented forms:
-    - ä ë ï ö ü á é í ó ú è
+    @brief Dutch stemmer.
+    @date 2004
+    @par Algorithm:
 
-    \par Algorithm:
+   Dutch includes the following accented forms:
+    - ä ë ï ö ü á é í ó ú è
 
     <b>Step 1:</b>
 
@@ -70,7 +69,7 @@ namespace stemming
     public:
         dutch_stem() : m_step_2_succeeded(false) {}
         //---------------------------------------------
-        /**@param text string to stem*/
+        /**@param[in,out] text string to stem*/
         void operator()(string_typeT& text)
             {
             //First, remove all umlaut and acute accents
@@ -313,5 +312,7 @@ namespace stemming
         bool m_step_2_succeeded;
         };
     }
+
+/** @}*/
 
 #endif //__DUTCH_STEM_H__

@@ -1,10 +1,11 @@
-/**
-\date 2003-2015
-\copyright Oleander Software, Ltd.
-\author Oleander Software, Ltd.
-\details This program is free software; you can redistribute it and/or modify
+/**@addtogroup Utilities
+@brief Utility classes.
+@date 2003-2015
+@copyright Oleander Software, Ltd.
+@author Oleander Software, Ltd.
+@details This program is free software; you can redistribute it and/or modify
 it under the terms of the BSD License.
-*/
+* @{*/
 
 #ifndef __UTILITIES_H__
 #define __UTILITIES_H__
@@ -14,7 +15,9 @@ it under the terms of the BSD License.
 #include <cmath>
 #include <cassert>
 
-///@returns the item count of an array.
+///@returns The item count of an array.
+///@note Do not call this on an empty array.
+///Also, this is meant for arrays of intrinsic types only.
 #define size_of_array(x) (sizeof(x)/sizeof(x[0]))
 
 /**Range checks a given value and truncates it if it is too high or low.
@@ -30,6 +33,34 @@ inline T within_range(const T start, const T end, const T value)
             (value < start) ? start :
             (value > end) ? end : /*never reaches this branch*/ value;
     }
+
+///@returns True if a value is within a given range.
+template<typename T>
+inline bool is_within(const T value, const T first, const T second)
+    {
+    assert(first <= second);
+    return (value >= first && value <= second);
+    }
+
+///Determines if a value is within a given range.
+template<typename T>
+class within : public std::unary_function<T, bool>
+    {
+public:
+    /**Constructor.
+    @param range_begin The beginning of the valid range.
+    @param range_end The end of the valid range.*/
+    within(T range_begin, T range_end)
+        : m_range_begin(range_begin), m_range_end(range_end)
+        {}
+    /**@returns True if \ca value is within the valid range of values.
+    @param value The value to review.*/
+    inline bool operator()(T value) const
+        { return is_within(value, m_range_begin, m_range_end); }
+private:
+    T m_range_begin;
+    T m_range_end;
+    };
 
 ///pair interface that compares on the first item
 template<typename T1, typename T2>
@@ -101,14 +132,6 @@ inline bool is_neither(const T value, const T first, const T second)
     return (value != first && value != second);
     }
 
-///determines if a value is within a given range
-template<typename T>
-inline bool is_within(const T value, const T first, const T second)
-    {
-    assert(first <= second);
-    return (value >= first && value <= second);
-    }
-
 /**calls a member function of elements in a container for each
 element in another container*/
 template<typename inT, typename outT, typename member_extract_functorT>
@@ -137,20 +160,5 @@ inline outT copy_member_if(inT begin, inT end, outT dest,
         }
     return (dest);
     }
-
-///determines if a value is within a given range
-template<typename T>
-class within : public std::unary_function<T, bool>
-    {
-public:
-    within(T range_begin, T range_end)
-        : m_range_begin(range_begin), m_range_end(range_end)
-        {}
-    inline bool operator()(T value) const
-        { return is_within(value, m_range_begin, m_range_end); }
-private:
-    T m_range_begin;
-    T m_range_end;
-    };
 
 #endif //__UTILITIES_H__

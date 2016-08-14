@@ -253,12 +253,12 @@ namespace string_util
         }
 
     /**Converts string in hex format to int. Default figures out how much of the string
-    is a valid hex string, but passing a value to the second parameter overrides this
-    and allows you to indicate how much of the string to try to convert.
-    @param hexStr The string to convert.
-    @length How much of the string to analyze. The value -1 (the default) will tell the function
-    to read until there are no more valid hexadecimal digits.
-    @returns The value of the string as an integer.*/
+        is a valid hex string, but passing a value to the second parameter overrides this
+        and allows you to indicate how much of the string to try to convert.
+        @param hexStr The string to convert.
+        @length How much of the string to analyze. The value -1 (the default) will tell the function
+        to read until there are no more valid hexadecimal digits.
+        @returns The value of the string as an integer.*/
     template<typename T>
     inline int axtoi(const T* hexStr, size_t length = -1)
         {
@@ -327,13 +327,13 @@ namespace string_util
         return intValue;
         }
 
-    /**Returns the number of characters in the string pointed to by str, not including the
-    terminating '\0' character, but at most maxlen. In doing this, strnlen looks only at
-    the first maxlen characters at str and never beyond str+maxlen. This function should be used
-    for input that may not be NULL terminated.
+    /**@returns The number of characters in the string pointed to by str, not including the
+        terminating '\0' character, but at most maxlen. In doing this, strnlen looks only at
+        the first maxlen characters at str and never beyond str+maxlen. This function should be used
+        for input that may not be NULL terminated.
        @param str The string to review.
        @param maxlen The maximum length of the string to scan.
-       @returns the valid length of the string or maxlen, whichever is shorter.*/
+       @returns The valid length of the string or maxlen, whichever is shorter.*/
     template<typename T>
     inline size_t strnlen(const T* str, const size_t maxlen)
         {
@@ -582,7 +582,7 @@ namespace string_util
     @param closeSymbol The closing symbol that we are looking for.
     @param fail_on_overlapping_open_symbol Whether it should immediately return failure if an open
     symbol is found before a matching close symbol.
-    @returns a pointer to where the closing tag is, or NULL if one can't be found.*/
+    @returns A pointer to where the closing tag is, or NULL if one can't be found.*/
     template<typename T>
     inline const T* find_matching_close_tag(const T* string, const T openSymbol, const T closeSymbol,
                                             const bool fail_on_overlapping_open_symbol = false)
@@ -627,7 +627,7 @@ namespace string_util
             {
             //to prevent unnecessary calls to strncmp, we check the current character first
             if (string[0] == openSymbolFirstCharacter &&
-                     string_util::strncmp(string,openSymbol,openSymbolLength) == 0)
+                string_util::strncmp(string,openSymbol,openSymbolLength) == 0)
                 {
                 ++open_stack;
                 string += openSymbolLength;
@@ -645,19 +645,19 @@ namespace string_util
         return NULL;
         }
 
-    /**Search for a single character in a string for n number of characters.
-    Size argument should be less than or equal to the length of the string being searched.
-    @param string The string to search in.
-    @param ch The character to search for.
-    @param size The size of the search string.
-    @returns A pointer in the string where the character was found, or NULL if not found.*/
+    /**Searches for a single character in a string for n number of characters.
+        Size argument should be less than or equal to the length of the string being searched.
+        @param string The string to search in.
+        @param ch The character to search for.
+        @param numberOfCharacters The number of characters to search through in the string.
+        @returns A pointer in the string where the character was found, or NULL if not found.*/
     template<typename T>
-    inline const T* strnchr(const T* string, const T ch, size_t size)
+    inline const T* strnchr(const T* string, const T ch, size_t numberOfCharacters)
         {
         if (!string)
             { return NULL; }
         size_t i = 0;
-        for (i = 0; i < size; ++i)
+        for (i = 0; i < numberOfCharacters; ++i)
             {
             /*if string being searched is shorter
             than the size argument then return failure (NULL).*/
@@ -672,13 +672,14 @@ namespace string_util
         return NULL;
         }
 
-    /**search for a single character from a sequence in a string and
+    /**Searches for a single character from a sequence in a string and
     return a pointer if found.*/
     template<typename T>
     inline const T* strcspn_pointer(const T* string1, const T* string2, const size_t string2Length)
         {
-        if (!string1 || !string2)
+        if (!string1 || !string2 || string2Length == 0)
             { return NULL; }
+        assert((string_util::strlen(string2) == string2Length) && "Invalid length passed to strcspn_pointer().");
         size_t i = 0;
         while (string1)
             {
@@ -694,18 +695,19 @@ namespace string_util
         return NULL;
         }
 
-    /**Search for a single character from a sequence in a string for n number of characters.
-    @param stringToSearch The string to search.
-    @param stringToSearchLength The length of the string being searched.
-    @param searchString The sequence of characters to search for.
-    @param searchStringLength The length of the sequence string.
-    @returns The index into the string that the character was found. Returns the length of the string if not found.*/
+    /**Searches for a single character from a sequence in a string for n number of characters.
+        @param stringToSearch The string to search.
+        @param stringToSearchLength The length of the string being searched.
+        @param searchString The sequence of characters to search for.
+        @param searchStringLength The length of the sequence string.
+        @returns The index into the string that the character was found. Returns the length of the string if not found.*/
     template<typename T>
     inline size_t strncspn(const T* stringToSearch, const size_t stringToSearchLength,
         const T* searchString, const size_t searchStringLength)
         {
         if (!stringToSearch || !searchString || stringToSearchLength == 0 || searchStringLength == 0)
             { return stringToSearchLength; }
+        assert((string_util::strlen(searchString) == searchStringLength) && "Invalid length passed to strncspn().");
         size_t i = 0, j = 0;
         for (i = 0; i < stringToSearchLength; ++i)
             {
@@ -727,11 +729,11 @@ namespace string_util
         return i;
         }
 
-    /**search for a single character not from a sequence in a string in reverse.
-    @param string The string to search in.
-    @param search The sequence of characters to skip.
-    @param offset Where to begin the search. If -1, then the reverse search will begin at the end of the string.
-    @returns the position of where the last non-matching character is at, or -1 if it can't be found.*/
+    /**Searches for a single character not from a sequence in a string in reverse.
+        @param string The string to search in.
+        @param search The sequence of characters to skip.
+        @param offset Where to begin the search. If -1, then the reverse search will begin at the end of the string.
+        @returns The position of where the last non-matching character is at, or -1 if it can't be found.*/
     template<typename T>
     inline size_t find_last_not_of(const T* string, const T* search,
                     size_t offset = std::basic_string<T>::npos)
@@ -762,11 +764,11 @@ namespace string_util
         return std::basic_string<T>::npos;
         }
 
-    /**search for the last instance of a character in a string in reverse.
-    @param string The string to search.
-    @param ch The character to search for.
-    @param offset The offset in the string to begin the search from. The default (-1) will begin the search at the end of the string.
-    @returns The offset of the found character, or -1 if not found.*/
+    /**Searches for the last instance of a character in a string in reverse.
+        @param string The string to search.
+        @param ch The character to search for.
+        @param offset The offset in the string to begin the search from. The default (-1) will begin the search at the end of the string.
+        @returns The offset of the found character, or -1 if not found.*/
     template<typename T>
     inline size_t find_last_of(const T* string,
                     const T ch,
@@ -786,20 +788,21 @@ namespace string_util
         return static_cast<size_t>(-1);
         }
 
-    /*search for the first occurrence that is not a character from a sequence in
-    a string for n number of characters and returns zero-based index if found.
-    @param stringToSearch The string to search.
-    @param stringToSearchLength The length of the string being searched.
-    @param searchString The sequence of characters to perform a reverse match with.
-    @param searchStringLength The length of the character sequence.
-    @returns The index into the string that the character was not found, or 
-    the length of the string if nothing was found that couldn't match the search string.*/
+    /*Searches for the first occurrence that is not a character from a sequence in
+        a string for n number of characters and returns zero-based index if found.
+        @param stringToSearch The string to search.
+        @param stringToSearchLength The length of the string being searched.
+        @param searchString The sequence of characters to perform a reverse match with.
+        @param searchStringLength The length of the search character sequence.
+        @returns The index into the string that the character was not found, or 
+        the length of the string if nothing was found that couldn't match the search string.*/
     template<typename T>
     inline size_t find_first_not_of(const T* stringToSearch, const size_t stringToSearchLength,
                                     const T* searchString, const size_t searchStringLength)
         {
         if (!stringToSearch || !searchString || stringToSearchLength == 0 || searchStringLength == 0)
             { return stringToSearchLength; }
+        NON_UNIT_TEST_ASSERT((string_util::strlen(searchString) == searchStringLength) && "Invalid length passed to find_first_not_of().");
         size_t i = 0, j = 0;
         for (i = 0; i < stringToSearchLength; ++i)
             {
@@ -979,9 +982,9 @@ namespace string_util
     * Classes for string operations.
     * @{*/
     /**
-    \class string_tokenize
-        Tokenizes a string using a set of delimiters.
-    \date 2010
+    @class string_tokenize
+    @brief Tokenizes a string using a set of delimiters.
+    @date 2010
     */
     /** @} */
     template<typename T>
@@ -997,14 +1000,14 @@ namespace string_util
             m_start = m_value.c_str();
             m_next_delim = string_util::strcspn_pointer(m_start, m_delim.c_str(), m_delim.length());
             }
-        ///Returns whether or not there are more tokens in the string.
+        ///@returns Whether or not there are more tokens in the string.
         inline bool has_more_tokens() const
             { return m_has_more_tokens; }
-        ///Returns whether or not there are more delimiters in the string.
+        ///@returns Whether or not there are more delimiters in the string.
         ///This is useful for seeing if there are any delimiters at all when first loading the string.
         inline bool has_more_delimiters() const
             { return (m_next_delim != NULL); }
-        ///Returns the next token from the original string as a string object
+        ///@returns The next token from the original string as a string object
         ///Note that empty tokens can be returned if there is proceeding or trailing
         ///delimiters in the string, or if there are repeated delimiters next to each other.
         inline T get_next_token()
@@ -1120,7 +1123,7 @@ namespace string_util
             }
         }
 
-    /**strips extraneous spaces/tabs/carriage returns from a block of text so
+    /**Strips extraneous spaces/tabs/carriage returns from a block of text so
     that there isn't more than one space consecutively.*/
     template<typename string_typeT>
     size_t remove_extra_spaces(string_typeT& Text)

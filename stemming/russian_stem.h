@@ -1,10 +1,11 @@
-/**
-\date 2010-2015
-\copyright Oleander Software, Ltd.
-\author Oleander Software, Ltd.
-\details This program is free software; you can redistribute it and/or modify
+/**@addtogroup Stemming
+@brief Library for stemming words down to their root words.
+@date 2003-2015
+@copyright Oleander Software, Ltd.
+@author Oleander Software, Ltd.
+@details This program is free software; you can redistribute it and/or modify
 it under the terms of the BSD License.
-*/
+* @{*/
 
 #ifndef __RUSSIAN_STEM_H__
 #define __RUSSIAN_STEM_H__
@@ -113,11 +114,10 @@ namespace stemming
     static const wchar_t RUSSIAN_YA_UPPER = 0x042F;
     static const wchar_t RUSSIAN_YA_LOWER = 0x044F;
 
-    /** \addtogroup Stemming
-    * @{*/
     /**
-    \class russian_stem
-        Russian stemming class.
+    @brief Russian stemmer.
+    @date 2010
+    @par Algorithm:
 
     PERFECTIVE GERUND:
         - Group 1: в вши вшись
@@ -131,7 +131,7 @@ namespace stemming
     NOUN:
         - а ев ов ие ье е иями ями ами еи ии и ией ей ой ий й иям ям ием ем ам ом о у ах иях ях ы ь ию ью ю ия ья я
 
-    \par Algorithm:
+    @par Algorithm:
 
     <b>Step 1:</b>
 
@@ -162,7 +162,7 @@ namespace stemming
         {
     public:
         //---------------------------------------------
-        /**@param text string to stem*/
+        /**@param[in,out] text string to stem*/
         void operator()(string_typeT& text)
             {
             if (text.length() < 2)
@@ -534,5 +534,7 @@ namespace stemming
             }
         };
     }
+
+/** @}*/
 
 #endif //__RUSSIAN_STEM_H__

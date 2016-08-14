@@ -1,10 +1,11 @@
-/**
-\date 2004-2015
-\copyright Oleander Software, Ltd.
-\author Oleander Software, Ltd.
-\details This program is free software; you can redistribute it and/or modify
+/**@addtogroup Stemming
+@brief Library for stemming words down to their root words.
+@date 2003-2015
+@copyright Oleander Software, Ltd.
+@author Oleander Software, Ltd.
+@details This program is free software; you can redistribute it and/or modify
 it under the terms of the BSD License.
-*/
+* @{*/
 
 #ifndef __NORWEGIAN_STEM_H__
 #define __NORWEGIAN_STEM_H__
@@ -13,11 +14,10 @@ it under the terms of the BSD License.
 
 namespace stemming
     {
-    /** \addtogroup Stemming
-    * @{*/
     /**
-    \class norwegian_stem
-        Norwegian stemming class.
+    @brief Norwegian stemmer.
+    @date 2004
+    @par Algorithm:
 
     The Norwegian alphabet includes the following additional letters:
         - æ   å   ø
@@ -31,7 +31,7 @@ namespace stemming
         - b   c   d   f   g   h   j   l   m   n   o   p   r   t   v   y   z,
         - or 'k', not preceded by a vowel.
     
-    \par Algorithm:
+    @par Algorithm:
 
     <b>Step 1:</b>
 
@@ -63,7 +63,7 @@ namespace stemming
         {
     public:
         //---------------------------------------------
-        /**@param text string to stem*/
+        /**@param[in,out] text string to stem*/
         void operator()(string_typeT& text)
             {
             if (text.length() < 3)
@@ -302,5 +302,7 @@ namespace stemming
             }
         };
     }
+
+/** @}*/
 
 #endif //__NORWEGIAN_STEM_H__

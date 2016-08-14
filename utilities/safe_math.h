@@ -1,13 +1,11 @@
-/** \addtogroup Mathematics
-   * Math and statistics classes.
+/**@addtogroup Mathematics
+   @brief Math and statistics classes.
+   @date 2004-2015
+   @copyright Oleander Software, Ltd.
+   @author Oleander Software, Ltd.
+   @details This program is free software; you can redistribute it and/or modify
+    it under the terms of the BSD License.
 * @{*/
-/**
-\date 2015
-\copyright Oleander Software, Ltd.
-\author Oleander Software, Ltd.
-\details This program is free software; you can redistribute it and/or modify
-it under the terms of the BSD License.
-*/
 
 #ifndef __SAFE_MATH_H__
 #define __SAFE_MATH_H__
@@ -19,7 +17,7 @@ it under the terms of the BSD License.
 //DIVISION OPERATIONS
 //-------------------
 
-///Modulus operation that checks for modulus by zero or into zero (returns zero for those situations).
+///@brief Modulus operation that checks for modulus by zero or into zero (returns zero for those situations).
 ///@param dividend The dividend (i.e., the value being divided).
 ///@param divisor The divisor (i.e., the value dividing by).
 ///@returns The remainder of the modulus operation, or zero if one of the values was invalid.
@@ -31,11 +29,11 @@ inline T safe_modulus(const T dividend, const T divisor)
     return dividend%divisor;
     }
 
-///Division operation that checks for division by zero or into zero (returns zero for those situations).
+///@brief Division operation that checks for division by zero or into zero (returns zero for those situations).
 ///@param dividend The dividend (i.e., the value being divided).
 ///@param divisor The divisor (i.e., the value dividing by).
 ///@returns The quotient of the division operation, or zero if one of the values was invalid.
-///@note If the template type has a floating point precision, then the result will retain its precision.
+///@note If the template type has floating point precision, then the result will retain its precision.
 template<typename T>
 inline T safe_divide(const T dividend, const T divisor)
     {
@@ -47,7 +45,7 @@ inline T safe_divide(const T dividend, const T divisor)
 //DOUBLE OPERATIONS
 //-----------------
 
-/**Compares two double values (given the specified precision).
+/**@brief Compares two double values (given the specified precision).
    @param actual The value being reviewed.
    @param expected The expected value to compare against.
    @param delta The tolerance of how different the values can be. The larger the delta, the
@@ -59,7 +57,7 @@ inline bool compare_doubles(const double actual, const double expected, const do
     return (std::fabs(actual-expected) <= std::fabs(delta));
     }
 
-/**Compares two double values for less than (given the specified precision).
+/**@brief Compares two double values for less than (given the specified precision).
    @param left The value being reviewed.
    @param right The other value to compare against.
    @param delta The tolerance of how different the values can be. The larger the delta, the
@@ -68,10 +66,10 @@ inline bool compare_doubles(const double actual, const double expected, const do
 inline bool compare_doubles_less(const double left, const double right, const double delta = 1e-6)
     {
     assert(delta >= 0 && "delta value should be positive when comparing doubles");
-	return std::fabs(left-right) > std::fabs(delta) && (left < right);
+    return std::fabs(left-right) > std::fabs(delta) && (left < right);
     }
 
-/**Compares two double values for less than or equal to (given the specified precision).
+/**@brief Compares two double values for less than or equal to (given the specified precision).
    @param left The value being reviewed.
    @param right The other value to compare against.
    @param delta The tolerance of how different the values can be. The larger the delta, the
@@ -80,10 +78,10 @@ inline bool compare_doubles_less(const double left, const double right, const do
 inline bool compare_doubles_less_or_equal(const double left, const double right, const double delta = 1e-6)
     {
     assert(delta >= 0 && "delta value should be positive when comparing doubles");
-	return compare_doubles_less(left,right,delta) || compare_doubles(left,right,delta);
+    return compare_doubles_less(left,right,delta) || compare_doubles(left,right,delta);
     }
 
-/**Compares two double values for greater than (given the specified precision).
+/**@brief Compares two double values for greater than (given the specified precision).
    @param left The value being reviewed.
    @param right The other value to compare against.
    @param delta The tolerance of how different the values can be. The larger the delta, the
@@ -92,10 +90,10 @@ inline bool compare_doubles_less_or_equal(const double left, const double right,
 inline bool compare_doubles_greater(const double left, const double right, const double delta = 1e-6)
     {
     assert(delta >= 0 && "delta value should be positive when comparing doubles");
-	return std::fabs(left-right) > std::fabs(delta) && (left > right);
+    return std::fabs(left-right) > std::fabs(delta) && (left > right);
     }
 
-///"less" interface for double values.
+///@brief "less" interface for double values.
 class double_less : public std::binary_function<double, double, bool>
     {
 public:
@@ -106,7 +104,7 @@ public:
 //INTEGER OPERATIONS
 //------------------
 
-///Converts an integral type to a boolean. Compilers complain about directly assigning
+///@brief Converts an integral type to a boolean. Compilers complain about directly assigning
 ///an int to a bool (casting doesn't help either), so this works around that.
 ///@param intVal The integer value to convert to a boolean.
 ///@returns The boolean equivalent of the integer.

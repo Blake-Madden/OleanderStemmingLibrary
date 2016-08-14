@@ -1,10 +1,11 @@
-/**
-\date 2003-2015
-\copyright Oleander Software, Ltd.
-\author Oleander Software, Ltd.
-\details This program is free software; you can redistribute it and/or modify
+/**@addtogroup Stemming
+@brief Library for stemming words down to their root words.
+@date 2003-2015
+@copyright Oleander Software, Ltd.
+@author Oleander Software, Ltd.
+@details This program is free software; you can redistribute it and/or modify
 it under the terms of the BSD License.
-*/
+* @{*/
 
 #ifndef __STEM_H__
 #define __STEM_H__
@@ -13,6 +14,7 @@ it under the terms of the BSD License.
 #include "../indexing/string_util.h"
 #include "../indexing/common_lang_constants.h"
 
+///Namespace for stemming classes.
 namespace stemming
     {
     enum stemming_type
@@ -106,16 +108,16 @@ namespace stemming
         65, 69, 73, 79, 0xC0, 0xC8,
         0xCC, 0xD2, 0 };
 
-    /**\addtogroup Stemming
-        Language-specific stemming classes.
-    * @{*/
     /**
        @class stem
-       @brief The base class for language-specific stemmers. The template argument for the stemmers are the type
+       @brief The base class for language-specific stemmers.
+       @details The template argument for the stemmers are the type
        of std::basic_string that you are trying to stem, by default std::wstring (Unicode strings).
        As long as the char type of your basic_string is wchar_t, then you can use any type of basic_string.
        This is to say, if your basic_string has a custom char_traits or allocator, then just specify it in
-       your template argument to the stemmer. Example:
+       your template argument to the stemmer.
+       
+       @par Example:
        \code
         typedef std::basic_string<wchar_t, myTraits, myAllocator> myString;
         myString word(L"documentation");
@@ -130,7 +132,7 @@ namespace stemming
     protected:
         //R1, R2, RV functions
         void find_r1(const string_typeT& text,
-                    const wchar_t* vowel_list)
+                     const wchar_t* vowel_list)
             {
             //see where the R1 section begin
             //R1 is the region after the first consonant after the first vowel
@@ -154,7 +156,7 @@ namespace stemming
             }
 
         void find_r2(const string_typeT& text,
-                    const wchar_t* vowel_list)
+                     const wchar_t* vowel_list)
             {
             size_t start = 0;
             //look for R2--not required for all criteria.
@@ -2333,5 +2335,7 @@ namespace stemming
             {}
         };
     }
+
+/** @}*/
 
 #endif //__STEM_H__

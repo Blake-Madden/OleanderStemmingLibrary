@@ -1,10 +1,11 @@
-/**
-\date 2004-2015
-\copyright Oleander Software, Ltd.
-\author Oleander Software, Ltd.
-\details This program is free software; you can redistribute it and/or modify
+/**@addtogroup Stemming
+@brief Library for stemming words down to their root words.
+@date 2003-2015
+@copyright Oleander Software, Ltd.
+@author Oleander Software, Ltd.
+@details This program is free software; you can redistribute it and/or modify
 it under the terms of the BSD License.
-*/
+* @{*/
 
 #ifndef __ENGLISH_STEM_H__
 #define __ENGLISH_STEM_H__
@@ -13,13 +14,10 @@ it under the terms of the BSD License.
 
 namespace stemming
     {
-    /** \addtogroup Stemming
-        Language-specific stemming classes.
-    * @{*/
     /**
-    \class english_stem
+    @brief English stemmer.
 
-    Overview
+    @par Overview:
 
     I have made more than one attempt to improve the structure of the Porter algorithm 
     by making it follow the pattern of ending removal of the Romance language stemmers.
@@ -82,7 +80,7 @@ namespace stemming
     Otherwise, do each of the following operations,
     Set initial y, or y after a vowel, to Y, and then establish the regions R1 and R2.
     
-    \par Algorithm:
+    @par Algorithm:
 
     <b>Step 1a:</b>
 
@@ -235,7 +233,7 @@ namespace stemming
                 {
                 stem<string_typeT>::set_r1(6);
                 }
-			else if (text.length() >= 5 &&
+            else if (text.length() >= 5 &&
                 /*arsen*/
                 (is_either<wchar_t>(text[0], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
                     is_either<wchar_t>(text[1], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
@@ -662,8 +660,8 @@ namespace stemming
         void step_2(string_typeT& text)
             {
             if (text.length() >= 7 &&
-				(stem<string_typeT>::is_suffix(text,/*ization*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_Z, common_lang_constants::UPPER_Z, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) ||
-				stem<string_typeT>::is_suffix(text,/*ational*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) ) )
+                (stem<string_typeT>::is_suffix(text,/*ization*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_Z, common_lang_constants::UPPER_Z, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) ||
+                stem<string_typeT>::is_suffix(text,/*ational*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) ) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-7)
                     {
@@ -673,9 +671,9 @@ namespace stemming
                     }
                 }
             else if (text.length() >= 7 &&
-				(stem<string_typeT>::is_suffix(text,/*fulness*/common_lang_constants::LOWER_F, common_lang_constants::UPPER_F, common_lang_constants::LOWER_U, common_lang_constants::UPPER_U, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ||
-				stem<string_typeT>::is_suffix(text,/*ousness*/common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_U, common_lang_constants::UPPER_U, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ||
-				stem<string_typeT>::is_suffix(text,/*iveness*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_V, common_lang_constants::UPPER_V, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ) )
+                (stem<string_typeT>::is_suffix(text,/*fulness*/common_lang_constants::LOWER_F, common_lang_constants::UPPER_F, common_lang_constants::LOWER_U, common_lang_constants::UPPER_U, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ||
+                stem<string_typeT>::is_suffix(text,/*ousness*/common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_U, common_lang_constants::UPPER_U, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ||
+                stem<string_typeT>::is_suffix(text,/*iveness*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_V, common_lang_constants::UPPER_V, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-7)
                     {
@@ -684,8 +682,8 @@ namespace stemming
                     }
                 }
             else if (text.length() >= 6 &&
-				(stem<string_typeT>::is_suffix(text,/*tional*/common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) ||
-				stem<string_typeT>::is_suffix(text,/*lessli*/common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ) )
+                (stem<string_typeT>::is_suffix(text,/*tional*/common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) ||
+                stem<string_typeT>::is_suffix(text,/*lessli*/common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-6)
                     {
@@ -704,8 +702,8 @@ namespace stemming
                     }
                 }
             else if (text.length() >= 5 &&
-				(stem<string_typeT>::is_suffix(text,/*iviti*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_V, common_lang_constants::UPPER_V, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ||
-				stem<string_typeT>::is_suffix(text,/*ation*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) ) )
+                (stem<string_typeT>::is_suffix(text,/*iviti*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_V, common_lang_constants::UPPER_V, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ||
+                stem<string_typeT>::is_suffix(text,/*ation*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) ) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-5)
                     {
@@ -715,8 +713,8 @@ namespace stemming
                     }
                 }
             else if (text.length() >= 5 &&
-				(stem<string_typeT>::is_suffix(text,/*alism*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) ||
-				stem<string_typeT>::is_suffix(text,/*aliti*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ) )
+                (stem<string_typeT>::is_suffix(text,/*alism*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) ||
+                stem<string_typeT>::is_suffix(text,/*aliti*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-5)
                     {
@@ -725,9 +723,9 @@ namespace stemming
                     }
                 }
             else if (text.length() >= 5 &&
-				(stem<string_typeT>::is_suffix(text,/*ousli*/common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_U, common_lang_constants::UPPER_U, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ||
-				stem<string_typeT>::is_suffix(text,/*entli*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ||
-				stem<string_typeT>::is_suffix(text,/*fulli*/common_lang_constants::LOWER_F, common_lang_constants::UPPER_F, common_lang_constants::LOWER_U, common_lang_constants::UPPER_U, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ) )
+                (stem<string_typeT>::is_suffix(text,/*ousli*/common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_U, common_lang_constants::UPPER_U, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ||
+                stem<string_typeT>::is_suffix(text,/*entli*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ||
+                stem<string_typeT>::is_suffix(text,/*fulli*/common_lang_constants::LOWER_F, common_lang_constants::UPPER_F, common_lang_constants::LOWER_U, common_lang_constants::UPPER_U, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-5)
                     {
@@ -744,9 +742,9 @@ namespace stemming
                     }
                 }
             else if (text.length() >= 4 &&
-				(stem<string_typeT>::is_suffix(text,/*enci*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_C, common_lang_constants::UPPER_C, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ||
-				stem<string_typeT>::is_suffix(text,/*anci*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_C, common_lang_constants::UPPER_C, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ||
-				stem<string_typeT>::is_suffix(text,/*abli*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_B, common_lang_constants::UPPER_B, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ) )
+                (stem<string_typeT>::is_suffix(text,/*enci*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_C, common_lang_constants::UPPER_C, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ||
+                stem<string_typeT>::is_suffix(text,/*anci*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_C, common_lang_constants::UPPER_C, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ||
+                stem<string_typeT>::is_suffix(text,/*abli*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_B, common_lang_constants::UPPER_B, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-4)
                     {
@@ -818,9 +816,9 @@ namespace stemming
                     }
                 }
             else if (text.length() >= 5 &&
-				(stem<string_typeT>::is_suffix(text,/*icate*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_C, common_lang_constants::UPPER_C, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) ||
-				stem<string_typeT>::is_suffix(text,/*iciti*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_C, common_lang_constants::UPPER_C, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ||
-				stem<string_typeT>::is_suffix(text,/*alize*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_Z, common_lang_constants::UPPER_Z, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) ) )
+                (stem<string_typeT>::is_suffix(text,/*icate*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_C, common_lang_constants::UPPER_C, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) ||
+                stem<string_typeT>::is_suffix(text,/*iciti*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_C, common_lang_constants::UPPER_C, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ||
+                stem<string_typeT>::is_suffix(text,/*alize*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_Z, common_lang_constants::UPPER_Z, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) ) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-5)
                     {
@@ -999,5 +997,7 @@ namespace stemming
         size_t m_first_vowel;
         };
     }
+
+/** @}*/
 
 #endif //__ENGLISH_STEM_H__

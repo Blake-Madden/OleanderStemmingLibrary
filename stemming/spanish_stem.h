@@ -1,10 +1,11 @@
-/**
-\date 2004-2015
-\copyright Oleander Software, Ltd.
-\author Oleander Software, Ltd.
-\details This program is free software; you can redistribute it and/or modify
+/**@addtogroup Stemming
+@brief Library for stemming words down to their root words.
+@date 2003-2015
+@copyright Oleander Software, Ltd.
+@author Oleander Software, Ltd.
+@details This program is free software; you can redistribute it and/or modify
 it under the terms of the BSD License.
-*/
+* @{*/
 
 #ifndef __SPANISH_STEM_H__
 #define __SPANISH_STEM_H__
@@ -13,11 +14,10 @@ it under the terms of the BSD License.
 
 namespace stemming
     {
-    /** \addtogroup Stemming
-    * @{*/
     /**
-    \class spanish_stem
-        Spanish stemming class.
+    @brief Spanish stemmer.
+
+    @par Algorithm:
 
     Letters in Spanish include the following accented forms:
         - á é í ó ú ü ñ
@@ -39,7 +39,7 @@ namespace stemming
         m a c h o     o l i v a     t r a b a j o     á u r e o
              |...|         |...|         |.......|         |...|
 
-    \par Algorithm:
+    @par Algorithm:
 
     Always do steps 0 and 1.
 
@@ -125,7 +125,7 @@ namespace stemming
         {
     public:
         //---------------------------------------------
-        /**@param text string to stem*/
+        /**@param[in,out] text string to stem*/
         void operator()(string_typeT& text)
             {
             if (text.length() < 3)
@@ -1392,5 +1392,7 @@ namespace stemming
             }
         };
     }
+
+/** @}*/
 
 #endif //__SPANISH_STEM_H__

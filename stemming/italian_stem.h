@@ -1,10 +1,11 @@
-/**
-\date 2004-2015
-\copyright Oleander Software, Ltd.
-\author Oleander Software, Ltd.
-\details This program is free software; you can redistribute it and/or modify
+/**@addtogroup Stemming
+@brief Library for stemming words down to their root words.
+@date 2003-2015
+@copyright Oleander Software, Ltd.
+@author Oleander Software, Ltd.
+@details This program is free software; you can redistribute it and/or modify
 it under the terms of the BSD License.
-*/
+* @{*/
 
 #ifndef __ITALIAN_STEM_H__
 #define __ITALIAN_STEM_H__
@@ -13,11 +14,10 @@ it under the terms of the BSD License.
 
 namespace stemming
     {
-    /** \addtogroup Stemming
-    * @{*/
     /**
-    \class italian_stem
-        Italian stemming class.
+    @brief Italian stemmer.
+    @date 2004
+    @par Algorithm:
 
     Italian can include the following accented forms:
         - á é í ó ú à è ì ò ù
@@ -28,7 +28,7 @@ namespace stemming
 
     R2 and RV have the same definition as in the Spanish stemmer.
 
-    \par Algorithm:
+    @par Algorithm:
 
     <b>Step 0:</b>
 
@@ -100,7 +100,7 @@ namespace stemming
         {
     public:
         //---------------------------------------------
-        ///@param text string to stem
+        ///@param[in,out] text string to stem
         void operator()(string_typeT& text)
             {
             if (text.length() < 3)
@@ -896,5 +896,7 @@ namespace stemming
             }
         };
     }
+
+/** @}*/
 
 #endif //__ITALIAN_STEM_H__

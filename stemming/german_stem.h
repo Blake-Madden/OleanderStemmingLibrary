@@ -1,10 +1,11 @@
-/**
-\date 2004-2015
-\copyright Oleander Software, Ltd.
-\author Oleander Software, Ltd.
-\details This program is free software; you can redistribute it and/or modify
+/**@addtogroup Stemming
+@brief Library for stemming words down to their root words.
+@date 2003-2015
+@copyright Oleander Software, Ltd.
+@author Oleander Software, Ltd.
+@details This program is free software; you can redistribute it and/or modify
 it under the terms of the BSD License.
-*/
+* @{*/
 
 #ifndef __GERMAN_STEM_H__
 #define __GERMAN_STEM_H__
@@ -13,11 +14,10 @@ it under the terms of the BSD License.
 
 namespace stemming
     {
-    /** \addtogroup Stemming
-    * @{*/
     /**
-    \class german_stem
-        German stemming class.
+    @brief German stemmer.
+    @date 2004
+    @par Algorithm:
 
     German includes the following accented forms,
     -ä ö ü and a special letter, ß, equivalent to double s.
@@ -25,7 +25,7 @@ namespace stemming
     The following letters are vowels:
     -a e i o u y ä ö ü
 
-    \par Algorithm:
+    @par Algorithm:
 
     <b>Step 1:</b>
 
@@ -70,11 +70,11 @@ namespace stemming
         {
     public:
         //---------------------------------------------
-        /**@param text string to stem.
-           @param contract_transliterated_umlauts use variant algorithm.
-           that expands "ä" to "ae", ect...*/
+        /**@param[in,out] text string to stem.
+           @param transliterate_umlauts Set to true to use the variant algorithm
+           that expands "ä" to "ae", etc...*/
         void operator()(string_typeT& text,
-                        bool contract_transliterated_umlauts = false)
+                        bool transliterate_umlauts = false)
             {
             if (text.length() < 2)
                 {
@@ -91,7 +91,7 @@ namespace stemming
             //change 'ß' to "ss"
             string_util::replace_all<string_typeT>(text, string_typeT(1, common_lang_constants::ESZETT), L"ss");
             //German variant addition
-            if (contract_transliterated_umlauts)
+            if (transliterate_umlauts)
                 {
                 string_util::replace_all<string_typeT>(text, L"ae", string_typeT(1, common_lang_constants::LOWER_A_UMLAUTS));
                 string_util::replace_all<string_typeT>(text, L"oe", string_typeT(1, common_lang_constants::LOWER_O_UMLAUTS));
@@ -274,5 +274,7 @@ namespace stemming
             }
         };
     }
+
+/** @}*/
 
 #endif //__GERMAN_STEM_H__
