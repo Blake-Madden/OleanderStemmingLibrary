@@ -4,32 +4,41 @@
 
 Library for stemming words down to their root words.
 
-## Compile Instructions
+## Getting started
 
-Run this to compile the sample:
+### Adding to your project
 
-> g++ example.cpp -o TestStemmer
+The recommended way to add this library to you project is by including the following to your CMakeLists.txt:
 
-To run the sample:
+```cmake
+target_link_libraries(myProject oleanderstemminglibrary)
+```
 
-> ./TestStemmer
+You may also add this library to your project using a relative path:
 
-To generate the API documentation, open _doxygen.config_ in Doxygen and build it.
+```cpp
+#include "oleanderstemminglibrary/include/olestem/stemming/english_stem.h"
+```
+
+### Running an example
+
+An example of this project's usage can be found in [tests/src/example.cpp](tests/src/example.cpp) and can be built with the following commands:
+
+```bash
+mkdir build && cd build
+cmake ..
+cmake --build .
+./bin/ExampleTest
+```
 
 ## License
 
-Copyright (c) 2016, Oleander Software, Ltd.
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-* Neither the name of Oleander Software nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+The license for this project can be found in [LICENSE.md](LICENSE.md).
 
 ## Change Log
+
+### 2019 Release
+- Updated project for use as a header-only library with CMake.
 
 ### 2016 Release
 - Updated *Portuguese* stemmer to new standard.
