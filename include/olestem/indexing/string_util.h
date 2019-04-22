@@ -190,7 +190,7 @@ namespace string_util
 
     ///functions not available in ANSI C
     /*Converts an integer value into a string.
-      @param value The integer to convert.
+ï¿½     @param value The integer to convert.
       @param out The character buffer to write the integer as a string into. This can be either a char* or wchar_t* buffer.
       @param length The length of the output buffer (in character count).
       @returns 0 on success, -1 on failure. Will fail if the buffer is either invalid
@@ -226,7 +226,7 @@ namespace string_util
         std::reverse<charT*>(out+signPos, out+i);
         return 0;
         }
-    
+
     /**Determines whether a character is a space, tab, or newline. Also includes double-width and no break spaces.
     @param ch The letter to be analyzed.*/
     template<typename T>
@@ -296,7 +296,7 @@ namespace string_util
         size_t strPos = 0;
         int intValue = 0;
         //storage for converted values
-        int* digits = new int[length+1]; std::auto_ptr<int> digitsDeleter(digits);
+        int* digits = new int[length+1]; std::unique_ptr<int> digitsDeleter(digits);
         std::memset(digits, 0, sizeof(int)*(length+1));
         while (strPos < length)
             {
@@ -493,7 +493,7 @@ namespace string_util
 
         size_t first_string_index = 0, second_string_index = 0;
         T ch1, ch2;
- 
+
         while (true)
             {
             ch1 = first_string[first_string_index];
@@ -794,7 +794,7 @@ namespace string_util
         @param stringToSearchLength The length of the string being searched.
         @param searchString The sequence of characters to perform a reverse match with.
         @param searchStringLength The length of the search character sequence.
-        @returns The index into the string that the character was not found, or 
+        @returns The index into the string that the character was not found, or
         the length of the string if nothing was found that couldn't match the search string.*/
     template<typename T>
     inline size_t find_first_not_of(const T* stringToSearch, const size_t stringToSearchLength,
