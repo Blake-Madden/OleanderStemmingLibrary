@@ -1,6 +1,6 @@
-add_executable(olestem.test_example src/example.cpp)
+add_executable(olestem.test_main src/test_main.cpp)
 
-target_link_libraries(olestem.test_example oleanderstemminglibrary)
+target_link_libraries(olestem.test_main oleanderstemminglibrary)
 
 enable_testing()
-add_test(test_example olestem.text_example)
+add_test(test_main olestem.text_main)
