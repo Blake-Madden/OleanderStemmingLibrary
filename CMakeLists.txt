@@ -2,34 +2,27 @@ cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 project(OleanderStemmingLibrary VERSION 0.1 LANGUAGES CXX)
 set(PROJECT_NAME_L oleanderstemminglibrary)
 
-list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+set(CMAKE_BINARY_DIR "${CMAKE_SOURCE_DIR}/build")
 
 # Options
-OPTION(BUILD_SHARED_LIBS "Build ${PROJECT_NAME}.a rather than ${PROJECT_NAME}.so" OFF)
+OPTION(BUILD_SHARED_LIBS
+    "Build ${PROJECT_NAME}.a rather than ${PROJECT_NAME}.so" OFF)
 
 # -----------------------------------------------------------------------------
 # Build settings
 # -----------------------------------------------------------------------------
 
-# C++ requirements
+# Request C++17 standard
 # ----------------
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_COLOR_MAKEFILE ON)
 
-include_directories("${CMAKE_SOURCE_DIR}")
-set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
-
-if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    message("-- Configuring clang options")
-    set(CMAKE_CXX_FLAGS "-arch x86_64 -std=c++17 -stdlib=libc++ -Wno-deprecated-declarations")
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    message("-- Configuring gcc options")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++17")
-endif()
+# Include additional cmake/ settings
+include(BuildType)
+include(BuildLocation)
+include(CompilerFlags)
 
 # -----------------------------------------------------------------------------
 # Create and set target properties
