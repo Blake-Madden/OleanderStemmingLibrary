@@ -83,9 +83,9 @@ public:
         stem<string_typeT>::remove_dutch_acutes(text);
 
         if (text.length() < 3)
-            {
-                return;
-            }
+        {
+            return;
+        }
 
         // reset internal data
         m_step_2_succeeded = false;
@@ -100,9 +100,9 @@ public:
         stem<string_typeT>::find_r2(text, DUTCH_VOWELS);
         // R1 must have at least 3 characters in front of it
         if (stem<string_typeT>::get_r1() < 3)
-            {
-                stem<string_typeT>::set_r1(3);
-            }
+        {
+            stem<string_typeT>::set_r1(3);
+        }
 
         step_1(text);
         step_2(text);
@@ -125,17 +125,15 @@ private:
                 common_lang_constants::UPPER_D, common_lang_constants::LOWER_E,
                 common_lang_constants::UPPER_E, common_lang_constants::LOWER_N,
                 common_lang_constants::UPPER_N))
+        {
+            if (stem<string_typeT>::get_r1() <= text.length() - 5)
             {
-                if (stem<string_typeT>::get_r1() <= text.length() - 5)
-                    {
-                        text.erase(text.length() - 1);
-                        stem<string_typeT>::update_r_sections(text);
-                        text[text.length() - 2] =
-                            common_lang_constants::LOWER_I;
-                        text[text.length() - 1] =
-                            common_lang_constants::LOWER_D;
-                    }
+                text.erase(text.length() - 1);
+                stem<string_typeT>::update_r_sections(text);
+                text[text.length() - 2] = common_lang_constants::LOWER_I;
+                text[text.length() - 1] = common_lang_constants::LOWER_D;
             }
+        }
         /// Define a valid en-ending as a non-vowel, and not gem.
         else if (stem<string_typeT>::is_suffix(
                      text, /*ene*/ common_lang_constants::LOWER_E,
@@ -144,78 +142,68 @@ private:
                      common_lang_constants::UPPER_N,
                      common_lang_constants::LOWER_E,
                      common_lang_constants::UPPER_E))
+        {
+            if (stem<string_typeT>::get_r1() <= text.length() - 3 &&
+                !string_util::is_one_of(
+                    text[text.length() - 4], DUTCH_VOWELS) &&
+                (text.length() < 6 ||
+                 //"gem" in front of "en" ending
+                 !(is_either<wchar_t>(
+                       text[text.length() - 6], common_lang_constants::LOWER_G,
+                       common_lang_constants::UPPER_G) &&
+                   is_either<wchar_t>(
+                       text[text.length() - 5], common_lang_constants::LOWER_E,
+                       common_lang_constants::UPPER_E) &&
+                   is_either<wchar_t>(
+                       text[text.length() - 4], common_lang_constants::LOWER_M,
+                       common_lang_constants::UPPER_M))))
             {
-                if (stem<string_typeT>::get_r1() <= text.length() - 3 &&
-                    !string_util::is_one_of(
-                        text[text.length() - 4], DUTCH_VOWELS) &&
-                    (text.length() < 6 ||
-                     //"gem" in front of "en" ending
-                     !(is_either<wchar_t>(
-                           text[text.length() - 6],
-                           common_lang_constants::LOWER_G,
-                           common_lang_constants::UPPER_G) &&
-                       is_either<wchar_t>(
-                           text[text.length() - 5],
-                           common_lang_constants::LOWER_E,
-                           common_lang_constants::UPPER_E) &&
-                       is_either<wchar_t>(
-                           text[text.length() - 4],
-                           common_lang_constants::LOWER_M,
-                           common_lang_constants::UPPER_M))))
-                    {
-                        text.erase(text.length() - 3);
-                        // undouble dd, kk, tt
-                        if (string_util::is_one_of(
-                                text[text.length() - 1], DUTCH_KDT) &&
-                            string_util::tolower_western(
-                                text[text.length() - 2]) ==
-                                string_util::tolower_western(
-                                    text[text.length() - 1]))
-                            {
-                                text.erase(text.length() - 1);
-                            }
-                        stem<string_typeT>::update_r_sections(text);
-                    }
-                return;
+                text.erase(text.length() - 3);
+                // undouble dd, kk, tt
+                if (string_util::is_one_of(
+                        text[text.length() - 1], DUTCH_KDT) &&
+                    string_util::tolower_western(text[text.length() - 2]) ==
+                        string_util::tolower_western(text[text.length() - 1]))
+                {
+                    text.erase(text.length() - 1);
+                }
+                stem<string_typeT>::update_r_sections(text);
             }
+            return;
+        }
         else if (stem<string_typeT>::is_suffix(
                      text, /*en*/ common_lang_constants::LOWER_E,
                      common_lang_constants::UPPER_E,
                      common_lang_constants::LOWER_N,
                      common_lang_constants::UPPER_N))
+        {
+            if (stem<string_typeT>::get_r1() <= text.length() - 2 &&
+                !string_util::is_one_of(
+                    text[text.length() - 3], DUTCH_VOWELS) &&
+                (text.length() < 5 ||
+                 !(is_either<wchar_t>(
+                       text[text.length() - 5], common_lang_constants::LOWER_G,
+                       common_lang_constants::UPPER_G) &&
+                   is_either<wchar_t>(
+                       text[text.length() - 4], common_lang_constants::LOWER_E,
+                       common_lang_constants::UPPER_E) &&
+                   is_either<wchar_t>(
+                       text[text.length() - 3], common_lang_constants::LOWER_M,
+                       common_lang_constants::UPPER_M))))
             {
-                if (stem<string_typeT>::get_r1() <= text.length() - 2 &&
-                    !string_util::is_one_of(
-                        text[text.length() - 3], DUTCH_VOWELS) &&
-                    (text.length() < 5 ||
-                     !(is_either<wchar_t>(
-                           text[text.length() - 5],
-                           common_lang_constants::LOWER_G,
-                           common_lang_constants::UPPER_G) &&
-                       is_either<wchar_t>(
-                           text[text.length() - 4],
-                           common_lang_constants::LOWER_E,
-                           common_lang_constants::UPPER_E) &&
-                       is_either<wchar_t>(
-                           text[text.length() - 3],
-                           common_lang_constants::LOWER_M,
-                           common_lang_constants::UPPER_M))))
-                    {
-                        text.erase(text.length() - 2);
-                        // undouble dd, kk, tt
-                        if (string_util::is_one_of(
-                                text[text.length() - 1], DUTCH_KDT) &&
-                            string_util::tolower_western(
-                                text[text.length() - 2]) ==
-                                string_util::tolower_western(
-                                    text[text.length() - 1]))
-                            {
-                                text.erase(text.length() - 1);
-                            }
-                        stem<string_typeT>::update_r_sections(text);
-                    }
-                return;
+                text.erase(text.length() - 2);
+                // undouble dd, kk, tt
+                if (string_util::is_one_of(
+                        text[text.length() - 1], DUTCH_KDT) &&
+                    string_util::tolower_western(text[text.length() - 2]) ==
+                        string_util::tolower_western(text[text.length() - 1]))
+                {
+                    text.erase(text.length() - 1);
+                }
+                stem<string_typeT>::update_r_sections(text);
             }
+            return;
+        }
         else if (
             text.length() >= 3 &&
             stem<string_typeT>::is_suffix(
@@ -223,14 +211,14 @@ private:
                 common_lang_constants::UPPER_S, common_lang_constants::LOWER_E,
                 common_lang_constants::UPPER_E) &&
             !string_util::is_one_of(text[text.length() - 3], DUTCH_S_ENDING))
+        {
+            if (stem<string_typeT>::get_r1() <= text.length() - 2)
             {
-                if (stem<string_typeT>::get_r1() <= text.length() - 2)
-                    {
-                        text.erase(text.length() - 2);
-                        stem<string_typeT>::update_r_sections(text);
-                        return;
-                    }
+                text.erase(text.length() - 2);
+                stem<string_typeT>::update_r_sections(text);
+                return;
             }
+        }
         /// Define a valid s-ending as a non-vowel other than j
         else if (
             text.length() >= 2 &&
@@ -238,14 +226,14 @@ private:
                 text, common_lang_constants::LOWER_S,
                 common_lang_constants::UPPER_S) &&
             !string_util::is_one_of(text[text.length() - 2], DUTCH_S_ENDING))
+        {
+            if (stem<string_typeT>::get_r1() <= text.length() - 1)
             {
-                if (stem<string_typeT>::get_r1() <= text.length() - 1)
-                    {
-                        text.erase(text.length() - 1);
-                        stem<string_typeT>::update_r_sections(text);
-                        return;
-                    }
+                text.erase(text.length() - 1);
+                stem<string_typeT>::update_r_sections(text);
+                return;
             }
+        }
     }
 
     //---------------------------------------------
@@ -254,39 +242,37 @@ private:
         if (stem<string_typeT>::is_suffix(
                 text, common_lang_constants::LOWER_E,
                 common_lang_constants::UPPER_E))
+        {
+            if (text.length() >= 2 &&
+                stem<string_typeT>::get_r1() <= text.length() - 1 &&
+                !string_util::is_one_of(text[text.length() - 2], DUTCH_VOWELS))
             {
-                if (text.length() >= 2 &&
-                    stem<string_typeT>::get_r1() <= text.length() - 1 &&
-                    !string_util::is_one_of(
-                        text[text.length() - 2], DUTCH_VOWELS))
+                // watch out for vowel I/Y vowel
+                if (text.length() >= 3 &&
+                    string_util::is_one_of(text[text.length() - 2], L"iyIY") &&
+                    string_util::is_one_of(
+                        text[text.length() - 3], DUTCH_VOWELS))
+                {
+                    return;
+                }
+                else
+                {
+                    text.erase(text.length() - 1);
+                    // undouble dd, kk, tt
+                    if (string_util::is_one_of(
+                            text[text.length() - 1], DUTCH_KDT) &&
+                        string_util::tolower_western(
+                            text[text.length() - 2]) ==
+                            string_util::tolower_western(
+                                text[text.length() - 1]))
                     {
-                        // watch out for vowel I/Y vowel
-                        if (text.length() >= 3 &&
-                            string_util::is_one_of(
-                                text[text.length() - 2], L"iyIY") &&
-                            string_util::is_one_of(
-                                text[text.length() - 3], DUTCH_VOWELS))
-                            {
-                                return;
-                            }
-                        else
-                            {
-                                text.erase(text.length() - 1);
-                                // undouble dd, kk, tt
-                                if (string_util::is_one_of(
-                                        text[text.length() - 1], DUTCH_KDT) &&
-                                    string_util::tolower_western(
-                                        text[text.length() - 2]) ==
-                                        string_util::tolower_western(
-                                            text[text.length() - 1]))
-                                    {
-                                        text.erase(text.length() - 1);
-                                    }
-                                stem<string_typeT>::update_r_sections(text);
-                                m_step_2_succeeded = true;
-                            }
+                        text.erase(text.length() - 1);
                     }
+                    stem<string_typeT>::update_r_sections(text);
+                    m_step_2_succeeded = true;
+                }
             }
+        }
     }
     //---------------------------------------------
     void step_3a(string_typeT & text)
@@ -297,65 +283,59 @@ private:
                 common_lang_constants::UPPER_E, common_lang_constants::LOWER_I,
                 common_lang_constants::UPPER_I, common_lang_constants::LOWER_D,
                 common_lang_constants::UPPER_D))
+        {
+            if (text.length() >= 5 &&
+                stem<string_typeT>::get_r2() <= text.length() - 4 &&
+                is_neither<wchar_t>(
+                    text[text.length() - 5], common_lang_constants::LOWER_C,
+                    common_lang_constants::UPPER_C))
             {
-                if (text.length() >= 5 &&
-                    stem<string_typeT>::get_r2() <= text.length() - 4 &&
-                    is_neither<wchar_t>(
-                        text[text.length() - 5],
-                        common_lang_constants::LOWER_C,
-                        common_lang_constants::UPPER_C))
+                text.erase(text.length() - 4);
+                stem<string_typeT>::update_r_sections(text);
+                if (stem<string_typeT>::get_r1() <= text.length() - 2 &&
+                    stem<string_typeT>::is_suffix(
+                        text, common_lang_constants::LOWER_E,
+                        common_lang_constants::UPPER_E,
+                        common_lang_constants::LOWER_N,
+                        common_lang_constants::UPPER_N))
+                {
+                    if ((!string_util::is_one_of(
+                             text[text.length() - 3], DUTCH_VOWELS) ||
+                         (string_util::is_one_of(
+                              text[text.length() - 3], L"iyYI") &&
+                          string_util::is_one_of(
+                              text[text.length() - 4], DUTCH_VOWELS))) &&
+                        (text.length() < 5 ||
+                         !(is_either<wchar_t>(
+                               text[text.length() - 5],
+                               common_lang_constants::LOWER_G,
+                               common_lang_constants::UPPER_G) &&
+                           is_either<wchar_t>(
+                               text[text.length() - 4],
+                               common_lang_constants::LOWER_E,
+                               common_lang_constants::UPPER_E) &&
+                           is_either<wchar_t>(
+                               text[text.length() - 3],
+                               common_lang_constants::LOWER_M,
+                               common_lang_constants::UPPER_M))))
                     {
-                        text.erase(text.length() - 4);
+                        text.erase(text.length() - 2);
+                        // undouble dd, kk, tt
+                        if (string_util::is_one_of(
+                                text[text.length() - 1], DUTCH_KDT) &&
+                            string_util::tolower_western(
+                                text[text.length() - 2]) ==
+                                string_util::tolower_western(
+                                    text[text.length() - 1]))
+                        {
+                            text.erase(text.length() - 1);
+                        }
                         stem<string_typeT>::update_r_sections(text);
-                        if (stem<string_typeT>::get_r1() <=
-                                text.length() - 2 &&
-                            stem<string_typeT>::is_suffix(
-                                text, common_lang_constants::LOWER_E,
-                                common_lang_constants::UPPER_E,
-                                common_lang_constants::LOWER_N,
-                                common_lang_constants::UPPER_N))
-                            {
-                                if ((!string_util::is_one_of(
-                                         text[text.length() - 3],
-                                         DUTCH_VOWELS) ||
-                                     (string_util::is_one_of(
-                                          text[text.length() - 3], L"iyYI") &&
-                                      string_util::is_one_of(
-                                          text[text.length() - 4],
-                                          DUTCH_VOWELS))) &&
-                                    (text.length() < 5 ||
-                                     !(is_either<wchar_t>(
-                                           text[text.length() - 5],
-                                           common_lang_constants::LOWER_G,
-                                           common_lang_constants::UPPER_G) &&
-                                       is_either<wchar_t>(
-                                           text[text.length() - 4],
-                                           common_lang_constants::LOWER_E,
-                                           common_lang_constants::UPPER_E) &&
-                                       is_either<wchar_t>(
-                                           text[text.length() - 3],
-                                           common_lang_constants::LOWER_M,
-                                           common_lang_constants::UPPER_M))))
-                                    {
-                                        text.erase(text.length() - 2);
-                                        // undouble dd, kk, tt
-                                        if (string_util::is_one_of(
-                                                text[text.length() - 1],
-                                                DUTCH_KDT) &&
-                                            string_util::tolower_western(
-                                                text[text.length() - 2]) ==
-                                                string_util::tolower_western(
-                                                    text[text.length() - 1]))
-                                            {
-                                                text.erase(text.length() - 1);
-                                            }
-                                        stem<string_typeT>::update_r_sections(
-                                            text);
-                                    }
-                            }
-                        return;
                     }
+                }
+                return;
             }
+        }
     }
     //---------------------------------------------
     void step_3b(string_typeT & text)
@@ -370,41 +350,40 @@ private:
                 common_lang_constants::UPPER_I, common_lang_constants::LOWER_N,
                 common_lang_constants::UPPER_N, common_lang_constants::LOWER_G,
                 common_lang_constants::UPPER_G))
+        {
+            stem<string_typeT>::update_r_sections(text);
+            if (text.length() > 3)
             {
-                stem<string_typeT>::update_r_sections(text);
-                if (text.length() > 3)
+                if (is_neither<wchar_t>(
+                        text[text.length() - 3],
+                        common_lang_constants::LOWER_E,
+                        common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::delete_if_is_in_r2(
+                        text, /*ig*/ common_lang_constants::LOWER_I,
+                        common_lang_constants::UPPER_I,
+                        common_lang_constants::LOWER_G,
+                        common_lang_constants::UPPER_G))
+                {
+                    stem<string_typeT>::update_r_sections(text);
+                    return;
+                }
+                else
+                {
+                    if (string_util::is_one_of(
+                            text[text.length() - 1], DUTCH_KDT) &&
+                        string_util::tolower_western(
+                            text[text.length() - 2]) ==
+                            string_util::tolower_western(
+                                text[text.length() - 1]))
                     {
-                        if (is_neither<wchar_t>(
-                                text[text.length() - 3],
-                                common_lang_constants::LOWER_E,
-                                common_lang_constants::UPPER_E) &&
-                            stem<string_typeT>::delete_if_is_in_r2(
-                                text, /*ig*/ common_lang_constants::LOWER_I,
-                                common_lang_constants::UPPER_I,
-                                common_lang_constants::LOWER_G,
-                                common_lang_constants::UPPER_G))
-                            {
-                                stem<string_typeT>::update_r_sections(text);
-                                return;
-                            }
-                        else
-                            {
-                                if (string_util::is_one_of(
-                                        text[text.length() - 1], DUTCH_KDT) &&
-                                    string_util::tolower_western(
-                                        text[text.length() - 2]) ==
-                                        string_util::tolower_western(
-                                            text[text.length() - 1]))
-                                    {
-                                        text.erase(text.length() - 1);
-                                        stem<string_typeT>::update_r_sections(
-                                            text);
-                                        return;
-                                    }
-                            }
+                        text.erase(text.length() - 1);
+                        stem<string_typeT>::update_r_sections(text);
+                        return;
                     }
-                return;
+                }
             }
+            return;
+        }
         else if (
             !(text.length() >= 3 &&
               is_either<wchar_t>(
@@ -414,10 +393,10 @@ private:
                 text, /*ig*/ common_lang_constants::LOWER_I,
                 common_lang_constants::UPPER_I, common_lang_constants::LOWER_G,
                 common_lang_constants::UPPER_G))
-            {
-                stem<string_typeT>::update_r_sections(text);
-                return;
-            }
+        {
+            stem<string_typeT>::update_r_sections(text);
+            return;
+        }
         else if (stem<string_typeT>::delete_if_is_in_r2(
                      text, /*baar*/ common_lang_constants::LOWER_B,
                      common_lang_constants::UPPER_B,
@@ -427,9 +406,9 @@ private:
                      common_lang_constants::UPPER_A,
                      common_lang_constants::LOWER_R,
                      common_lang_constants::UPPER_R))
-            {
-                return;
-            }
+        {
+            return;
+        }
         else if (stem<string_typeT>::delete_if_is_in_r2(
                      text, /*lijk*/ common_lang_constants::LOWER_L,
                      common_lang_constants::UPPER_L,
@@ -439,10 +418,10 @@ private:
                      common_lang_constants::UPPER_J,
                      common_lang_constants::LOWER_K,
                      common_lang_constants::UPPER_K))
-            {
-                step_2(text);
-                return;
-            }
+        {
+            step_2(text);
+            return;
+        }
         else if (
             m_step_2_succeeded &&
             stem<string_typeT>::delete_if_is_in_r2(
@@ -450,9 +429,9 @@ private:
                 common_lang_constants::UPPER_B, common_lang_constants::LOWER_A,
                 common_lang_constants::UPPER_A, common_lang_constants::LOWER_R,
                 common_lang_constants::UPPER_R))
-            {
-                return;
-            }
+        {
+            return;
+        }
     }
     //------------------------------------------------------
     void step_4(string_typeT & text)
@@ -466,10 +445,10 @@ private:
             string_util::is_one_of(text[text.length() - 2], L"aeouAEOU") &&
             string_util::tolower_western(text[text.length() - 2]) ==
                 string_util::tolower_western(text[text.length() - 3]))
-            {
-                text.erase(text.end() - 2, text.end() - 1);
-                stem<string_typeT>::update_r_sections(text);
-            }
+        {
+            text.erase(text.end() - 2, text.end() - 1);
+            stem<string_typeT>::update_r_sections(text);
+        }
     }
     // internal data specific to Dutch stemmer
     bool m_step_2_succeeded;

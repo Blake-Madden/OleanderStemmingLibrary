@@ -12,7 +12,6 @@ it under the terms of the BSD License.
 
 #include "stemming.h"
 
-
 namespace stemming
 {
 static const wchar_t RUSSIAN_VOWELS[] = {
@@ -172,9 +171,9 @@ public:
     void operator()(string_typeT & text)
     {
         if (text.length() < 2)
-            {
-                return;
-            }
+        {
+            return;
+        }
 
         // reset internal data
         stem<string_typeT>::reset_r_values();
@@ -185,16 +184,16 @@ public:
 
         // change 33rd letter ('&#x0451;') to '&#x0435;'
         for (size_t i = 0; i < text.length(); ++i)
+        {
+            if (text[i] == 0x0451)
             {
-                if (text[i] == 0x0451)
-                    {
-                        text[i] = RUSSIAN_IE_LOWER;
-                    }
-                else if (text[i] == 0x0401)
-                    {
-                        text[i] = RUSSIAN_IE_UPPER;
-                    }
+                text[i] = RUSSIAN_IE_LOWER;
             }
+            else if (text[i] == 0x0401)
+            {
+                text[i] = RUSSIAN_IE_UPPER;
+            }
+        }
 
         step_1(text);
         step_2(text);
@@ -219,34 +218,34 @@ private:
                 RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_ES_LOWER,
                 RUSSIAN_ES_UPPER, RUSSIAN_SOFT_SIGN_LOWER,
                 RUSSIAN_SOFT_SIGN_UPPER, false))
-            {
-                return;
-            }
+        {
+            return;
+        }
         // group 1
         else if (stem<string_typeT>::is_suffix_in_rv(
                      text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
                      RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER, RUSSIAN_I_LOWER,
                      RUSSIAN_I_UPPER, RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER,
                      RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER))
+        {
+            if (stem<string_typeT>::is_suffix_in_rv(
+                    text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, RUSSIAN_VE_LOWER,
+                    RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_ES_LOWER,
+                    RUSSIAN_ES_UPPER, RUSSIAN_SOFT_SIGN_LOWER,
+                    RUSSIAN_SOFT_SIGN_UPPER) ||
+                stem<string_typeT>::is_suffix_in_rv(
+                    text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_VE_LOWER,
+                    RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_ES_LOWER,
+                    RUSSIAN_ES_UPPER, RUSSIAN_SOFT_SIGN_LOWER,
+                    RUSSIAN_SOFT_SIGN_UPPER))
             {
-                if (stem<string_typeT>::is_suffix_in_rv(
-                        text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER,
-                        RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER,
-                        RUSSIAN_SHA_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
-                        RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER,
-                        RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER) ||
-                    stem<string_typeT>::is_suffix_in_rv(
-                        text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER,
-                        RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER,
-                        RUSSIAN_SHA_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
-                        RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER,
-                        RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER))
-                    {
-                        text.erase(text.end() - 5, text.end());
-                        stem<string_typeT>::update_r_sections(text);
-                        return;
-                    }
+                text.erase(text.end() - 5, text.end());
+                stem<string_typeT>::update_r_sections(text);
+                return;
             }
+        }
         // group 2
         else if (
             stem<string_typeT>::delete_if_is_in_rv(
@@ -257,29 +256,29 @@ private:
                 text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_VE_LOWER,
                 RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
                 RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false))
-            {
-                return;
-            }
+        {
+            return;
+        }
         // group 1
         else if (stem<string_typeT>::is_suffix_in_rv(
                      text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
                      RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER, RUSSIAN_I_LOWER,
                      RUSSIAN_I_UPPER))
+        {
+            if (stem<string_typeT>::is_suffix_in_rv(
+                    text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, RUSSIAN_VE_LOWER,
+                    RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER) ||
+                stem<string_typeT>::is_suffix_in_rv(
+                    text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_VE_LOWER,
+                    RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER))
             {
-                if (stem<string_typeT>::is_suffix_in_rv(
-                        text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER,
-                        RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER,
-                        RUSSIAN_SHA_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER) ||
-                    stem<string_typeT>::is_suffix_in_rv(
-                        text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER,
-                        RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER,
-                        RUSSIAN_SHA_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER))
-                    {
-                        text.erase(text.end() - 3, text.end());
-                        stem<string_typeT>::update_r_sections(text);
-                        return;
-                    }
+                text.erase(text.end() - 3, text.end());
+                stem<string_typeT>::update_r_sections(text);
+                return;
             }
+        }
         // group 2
         else if (
             stem<string_typeT>::delete_if_is_in_rv(
@@ -288,25 +287,25 @@ private:
             stem<string_typeT>::delete_if_is_in_rv(
                 text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_VE_LOWER,
                 RUSSIAN_VE_UPPER, false))
-            {
-                return;
-            }
+        {
+            return;
+        }
         // group 1
         else if (stem<string_typeT>::is_suffix_in_rv(
                      text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER))
+        {
+            if (stem<string_typeT>::is_suffix_in_rv(
+                    text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, RUSSIAN_VE_LOWER,
+                    RUSSIAN_VE_UPPER) ||
+                stem<string_typeT>::is_suffix_in_rv(
+                    text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_VE_LOWER,
+                    RUSSIAN_VE_UPPER))
             {
-                if (stem<string_typeT>::is_suffix_in_rv(
-                        text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER,
-                        RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER) ||
-                    stem<string_typeT>::is_suffix_in_rv(
-                        text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER,
-                        RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER))
-                    {
-                        text.erase(text.end() - 1, text.end());
-                        stem<string_typeT>::update_r_sections(text);
-                        return;
-                    }
+                text.erase(text.end() - 1, text.end());
+                stem<string_typeT>::update_r_sections(text);
+                return;
             }
+        }
         // reflexive
         if (stem<string_typeT>::delete_if_is_in_rv(
                 text, RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER, RUSSIAN_YA_LOWER,
@@ -314,8 +313,8 @@ private:
             stem<string_typeT>::delete_if_is_in_rv(
                 text, RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER,
                 RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false))
-            { /*NOOP*/
-            }
+        { /*NOOP*/
+        }
         // adjectival
         if (stem<string_typeT>::delete_if_is_in_rv(
                 text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_EM_LOWER,
@@ -395,73 +394,71 @@ private:
             stem<string_typeT>::delete_if_is_in_rv(
                 text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_YU_LOWER,
                 RUSSIAN_YU_UPPER, false))
-            {
-                // delete participles
-                // group 2
-                if (stem<string_typeT>::delete_if_is_in_rv(
-                        text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
-                        RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER,
-                        RUSSIAN_SHA_UPPER, false) ||
-                    stem<string_typeT>::delete_if_is_in_rv(
-                        text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER,
-                        RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER,
-                        RUSSIAN_SHA_UPPER, false) ||
-                    stem<string_typeT>::delete_if_is_in_rv(
-                        text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER,
-                        RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER,
-                        RUSSIAN_SHCHA_LOWER, RUSSIAN_SHCHA_UPPER, false))
-                    { /*NOOP*/
-                    }
-                // group 1
-                else if (
-                    stem<string_typeT>::is_suffix_in_rv(
-                        text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER,
-                        RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER) ||
-                    stem<string_typeT>::is_suffix_in_rv(
-                        text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER,
-                        RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER) ||
-                    stem<string_typeT>::is_suffix_in_rv(
-                        text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
-                        RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER) ||
-                    stem<string_typeT>::is_suffix_in_rv(
-                        text, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER,
-                        RUSSIAN_SHCHA_LOWER, RUSSIAN_SHCHA_UPPER))
-                    {
-                        if (text.length() >= 3 &&
-                            stem<string_typeT>::get_rv() <=
-                                text.length() - 3 &&
-                            (is_either<wchar_t>(
-                                 text[text.length() - 3], RUSSIAN_A_LOWER,
-                                 RUSSIAN_A_UPPER) ||
-                             is_either<wchar_t>(
-                                 text[text.length() - 3], RUSSIAN_YA_LOWER,
-                                 RUSSIAN_YA_UPPER)))
-                            {
-                                text.erase(text.end() - 2, text.end());
-                                stem<string_typeT>::update_r_sections(text);
-                                return;
-                            }
-                    }
-                else if (stem<string_typeT>::is_suffix_in_rv(
-                             text, RUSSIAN_SHCHA_LOWER, RUSSIAN_SHCHA_UPPER))
-                    {
-                        if (text.length() >= 2 &&
-                            stem<string_typeT>::get_rv() <=
-                                text.length() - 2 &&
-                            (is_either<wchar_t>(
-                                 text[text.length() - 2], RUSSIAN_A_LOWER,
-                                 RUSSIAN_A_UPPER) ||
-                             is_either<wchar_t>(
-                                 text[text.length() - 2], RUSSIAN_YA_LOWER,
-                                 RUSSIAN_YA_UPPER)))
-                            {
-                                text.erase(text.end() - 1, text.end());
-                                stem<string_typeT>::update_r_sections(text);
-                                return;
-                            }
-                    }
-                return;
+        {
+            // delete participles
+            // group 2
+            if (stem<string_typeT>::delete_if_is_in_rv(
+                    text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_VE_LOWER,
+                    RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
+                    false) ||
+                stem<string_typeT>::delete_if_is_in_rv(
+                    text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER,
+                    RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER,
+                    RUSSIAN_SHA_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(
+                    text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_YU_LOWER,
+                    RUSSIAN_YU_UPPER, RUSSIAN_SHCHA_LOWER, RUSSIAN_SHCHA_UPPER,
+                    false))
+            { /*NOOP*/
             }
+            // group 1
+            else if (
+                stem<string_typeT>::is_suffix_in_rv(
+                    text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER,
+                    RUSSIAN_EM_UPPER) ||
+                stem<string_typeT>::is_suffix_in_rv(
+                    text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_EN_LOWER,
+                    RUSSIAN_EN_UPPER) ||
+                stem<string_typeT>::is_suffix_in_rv(
+                    text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
+                    RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER) ||
+                stem<string_typeT>::is_suffix_in_rv(
+                    text, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER,
+                    RUSSIAN_SHCHA_LOWER, RUSSIAN_SHCHA_UPPER))
+            {
+                if (text.length() >= 3 &&
+                    stem<string_typeT>::get_rv() <= text.length() - 3 &&
+                    (is_either<wchar_t>(
+                         text[text.length() - 3], RUSSIAN_A_LOWER,
+                         RUSSIAN_A_UPPER) ||
+                     is_either<wchar_t>(
+                         text[text.length() - 3], RUSSIAN_YA_LOWER,
+                         RUSSIAN_YA_UPPER)))
+                {
+                    text.erase(text.end() - 2, text.end());
+                    stem<string_typeT>::update_r_sections(text);
+                    return;
+                }
+            }
+            else if (stem<string_typeT>::is_suffix_in_rv(
+                         text, RUSSIAN_SHCHA_LOWER, RUSSIAN_SHCHA_UPPER))
+            {
+                if (text.length() >= 2 &&
+                    stem<string_typeT>::get_rv() <= text.length() - 2 &&
+                    (is_either<wchar_t>(
+                         text[text.length() - 2], RUSSIAN_A_LOWER,
+                         RUSSIAN_A_UPPER) ||
+                     is_either<wchar_t>(
+                         text[text.length() - 2], RUSSIAN_YA_LOWER,
+                         RUSSIAN_YA_UPPER)))
+                {
+                    text.erase(text.end() - 1, text.end());
+                    stem<string_typeT>::update_r_sections(text);
+                    return;
+                }
+            }
+            return;
+        }
         // verb
         // group 2
         else if (
@@ -480,9 +477,9 @@ private:
             stem<string_typeT>::delete_if_is_in_rv(
                 text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_SHORT_I_LOWER,
                 RUSSIAN_SHORT_I_UPPER, false))
-            {
-                return;
-            }
+        {
+            return;
+        }
         // group 1
         if (stem<string_typeT>::is_suffix_in_rv(
                 text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_TE_LOWER,
@@ -498,21 +495,21 @@ private:
             stem<string_typeT>::is_suffix_in_rv(
                 text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_EN_LOWER,
                 RUSSIAN_EN_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER))
+        {
+            if (text.length() >= 4 &&
+                stem<string_typeT>::get_rv() <= text.length() - 4 &&
+                (is_either<wchar_t>(
+                     text[text.length() - 4], RUSSIAN_A_LOWER,
+                     RUSSIAN_A_UPPER) ||
+                 is_either<wchar_t>(
+                     text[text.length() - 4], RUSSIAN_YA_LOWER,
+                     RUSSIAN_YA_UPPER)))
             {
-                if (text.length() >= 4 &&
-                    stem<string_typeT>::get_rv() <= text.length() - 4 &&
-                    (is_either<wchar_t>(
-                         text[text.length() - 4], RUSSIAN_A_LOWER,
-                         RUSSIAN_A_UPPER) ||
-                     is_either<wchar_t>(
-                         text[text.length() - 4], RUSSIAN_YA_LOWER,
-                         RUSSIAN_YA_UPPER)))
-                    {
-                        text.erase(text.end() - 3, text.end());
-                        stem<string_typeT>::update_r_sections(text);
-                        return;
-                    }
+                text.erase(text.end() - 3, text.end());
+                stem<string_typeT>::update_r_sections(text);
+                return;
             }
+        }
         // group 2
         else if (
             stem<string_typeT>::delete_if_is_in_rv(
@@ -593,9 +590,9 @@ private:
                 RUSSIAN_YU_UPPER, false) ||
             stem<string_typeT>::delete_if_is_in_rv(
                 text, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false))
-            {
-                return;
-            }
+        {
+            return;
+        }
         // group 1
         else if (
             stem<string_typeT>::is_suffix_in_rv(
@@ -628,42 +625,42 @@ private:
             stem<string_typeT>::is_suffix_in_rv(
                 text, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER,
                 RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER))
+        {
+            if (text.length() >= 3 &&
+                stem<string_typeT>::get_rv() <= text.length() - 3 &&
+                (is_either<wchar_t>(
+                     text[text.length() - 3], RUSSIAN_A_LOWER,
+                     RUSSIAN_A_UPPER) ||
+                 is_either<wchar_t>(
+                     text[text.length() - 3], RUSSIAN_YA_LOWER,
+                     RUSSIAN_YA_UPPER)))
             {
-                if (text.length() >= 3 &&
-                    stem<string_typeT>::get_rv() <= text.length() - 3 &&
-                    (is_either<wchar_t>(
-                         text[text.length() - 3], RUSSIAN_A_LOWER,
-                         RUSSIAN_A_UPPER) ||
-                     is_either<wchar_t>(
-                         text[text.length() - 3], RUSSIAN_YA_LOWER,
-                         RUSSIAN_YA_UPPER)))
-                    {
-                        text.erase(text.end() - 2, text.end());
-                        stem<string_typeT>::update_r_sections(text);
-                        return;
-                    }
+                text.erase(text.end() - 2, text.end());
+                stem<string_typeT>::update_r_sections(text);
+                return;
             }
+        }
         if (stem<string_typeT>::is_suffix_in_rv(
                 text, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER) || /*1*/
             stem<string_typeT>::is_suffix_in_rv(
                 text, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER) ||
             stem<string_typeT>::is_suffix_in_rv(
                 text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER))
+        {
+            if (text.length() >= 2 &&
+                stem<string_typeT>::get_rv() <= text.length() - 2 &&
+                (is_either<wchar_t>(
+                     text[text.length() - 2], RUSSIAN_A_LOWER,
+                     RUSSIAN_A_UPPER) ||
+                 is_either<wchar_t>(
+                     text[text.length() - 2], RUSSIAN_YA_LOWER,
+                     RUSSIAN_YA_UPPER)))
             {
-                if (text.length() >= 2 &&
-                    stem<string_typeT>::get_rv() <= text.length() - 2 &&
-                    (is_either<wchar_t>(
-                         text[text.length() - 2], RUSSIAN_A_LOWER,
-                         RUSSIAN_A_UPPER) ||
-                     is_either<wchar_t>(
-                         text[text.length() - 2], RUSSIAN_YA_LOWER,
-                         RUSSIAN_YA_UPPER)))
-                    {
-                        text.erase(text.end() - 1, text.end());
-                        stem<string_typeT>::update_r_sections(text);
-                        return;
-                    }
+                text.erase(text.end() - 1, text.end());
+                stem<string_typeT>::update_r_sections(text);
+                return;
             }
+        }
 
         // noun
         if (stem<string_typeT>::delete_if_is_in_rv(
@@ -784,9 +781,9 @@ private:
                 text, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
             stem<string_typeT>::delete_if_is_in_rv(
                 text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false))
-            {
-                return;
-            }
+        {
+            return;
+        }
     }
     void step_2(string_typeT & text)
     {
@@ -799,30 +796,30 @@ private:
                 text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_ES_LOWER,
                 RUSSIAN_ES_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER,
                 RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER))
-            {
-                stem<string_typeT>::delete_if_is_in_r2(
-                    text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_ES_LOWER,
-                    RUSSIAN_ES_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER,
-                    RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER);
-            }
+        {
+            stem<string_typeT>::delete_if_is_in_r2(
+                text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_ES_LOWER,
+                RUSSIAN_ES_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER,
+                RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER);
+        }
         else if (stem<string_typeT>::is_suffix_in_rv(
                      text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_ES_LOWER,
                      RUSSIAN_ES_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER))
-            {
-                stem<string_typeT>::delete_if_is_in_r2(
-                    text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_ES_LOWER,
-                    RUSSIAN_ES_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER);
-            }
+        {
+            stem<string_typeT>::delete_if_is_in_r2(
+                text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_ES_LOWER,
+                RUSSIAN_ES_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER);
+        }
     }
     void step_4(string_typeT & text)
     {
         if (stem<string_typeT>::is_suffix_in_rv(
                 text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_EN_LOWER,
                 RUSSIAN_EN_UPPER))
-            {
-                text.erase(text.end() - 1, text.end());
-                stem<string_typeT>::update_r_sections(text);
-            }
+        {
+            text.erase(text.end() - 1, text.end());
+            stem<string_typeT>::update_r_sections(text);
+        }
         else if (
             stem<string_typeT>::delete_if_is_in_rv(
                 text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER,
@@ -833,20 +830,20 @@ private:
                 text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER,
                 RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER,
                 RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER))
+        {
+            if (stem<string_typeT>::is_suffix_in_rv(
+                    text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_EN_LOWER,
+                    RUSSIAN_EN_UPPER))
             {
-                if (stem<string_typeT>::is_suffix_in_rv(
-                        text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER,
-                        RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER))
-                    {
-                        text.erase(text.end() - 1, text.end());
-                        stem<string_typeT>::update_r_sections(text);
-                    }
+                text.erase(text.end() - 1, text.end());
+                stem<string_typeT>::update_r_sections(text);
             }
+        }
         else
-            {
-                stem<string_typeT>::delete_if_is_in_rv(
-                    text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER);
-            }
+        {
+            stem<string_typeT>::delete_if_is_in_rv(
+                text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER);
+        }
     }
 };
 }  // namespace stemming

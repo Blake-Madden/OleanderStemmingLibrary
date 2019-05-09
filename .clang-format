@@ -15,7 +15,7 @@ BraceWrapping:
   AfterExternBlock:                           true
   BeforeCatch:                                true
   BeforeElse:                                 true
-  IndentBraces:                               true
+  IndentBraces:                               false
 
 ColumnLimit:                                79
 CompactNamespaces:                          true
@@ -29,4 +29,3 @@ SortUsingDeclarations:                      true
 
 Standard:                                   Auto
 TabWidth:                                   4
-

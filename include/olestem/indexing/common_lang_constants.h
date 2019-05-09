@@ -12,7 +12,6 @@ it under the terms of the BSD License.
 
 #include <cwctype>
 
-
 namespace common_lang_constants
 {
 const wchar_t TAB = 0x09;

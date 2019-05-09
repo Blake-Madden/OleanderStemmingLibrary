@@ -67,9 +67,9 @@ inline void __dump_to_file(
     const wchar_t * begin, const std::string & file_path)
 {
     if (begin == NULL)
-        {
-            return;
-        }
+    {
+        return;
+    }
     std::wofstream f(file_path.c_str());
     f.write(begin, static_cast<std::streamsize>(std::wcslen(begin)));
 }

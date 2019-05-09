@@ -78,10 +78,10 @@ public:
     void operator()(string_typeT & text, bool transliterate_umlauts = false)
     {
         if (text.length() < 2)
-            {
-                stem<string_typeT>::remove_german_umlauts(text);
-                return;
-            }
+        {
+            stem<string_typeT>::remove_german_umlauts(text);
+            return;
+        }
 
         // reset internal data
         stem<string_typeT>::reset_r_values();
@@ -94,46 +94,44 @@ public:
             text, string_typeT(1, common_lang_constants::ESZETT), L"ss");
         // German variant addition
         if (transliterate_umlauts)
+        {
+            string_util::replace_all<string_typeT>(
+                text, L"ae",
+                string_typeT(1, common_lang_constants::LOWER_A_UMLAUTS));
+            string_util::replace_all<string_typeT>(
+                text, L"oe",
+                string_typeT(1, common_lang_constants::LOWER_O_UMLAUTS));
+            // ue to ü, if not in front of 'q'
+            size_t start = 1;
+            while (start != string_typeT::npos)
             {
-                string_util::replace_all<string_typeT>(
-                    text, L"ae",
-                    string_typeT(1, common_lang_constants::LOWER_A_UMLAUTS));
-                string_util::replace_all<string_typeT>(
-                    text, L"oe",
-                    string_typeT(1, common_lang_constants::LOWER_O_UMLAUTS));
-                // ue to ü, if not in front of 'q'
-                size_t start = 1;
-                while (start != string_typeT::npos)
-                    {
-                        start = text.find(L"ue", start);
-                        if (start == string_typeT::npos ||
-                            is_either<wchar_t>(
-                                text[start - 1],
-                                common_lang_constants::LOWER_Q,
-                                common_lang_constants::UPPER_Q))
-                            {
-                                break;
-                            }
-                        text.replace(
-                            start, 2,
-                            string_typeT(
-                                1, common_lang_constants::LOWER_U_UMLAUTS));
-                    }
+                start = text.find(L"ue", start);
+                if (start == string_typeT::npos ||
+                    is_either<wchar_t>(
+                        text[start - 1], common_lang_constants::LOWER_Q,
+                        common_lang_constants::UPPER_Q))
+                {
+                    break;
+                }
+                text.replace(
+                    start, 2,
+                    string_typeT(1, common_lang_constants::LOWER_U_UMLAUTS));
             }
+        }
 
         stem<string_typeT>::find_r1(text, GERMAN_VOWELS);
         if (stem<string_typeT>::get_r1() == text.length())
-            {
-                stem<string_typeT>::remove_german_umlauts(text);
-                stem<string_typeT>::unhash_german_yu(text);
-                return;
-            }
+        {
+            stem<string_typeT>::remove_german_umlauts(text);
+            stem<string_typeT>::unhash_german_yu(text);
+            return;
+        }
         stem<string_typeT>::find_r2(text, GERMAN_VOWELS);
         // R1 must have at least 3 characters in front of it
         if (stem<string_typeT>::get_r1() < 3)
-            {
-                stem<string_typeT>::set_r1(3);
-            }
+        {
+            stem<string_typeT>::set_r1(3);
+        }
 
         step_1(text);
         step_2(text);
@@ -154,61 +152,61 @@ private:
                 common_lang_constants::UPPER_E, common_lang_constants::LOWER_R,
                 common_lang_constants::UPPER_R, common_lang_constants::LOWER_N,
                 common_lang_constants::UPPER_N))
-            {
-                return;
-            }
+        {
+            return;
+        }
         else if (stem<string_typeT>::delete_if_is_in_r1(
                      text, /*er*/ common_lang_constants::LOWER_E,
                      common_lang_constants::UPPER_E,
                      common_lang_constants::LOWER_R,
                      common_lang_constants::UPPER_R))
-            {
-                return;
-            }
+        {
+            return;
+        }
         else if (stem<string_typeT>::delete_if_is_in_r1(
                      text, /*es*/ common_lang_constants::LOWER_E,
                      common_lang_constants::UPPER_E,
                      common_lang_constants::LOWER_S,
                      common_lang_constants::UPPER_S))
-            {
-                return;
-            }
+        {
+            return;
+        }
         else if (stem<string_typeT>::delete_if_is_in_r1(
                      text, /*en*/ common_lang_constants::LOWER_E,
                      common_lang_constants::UPPER_E,
                      common_lang_constants::LOWER_N,
                      common_lang_constants::UPPER_N))
-            {
-                return;
-            }
+        {
+            return;
+        }
         else if (stem<string_typeT>::delete_if_is_in_r1(
                      text, /*em*/ common_lang_constants::LOWER_E,
                      common_lang_constants::UPPER_E,
                      common_lang_constants::LOWER_M,
                      common_lang_constants::UPPER_M))
-            {
-                return;
-            }
+        {
+            return;
+        }
         else if (stem<string_typeT>::delete_if_is_in_r1(
                      text, common_lang_constants::LOWER_E,
                      common_lang_constants::UPPER_E))
-            {
-                return;
-            }
+        {
+            return;
+        }
         /// Define a valid s-ending as one of b, d, f, g, h, k, l, m, n, r or
         /// t.
         else if (stem<string_typeT>::is_suffix_in_r1(
                      text, common_lang_constants::LOWER_S,
                      common_lang_constants::UPPER_S))
+        {
+            if (string_util::is_one_of(
+                    text[text.length() - 2], L"bdfghklmnrtBDFGHKLMNRT"))
             {
-                if (string_util::is_one_of(
-                        text[text.length() - 2], L"bdfghklmnrtBDFGHKLMNRT"))
-                    {
-                        text.erase(text.length() - 1);
-                        stem<string_typeT>::update_r_sections(text);
-                    }
-                return;
+                text.erase(text.length() - 1);
+                stem<string_typeT>::update_r_sections(text);
             }
+            return;
+        }
     }
     //---------------------------------------------
     void step_2(string_typeT & text)
@@ -218,25 +216,25 @@ private:
                 common_lang_constants::UPPER_E, common_lang_constants::LOWER_S,
                 common_lang_constants::UPPER_S, common_lang_constants::LOWER_T,
                 common_lang_constants::UPPER_T))
-            {
-                return;
-            }
+        {
+            return;
+        }
         else if (stem<string_typeT>::delete_if_is_in_r1(
                      text, /*er*/ common_lang_constants::LOWER_E,
                      common_lang_constants::UPPER_E,
                      common_lang_constants::LOWER_R,
                      common_lang_constants::UPPER_R))
-            {
-                return;
-            }
+        {
+            return;
+        }
         else if (stem<string_typeT>::delete_if_is_in_r1(
                      text, /*en*/ common_lang_constants::LOWER_E,
                      common_lang_constants::UPPER_E,
                      common_lang_constants::LOWER_N,
                      common_lang_constants::UPPER_N))
-            {
-                return;
-            }
+        {
+            return;
+        }
         /// Define a valid st-ending as the same list, excluding letter r.
         else if (
             text.length() >= 6 &&
@@ -244,15 +242,15 @@ private:
                 text, /*st*/ common_lang_constants::LOWER_S,
                 common_lang_constants::UPPER_S, common_lang_constants::LOWER_T,
                 common_lang_constants::UPPER_T))
+        {
+            if (string_util::is_one_of(
+                    text[text.length() - 3], L"bdfghklmntBDFGHKLMNT"))
             {
-                if (string_util::is_one_of(
-                        text[text.length() - 3], L"bdfghklmntBDFGHKLMNT"))
-                    {
-                        text.erase(text.length() - 2);
-                        stem<string_typeT>::update_r_sections(text);
-                    }
-                return;
+                text.erase(text.length() - 2);
+                stem<string_typeT>::update_r_sections(text);
             }
+            return;
+        }
     }
     //---------------------------------------------
     void step_3(string_typeT & text)
@@ -269,22 +267,22 @@ private:
                 common_lang_constants::UPPER_I, common_lang_constants::LOWER_C,
                 common_lang_constants::UPPER_C, common_lang_constants::LOWER_H,
                 common_lang_constants::UPPER_H))
+        {
+            if (stem<string_typeT>::delete_if_is_in_r1(
+                    text, /*er*/ common_lang_constants::LOWER_E,
+                    common_lang_constants::UPPER_E,
+                    common_lang_constants::LOWER_R,
+                    common_lang_constants::UPPER_R) ||
+                stem<string_typeT>::delete_if_is_in_r1(
+                    text, /*en*/ common_lang_constants::LOWER_E,
+                    common_lang_constants::UPPER_E,
+                    common_lang_constants::LOWER_N,
+                    common_lang_constants::UPPER_N))
             {
-                if (stem<string_typeT>::delete_if_is_in_r1(
-                        text, /*er*/ common_lang_constants::LOWER_E,
-                        common_lang_constants::UPPER_E,
-                        common_lang_constants::LOWER_R,
-                        common_lang_constants::UPPER_R) ||
-                    stem<string_typeT>::delete_if_is_in_r1(
-                        text, /*en*/ common_lang_constants::LOWER_E,
-                        common_lang_constants::UPPER_E,
-                        common_lang_constants::LOWER_N,
-                        common_lang_constants::UPPER_N))
-                    {
-                        return;
-                    }
                 return;
             }
+            return;
+        }
         else if (stem<string_typeT>::delete_if_is_in_r2(
                      text, /*keit*/ common_lang_constants::LOWER_K,
                      common_lang_constants::UPPER_K,
@@ -294,26 +292,26 @@ private:
                      common_lang_constants::UPPER_I,
                      common_lang_constants::LOWER_T,
                      common_lang_constants::UPPER_T))
+        {
+            if (stem<string_typeT>::delete_if_is_in_r2(
+                    text, /*lich*/ common_lang_constants::LOWER_L,
+                    common_lang_constants::UPPER_L,
+                    common_lang_constants::LOWER_I,
+                    common_lang_constants::UPPER_I,
+                    common_lang_constants::LOWER_C,
+                    common_lang_constants::UPPER_C,
+                    common_lang_constants::LOWER_H,
+                    common_lang_constants::UPPER_H) ||
+                stem<string_typeT>::delete_if_is_in_r2(
+                    text, /*ig*/ common_lang_constants::LOWER_I,
+                    common_lang_constants::UPPER_I,
+                    common_lang_constants::LOWER_G,
+                    common_lang_constants::UPPER_G))
             {
-                if (stem<string_typeT>::delete_if_is_in_r2(
-                        text, /*lich*/ common_lang_constants::LOWER_L,
-                        common_lang_constants::UPPER_L,
-                        common_lang_constants::LOWER_I,
-                        common_lang_constants::UPPER_I,
-                        common_lang_constants::LOWER_C,
-                        common_lang_constants::UPPER_C,
-                        common_lang_constants::LOWER_H,
-                        common_lang_constants::UPPER_H) ||
-                    stem<string_typeT>::delete_if_is_in_r2(
-                        text, /*ig*/ common_lang_constants::LOWER_I,
-                        common_lang_constants::UPPER_I,
-                        common_lang_constants::LOWER_G,
-                        common_lang_constants::UPPER_G))
-                    {
-                        return;
-                    }
                 return;
             }
+            return;
+        }
         else if (stem<string_typeT>::is_suffix(
                      text, /*isch*/ common_lang_constants::LOWER_I,
                      common_lang_constants::UPPER_I,
@@ -323,18 +321,17 @@ private:
                      common_lang_constants::UPPER_C,
                      common_lang_constants::LOWER_H,
                      common_lang_constants::UPPER_H))
+        {
+            if (text.length() >= 5 &&
+                stem<string_typeT>::get_r2() <= (text.length() - 4) &&
+                is_neither<wchar_t>(
+                    text[text.length() - 5], common_lang_constants::LOWER_E,
+                    common_lang_constants::UPPER_E))
             {
-                if (text.length() >= 5 &&
-                    stem<string_typeT>::get_r2() <= (text.length() - 4) &&
-                    is_neither<wchar_t>(
-                        text[text.length() - 5],
-                        common_lang_constants::LOWER_E,
-                        common_lang_constants::UPPER_E))
-                    {
-                        text.erase(text.length() - 4);
-                        stem<string_typeT>::update_r_sections(text);
-                    }
+                text.erase(text.length() - 4);
+                stem<string_typeT>::update_r_sections(text);
             }
+        }
         else if (stem<string_typeT>::delete_if_is_in_r2(
                      text, /*end*/ common_lang_constants::LOWER_E,
                      common_lang_constants::UPPER_E,
@@ -342,23 +339,22 @@ private:
                      common_lang_constants::UPPER_N,
                      common_lang_constants::LOWER_D,
                      common_lang_constants::UPPER_D))
+        {
+            if (text.length() >= 3 &&
+                stem<string_typeT>::is_suffix_in_r2(
+                    text, /*ig*/ common_lang_constants::LOWER_I,
+                    common_lang_constants::UPPER_I,
+                    common_lang_constants::LOWER_G,
+                    common_lang_constants::UPPER_G) &&
+                is_neither<wchar_t>(
+                    text[text.length() - 3], common_lang_constants::LOWER_E,
+                    common_lang_constants::UPPER_E))
             {
-                if (text.length() >= 3 &&
-                    stem<string_typeT>::is_suffix_in_r2(
-                        text, /*ig*/ common_lang_constants::LOWER_I,
-                        common_lang_constants::UPPER_I,
-                        common_lang_constants::LOWER_G,
-                        common_lang_constants::UPPER_G) &&
-                    is_neither<wchar_t>(
-                        text[text.length() - 3],
-                        common_lang_constants::LOWER_E,
-                        common_lang_constants::UPPER_E))
-                    {
-                        text.erase(text.length() - 2);
-                        stem<string_typeT>::update_r_sections(text);
-                    }
-                return;
+                text.erase(text.length() - 2);
+                stem<string_typeT>::update_r_sections(text);
             }
+            return;
+        }
         else if (stem<string_typeT>::delete_if_is_in_r2(
                      text, /*ung*/ common_lang_constants::LOWER_U,
                      common_lang_constants::UPPER_U,
@@ -366,57 +362,54 @@ private:
                      common_lang_constants::UPPER_N,
                      common_lang_constants::LOWER_G,
                      common_lang_constants::UPPER_G))
+        {
+            if (text.length() >= 3 &&
+                stem<string_typeT>::is_suffix_in_r2(
+                    text, /*ig*/ common_lang_constants::LOWER_I,
+                    common_lang_constants::UPPER_I,
+                    common_lang_constants::LOWER_G,
+                    common_lang_constants::UPPER_G) &&
+                is_neither<wchar_t>(
+                    text[text.length() - 3], common_lang_constants::LOWER_E,
+                    common_lang_constants::UPPER_E))
             {
-                if (text.length() >= 3 &&
-                    stem<string_typeT>::is_suffix_in_r2(
-                        text, /*ig*/ common_lang_constants::LOWER_I,
-                        common_lang_constants::UPPER_I,
-                        common_lang_constants::LOWER_G,
-                        common_lang_constants::UPPER_G) &&
-                    is_neither<wchar_t>(
-                        text[text.length() - 3],
-                        common_lang_constants::LOWER_E,
-                        common_lang_constants::UPPER_E))
-                    {
-                        text.erase(text.length() - 2);
-                        stem<string_typeT>::update_r_sections(text);
-                    }
-                return;
+                text.erase(text.length() - 2);
+                stem<string_typeT>::update_r_sections(text);
             }
+            return;
+        }
         else if (stem<string_typeT>::is_suffix(
                      text, /*ig*/ common_lang_constants::LOWER_I,
                      common_lang_constants::UPPER_I,
                      common_lang_constants::LOWER_G,
                      common_lang_constants::UPPER_G))
+        {
+            if (text.length() >= 3 &&
+                stem<string_typeT>::get_r2() <= text.length() - 2 &&
+                is_neither<wchar_t>(
+                    text[text.length() - 3], common_lang_constants::LOWER_E,
+                    common_lang_constants::UPPER_E))
             {
-                if (text.length() >= 3 &&
-                    stem<string_typeT>::get_r2() <= text.length() - 2 &&
-                    is_neither<wchar_t>(
-                        text[text.length() - 3],
-                        common_lang_constants::LOWER_E,
-                        common_lang_constants::UPPER_E))
-                    {
-                        text.erase(text.length() - 2);
-                        stem<string_typeT>::update_r_sections(text);
-                    }
+                text.erase(text.length() - 2);
+                stem<string_typeT>::update_r_sections(text);
             }
+        }
         else if (stem<string_typeT>::is_suffix(
                      text, /*ik*/ common_lang_constants::LOWER_I,
                      common_lang_constants::UPPER_I,
                      common_lang_constants::LOWER_K,
                      common_lang_constants::UPPER_K))
+        {
+            if (text.length() >= 3 &&
+                stem<string_typeT>::get_r2() <= text.length() - 2 &&
+                is_neither<wchar_t>(
+                    text[text.length() - 3], common_lang_constants::LOWER_E,
+                    common_lang_constants::UPPER_E))
             {
-                if (text.length() >= 3 &&
-                    stem<string_typeT>::get_r2() <= text.length() - 2 &&
-                    is_neither<wchar_t>(
-                        text[text.length() - 3],
-                        common_lang_constants::LOWER_E,
-                        common_lang_constants::UPPER_E))
-                    {
-                        text.erase(text.length() - 2);
-                        stem<string_typeT>::update_r_sections(text);
-                    }
+                text.erase(text.length() - 2);
+                stem<string_typeT>::update_r_sections(text);
             }
+        }
     }
 };
 }  // namespace stemming

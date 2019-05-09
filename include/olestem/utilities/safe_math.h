@@ -14,7 +14,6 @@ modify it under the terms of the BSD License.
 #include <cmath>
 #include <functional>
 
-
 // DIVISION OPERATIONS
 //-------------------
 
@@ -23,14 +22,14 @@ modify it under the terms of the BSD License.
 ///@param dividend The dividend (i.e., the value being divided).
 ///@param divisor The divisor (i.e., the value dividing by).
 ///@returns The remainder of the modulus operation, or zero if one of the
-///values was invalid.
+/// values was invalid.
 template <typename T>
 inline T safe_modulus(const T dividend, const T divisor)
 {
     if (dividend == 0 || divisor == 0)
-        {
-            return 0;
-        }
+    {
+        return 0;
+    }
     return dividend % divisor;
 }
 
@@ -39,16 +38,16 @@ inline T safe_modulus(const T dividend, const T divisor)
 ///@param dividend The dividend (i.e., the value being divided).
 ///@param divisor The divisor (i.e., the value dividing by).
 ///@returns The quotient of the division operation, or zero if one of the
-///values was invalid.
+/// values was invalid.
 ///@note If the template type has floating point precision, then the result
-///will retain its precision.
+/// will retain its precision.
 template <typename T>
 inline T safe_divide(const T dividend, const T divisor)
 {
     if (dividend == 0 || divisor == 0)
-        {
-            return 0;
-        }
+    {
+        return 0;
+    }
     return dividend / static_cast<T>(divisor);
 }
 
@@ -129,7 +128,7 @@ public:
 //------------------
 
 ///@brief Converts an integral type to a boolean. Compilers complain about
-///directly assigning an int to a bool (casting doesn't help either), so this
+/// directly assigning an int to a bool (casting doesn't help either), so this
 /// works around that.
 ///@param intVal The integer value to convert to a boolean.
 ///@returns The boolean equivalent of the integer.

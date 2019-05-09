@@ -15,7 +15,6 @@ it under the terms of the BSD License.
 #include <cmath>
 #include <functional>
 
-
 ///@returns The item count of an array.
 ///@note Do not call this on an empty array.
 /// Also, this is meant for arrays of intrinsic types only.
@@ -154,13 +153,13 @@ inline outT copy_member_if(
     member_extract_functorT get_value)
 {
     for (; begin != end; ++begin)
+    {
+        if (meets_criteria(*begin))
         {
-            if (meets_criteria(*begin))
-                {
-                    *dest = get_value(*begin);
-                    ++dest;
-                }
+            *dest = get_value(*begin);
+            ++dest;
         }
+    }
     return (dest);
 }
 
