@@ -2,24 +2,31 @@ cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 project(OleanderStemmingLibrary VERSION 0.1 LANGUAGES CXX)
 set(PROJECT_NAME_L oleanderstemminglibrary)
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-set(CMAKE_BINARY_DIR "${CMAKE_SOURCE_DIR}/build")
-
-# Options
-OPTION(BUILD_SHARED_LIBS
-    "Build ${PROJECT_NAME}.a rather than ${PROJECT_NAME}.so" OFF)
-
 # -----------------------------------------------------------------------------
 # Build settings
 # -----------------------------------------------------------------------------
 
-# Request C++17 standard
-# ----------------
+# Set the C standard
+# ------------------
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
+
+# Set the C++ standard
+# --------------------
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# Options
+# -------
+OPTION(BUILD_SHARED_LIBS
+    "Build ${PROJECT_NAME}.a rather than ${PROJECT_NAME}.so" OFF)
+
 # Include additional cmake/ settings
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+set(CMAKE_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build")
+
 include(BuildType)
 include(BuildLocation)
 include(CompilerFlags)
@@ -124,5 +131,7 @@ export(PACKAGE ${PROJECT_NAME})
 
 message(STATUS "Exporting project - done")
 
+# -----------------------------------------------------------------------------
 # Testing
+# -----------------------------------------------------------------------------
 add_subdirectory(tests)

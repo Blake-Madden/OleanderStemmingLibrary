@@ -1,3 +1,10 @@
+# - ConfigVersion file for the package
+# It defines the following variables:
+#   - PACKAGE_VERSION
+#   - PACKAGE_VERSION_COMPATIBLE
+#   - (conditional) PACKAGE_VERSION_EXACT
+
+# Allow client projects to determine the version of the the project
 set(PACKAGE_VERSION "@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@")
 
 # Check whether the requested PACKAGE_FIND_VERSION is compatible
