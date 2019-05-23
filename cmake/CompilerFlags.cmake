@@ -14,11 +14,26 @@
 # ------------------------
 # CMAKE_<LANG>_COMPILER_ID
 #
-# gcc           GNU
-# clang (LLVM)  Clang
-# clang (Apple) AppleClang
-# msvc          MSVC
-# icc           Intel
+# Absoft                = Absoft Fortran (absoft.com)
+# ADSP                  = Analog VisualDSP++ (analog.com)
+# AppleClang            = Apple Clang (apple.com)
+# Clang                 = LLVM Clang (clang.llvm.org)
+# Cray                  = Cray Compiler (cray.com)
+# Embarcadero, Borland  = Embarcadero (embarcadero.com)
+# G95                   = G95 Fortran (g95.org)
+# GNU                   = GNU Compiler Collection (gcc.gnu.org)
+# HP                    = Hewlett-Packard Compiler (hp.com)
+# Intel                 = Intel Compiler (intel.com)
+# MIPSpro               = SGI MIPSpro (sgi.com)
+# MSVC                  = Microsoft Visual Studio (microsoft.com)
+# OpenWatcom            = Open Watcom (openwatcom.org)
+# PGI                   = The Portland Group (pgroup.com)
+# PathScale             = PathScale (pathscale.com)
+# SDCC                  = Small Device C Compiler (sdcc.sourceforge.net)
+# SunPro                = Oracle Solaris Studio (oracle.com)
+# TI                    = Texas Instruments (ti.com)
+# TinyCC                = Tiny C Compiler (tinycc.org)
+# XL, VisualAge, zOS    = IBM XL (ibm.com)
 # ------------------------
 
 # Passing flags to the compiler or linker
@@ -31,31 +46,29 @@
 # -----------------------------------------------------------------------------
 
 # Ensure latest compiler versions
-if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+if($<CXX_COMPILER_ID:"GNU">)
     if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "7")
         message(FATAL_ERROR "Insufficient gcc version")
     endif()
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+elseif($<CXX_COMPILER_ID:"Clang">)
     if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "3.9")
         message(FATAL_ERROR "Insufficient Clang version")
     endif()
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
+elseif($<CXX_COMPILER_ID:"AppleClang">)
     if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "8.1.0")
         message(FATAL_ERROR "Insufficient AppleClang version")
     endif()
-elseif(MSVC)
+elseif($<CXX_COMPILER_ID:"MSVC")
     if(MSVC_VERSION LESS 1920)
         message(FATAL_ERROR "Insufficient MSVC version")
     endif()
-#elseif(Intel)
-
 endif()
 
 # Compiler specific flags
 if(
-    CMAKE_CXX_COMPILER_ID MATCHES "GNU"
-    OR CMAKE_CXX_COMPILER_ID MATCHES "Clang"
-    OR CMAKE_CXX_COMPILER_ID MATCHES "AppleClang"
+    $<CXX_COMPILER_ID:"GNU">
+    OR $<CXX_COMPILER_ID:"Clang">
+    OR $<CXX_COMPILER_ID:"AppleClang">
 )
     include(CheckCXXCompilerFlag)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -Wextra")
