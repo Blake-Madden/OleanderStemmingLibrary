@@ -1,4 +1,5 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a47d7b3d825e441894df5c0c91ed4f42)](https://www.codacy.com/app/paddy74/OleanderStemmingLibrary?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=paddy74/OleanderStemmingLibrary&amp;utm_campaign=Badge_Grade)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 # Oleander Stemming Library
 
