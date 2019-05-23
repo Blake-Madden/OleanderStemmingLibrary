@@ -38,6 +38,9 @@ cmake --build .
 
 The license for this project can be found in [LICENSE.md](LICENSE.md).
 
+Copyright (c) for portions of source code are held by 2016 Oleander Software, Ltd.
+All other copyright for source code are held by 2019 Patrick Cox.
+
 ## Change Log
 
 ### 2019 Release
