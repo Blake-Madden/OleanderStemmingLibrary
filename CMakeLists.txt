@@ -20,10 +20,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Options
 # -------
-OPTION(BUILD_SHARED_LIBS
-    "Build ${PROJECT_NAME}.a rather than ${PROJECT_NAME}.so" OFF)
-OPTION(BUILD_TESTING "Build the testing tree." ON)
-OPTION(ENABLE_CODECOV "Enable code coverage reporting." OFF)
+OPTION(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+OPTION(BUILD_TESTING "Build the testing tree" ON)
+OPTION(BUILD_SAMPLES "Build the sample application" ON)
+OPTION(ENABLE_CODECOV "Enable code coverage reporting" ON)
 
 # Include additional cmake/ settings
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -42,9 +42,6 @@ message(STATUS "Setting target properties")
 # ---------------
 add_library(${PROJECT_NAME_L} INTERFACE)
 
-# Create an alias
-add_library(${PROJECT_NAME}::${PROJECT_NAME_L} ALIAS ${PROJECT_NAME_L})
-
 # Include project directories in target
 # -------------------------------------
 target_include_directories(${PROJECT_NAME_L}
@@ -52,6 +49,8 @@ target_include_directories(${PROJECT_NAME_L}
         $<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
+
+add_target_compiler_flags(${PROJECT_NAME_L})
 
 message(STATUS "Setting target properties - done")
 
