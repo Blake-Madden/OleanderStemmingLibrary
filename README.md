@@ -25,13 +25,13 @@ You may also add this library to your project using a relative path:
 
 ### Running an example
 
-An example of this project's usage can be found in [tests/src/example.cpp](tests/src/example.cpp) and can be built with the following commands:
+An example of this project's usage can be found in [samples/src/example.cpp](samples/src/example.cpp) and can be built with the following commands:
 
 ```bash
 mkdir build && cd build
 cmake ..
 cmake --build .
-./bin/ExampleTest
+./bin/olestem.example
 ```
 
 ## License
