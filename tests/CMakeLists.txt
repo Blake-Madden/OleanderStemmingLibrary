@@ -21,16 +21,20 @@ message(STATUS "Preparing tests - done")
 # -----------------------------------------------------------------------------
 # cmake .. -DENABLE_CODECOV=ON
 # cmake --build .
-# cmake --build target
+# cmake --target target
 if (ENABLE_CODECOV)
-    set(COVERAGE_LCOV_EXCLUDES "${CMAKE_CURRENT_SOURCE_DIR}/libs/*")
     include(CodeCoverage)
+    set(COVERAGE_LCOV_EXCLUDES "${CMAKE_CURRENT_SOURCE_DIR}/../libs/*")
 
     APPEND_COVERAGE_COMPILER_FLAGS()
 
+    include(ProcessorCount)
+    ProcessorCount(N_CORES)
+
     SETUP_TARGET_FOR_COVERAGE_LCOV(
-        NAME olestem.coverage_stemming
-        EXECUTABLE $<TARGET_FILE:olestem.test_stemming>
-        DEPENDENCIES oleanderstemminglibrary
+        NAME olestem.coverage
+        EXECUTABLE cd tests/ && ctest -j ${N_CORES}  #$<TARGET_FILE:mytemplate.test_one>
+        DEPENDENCIES
+            olestem.test_stemming
     )
 endif()
