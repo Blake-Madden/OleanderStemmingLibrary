@@ -33,7 +33,7 @@ if (ENABLE_CODECOV)
 
     SETUP_TARGET_FOR_COVERAGE_LCOV(
         NAME olestem.coverage
-        EXECUTABLE cd tests/ && ctest -j ${N_CORES}  #$<TARGET_FILE:mytemplate.test_one>
+        EXECUTABLE cd tests/ && ctest -j ${N_CORES}
         DEPENDENCIES
             olestem.test_stemming
     )
