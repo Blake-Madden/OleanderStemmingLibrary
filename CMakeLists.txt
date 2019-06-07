@@ -22,15 +22,23 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # -------
 OPTION(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 OPTION(BUILD_TESTING "Build the testing tree" ON)
-OPTION(BUILD_SAMPLES "Build the sample application" ON)
-OPTION(ENABLE_CODECOV "Enable code coverage reporting" ON)
+OPTION(ENABLE_COVERAGE "Enable code coverage reporting. Also enables testing" OFF)
+OPTION(BUILD_SAMPLES "Build sample applications" ON)
 
 # Include additional cmake/ settings
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+set(CMAKE_MODULE_PATH
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules"
+)
 set(CMAKE_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build")
 
-include(BuildType)
+# Include CMake modules
 include(BuildLocation)
+include(BuildType)
+
+include(ClangFormat)
+include(CodeAnalysis)
+include(CodeCoverage)
 include(CompilerFlags)
 
 # -----------------------------------------------------------------------------
@@ -149,7 +157,7 @@ export(PACKAGE ${PROJECT_NAME})
 # -----------------------------------------------------------------------------
 # Testing, samples, and code coverage
 # -----------------------------------------------------------------------------
-if(BUILD_TESTING)  # Handles code coverage
+if(BUILD_TESTING OR ENABLE_COVERAGE)  # Handles code coverage
     add_subdirectory(tests)
 endif()
 
