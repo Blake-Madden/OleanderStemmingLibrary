@@ -14,7 +14,7 @@
 #include <string>
 #include <unordered_map>
 
-int main()
+void stemWord(std::wstring & word)
 {
     stemming::danish_stem<> StemDanish;
     stemming::dutch_stem<> StemDutch;
@@ -29,41 +29,39 @@ int main()
     stemming::spanish_stem<> StemSpanish;
     stemming::swedish_stem<> StemSwedish;
 
-    std::wstring word(L"løbende");
     StemDanish(word);
-
-    word = L"aanhoudend";
     StemDutch(word);
-
-    word = L"transportation";
     StemEnglish(word);
-
-    word = L"jatkuvasti";
     StemFinnish(word);
-
-    word = L"continuellement";
     StemFrench(word);
-
-    word = L"ständig";
     StemGerman(word);
-
-    word = L"continuamente";
     StemItalian(word);
-
-    word = L"kontinuerlig";
     StemNorwegian(word);
-
-    word = L"continuamente";
     StemPortuguese(word);
-
-    word = L"беспрестанно";
     StemRussian(word);
-
-    word = L"continuamente";
     StemSpanish(word);
-
-    word = L"kontinuerligt";
     StemSwedish(word);
+}
+
+int main()
+{
+    std::vector<std::wstring> wordVect;
+    wordVect = {L"løbende",
+                L"aanhoudend",
+                L"transportation",
+                L"jatkuvasti",
+                L"continuellement",
+                L"ständig",
+                L"continuamente",
+                L"kontinuerlig",
+                L"беспрестанно",
+                L"kontinuerligt",
+                L"",
+                L" ",
+                L"   ",
+                L"    "};
+
+    for (auto & word : wordVect) stemWord(word);
 
     return 0;
 }
