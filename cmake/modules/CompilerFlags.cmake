@@ -70,10 +70,10 @@ endif()
 
 # Tests and samples
 if(IOS OR ANDROID OR WINDOWS_STORE OR WINDOWS_PHONE)
-    set(BUILD_TESTS OFF CACHE BOOL "Build tests")
+    set(BUILD_TESTING OFF CACHE BOOL "Build tests")
     set(BUILD_SAMPLES OFF CACHE BOOL "Build sample applications")
 #else()
-    #set(BUILD_TESTS ON CACHE BOOL "Build tests")
+    #set(BUILD_TESTING ON CACHE BOOL "Build tests")
     #set(BUILD_SAMPLES ON CACHE BOOL "Build sample applications")
 endif()
 

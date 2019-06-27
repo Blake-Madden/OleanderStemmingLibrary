@@ -1,8 +1,5 @@
 message(STATUS "Preparing tests")
 
-# Enable construction of test target
-enable_testing()
-
 # Create and link the test executables
 add_executable(olestem.test_stemming src/test_stemming.cpp)
 target_link_libraries(olestem.test_stemming oleanderstemminglibrary)
