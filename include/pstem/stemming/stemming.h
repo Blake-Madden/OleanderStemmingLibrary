@@ -1,12 +1,3 @@
-/**@addtogroup Stemming
-@brief Library for stemming words down to their root words.
-@date 2003-2015
-@copyright Oleander Software, Ltd.
-@author Oleander Software, Ltd.
-@details This program is free software; you can redistribute it and/or modify
-it under the terms of the BSD License.
-* @{*/
-
 #ifndef __STEM_H__
 #define __STEM_H__
 
@@ -15,9 +6,9 @@ it under the terms of the BSD License.
 #include "../indexing/common_lang_constants.h"
 #include "../indexing/string_util.h"
 
-/// Namespace for stemming classes.
 namespace stemming
 {
+// Stemming types
 enum stemming_type
 {
     no_stemming,
@@ -34,7 +25,8 @@ enum stemming_type
     swedish,
     STEMMING_TYPE_COUNT
 };
-// these characters should not appear in an indexed word
+
+// These characters should not appear in an indexed word
 const wchar_t UPPER_Y_HASH = 7;   // bell
 const wchar_t LOWER_Y_HASH = 9;   // tab
 const wchar_t UPPER_I_HASH = 10;  // line feed
@@ -42,7 +34,7 @@ const wchar_t LOWER_I_HASH = 11;  // vertical tab
 const wchar_t UPPER_U_HASH = 12;  // form feed (new page)
 const wchar_t LOWER_U_HASH = 13;  // carriage return
 
-// language constants
+// Language constants
 static const wchar_t FRENCH_VOWELS[] = {
     97,   101,  105,  111,  117,  121,  0xE2, 0xE0, 0xEB, 0xE9, 0xEA, 0xE8,
     0xEF, 0xEE, 0xF4, 0xFB, 0xF9, 65,   69,   73,   79,   85,   89,   0xC2,
@@ -104,22 +96,25 @@ static const wchar_t ITALIAN_VOWELS_SIMPLE[] = {
     69, 73,  79,  0xC0, 0xC8, 0xCC, 0xD2, 0};
 
 /**
-   @class stem
-   @brief The base class for language-specific stemmers.
-   @details The template argument for the stemmers are the type
-   of std::basic_string that you are trying to stem, by default std::wstring
-   (Unicode strings). As long as the char type of your basic_string is wchar_t,
-   then you can use any type of basic_string. This is to say, if your
-   basic_string has a custom char_traits or allocator, then just specify it in
-   your template argument to the stemmer.
-
-   @par Example:
-   \code
-    typedef std::basic_string<wchar_t, myTraits, myAllocator> myString;
-    myString word(L"documentation");
-    stemming::english_stem<myString> StemEnglish;
-    StemEnglish(word);
-   \endcode */
+ * @class stem
+ * @brief The base class for language-specific stemmers.
+ * @details The template argument for the stemmers are the type of
+ * std::basic_string that you are trying to stem, by default std::wstring
+ * (Unicode strings). As long as the char type of your basic_string is wchar_t,
+ * then you can use any type of basic_string. This is to say, if your
+ * basic_string has a custom char_traits or allocator, then just specify it in
+ * your template argument to the stemmer.
+ *
+ * @tparam std::wstring
+ *
+ * @par Example:
+ * \code
+ *  typedef std::basic_string<wchar_t, myTraits, myAllocator> myString;
+ *  myString word(L"documentation");
+ *  stemming::english_stem<myString> StemEnglish;
+ *  StemEnglish(word);
+ * \endcode
+ */
 template <typename string_typeT = std::wstring>
 class stem
 {
@@ -154,9 +149,10 @@ protected:
     void find_r2(const string_typeT & text, const wchar_t * vowel_list)
     {
         size_t start = 0;
-        // look for R2--not required for all criteria.
+
+        // Look for R2 (not required for all criteria).
         // R2 is the region after the first consonant after the first vowel
-        // after R1
+        // after R1.
         if (get_r1() != text.length())
         {
             start = text.find_first_of(vowel_list, get_r1());
@@ -186,13 +182,13 @@ protected:
 
     void find_spanish_rv(const string_typeT & text, const wchar_t * vowel_list)
     {
-        // see where the RV section begin
+        // See where the RV section begin
         if (text.length() < 4)
         {
             m_rv = text.length();
             return;
         }
-        // if second letter is a consonant
+        // If second letter is a consonant
         if (!string_util::is_one_of(text[1], vowel_list))
         {
             size_t start = text.find_first_of(vowel_list, 2);
@@ -207,7 +203,7 @@ protected:
                 m_rv = start + 1;
             }
         }
-        // if first two letters are vowels
+        // If first two letters are vowels
         else if (
             string_util::is_one_of(text[0], vowel_list) &&
             string_util::is_one_of(text[1], vowel_list))
@@ -215,7 +211,7 @@ protected:
             size_t start = text.find_first_not_of(vowel_list, 2);
             if (start == string_typeT::npos)
             {
-                // can't find next consonant
+                // Can't find next consonant
                 m_rv = text.length();
                 return;
             }
@@ -224,7 +220,7 @@ protected:
                 m_rv = start + 1;
             }
         }
-        // consonant/vowel at beginning
+        // Consonant/vowel at beginning
         else if (
             !string_util::is_one_of(text[0], vowel_list) &&
             string_util::is_one_of(text[1], vowel_list))
@@ -237,21 +233,27 @@ protected:
         }
     }
 
-    /*If the word begins with two vowels, RV is the region after the third
-    letter, otherwise the region after the first vowel not at the beginning of
-    the word, or the end of the word if these positions cannot be found.
-    (Exceptionally, par, col or tap, at the begining of a word is also taken to
-    be the region before RV.)*/
+    /**
+     * @brief Find the french RV.
+     * @details If the word begins with two vowels, RV is the region after the
+     *  third letter, otherwise the region after the first vowel not at the
+     *  beginning of the word, or the end of the word if these positions cannot
+     *  be found. (Exceptionally, par, col or tap, at the begining of a word is
+     *  also taken to be the region before RV.)
+     *
+     * @param text
+     * @param vowel_list
+     */
     void find_french_rv(const string_typeT & text, const wchar_t * vowel_list)
     {
-        // see where the RV section begin
+        // See where the RV section begin
         if (text.length() < 3)
         {
             m_rv = text.length();
             return;
         }
-        /*Exceptions: If the word begins with these then RV goes right after
-        them, whether it be a letter or simply the end of the word.*/
+        // Exceptions: If the word begins with these then RV goes right after
+        // them, whether it be a letter or simply the end of the word.
         if (text.length() >= 3 &&
             ((is_either<wchar_t>(
                   text[0], common_lang_constants::LOWER_P,
@@ -287,7 +289,7 @@ protected:
             m_rv = 3;
             return;
         }
-        // if first two letters are vowels
+        // If first two letters are vowels
         if (string_util::is_one_of(text[0], vowel_list) &&
             string_util::is_one_of(text[1], vowel_list))
         {
@@ -298,14 +300,14 @@ protected:
             size_t start = text.find_first_not_of(vowel_list, 0);
             if (start == string_typeT::npos)
             {
-                // can't find first consonant
+                // Can't find first consonant
                 m_rv = text.length();
                 return;
             }
             start = text.find_first_of(vowel_list, start);
             if (start == string_typeT::npos)
             {
-                // can't find first vowel
+                // Can't find first vowel
                 m_rv = text.length();
                 return;
             }
@@ -313,12 +315,23 @@ protected:
         }
     }
 
+    /**
+     * @brief Find the russian RV.
+     * @details If the word begins with two vowels, RV is the region after the
+     *  third letter, otherwise the region after the first vowel not at the
+     *  beginning of the word, or the end of the word if these positions cannot
+     *  be found. (Exceptionally, par, col or tap, at the begining of a word is
+     *  also taken to be the region before RV.)
+     *
+     * @param text
+     * @param vowel_list
+     */
     void find_russian_rv(const string_typeT & text, const wchar_t * vowel_list)
     {
         size_t start = text.find_first_of(vowel_list);
         if (start == string_typeT::npos)
         {
-            // can't find first vowel
+            // Can't find first vowel
             m_rv = text.length();
             return;
         }
@@ -328,6 +341,11 @@ protected:
         }
     }
 
+    /**
+     * @brief
+     *
+     * @param text
+     */
     inline void update_r_sections(const string_typeT & text)
     {
         if (get_r1() > text.length())
@@ -343,9 +361,15 @@ protected:
             m_rv = text.length();
         }
     }
-    /**Determines if a character is an apostrophe (includes straight single
-    quotes).
-    @param ch The letter to be analyzed.*/
+
+    /**
+     * @brief Determines if a character is an apostrophe (includes straight
+     *  single quotes).
+     *
+     * @param ch The letter to be analyzed.
+     * @return true
+     * @return false
+     */
     inline bool is_apostrophe(const wchar_t & ch) const
     {
         return (ch == 39)
@@ -361,7 +385,14 @@ protected:
                                      true
                                                 : false;
     }
+
     //---------------------------------------------
+
+    /**
+     * @brief
+     *
+     * @param text
+     */
     void trim_western_punctuation(string_typeT & text) const
     {
         if (text.length() >= 3 && is_apostrophe(text[text.length() - 3]) &&
@@ -418,8 +449,17 @@ protected:
         }
     }
 
-    // suffix removal determinant functions
-    /// is_suffix for one character
+    /* Suffix removal determinant functions */
+
+    /**
+     * @brief Determines is_suffix for one character.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U) const
@@ -430,7 +470,18 @@ protected:
         }
         return is_either<wchar_t>(text[text.length() - 1], suffix1L, suffix1U);
     }
-    /// is_suffix for two characters
+
+    /**
+     * @brief Determines is_suffix for two characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L,
@@ -445,7 +496,19 @@ protected:
                is_either<wchar_t>(text[text.length() - 1], suffix2L, suffix2U);
     }
 
-    /// is_suffix for three characters
+    /**
+     * @brief Determines is_suffix for three characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -461,7 +524,22 @@ protected:
                    text[text.length() - 2], suffix2L, suffix2U) &&
                is_either<wchar_t>(text[text.length() - 1], suffix3L, suffix3U);
     }
-    /// is_suffix for four characters
+
+    /**
+     * @brief Determines is_suffix for four characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -480,7 +558,24 @@ protected:
                    text[text.length() - 2], suffix3L, suffix3U) &&
                is_either<wchar_t>(text[text.length() - 1], suffix4L, suffix4U);
     }
-    /// is_suffix for five characters
+
+    /**
+     * @brief Determines is_suffix for five characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -502,7 +597,26 @@ protected:
                    text[text.length() - 2], suffix4L, suffix4U) &&
                is_either<wchar_t>(text[text.length() - 1], suffix5L, suffix5U);
     }
-    /// is_suffix for six characters
+
+    /**
+     * @brief Determines is_suffix for six characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -526,7 +640,28 @@ protected:
                    text[text.length() - 2], suffix5L, suffix5U) &&
                is_either<wchar_t>(text[text.length() - 1], suffix6L, suffix6U);
     }
-    /// is_suffix for seven characters
+
+    /**
+     * @brief Determines is_suffix for seven characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @param suffix7L
+     * @param suffix7U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -553,7 +688,30 @@ protected:
                    text[text.length() - 2], suffix6L, suffix6U) &&
                is_either<wchar_t>(text[text.length() - 1], suffix7L, suffix7U);
     }
-    /// is_suffix for eight characters
+
+    /**
+     * @brief Determines is_suffix for eight characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @param suffix7L
+     * @param suffix7U
+     * @param suffix8L
+     * @param suffix8U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -583,7 +741,32 @@ protected:
                    text[text.length() - 2], suffix7L, suffix7U) &&
                is_either<wchar_t>(text[text.length() - 1], suffix8L, suffix8U);
     }
-    /// is_suffix for nine characters
+
+    /**
+     * @brief Determines is_suffix for nine characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @param suffix7L
+     * @param suffix7U
+     * @param suffix8L
+     * @param suffix8U
+     * @param suffix9L
+     * @param suffix9U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -616,7 +799,18 @@ protected:
                is_either<wchar_t>(text[text.length() - 1], suffix9L, suffix9U);
     }
 
-    /// comparison for two characters
+    /**
+     * @brief Comparison for two characters.
+     *
+     * @param text
+     * @param start_index
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @return true
+     * @return false
+     */
     inline bool is_partial_suffix(
         const string_typeT & text, const size_t start_index,
         const wchar_t suffix1L, const wchar_t suffix1U, const wchar_t suffix2L,
@@ -646,9 +840,17 @@ protected:
             is_either<wchar_t>(text[start_index + 2], suffix3L, suffix3U));
     }
 
-    /// RV suffix functions
-    //-------------------------------------------------
-    /// RV suffix comparison for one character
+    /* RV suffix functions */
+
+    /**
+     * @brief RV suffix comparison for one character.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_rv(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U)
@@ -661,7 +863,18 @@ protected:
             is_either<wchar_t>(text[text.length() - 1], suffix1L, suffix1U) &&
             (get_rv() <= text.length() - 1));
     }
-    /// RV suffix comparison for two characters
+
+    /**
+     * @brief RV suffix comparison for two characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_rv(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U)
@@ -676,7 +889,20 @@ protected:
                  text[text.length() - 1], suffix2L, suffix2U)) &&
             (get_rv() <= text.length() - 2));
     }
-    /// RV suffix comparison for three characters
+
+    /**
+     * @brief RV suffix comparison for three characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_rv(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -693,7 +919,22 @@ protected:
                  text[text.length() - 1], suffix3L, suffix3U)) &&
             (get_rv() <= text.length() - 3));
     }
-    /// RV suffix comparison for four characters
+
+    /**
+     * @brief RV suffix comparison for four characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_rv(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -712,7 +953,24 @@ protected:
                  text[text.length() - 1], suffix4L, suffix4U)) &&
             (get_rv() <= text.length() - 4));
     }
-    /// RV suffix comparison for five characters
+
+    /**
+     * @brief RV suffix comparison for five characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_rv(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -732,7 +990,26 @@ protected:
                  text[text.length() - 1], suffix5L, suffix5U)) &&
             (get_rv() <= text.length() - 5));
     }
-    /// RV suffix comparison for six characters
+
+    /**
+     * @brief RV suffix comparison for six characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_rv(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -754,7 +1031,28 @@ protected:
                  text[text.length() - 1], suffix6L, suffix6U)) &&
             (get_rv() <= text.length() - 6));
     }
-    /// RV suffix comparison for seven characters
+
+    /**
+     * @brief RV suffix comparison for seven characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @param suffix7L
+     * @param suffix7U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_rv(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -778,7 +1076,30 @@ protected:
                  text[text.length() - 1], suffix7L, suffix7U)) &&
             (get_rv() <= text.length() - 7));
     }
-    /// RV suffix comparison for eight characters
+
+    /**
+     * @brief RV suffix comparison for eight characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @param suffix7L
+     * @param suffix7U
+     * @param suffix8L
+     * @param suffix8U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_rv(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -804,9 +1125,17 @@ protected:
             (get_rv() <= text.length() - 8));
     }
 
-    /// R1 suffix functions
-    //-------------------------------------------------
-    /// R1 suffix comparison for one character
+    /* R1 suffix functions */
+
+    /**
+     * @brief R1 suffix comparison for one character.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_r1(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U)
@@ -819,7 +1148,18 @@ protected:
             is_either<wchar_t>(text[text.length() - 1], suffix1L, suffix1U) &&
             (get_r1() <= text.length() - 1));
     }
-    /// R1 suffix comparison for two characters
+
+    /**
+     * @brief R1 suffix comparison for two characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_r1(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U)
@@ -834,7 +1174,20 @@ protected:
                  text[text.length() - 1], suffix2L, suffix2U)) &&
             (get_r1() <= text.length() - 2));
     }
-    /// R1 suffix comparison for three characters
+
+    /**
+     * @brief R1 suffix comparison for three characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_r1(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -851,7 +1204,22 @@ protected:
                  text[text.length() - 1], suffix3L, suffix3U)) &&
             (get_r1() <= text.length() - 3));
     }
-    /// R1 suffix comparison for four characters
+
+    /**
+     * @brief R1 suffix comparison for four characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_r1(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -870,7 +1238,24 @@ protected:
                  text[text.length() - 1], suffix4L, suffix4U)) &&
             (get_r1() <= text.length() - 4));
     }
-    /// R1 suffix comparison for five characters
+
+    /**
+     * @brief R1 suffix comparison for five characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_r1(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -890,7 +1275,26 @@ protected:
                  text[text.length() - 1], suffix5L, suffix5U)) &&
             (get_r1() <= text.length() - 5));
     }
-    /// R1 suffix comparison for six characters
+
+    /**
+     * @brief R1 suffix comparison for six characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_r1(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -913,9 +1317,17 @@ protected:
             (get_r1() <= text.length() - 6));
     }
 
-    /// R2 suffix functions
-    //-------------------------------------------------
-    /// R2 suffix comparison for one character
+    /* R2 suffix functions */
+
+    /**
+     * @brief R2 suffix comparison for one character.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_r2(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U)
@@ -928,7 +1340,18 @@ protected:
             is_either<wchar_t>(text[text.length() - 1], suffix1L, suffix1U) &&
             (get_r2() <= text.length() - 1));
     }
-    /// R2 suffix comparison for two characters
+
+    /**
+     * @brief R2 suffix comparison for two characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_r2(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U)
@@ -943,7 +1366,20 @@ protected:
                  text[text.length() - 1], suffix2L, suffix2U)) &&
             (get_r2() <= text.length() - 2));
     }
-    /// R2 suffix comparison for three characters
+
+    /**
+     * @brief R2 suffix comparison for three characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_r2(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -960,7 +1396,22 @@ protected:
                  text[text.length() - 1], suffix3L, suffix3U)) &&
             (get_r2() <= text.length() - 3));
     }
-    /// R2 suffix comparison for four characters
+
+    /**
+     * @brief R2 suffix comparison for four characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_r2(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -979,7 +1430,24 @@ protected:
                  text[text.length() - 1], suffix4L, suffix4U)) &&
             (get_r2() <= text.length() - 4));
     }
-    /// R2 suffix comparison for five characters
+
+    /**
+     * @brief R2 suffix comparison for five characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_r2(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -999,7 +1467,26 @@ protected:
                  text[text.length() - 1], suffix5L, suffix5U)) &&
             (get_r2() <= text.length() - 5));
     }
-    /// R2 suffix comparison for six characters
+
+    /**
+     * @brief R2 suffix comparison for six characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_r2(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1021,7 +1508,28 @@ protected:
                  text[text.length() - 1], suffix6L, suffix6U)) &&
             (get_r2() <= text.length() - 6));
     }
-    /// R2 suffix comparison for seven characters
+
+    /**
+     * @brief R2 suffix comparison for seven characters.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @param suffix7L
+     * @param suffix7U
+     * @return true
+     * @return false
+     */
     inline bool is_suffix_in_r2(
         const string_typeT & text, const wchar_t suffix1L,
         const wchar_t suffix1U, const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1046,8 +1554,18 @@ protected:
             (get_r2() <= text.length() - 7));
     }
 
-    // suffix removal functions
-    // R1 deletion for one character suffix
+    /* Suffix removal functions */
+
+    /**
+     * @brief R1 deletion for one character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_r1(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const bool success_on_find = true)
@@ -1072,7 +1590,19 @@ protected:
             return false;
         }
     }
-    // R1 deletion for two character suffix
+
+    /**
+     * @brief R1 deletion for two character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_r1(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1098,7 +1628,21 @@ protected:
             return false;
         }
     }
-    // R1 deletion for three character suffix
+
+    /**
+     * @brief R1 deletion for three character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_r1(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1125,7 +1669,23 @@ protected:
             return false;
         }
     }
-    // R1 deletion for four character suffix
+
+    /**
+     * @brief R1 deletion for four character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_r1(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1154,7 +1714,25 @@ protected:
             return false;
         }
     }
-    // R1 deletion for five character suffix
+
+    /**
+     * @brief R1 deletion for five character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_r1(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1185,7 +1763,27 @@ protected:
             return false;
         }
     }
-    // R1 deletion for six character suffix
+
+    /**
+     * @brief R1 deletion for six character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_r1(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1217,7 +1815,29 @@ protected:
             return false;
         }
     }
-    // R1 deletion for seven character suffix
+
+    /**
+     * @brief R1 deletion for seven character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @param suffix7L
+     * @param suffix7U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_r1(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1252,8 +1872,18 @@ protected:
         }
     }
 
-    // R2 deletion functions
-    // R2 deletion for one character suffix
+    /* R2 deletion functions */
+
+    /**
+     * @brief R2 deletion for one character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_r2(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const bool success_on_find = true)
@@ -1277,7 +1907,19 @@ protected:
             return false;
         }
     }
-    // R2 deletion for two character suffix
+
+    /**
+     * @brief R2 deletion for two character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_r2(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1303,7 +1945,21 @@ protected:
             return false;
         }
     }
-    // R2 deletion for three character suffix
+
+    /**
+     * @brief R2 deletion for three character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_r2(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1330,7 +1986,23 @@ protected:
             return false;
         }
     }
-    // R2 deletion for four character suffix
+
+    /**
+     * @brief R2 deletion for four character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_r2(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1359,7 +2031,25 @@ protected:
             return false;
         }
     }
-    /// R2 deletion for five character suffix
+
+    /**
+     * @brief R2 deletion for five character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_r2(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1390,7 +2080,27 @@ protected:
             return false;
         }
     }
-    /// R2 deletion for six character suffix
+
+    /**
+     * @brief R2 deletion for six character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_r2(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1422,7 +2132,29 @@ protected:
             return false;
         }
     }
-    /// R2 deletion for seven character suffix
+
+    /**
+     * @brief R2 deletion for seven character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @param suffix7L
+     * @param suffix7U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_r2(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1456,7 +2188,31 @@ protected:
             return false;
         }
     }
-    /// R2 deletion for eight character suffix
+
+    /**
+     * @brief R2 deletion for eight character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @param suffix7L
+     * @param suffix7U
+     * @param suffix8L
+     * @param suffix8U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_r2(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1493,8 +2249,18 @@ protected:
         }
     }
 
-    // RV deletion functions
-    // RV deletion for one character suffix
+    /* RV deletion functions */
+
+    /**
+     * @brief RV deletion for one character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_rv(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const bool success_on_find = true)
@@ -1518,7 +2284,19 @@ protected:
             return false;
         }
     }
-    // RV deletion for two character suffix
+
+    /**
+     * @brief RV deletion for two character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_rv(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1544,7 +2322,21 @@ protected:
             return false;
         }
     }
-    // RV deletion for three character suffix
+
+    /**
+     * @brief RV deletion for three character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_rv(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1571,7 +2363,23 @@ protected:
             return false;
         }
     }
-    // RV deletion for four character suffix
+
+    /**
+     * @brief RV deletion for four character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_rv(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1600,7 +2408,25 @@ protected:
             return false;
         }
     }
-    // RV deletion for five character suffix
+
+    /**
+     * @brief RV deletion for five character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_rv(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1631,7 +2457,27 @@ protected:
             return false;
         }
     }
-    // RV deletion for six character suffix
+
+    /**
+     * @brief RV deletion for six character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_rv(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1663,7 +2509,29 @@ protected:
             return false;
         }
     }
-    // RV deletion for seven character suffix
+
+    /**
+     * @brief RV deletion for seven character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @param suffix7L
+     * @param suffix7U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_rv(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1697,7 +2565,31 @@ protected:
             return false;
         }
     }
-    // RV deletion for eight character suffix
+
+    /**
+     * @brief RV deletion for eight character suffix.
+     *
+     * @param text
+     * @param suffix1L
+     * @param suffix1U
+     * @param suffix2L
+     * @param suffix2U
+     * @param suffix3L
+     * @param suffix3U
+     * @param suffix4L
+     * @param suffix4U
+     * @param suffix5L
+     * @param suffix5U
+     * @param suffix6L
+     * @param suffix6U
+     * @param suffix7L
+     * @param suffix7U
+     * @param suffix8L
+     * @param suffix8U
+     * @param success_on_find
+     * @return true
+     * @return false
+     */
     inline bool delete_if_is_in_rv(
         string_typeT & text, const wchar_t suffix1L, const wchar_t suffix1U,
         const wchar_t suffix2L, const wchar_t suffix2U, const wchar_t suffix3L,
@@ -1734,7 +2626,8 @@ protected:
         }
     }
 
-    // string support functions
+    /* String support functions */
+
     void remove_german_umlauts(string_typeT & text)
     {
         for (size_t i = 0; i < text.length(); ++i)
@@ -1765,6 +2658,7 @@ protected:
             }
         }
     }
+
     void italian_acutes_to_graves(string_typeT & text)
     {
         for (size_t i = 0; i < text.length(); ++i)
@@ -1811,9 +2705,16 @@ protected:
             }
         }
     }
-    /// Hash initial y, y after a vowel, and i between vowels into hashed
-    /// character.
-    //----------------------------------------------------------
+
+    /* Hashing functions */
+
+    /**
+     * @brief Dutch: Hash initial y, y after a vowel, and i between vowels into
+     *  hashed character.
+     *
+     * @param text
+     * @param vowel_string
+     */
     void hash_dutch_yi(string_typeT & text, const wchar_t * vowel_string)
     {
         // need at least 2 letters for hashing
@@ -1882,7 +2783,11 @@ protected:
         }
     }
 
-    //----------------------------------------------------------
+    /**
+     * @brief Dutch: Unhash.
+     *
+     * @param text
+     */
     inline void unhash_dutch_yi(string_typeT & text)
     {
         string_util::replace_all<wchar_t, string_typeT>(
@@ -1895,8 +2800,12 @@ protected:
             text, UPPER_I_HASH, common_lang_constants::UPPER_I);
     }
 
-    /// Hash 'u' and 'y' between vowels
-    //----------------------------------------------------------
+    /**
+     * @brief German: Hash 'u' and 'y' between vowels.
+     *
+     * @param text
+     * @param vowel_string
+     */
     void hash_german_yu(string_typeT & text, const wchar_t * vowel_string)
     {
         // need at least 2 letters for hashing
@@ -1943,7 +2852,11 @@ protected:
         // last letter
     }
 
-    //----------------------------------------------------------
+    /**
+     * @brief German: Unhash.
+     *
+     * @param text
+     */
     inline void unhash_german_yu(string_typeT & text)
     {
         string_util::replace_all<wchar_t, string_typeT>(
@@ -1956,15 +2869,21 @@ protected:
             text, UPPER_U_HASH, common_lang_constants::UPPER_U);
     }
 
-    /**Hash u or i preceded and followed by a vowel, and y preceded or followed
-    by a vowel. u after q is also hashed. For example, jouer         -> joUer
-    ennuie         ->         ennuIe
-    yeux         ->         Yeux
-    quand         ->         qUand*/
-    //----------------------------------------------------------
+    /**
+     * @brief French: Hash u or i preceded and followed by a vowel, and y
+     *  preceded or followed by a vowel. u after q is also hashed.
+     *  For example:
+     *      jouer   -> joUer
+     *      ennuie  -> ennuIe
+     *      yeux    -> Yeux
+     *      quand   -> qUand
+     *
+     * @param text
+     * @param vowel_string
+     */
     void hash_french_yui(string_typeT & text, const wchar_t * vowel_string)
     {
-        // need at least 2 letters for hashing
+        // Need at least 2 letters for hashing
         if (text.length() < 2)
         {
             return;
@@ -1972,7 +2891,7 @@ protected:
 
         bool in_vowel_block = false;
 
-        // start loop at zero because 'y' at start of string can be hashed
+        // Start loop at zero because 'y' at start of string can be hashed
         size_t i = 0;
         for (i = 0; i < text.length() - 1; ++i)
         {
@@ -2011,7 +2930,7 @@ protected:
                     in_vowel_block = false;
                 }
             }
-            // if just previous letter is a vowel then examine for 'y'
+            // If just previous letter is a vowel then examine for 'y'
             else if (
                 in_vowel_block && text[i] == common_lang_constants::LOWER_Y)
             {
@@ -2024,7 +2943,7 @@ protected:
                 text[i] = UPPER_Y_HASH;
                 in_vowel_block = false;
             }
-            // if just following letter is a vowel then examine for 'y'
+            // If just following letter is a vowel then examine for 'y'
             else if (
                 text[i] == common_lang_constants::LOWER_Y &&
                 string_util::is_one_of(text[i + 1], vowel_string) &&
@@ -2074,7 +2993,8 @@ protected:
                 in_vowel_block = false;
             }
         }
-        // verify that the last letter
+
+        // Verify that the last letter
         if (text[i] == common_lang_constants::LOWER_Y && (i > 0) &&
             string_util::is_one_of(text[i - 1], vowel_string))
         {
@@ -2104,6 +3024,11 @@ protected:
         }
     }
 
+    /**
+     * @brief French: Unhash.
+     *
+     * @param text
+     */
     void unhash_french_yui(string_typeT & text)
     {
         string_util::replace_all<wchar_t, string_typeT>(
@@ -2120,7 +3045,12 @@ protected:
             text, UPPER_I_HASH, common_lang_constants::UPPER_I);
     }
 
-    //----------------------------------------------------------
+    /**
+     * @brief Language: Hash.
+     *
+     * @param text
+     * @param vowel_string
+     */
     void hash_y(string_typeT & text, const wchar_t * vowel_string)
     {
         // need at least 2 letters for hashing
@@ -2167,7 +3097,11 @@ protected:
         }
     }
 
-    //----------------------------------------------------------
+    /**
+     * @brief Language: Unhash.
+     *
+     * @param text
+     */
     inline void unhash_y(string_typeT & text)
     {
         string_util::replace_all<wchar_t, string_typeT>(
@@ -2176,11 +3110,15 @@ protected:
             text, UPPER_Y_HASH, common_lang_constants::UPPER_Y);
     }
 
-    /// Hash u after q, and u, i between vowels
-    //----------------------------------------------------------
+    /**
+     * @brief Italian: Hash u after q, and u, i between vowels.
+     *
+     * @param text
+     * @param vowel_string
+     */
     void hash_italian_ui(string_typeT & text, const wchar_t * vowel_string)
     {
-        // need at least 2 letters for hashing
+        // Need at least 2 letters for hashing
         if (text.length() < 2)
         {
             return;
@@ -2214,8 +3152,7 @@ protected:
             }
             else if (string_util::is_one_of(text[i], vowel_string))
             {
-                /*u after q should be encrypted and not be
-                treated as a vowel*/
+                // u after q should be encrypted and not be treated as a vowel.
                 if (text[i] == common_lang_constants::LOWER_U && (i > 0) &&
                     is_either<wchar_t>(
                         text[i - 1], common_lang_constants::LOWER_Q,
@@ -2238,13 +3175,13 @@ protected:
                     in_vowel_block = true;
                 }
             }
-            // we are on a consonant
-            else
+            else  // We are on a consonant
             {
                 in_vowel_block = false;
             }
         }
-        // verify the last letter
+
+        // Verify the last letter
         if (text[i] == common_lang_constants::LOWER_U && (i > 0) &&
             is_either<wchar_t>(
                 text[i - 1], common_lang_constants::LOWER_Q,
@@ -2262,7 +3199,11 @@ protected:
         }
     }
 
-    //----------------------------------------------------------
+    /**
+     * @brief Italian: Unhash.
+     *
+     * @param text
+     */
     inline void unhash_italian_ui(string_typeT & text)
     {
         string_util::replace_all<wchar_t, string_typeT>(
@@ -2275,7 +3216,11 @@ protected:
             text, UPPER_U_HASH, common_lang_constants::UPPER_U);
     }
 
-    //----------------------------------------------------------
+    /**
+     * @brief Dutch: Remove Dutch umlauts.
+     *
+     * @param text
+     */
     void remove_dutch_umlauts(string_typeT & text)
     {
         for (size_t i = 0; i < text.length(); ++i)
@@ -2323,7 +3268,11 @@ protected:
         }
     }
 
-    //----------------------------------------------------------
+    /**
+     * @brief Dutch: Remove Dutch acutes.
+     *
+     * @param text
+     */
     void remove_dutch_acutes(string_typeT & text)
     {
         for (size_t i = 0; i < text.length(); ++i)
@@ -2371,7 +3320,11 @@ protected:
         }
     }
 
-    //----------------------------------------------------------
+    /**
+     * @brief Spanish: Remove Spanish acutes.
+     *
+     * @param text
+     */
     void remove_spanish_acutes(string_typeT & text)
     {
         for (size_t i = 0; i < text.length(); ++i)
@@ -2433,13 +3386,16 @@ protected:
 private:
     size_t m_r1;
     size_t m_r2;
-    // only used for romance/russian languages
-    size_t m_rv;
+    size_t m_rv;  // Only used for romance/russian languages
 };
 
-//------------------------------------------------------
-/*A non-operational stemmer that is used in place of regular stemmers when
-you don't want the system to actually stem anything.*/
+/**
+ * @class no_op_stem
+ * @brief A non-operational stemmer that is used in place of regular stemmers
+ *  when you don't want the system to actually stem anything.
+ *
+ * @tparam std::wstring
+ */
 template <typename string_typeT = std::wstring>
 class no_op_stem
 {
@@ -2452,8 +3408,7 @@ public:
     {
     }
 };
-}  // namespace stemming
 
-/** @}*/
+}  // namespace stemming
 
 #endif  //__STEM_H__

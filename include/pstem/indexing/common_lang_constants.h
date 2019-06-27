@@ -1,12 +1,3 @@
-/**@addtogroup Indexing
-@brief Library for stemming words down to their root words.
-@date 2003-2016
-@copyright Oleander Software, Ltd.
-@author Oleander Software, Ltd.
-@details This program is free software; you can redistribute it and/or modify
-it under the terms of the BSD License.
-* @{*/
-
 #ifndef __COMMON_LANG_CONSTANTS_H__
 #define __COMMON_LANG_CONSTANTS_H__
 
@@ -44,7 +35,8 @@ const wchar_t RIGHT_PARENTHESIS = 0x29;
 const wchar_t RIGHT_PARENTHESIS_FULL_WIDTH = 0xFF09;
 const wchar_t RIGHT_BRACKET = 0x5D;
 const wchar_t INTERROBANG = 0x203D;
-// numbers
+
+/* Numbers */
 const wchar_t NUMBER_0 = 0x30;
 const wchar_t NUMBER_1 = 0x31;
 const wchar_t NUMBER_2 = 0x32;
@@ -65,7 +57,8 @@ const wchar_t NUMBER_6_FULL_WIDTH = 0xFF16;
 const wchar_t NUMBER_7_FULL_WIDTH = 0xFF17;
 const wchar_t NUMBER_8_FULL_WIDTH = 0xFF18;
 const wchar_t NUMBER_9_FULL_WIDTH = 0xFF19;
-// constants for letters
+
+/* Constants for letters */
 const wchar_t UPPER_A = 0x41;
 const wchar_t LOWER_A = 0x61;
 const wchar_t UPPER_B = 0x42;
@@ -195,8 +188,7 @@ const wchar_t NUMBERS_AND_DOT[22] = {NUMBER_0,
                                      NUMBER_9_FULL_WIDTH,
                                      PERIOD,
                                      0};
-}  // namespace common_lang_constants
 
-/** @}*/
+}  // namespace common_lang_constants
 
 #endif  //__COMMON_LANG_CONSTANTS_H__

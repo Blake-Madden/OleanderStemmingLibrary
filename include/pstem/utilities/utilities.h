@@ -1,15 +1,3 @@
-/**
- * @file utilities.h
- * @author Oleander Software, Ltd. and Patrick Cox
- * @brief  Utility classes
- * @version 1.0
- * @date 2003-2015, 2019
- *
- * @copyright Copyright (c) for portions of source code are held by 2016
- *  Oleander Software, Ltd. All other copyright for source code are held by
- *  2019 Patrick Cox.
- */
-
 #ifndef __UTILITIES_H__
 #define __UTILITIES_H__
 
@@ -45,7 +33,7 @@ inline T within_range(const T start, const T end, const T value)
                : (value < start)
                      ? start
                      : (value > end) ? end
-                                     : /*never reaches this branch*/ value;
+                                     : /* Never reaches this branch */ value;
 }
 
 /**
