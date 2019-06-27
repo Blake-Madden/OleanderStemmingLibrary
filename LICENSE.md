@@ -1,5 +1,6 @@
 Copyright (c) for portions of source code are held by 2016 Oleander Software, Ltd.
-All other copyright for source code are held by 2019 Patrick Cox.
+
+Copyright (c) for all other portions of source code are held by 2019 Patrick Cox.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 

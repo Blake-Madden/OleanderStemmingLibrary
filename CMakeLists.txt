@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
-project(OleanderStemmingLibrary VERSION 0.1 LANGUAGES CXX)
-set(PROJECT_NAME_L oleanderstemminglibrary)
+project(PStem VERSION 0.1 LANGUAGES CXX)
+set(PROJECT_NAME_L pstem)
 
 # -----------------------------------------------------------------------------
 # Build settings

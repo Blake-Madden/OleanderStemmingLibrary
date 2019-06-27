@@ -1,15 +1,15 @@
-#include <olestem/stemming/danish_stem.h>
-#include <olestem/stemming/dutch_stem.h>
-#include <olestem/stemming/english_stem.h>
-#include <olestem/stemming/finnish_stem.h>
-#include <olestem/stemming/french_stem.h>
-#include <olestem/stemming/german_stem.h>
-#include <olestem/stemming/italian_stem.h>
-#include <olestem/stemming/norwegian_stem.h>
-#include <olestem/stemming/portuguese_stem.h>
-#include <olestem/stemming/russian_stem.h>
-#include <olestem/stemming/spanish_stem.h>
-#include <olestem/stemming/swedish_stem.h>
+#include <pstem/stemming/danish_stem.h>
+#include <pstem/stemming/dutch_stem.h>
+#include <pstem/stemming/english_stem.h>
+#include <pstem/stemming/finnish_stem.h>
+#include <pstem/stemming/french_stem.h>
+#include <pstem/stemming/german_stem.h>
+#include <pstem/stemming/italian_stem.h>
+#include <pstem/stemming/norwegian_stem.h>
+#include <pstem/stemming/portuguese_stem.h>
+#include <pstem/stemming/russian_stem.h>
+#include <pstem/stemming/spanish_stem.h>
+#include <pstem/stemming/swedish_stem.h>
 
 #include <string>
 #include <unordered_map>

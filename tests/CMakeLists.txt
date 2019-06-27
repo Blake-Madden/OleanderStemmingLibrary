@@ -1,15 +1,15 @@
 message(STATUS "Preparing tests")
 
 # Create and link the test executables
-add_executable(olestem.test_stemming src/test_stemming.cpp)
-target_link_libraries(olestem.test_stemming oleanderstemminglibrary)
+add_executable(pstem.test_stemming src/test_stemming.cpp)
+target_link_libraries(pstem.test_stemming pstem)
 
 # Test definitions
 macro(create_test target)
     add_test(NAME ${target} COMMAND $<TARGET_FILE:${target}>)
 endmacro(create_test)
 
-create_test(olestem.test_stemming)
+create_test(pstem.test_stemming)
 
 message(STATUS "Preparing tests - done")
 
@@ -29,9 +29,9 @@ if (ENABLE_CODECOV)
     ProcessorCount(N_CORES)
 
     SETUP_TARGET_FOR_COVERAGE_LCOV(
-        NAME olestem.coverage
+        NAME pstem.coverage
         EXECUTABLE cd tests/ && ctest -j ${N_CORES}
         DEPENDENCIES
-            olestem.test_stemming
+            pstem.test_stemming
     )
 endif()

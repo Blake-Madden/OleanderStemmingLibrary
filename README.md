@@ -1,6 +1,4 @@
-[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a47d7b3d825e441894df5c0c91ed4f42)](https://www.codacy.com/app/paddy74/OleanderStemmingLibrary?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=paddy74/OleanderStemmingLibrary&amp;utm_campaign=Badge_Grade)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a47d7b3d825e441894df5c0c91ed4f42)](https://www.codacy.com/app/paddy74/PStem?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=paddy74/PStem&amp;utm_campaign=Badge_Grade)
 
 # Oleander Stemming Library
 
@@ -13,13 +11,13 @@ Library for stemming words down to their root words using Porter Stemming.
 The recommended way to add this library to you project is by including the following to your CMakeLists.txt:
 
 ```cmake
-target_link_libraries(myProject oleanderstemminglibrary)
+target_link_libraries(myProject pstem)
 ```
 
 You may also add this library to your project using a relative path:
 
 ```cpp
-#include "oleanderstemminglibrary/include/olestem/stemming/english_stem.h"
+#include "pstem/include/pstem/stemming/english_stem.h"
 ```
 
 ### Running an example
@@ -30,7 +28,7 @@ An example of this project's usage can be found in [samples/src/example.cpp](sam
 mkdir build && cd build
 cmake ..
 cmake --build .
-./bin/olestem.example
+./bin/pstem.example
 ```
 
 ## Versioning
@@ -52,4 +50,4 @@ All other copyright for source code are held by 2019 Patrick Cox.
 
 ## Acknowledgements
 
-- **[OleanderSoftware](https://github.com/OleanderSoftware) - The creator of the project's [parent repository](https://github.com/OleanderSoftware/OleanderStemmingLibrary).
+- **[OleanderSoftware](https://github.com/OleanderSoftware) - The creator of the project's [parent repository](https://github.com/OleanderSoftware/PStem).

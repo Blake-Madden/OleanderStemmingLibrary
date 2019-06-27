@@ -1,5 +1,5 @@
-#include <olestem/stemming/english_stem.h>
-#include <olestem/stemming/french_stem.h>
+#include <pstem/stemming/english_stem.h>
+#include <pstem/stemming/french_stem.h>
 
 #include <iostream>
 #include <string>
