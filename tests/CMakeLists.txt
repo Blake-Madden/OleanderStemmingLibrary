@@ -19,7 +19,7 @@ message(STATUS "Preparing tests - done")
 # cmake .. -DENABLE_CODECOV=ON
 # cmake --build .
 # cmake --target target
-if (ENABLE_CODECOV)
+if (ENABLE_COVERAGE)
     include(CodeCoverage)
     set(COVERAGE_LCOV_EXCLUDES "${CMAKE_CURRENT_SOURCE_DIR}/../libs/*")
 

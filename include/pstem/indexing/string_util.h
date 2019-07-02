@@ -41,11 +41,11 @@ inline wchar_t tolower_western(const wchar_t c)
 // strtol
 inline double strtol(const char * str, char ** strend, int radix)
 {
-    return (double)std::strtol(str, strend, radix);
+    return static_cast<double>(std::strtol(str, strend, radix));
 }
 inline double strtol(const wchar_t * str, wchar_t ** strend, int radix)
 {
-    return (double)std::wcstol(str, strend, radix);
+    return static_cast<double>(std::wcstol(str, strend, radix));
 }
 
 // strtod
