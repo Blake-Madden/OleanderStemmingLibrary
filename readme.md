@@ -8,7 +8,7 @@ Library for stemming words down to their root words.
 
 ### Adding to your project
 
-The recommended way to add this library to you project is by including the following to your CMakeLists.txt:
+The recommended way to add this library to your project is by including the following to your CMakeLists.txt:
 
 ```cmake
 target_link_libraries(myProject oleanderstemminglibrary)
@@ -33,7 +33,7 @@ cmake --build .
 
 ## License
 
-The license for this project can be found in [LICENSE.md](LICENSE.md).
+The license for this project can be found at [LICENSE.md](LICENSE.md).
 
 ## Change Log
 
