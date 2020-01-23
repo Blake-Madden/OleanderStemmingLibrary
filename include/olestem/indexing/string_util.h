@@ -296,7 +296,7 @@ namespace string_util
         size_t strPos = 0;
         int intValue = 0;
         //storage for converted values
-        int* digits = new int[length+1]; std::auto_ptr<int> digitsDeleter(digits);
+        int* digits = new int[length+1]; std::unique_ptr<int> digitsDeleter(digits);
         std::memset(digits, 0, sizeof(int)*(length+1));
         while (strPos < length)
             {
