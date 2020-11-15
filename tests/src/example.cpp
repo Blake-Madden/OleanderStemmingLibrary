@@ -18,7 +18,7 @@
 int main()
     {
     //the word to be stemmed
-    std::wstring word(L"transportation");
+    std::wstring word(L"documentation");
     /*create an instance of a "english_stem" class. The template argument for the
     stemmers are the type of std::basic_string that you are trying to stem, by default
     std::wstring (Unicode strings). As long as the char type of your basic_string is wchar_t,
