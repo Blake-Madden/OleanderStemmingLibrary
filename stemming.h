@@ -3039,6 +3039,27 @@ namespace stemming
                 text.replace(start, textToReplace.length(), replacementText);
                 }
             }
+
+        /// Determines if a given value is either of two other given values.
+        /// @param value The value to compare with.
+        /// @param first The first value to compare against.
+        /// @param second The second value to compare against.
+        /// @returns True if value is either of the other values.
+        template<typename T>
+        [[nodiscard]] static inline constexpr bool is_either(const T value, const T first, const T second) noexcept
+            { return (value == first || value == second); }
+
+        /// Determines if a given value is neither of two other given values.
+        /// @param value The value to compare with.
+        /// @param first The first value to compare against.
+        /// @param second The second value to compare against.
+        /// @returns True if value is neither of the other values.
+        template<typename T>
+        [[nodiscard]] static inline constexpr bool is_neither(const T value, const T first, const T second) noexcept
+            {
+            assert(first != second);
+            return (value != first && value != second);
+            }
     private:
         size_t m_r1;
         size_t m_r2;
