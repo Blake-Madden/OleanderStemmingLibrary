@@ -2,7 +2,7 @@
 
 ![logo](stemming.png)
 
-Library for stemming words down to their root words.
+Library for stemming words down to their roots (case insensitively).
 
 This is a header-only library that can be included in your project as such:
 
