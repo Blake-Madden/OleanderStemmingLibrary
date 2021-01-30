@@ -87,19 +87,6 @@ int main()
     stemming::danish_stem<> StemDanish;
     stemming::portuguese_stem<> StemPortuguese;
 
-    /* If you are using std::string (ANSI strings), then convert it to a temporary
-       wchar_t buffer, assign that to a std::wstring, and then stem that.*/
-    std::string ANSIWord("documentation");
-    wchar_t* UnicodeTextBuffer = new wchar_t[ANSIWord.length()+1];
-    std::wmemset(UnicodeTextBuffer, 0, ANSIWord.length()+1);
-    std::mbstowcs(UnicodeTextBuffer, ANSIWord.c_str(), ANSIWord.length());
-    word = UnicodeTextBuffer;
-    StemEnglish(word);
-    // now the variable "word" should equal "document"
-    std::wcout << L"\nDemonstrating the stemming of an ANSI string:\n";
-    std::wcout << L"(English) Original text:\t" << ANSIWord.c_str() << std::endl;
-    std::wcout << L"(English) Stemmed text:\t" << word.c_str() << std::endl;
-
     return 0;
     }
 ```
