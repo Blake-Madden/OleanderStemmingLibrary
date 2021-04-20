@@ -66,10 +66,8 @@ namespace stemming
     class dutch_stem final : public stem<string_typeT>
         {
     public:
-        dutch_stem() noexcept : m_step_2_succeeded(false) {}
-        ~dutch_stem() {}
-        //---------------------------------------------
-        /**@param[in,out] text string to stem*/
+        /** Stems a Dutch word.
+            @param[in,out] text string to stem*/
         void operator()(string_typeT& text) final
             {
             //First, remove all umlaut and acute accents
@@ -85,6 +83,7 @@ namespace stemming
             m_step_2_succeeded = false;
             stem<string_typeT>::reset_r_values();
 
+            std::transform(text.begin(), text.end(), text.begin(), string_util::full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
             //Hash initial y, y after a vowel, and i between vowels
@@ -309,7 +308,7 @@ namespace stemming
                 }
             }
         //internal data specific to Dutch stemmer
-        bool m_step_2_succeeded;
+        bool m_step_2_succeeded{ false  };
         };
     }
 

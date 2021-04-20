@@ -11,12 +11,14 @@
 #define __COMMON_LANG_CONSTANTS_H__
 
 #include <cwctype>
+#include <string>
 
 namespace common_lang_constants
     {
     constexpr wchar_t TAB = 0x09;
     constexpr wchar_t SPACE = 0x20;
     constexpr wchar_t COMMA = 0x2C;
+    constexpr wchar_t COMMA_FULL_WIDTH = 0xFF0C;
     constexpr wchar_t LESS_THAN = 60;
     constexpr wchar_t GREATER_THAN = 62;
     constexpr wchar_t POUND = 35;
@@ -32,12 +34,16 @@ namespace common_lang_constants
     constexpr wchar_t EXCLAMATION_MARK = 0x21;
     constexpr wchar_t EXCLAMATION_MARK_FULL_WIDTH = 0xFF01;
     constexpr wchar_t COLON = 0x3A;
+    constexpr wchar_t COLON_FULL_WIDTH = 0xFF1A;
     constexpr wchar_t FORWARD_SLASH = 0x2F;
+    constexpr wchar_t FORWARD_SLASH_FULL_WIDTH = 0xFF0F;
     constexpr wchar_t BACK_SLASH = 0x5C;
+    constexpr wchar_t BACK_SLASH_FULL_WIDTH = 0xFF3C;
     constexpr wchar_t DOLLAR_SIGN = 0x24;
     constexpr wchar_t PERCENTAGE_SIGN = 0x25;
     constexpr wchar_t HYPHEN = 0x2D;
     constexpr wchar_t SOFT_HYPHEN = 0xAD;
+    constexpr wchar_t HYPHEN_FULL_WIDTH = 0xFF0D;
     constexpr wchar_t LEFT_PARENTHESIS = 0x28;
     constexpr wchar_t LEFT_PARENTHESIS_FULL_WIDTH = 0xFF08;
     constexpr wchar_t RIGHT_PARENTHESIS = 0x29;
@@ -171,7 +177,9 @@ namespace common_lang_constants
     constexpr wchar_t ESZETT = 0xDF; //a.k.a. "sharp s"
     constexpr wchar_t Y_UMLAUT = 0xFF;
     constexpr wchar_t ELLIPSE = 0x2026;
-    constexpr wchar_t COMPOUND_WORD_SEPARATORS[5] = { HYPHEN, SOFT_HYPHEN, FORWARD_SLASH, BACK_SLASH, 0 };
+    const std::wstring COMPOUND_WORD_SEPARATORS{ HYPHEN, HYPHEN_FULL_WIDTH, SOFT_HYPHEN,
+                                                 FORWARD_SLASH, FORWARD_SLASH_FULL_WIDTH,
+                                                 BACK_SLASH, BACK_SLASH_FULL_WIDTH };
     constexpr wchar_t NUMBERS_AND_DOT[22] = {
         NUMBER_0, NUMBER_1, NUMBER_2, NUMBER_3, NUMBER_4,
         NUMBER_5, NUMBER_6, NUMBER_7, NUMBER_8, NUMBER_9,

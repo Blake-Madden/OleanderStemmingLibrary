@@ -90,6 +90,7 @@ namespace stemming
             //reset internal data
             stem<string_typeT>::reset_r_values();
 
+            std::transform(text.begin(), text.end(), text.begin(), string_util::full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
             stem<string_typeT>::hash_german_yu(text, GERMAN_VOWELS);

@@ -99,9 +99,8 @@ namespace stemming
     class italian_stem final : public stem<string_typeT>
         {
     public:
-        ~italian_stem() {}
-        //---------------------------------------------
-        ///@param[in,out] text string to stem
+        /** Stems an Italian word.
+            @param[in,out] text string to stem.*/
         void operator()(string_typeT& text) final
             {
             if (text.length() < 3)
@@ -113,6 +112,7 @@ namespace stemming
             //reset internal data
             stem<string_typeT>::reset_r_values();
 
+            std::transform(text.begin(), text.end(), text.begin(), string_util::full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
             stem<string_typeT>::italian_acutes_to_graves(text);
             stem<string_typeT>::hash_italian_ui(text, ITALIAN_VOWELS);

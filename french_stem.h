@@ -137,10 +137,8 @@ namespace stemming
     class french_stem final : public stem<string_typeT>
         {
     public:
-        french_stem() noexcept : m_step_1_successful(false) {}
-        ~french_stem() {}
-        //---------------------------------------------
-        /**@param[in,out] text string to stem*/
+        /** Stems a French word.
+            @param[in,out] text string to stem.*/
         void operator()(string_typeT& text) final
             {
             if (text.length() < 2)
@@ -150,6 +148,7 @@ namespace stemming
             m_step_1_successful = false;
             stem<string_typeT>::reset_r_values();
 
+            std::transform(text.begin(), text.end(), text.begin(), string_util::full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
             stem<string_typeT>::hash_french_yui(text, FRENCH_VOWELS);
 
@@ -1388,7 +1387,7 @@ namespace stemming
             }
 
         //internal data specific to French stemmer
-        bool m_step_1_successful;
+        bool m_step_1_successful{ false };
         };
     }
 

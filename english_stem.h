@@ -183,11 +183,8 @@ namespace stemming
     class english_stem final : public stem<string_typeT>
         {
     public:
-        english_stem() noexcept : m_first_vowel(string_typeT::npos)
-            {}
-        ~english_stem() {}
-        //---------------------------------------------
-        /**@param[in,out] text English string to stem.*/
+        /** Stems an English string.
+            @param[in,out] text English string to stem.*/
         void operator()(string_typeT& text) final
             {
             if (text.length() < 3)
@@ -197,6 +194,7 @@ namespace stemming
             m_first_vowel = string_typeT::npos;
             stem<string_typeT>::reset_r_values();
 
+            std::transform(text.begin(), text.end(), text.begin(), string_util::full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
             //handle exceptions first
@@ -980,7 +978,7 @@ namespace stemming
             else
                 { return false; }
             }
-        ///A word is called short if it ends in a short syllable, and if R1 is null.
+        /// A word is called short if it ends in a short syllable, and if R1 is null.
         //---------------------------------------------
         inline bool is_short_word(const string_typeT& text, const size_t length) const
             { return (ends_with_short_syllable(text, length) && stem<string_typeT>::get_r1() == text.length()); }
@@ -988,7 +986,7 @@ namespace stemming
         inline bool is_vowel(const wchar_t character) const noexcept
             { return (is_one_of(character, L"aeiouyAEIOUY") ); }
 
-        size_t m_first_vowel;
+        size_t m_first_vowel{ string_typeT::npos };
         };
     }
 

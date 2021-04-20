@@ -62,13 +62,14 @@ namespace stemming
     class norwegian_stem final : public stem<string_typeT>
         {
     public:
-        ~norwegian_stem() {}
-        //---------------------------------------------
-        /**@param[in,out] text string to stem*/
+        /** Stems a Norwegian word.
+            @param[in,out] text string to stem.*/
         void operator()(string_typeT& text) final
             {
             if (text.length() < 3)
                 { return; }
+
+            std::transform(text.begin(), text.end(), text.begin(), string_util::full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
             //reset internal data

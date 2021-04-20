@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <cassert>
 #include "common_lang_constants.h"
+#include "../string-util/string_util.h"
 
 /// Namespace for stemming classes.
 namespace stemming
@@ -34,15 +35,15 @@ namespace stemming
         swedish,
         STEMMING_TYPE_COUNT
         };
-    //these characters should not appear in an indexed word
-    constexpr wchar_t UPPER_Y_HASH = 7;  //bell
-    constexpr wchar_t LOWER_Y_HASH = 9;  //tab
-    constexpr wchar_t UPPER_I_HASH = 10; //line feed
-    constexpr wchar_t LOWER_I_HASH = 11; //vertical tab
-    constexpr wchar_t UPPER_U_HASH = 12; //form feed (new page)
-    constexpr wchar_t LOWER_U_HASH = 13; //carriage return
+    // these characters should not appear in an indexed word
+    constexpr wchar_t UPPER_Y_HASH = 7;  // bell
+    constexpr wchar_t LOWER_Y_HASH = 9;  // tab
+    constexpr wchar_t UPPER_I_HASH = 10; // line feed
+    constexpr wchar_t LOWER_I_HASH = 11; // vertical tab
+    constexpr wchar_t UPPER_U_HASH = 12; // form feed (new page)
+    constexpr wchar_t LOWER_U_HASH = 13; // carriage return
 
-    //language constants
+    // language constants
     static const wchar_t FRENCH_VOWELS[] = { 97, 101, 105, 111, 117, 121, 0xE2,
         0xE0, 0xEB, 0xE9,
         0xEA, 0xE8, 0xEF,
@@ -109,8 +110,7 @@ namespace stemming
         65, 69, 73, 79, 0xC0, 0xC8,
         0xCC, 0xD2, 0 };
 
-    /** @class stem
-        @brief The base class for language-specific stemmers.
+    /** @brief The base class for language-specific stemmers.
         @details The template argument for the stemmers are the type
         of `std::basic_string` that you are trying to stem, by default `std::wstring` (Unicode strings).
         As long as the char type of your `basic_string` is `wchar_t`, then you can use any type of `basic_string`.
@@ -131,8 +131,7 @@ namespace stemming
     public:
         /// The string type that this class will accept.
         using string_type = string_typeT;
-        /// Constructor.
-        stem() noexcept : m_r1(0), m_r2(0), m_rv(0) {}
+
         virtual void operator()(string_typeT& text) = 0;
         /// Destructor.
         virtual ~stem() {}
@@ -341,17 +340,11 @@ namespace stemming
         inline void update_r_sections(const string_typeT& text) noexcept
             {
             if (get_r1() > text.length() )
-                {
-                m_r1 = text.length();
-                }
+                { m_r1 = text.length(); }
             if (get_r2() > text.length() )
-                {
-                m_r2 = text.length();
-                }
+                { m_r2 = text.length(); }
             if (get_rv() > text.length() )
-                {
-                m_rv = text.length();
-                }
+                { m_rv = text.length(); }
             }
         /** Determines if a character is an apostrophe (includes straight single quotes).
             @param ch The letter to be analyzed.
@@ -780,7 +773,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix3L, suffix3U) ) &&
                     (get_rv() <= text.length()-3) );
             }
-        // /RV suffix comparison for four characters.
+        /// RV suffix comparison for four characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -2995,6 +2988,9 @@ namespace stemming
             @returns True if the character of one of the list of characters.*/
         [[nodiscard]] inline static constexpr bool is_one_of(const wchar_t character, const wchar_t* char_string) noexcept
             {
+            if (!char_string)
+                { return false; }
+
             while (*char_string)
                 {
                 if (character == char_string[0])
@@ -3061,10 +3057,10 @@ namespace stemming
             return (value != first && value != second);
             }
     private:
-        size_t m_r1;
-        size_t m_r2;
-        // only used for romance/russian languages
-        size_t m_rv;
+        size_t m_r1{ 0 };
+        size_t m_r2{ 0 };
+        // only used for Russian/romance languages
+        size_t m_rv{ 0 };
         };
 
     //------------------------------------------------------
@@ -3074,7 +3070,7 @@ namespace stemming
     class no_op_stem
         {
     public:
-        ///T he string type that this class will accept.
+        /// The string type that this class will accept.
         using string_type = string_typeT;
         /// No-op stemming of declared string type.
         inline void operator()(const string_typeT&) const

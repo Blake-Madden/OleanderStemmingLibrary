@@ -108,18 +108,17 @@ namespace stemming
     class portuguese_stem final : public stem<string_typeT>
         {
     public:
-        portuguese_stem() noexcept : m_step1_step2_altered(false), m_altered_suffix_index(0)
-            {}
-        ~portuguese_stem() {}
-        //---------------------------------------------
-        /**@param[in,out] text string to stem*/
+        /** Stems a Portuguese word.
+            @param[in,out] text string to stem.*/
         void operator()(string_typeT& text) final
             {
             if (text.length() < 3)
                 { return; }
+
+            std::transform(text.begin(), text.end(), text.begin(), string_util::full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
-            //reset internal data
+            // reset internal data
             m_altered_suffix_index = 0;
             m_step1_step2_altered = false;
             stem<string_typeT>::reset_r_values();
@@ -134,14 +133,14 @@ namespace stemming
             stem<string_typeT>::find_spanish_rv(text, PORTUGUESE_VOWELS);
 
             step_1(text);
-            //intermediate steps handled by step 1
+            // intermediate steps handled by step 1
             if (!m_step1_step2_altered)
                 {
                 step_4(text);
                 }
             step_5(text);
 
-            //Turn a~, o~ back into ã, õ
+            // turn a~, o~ back into ã, õ
             replace_all(text, L"a~", string_typeT(1, common_lang_constants::LOWER_A_TILDE));
             replace_all(text, L"A~", string_typeT(1, common_lang_constants::UPPER_A_TILDE));
             replace_all(text, L"o~", string_typeT(1, common_lang_constants::LOWER_O_TILDE));
@@ -1003,9 +1002,9 @@ namespace stemming
                 text[text.length()-1] = common_lang_constants::LOWER_C;
                 }
             }
-        //internal data specific to Portuguese stemmer
-        bool m_step1_step2_altered;
-        size_t m_altered_suffix_index;
+        // internal data specific to Portuguese stemmer
+        bool m_step1_step2_altered{ false };
+        size_t m_altered_suffix_index{ 0 };
         };
     }
 

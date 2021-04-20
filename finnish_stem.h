@@ -150,10 +150,8 @@ namespace stemming
     class finnish_stem final : public stem<string_typeT>
         {
     public:
-        finnish_stem() noexcept : m_step_3_successful(false) {}
-        ~finnish_stem() {}
-        //---------------------------------------------
-        /**@param[in,out] text string to stem*/
+        /** Stems a Finnish word.
+            @param[in,out] text string to stem.*/
         void operator()(string_typeT& text) final
             {
             if (text.length() < 2)
@@ -163,6 +161,7 @@ namespace stemming
             m_step_3_successful = false;
             stem<string_typeT>::reset_r_values();
 
+            std::transform(text.begin(), text.end(), text.begin(), string_util::full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
             stem<string_typeT>::find_r1(text, FINNISH_VOWELS);
@@ -540,7 +539,7 @@ namespace stemming
                 }
             }
         //internal data specific to Finnish stemmer
-        bool m_step_3_successful;
+        bool m_step_3_successful{ false };
         };
     }
 
