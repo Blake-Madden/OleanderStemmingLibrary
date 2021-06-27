@@ -161,7 +161,7 @@ namespace stemming
             m_step_3_successful = false;
             stem<string_typeT>::reset_r_values();
 
-            std::transform(text.begin(), text.end(), text.begin(), string_util::full_width_to_narrow);
+            std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
             stem<string_typeT>::find_r1(text, FINNISH_VOWELS);

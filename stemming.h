@@ -13,7 +13,6 @@
 #include <algorithm>
 #include <cassert>
 #include "common_lang_constants.h"
-#include "../string-util/string_util.h"
 
 /// Namespace for stemming classes.
 namespace stemming
@@ -3055,6 +3054,25 @@ namespace stemming
             {
             assert(first != second);
             return (value != first && value != second);
+            }
+
+        /** Converts a full-width number/English letter/various symbols into its "narrow" counterpart.
+        @param ch The character to convert.
+        @returns The narrow version of a character, or the character if not full-width.*/
+        [[nodiscard]] static inline constexpr wchar_t full_width_to_narrow(const wchar_t ch) noexcept
+            {
+            return (ch >= 65'281 && ch <= 65'374) ? (ch - 65'248) :
+                // cent and pound sterling
+                (ch >= 65'504 && ch <= 65'505) ? (ch - 65'342) :
+                // Yen
+                (ch == 65'509) ? 165 :
+                // Not
+                (ch == 65'506) ? 172 :
+                // macron
+                (ch == 65'507) ? 175 :
+                // broken bar
+                (ch == 65'508) ? 166 :
+                ch;
             }
     private:
         size_t m_r1{ 0 };

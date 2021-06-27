@@ -168,7 +168,7 @@ namespace stemming
             if (text.length() < 2)
                 { return; }
 
-            std::transform(text.begin(), text.end(), text.begin(), string_util::full_width_to_narrow);
+            std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
 
             //reset internal data
             stem<string_typeT>::reset_r_values();

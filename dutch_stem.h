@@ -83,7 +83,7 @@ namespace stemming
             m_step_2_succeeded = false;
             stem<string_typeT>::reset_r_values();
 
-            std::transform(text.begin(), text.end(), text.begin(), string_util::full_width_to_narrow);
+            std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
             //Hash initial y, y after a vowel, and i between vowels
