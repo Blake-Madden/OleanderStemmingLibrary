@@ -1,10 +1,10 @@
-/**@addtogroup Stemming
-@brief Library for stemming words down to their root words.
-@date 2003-2015
-@copyright Oleander Software, Ltd.
-@author Oleander Software, Ltd.
-@details This program is free software; you can redistribute it and/or modify
-it under the terms of the BSD License.
+/** @addtogroup Stemming
+    @brief Library for stemming words down to their root words.
+    @date 2004-2020
+    @copyright Oleander Software, Ltd.
+    @author Blake Madden
+    @details This program is free software; you can redistribute it and/or modify
+    it under the terms of the BSD License.
 * @{*/
 
 #ifndef __GERMAN_STEM_H__
@@ -16,7 +16,7 @@ namespace stemming
     {
     /**
     @brief German stemmer.
-    @date 2004
+
     @par Algorithm:
 
     German includes the following accented forms,
@@ -66,15 +66,20 @@ namespace stemming
     */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>
-    class german_stem : public stem<string_typeT>
+    class german_stem final : public stem<string_typeT>
         {
     public:
-        //---------------------------------------------
-        /**@param[in,out] text string to stem.
-           @param transliterate_umlauts Set to true to use the variant algorithm
-           that expands "ä" to "ae", etc...*/
-        void operator()(string_typeT& text,
-                        bool transliterate_umlauts = false)
+        german_stem() noexcept : m_transliterate_umlauts(false) {}
+        ~german_stem() {}
+        /**Set to true to use the variant algorithm that expands "ä" to "ae", etc...
+           @param transliterate_umlauts Whether to transliterate umlauted vowels.*/
+        void should_transliterate_umlauts(const bool transliterate_umlauts)
+            { m_transliterate_umlauts = transliterate_umlauts; }
+        ///@returns Whether umlauted vowels are being transliterated.
+        bool is_transliterating_umlauts() const noexcept
+            { return m_transliterate_umlauts; }
+        /**@param[in,out] text string to stem.*/
+        void operator()(string_typeT& text) final
             {
             if (text.length() < 2)
                 {
@@ -85,16 +90,17 @@ namespace stemming
             //reset internal data
             stem<string_typeT>::reset_r_values();
 
+            std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
             stem<string_typeT>::hash_german_yu(text, GERMAN_VOWELS);
             //change 'ß' to "ss"
-            string_util::replace_all<string_typeT>(text, string_typeT(1, common_lang_constants::ESZETT), L"ss");
+            replace_all(text, string_typeT(1, common_lang_constants::ESZETT), L"ss");
             //German variant addition
-            if (transliterate_umlauts)
+            if (is_transliterating_umlauts())
                 {
-                string_util::replace_all<string_typeT>(text, L"ae", string_typeT(1, common_lang_constants::LOWER_A_UMLAUTS));
-                string_util::replace_all<string_typeT>(text, L"oe", string_typeT(1, common_lang_constants::LOWER_O_UMLAUTS));
+                replace_all(text, L"ae", string_typeT(1, common_lang_constants::LOWER_A_UMLAUTS));
+                replace_all(text, L"oe", string_typeT(1, common_lang_constants::LOWER_O_UMLAUTS));
                 //ue to ü, if not in front of 'q'
                 size_t start = 1;
                 while (start != string_typeT::npos)
@@ -162,7 +168,7 @@ namespace stemming
             ///Define a valid s-ending as one of b, d, f, g, h, k, l, m, n, r or t.
             else if (stem<string_typeT>::is_suffix_in_r1(text, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
-                if (string_util::is_one_of(text[text.length()-2], L"bdfghklmnrtBDFGHKLMNRT") )
+                if (is_one_of(text[text.length()-2], L"bdfghklmnrtBDFGHKLMNRT") )
                     {
                     text.erase(text.length()-1);
                     stem<string_typeT>::update_r_sections(text);
@@ -189,7 +195,7 @@ namespace stemming
             else if (text.length() >= 6 &&
                     stem<string_typeT>::is_suffix_in_r1(text,/*st*/common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) )
                 {
-                if (string_util::is_one_of(text[text.length()-3], L"bdfghklmntBDFGHKLMNT") )
+                if (is_one_of(text[text.length()-3], L"bdfghklmntBDFGHKLMNT") )
                     {
                     text.erase(text.length()-2);
                     stem<string_typeT>::update_r_sections(text);
@@ -272,6 +278,7 @@ namespace stemming
                     }
                 }
             }
+        bool m_transliterate_umlauts;
         };
     }
 

@@ -1,10 +1,10 @@
-/**@addtogroup Stemming
-@brief Library for stemming words down to their root words.
-@date 2003-2015
-@copyright Oleander Software, Ltd.
-@author Oleander Software, Ltd.
-@details This program is free software; you can redistribute it and/or modify
-it under the terms of the BSD License.
+/** @addtogroup Stemming
+    @brief Library for stemming words down to their root words.
+    @date 2004-2020
+    @copyright Oleander Software, Ltd.
+    @author Blake Madden
+    @details This program is free software; you can redistribute it and/or modify
+    it under the terms of the BSD License.
 * @{*/
 
 #ifndef __ITALIAN_STEM_H__
@@ -16,7 +16,7 @@ namespace stemming
     {
     /**
     @brief Italian stemmer.
-    @date 2004
+
     @par Algorithm:
 
     Italian can include the following accented forms:
@@ -96,12 +96,12 @@ namespace stemming
     */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>
-    class italian_stem : public stem<string_typeT>
+    class italian_stem final : public stem<string_typeT>
         {
     public:
-        //---------------------------------------------
-        ///@param[in,out] text string to stem
-        void operator()(string_typeT& text)
+        /** Stems an Italian word.
+            @param[in,out] text string to stem.*/
+        void operator()(string_typeT& text) final
             {
             if (text.length() < 3)
                 {
@@ -112,6 +112,7 @@ namespace stemming
             //reset internal data
             stem<string_typeT>::reset_r_values();
 
+            std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
             stem<string_typeT>::italian_acutes_to_graves(text);
             stem<string_typeT>::hash_italian_ui(text, ITALIAN_VOWELS);
@@ -123,7 +124,7 @@ namespace stemming
             //step 0:
             step_0(text);
             //step 1:
-            size_t text_length = text.length();
+            const size_t text_length = text.length();
             step_1(text);
 
             //step 2 is called only if step 1 did not remove a suffix
@@ -872,7 +873,7 @@ namespace stemming
             {
             if (text.length() >= 1 &&
                 stem<string_typeT>::get_rv() <= text.length()-1 &&
-                string_util::is_one_of(text[text.length()-1], ITALIAN_VOWELS_SIMPLE) )
+                is_one_of(text[text.length()-1], ITALIAN_VOWELS_SIMPLE) )
                 {
                 text.erase(text.length()-1);
                 stem<string_typeT>::update_r_sections(text);

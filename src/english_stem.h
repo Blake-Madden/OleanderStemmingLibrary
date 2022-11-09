@@ -1,10 +1,10 @@
-/**@addtogroup Stemming
-@brief Library for stemming words down to their root words.
-@date 2003-2015
-@copyright Oleander Software, Ltd.
-@author Oleander Software, Ltd.
-@details This program is free software; you can redistribute it and/or modify
-it under the terms of the BSD License.
+/** @addtogroup Stemming
+    @brief Library for stemming words down to their root words.
+    @date 2004-2020
+    @copyright Oleander Software, Ltd.
+    @author Blake Madden
+    @details This program is free software; you can redistribute it and/or modify
+    it under the terms of the BSD License.
 * @{*/
 
 #ifndef __ENGLISH_STEM_H__
@@ -178,34 +178,28 @@ namespace stemming
             - l 
                 - Delete if in R2 and preceded by l.
     */
-    /** @} */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>
-    class english_stem : public stem<string_typeT>
+    class english_stem final : public stem<string_typeT>
         {
     public:
-        english_stem() : m_first_vowel(string_typeT::npos)
-            {}
-        //---------------------------------------------
-        /**@param[in,out] text English string to stem.*/
-        void operator()(string_typeT& text)
+        /** Stems an English string.
+            @param[in,out] text English string to stem.*/
+        void operator()(string_typeT& text) final
             {
             if (text.length() < 3)
-                {
-                return;
-                }
+                { return; }
 
             //reset internal data
             m_first_vowel = string_typeT::npos;
             stem<string_typeT>::reset_r_values();
 
+            std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
             //handle exceptions first
             if (is_exception(text) )
-                {
-                return;
-                }
+                { return; }
 
             stem<string_typeT>::hash_y(text, L"aeiouyAEIOUY");
             m_first_vowel = text.find_first_of(L"aeiouyAEIOUY");
@@ -254,9 +248,7 @@ namespace stemming
             step_1a(text);
             //exception #2
             if (is_exception_post_step1a(text) )
-                {
-                return;
-                }
+                { return; }
             //step 1b:
             step_1b(text);
             //step 1c:
@@ -274,7 +266,7 @@ namespace stemming
             }
     private:
         //---------------------------------------------
-        bool is_exception(string_typeT& text)
+        bool is_exception(string_typeT& text) const
             {
             //exception #0
             /*skis*/
@@ -450,7 +442,7 @@ namespace stemming
             }
 
         //---------------------------------------------
-        bool is_exception_post_step1a(string_typeT& text)
+        bool is_exception_post_step1a(string_typeT& text) const
             {
             //exception #2
             if (/*inning*/
@@ -552,7 +544,7 @@ namespace stemming
             else if (text.length() >= 2 &&
                     is_either<wchar_t>(text[text.length()-1], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
                     m_first_vowel < text.length()-2 &&
-                    !string_util::is_one_of(text[text.length()-2], L"suSU") )
+                    !is_one_of(text[text.length()-2], L"suSU") )
                 {
                 text.erase(text.length()-1);
                 stem<string_typeT>::update_r_sections(text);
@@ -788,7 +780,7 @@ namespace stemming
                     stem<string_typeT>::get_r1() <= (text.length()-2) &&
                     stem<string_typeT>::is_suffix(text,/*li*/common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) )
                 {
-                if (string_util::is_one_of(text[text.length()-3], L"cdeghkmnrtCDEGHKMNRT") )
+                if (is_one_of(text[text.length()-3], L"cdeghkmnrtCDEGHKMNRT") )
                     {
                     text.erase(text.length()-2);
                     stem<string_typeT>::update_r_sections(text);
@@ -968,14 +960,14 @@ namespace stemming
                 }
             else if (length > 2)
                 {
-                size_t start = text.find_last_of(L"aeiouyAEIOUY", length-1);
+                const size_t start = text.find_last_of(L"aeiouyAEIOUY", length-1);
                 if (start == string_typeT::npos)
                     { return false; }
                 if (start > 0 &&
                     start == (length-2) &&
                     //following letter
                     (!is_vowel(text[start+1]) &&
-                    !string_util::is_one_of(text[start+1], L"wxWX") &&
+                    !is_one_of(text[start+1], L"wxWX") &&
                     is_neither(text[start+1], LOWER_Y_HASH, UPPER_Y_HASH)) &&
                     //proceeding letter
                     !is_vowel(text[start-1]) )
@@ -986,15 +978,15 @@ namespace stemming
             else
                 { return false; }
             }
-        ///A word is called short if it ends in a short syllable, and if R1 is null.
+        /// A word is called short if it ends in a short syllable, and if R1 is null.
         //---------------------------------------------
         inline bool is_short_word(const string_typeT& text, const size_t length) const
             { return (ends_with_short_syllable(text, length) && stem<string_typeT>::get_r1() == text.length()); }
         //---------------------------------------------
-        inline bool is_vowel(const wchar_t character) const
-            { return (string_util::is_one_of(character, L"aeiouyAEIOUY") ); }
+        inline bool is_vowel(const wchar_t character) const noexcept
+            { return (is_one_of(character, L"aeiouyAEIOUY") ); }
 
-        size_t m_first_vowel;
+        size_t m_first_vowel{ string_typeT::npos };
         };
     }
 

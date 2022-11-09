@@ -1,10 +1,10 @@
-/**@addtogroup Stemming
-@brief Library for stemming words down to their root words.
-@date 2003-2015
-@copyright Oleander Software, Ltd.
-@author Oleander Software, Ltd.
-@details This program is free software; you can redistribute it and/or modify
-it under the terms of the BSD License.
+/** @addtogroup Stemming
+    @brief Library for stemming words down to their root words.
+    @date 2004-2020
+    @copyright Oleander Software, Ltd.
+    @author Blake Madden
+    @details This program is free software; you can redistribute it and/or modify
+    it under the terms of the BSD License.
 * @{*/
 
 #ifndef __RUSSIAN_STEM_H__
@@ -18,105 +18,105 @@ namespace stemming
                                               0x041E, 0x043E, 0x423, 0x0443, 0x042B, 0x044B,
                                               0x042D, 0x044D, 0x042E, 0x044E, 0x042F, 0x044F, 0 };
 
-    static const wchar_t RUSSIAN_A_UPPER = 0x0410;
-    static const wchar_t RUSSIAN_A_LOWER = 0x0430;
+    static constexpr wchar_t RUSSIAN_A_UPPER = 0x0410;
+    static constexpr wchar_t RUSSIAN_A_LOWER = 0x0430;
 
-    static const wchar_t RUSSIAN_BE_UPPER = 0x0411;
-    static const wchar_t RUSSIAN_BE_LOWER = 0x0431;
+    static constexpr wchar_t RUSSIAN_BE_UPPER = 0x0411;
+    static constexpr wchar_t RUSSIAN_BE_LOWER = 0x0431;
 
-    static const wchar_t RUSSIAN_VE_UPPER = 0x0412;
-    static const wchar_t RUSSIAN_VE_LOWER = 0x0432;
+    static constexpr wchar_t RUSSIAN_VE_UPPER = 0x0412;
+    static constexpr wchar_t RUSSIAN_VE_LOWER = 0x0432;
 
-    static const wchar_t RUSSIAN_GHE_UPPER = 0x0413;
-    static const wchar_t RUSSIAN_GHE_LOWER = 0x0433;
+    static constexpr wchar_t RUSSIAN_GHE_UPPER = 0x0413;
+    static constexpr wchar_t RUSSIAN_GHE_LOWER = 0x0433;
 
-    static const wchar_t RUSSIAN_DE_UPPER = 0x0414;
-    static const wchar_t RUSSIAN_DE_LOWER = 0x0434;
+    static constexpr wchar_t RUSSIAN_DE_UPPER = 0x0414;
+    static constexpr wchar_t RUSSIAN_DE_LOWER = 0x0434;
 
-    static const wchar_t RUSSIAN_IE_UPPER = 0x0415;
-    static const wchar_t RUSSIAN_IE_LOWER = 0x0435;
+    static constexpr wchar_t RUSSIAN_IE_UPPER = 0x0415;
+    static constexpr wchar_t RUSSIAN_IE_LOWER = 0x0435;
 
-    static const wchar_t RUSSIAN_ZHE_UPPER = 0x0416;
-    static const wchar_t RUSSIAN_ZHE_LOWER = 0x0436;
+    static constexpr wchar_t RUSSIAN_ZHE_UPPER = 0x0416;
+    static constexpr wchar_t RUSSIAN_ZHE_LOWER = 0x0436;
 
-    static const wchar_t RUSSIAN_ZE_UPPER = 0x0417;
-    static const wchar_t RUSSIAN_ZE_LOWER = 0x0437;
+    static constexpr wchar_t RUSSIAN_ZE_UPPER = 0x0417;
+    static constexpr wchar_t RUSSIAN_ZE_LOWER = 0x0437;
 
-    static const wchar_t RUSSIAN_I_UPPER = 0x0418;
-    static const wchar_t RUSSIAN_I_LOWER = 0x0438;
+    static constexpr wchar_t RUSSIAN_I_UPPER = 0x0418;
+    static constexpr wchar_t RUSSIAN_I_LOWER = 0x0438;
 
-    static const wchar_t RUSSIAN_SHORT_I_UPPER = 0x0419;
-    static const wchar_t RUSSIAN_SHORT_I_LOWER = 0x0439;
+    static constexpr wchar_t RUSSIAN_SHORT_I_UPPER = 0x0419;
+    static constexpr wchar_t RUSSIAN_SHORT_I_LOWER = 0x0439;
 
-    static const wchar_t RUSSIAN_KA_UPPER = 0x041A;
-    static const wchar_t RUSSIAN_KA_LOWER = 0x043A;
+    static constexpr wchar_t RUSSIAN_KA_UPPER = 0x041A;
+    static constexpr wchar_t RUSSIAN_KA_LOWER = 0x043A;
 
-    static const wchar_t RUSSIAN_EL_UPPER = 0x041B;
-    static const wchar_t RUSSIAN_EL_LOWER = 0x043B;
+    static constexpr wchar_t RUSSIAN_EL_UPPER = 0x041B;
+    static constexpr wchar_t RUSSIAN_EL_LOWER = 0x043B;
 
-    static const wchar_t RUSSIAN_EM_UPPER = 0x041C;
-    static const wchar_t RUSSIAN_EM_LOWER = 0x043C;
+    static constexpr wchar_t RUSSIAN_EM_UPPER = 0x041C;
+    static constexpr wchar_t RUSSIAN_EM_LOWER = 0x043C;
 
-    static const wchar_t RUSSIAN_EN_UPPER = 0x041D;
-    static const wchar_t RUSSIAN_EN_LOWER = 0x043D;
+    static constexpr wchar_t RUSSIAN_EN_UPPER = 0x041D;
+    static constexpr wchar_t RUSSIAN_EN_LOWER = 0x043D;
 
-    static const wchar_t RUSSIAN_O_UPPER = 0x041E;
-    static const wchar_t RUSSIAN_O_LOWER = 0x043E;
+    static constexpr wchar_t RUSSIAN_O_UPPER = 0x041E;
+    static constexpr wchar_t RUSSIAN_O_LOWER = 0x043E;
 
-    static const wchar_t RUSSIAN_PE_UPPER = 0x041F;
-    static const wchar_t RUSSIAN_PE_LOWER = 0x043F;
+    static constexpr wchar_t RUSSIAN_PE_UPPER = 0x041F;
+    static constexpr wchar_t RUSSIAN_PE_LOWER = 0x043F;
 
-    static const wchar_t RUSSIAN_ER_UPPER = 0x0420;
-    static const wchar_t RUSSIAN_ER_LOWER = 0x0440;
+    static constexpr wchar_t RUSSIAN_ER_UPPER = 0x0420;
+    static constexpr wchar_t RUSSIAN_ER_LOWER = 0x0440;
 
-    static const wchar_t RUSSIAN_ES_UPPER = 0x0421;
-    static const wchar_t RUSSIAN_ES_LOWER = 0x0441;
+    static constexpr wchar_t RUSSIAN_ES_UPPER = 0x0421;
+    static constexpr wchar_t RUSSIAN_ES_LOWER = 0x0441;
 
-    static const wchar_t RUSSIAN_TE_UPPER = 0x0422;
-    static const wchar_t RUSSIAN_TE_LOWER = 0x0442;
+    static constexpr wchar_t RUSSIAN_TE_UPPER = 0x0422;
+    static constexpr wchar_t RUSSIAN_TE_LOWER = 0x0442;
 
-    static const wchar_t RUSSIAN_U_UPPER = 0x0423;
-    static const wchar_t RUSSIAN_U_LOWER = 0x0443;
+    static constexpr wchar_t RUSSIAN_U_UPPER = 0x0423;
+    static constexpr wchar_t RUSSIAN_U_LOWER = 0x0443;
 
-    static const wchar_t RUSSIAN_EF_UPPER = 0x0424;
-    static const wchar_t RUSSIAN_EF_LOWER = 0x0444;
+    static constexpr wchar_t RUSSIAN_EF_UPPER = 0x0424;
+    static constexpr wchar_t RUSSIAN_EF_LOWER = 0x0444;
 
-    static const wchar_t RUSSIAN_HA_UPPER = 0x0425;
-    static const wchar_t RUSSIAN_HA_LOWER = 0x0445;
+    static constexpr wchar_t RUSSIAN_HA_UPPER = 0x0425;
+    static constexpr wchar_t RUSSIAN_HA_LOWER = 0x0445;
 
-    static const wchar_t RUSSIAN_TSE_UPPER = 0x0426;
-    static const wchar_t RUSSIAN_TSE_LOWER = 0x0446;
+    static constexpr wchar_t RUSSIAN_TSE_UPPER = 0x0426;
+    static constexpr wchar_t RUSSIAN_TSE_LOWER = 0x0446;
 
-    static const wchar_t RUSSIAN_CHE_UPPER = 0x0427;
-    static const wchar_t RUSSIAN_CHE_LOWER = 0x0447;
+    static constexpr wchar_t RUSSIAN_CHE_UPPER = 0x0427;
+    static constexpr wchar_t RUSSIAN_CHE_LOWER = 0x0447;
 
-    static const wchar_t RUSSIAN_SHA_UPPER = 0x0428;
-    static const wchar_t RUSSIAN_SHA_LOWER = 0x0448;
+    static constexpr wchar_t RUSSIAN_SHA_UPPER = 0x0428;
+    static constexpr wchar_t RUSSIAN_SHA_LOWER = 0x0448;
 
-    static const wchar_t RUSSIAN_SHCHA_UPPER = 0x0429;
-    static const wchar_t RUSSIAN_SHCHA_LOWER = 0x0449;
+    static constexpr wchar_t RUSSIAN_SHCHA_UPPER = 0x0429;
+    static constexpr wchar_t RUSSIAN_SHCHA_LOWER = 0x0449;
 
-    static const wchar_t RUSSIAN_HARD_SIGN_UPPER = 0x042A;
-    static const wchar_t RUSSIAN_HARD_SIGN_LOWER = 0x044A;
+    static constexpr wchar_t RUSSIAN_HARD_SIGN_UPPER = 0x042A;
+    static constexpr wchar_t RUSSIAN_HARD_SIGN_LOWER = 0x044A;
 
-    static const wchar_t RUSSIAN_YERU_UPPER = 0x042B;
-    static const wchar_t RUSSIAN_YERU_LOWER = 0x044B;
+    static constexpr wchar_t RUSSIAN_YERU_UPPER = 0x042B;
+    static constexpr wchar_t RUSSIAN_YERU_LOWER = 0x044B;
 
-    static const wchar_t RUSSIAN_SOFT_SIGN_UPPER = 0x042C;
-    static const wchar_t RUSSIAN_SOFT_SIGN_LOWER = 0x044C;
+    static constexpr wchar_t RUSSIAN_SOFT_SIGN_UPPER = 0x042C;
+    static constexpr wchar_t RUSSIAN_SOFT_SIGN_LOWER = 0x044C;
 
-    static const wchar_t RUSSIAN_E_UPPER = 0x042D;
-    static const wchar_t RUSSIAN_E_LOWER = 0x044D;
+    static constexpr wchar_t RUSSIAN_E_UPPER = 0x042D;
+    static constexpr wchar_t RUSSIAN_E_LOWER = 0x044D;
 
-    static const wchar_t RUSSIAN_YU_UPPER = 0x042E;
-    static const wchar_t RUSSIAN_YU_LOWER = 0x044E;
+    static constexpr wchar_t RUSSIAN_YU_UPPER = 0x042E;
+    static constexpr wchar_t RUSSIAN_YU_LOWER = 0x044E;
 
-    static const wchar_t RUSSIAN_YA_UPPER = 0x042F;
-    static const wchar_t RUSSIAN_YA_LOWER = 0x044F;
+    static constexpr wchar_t RUSSIAN_YA_UPPER = 0x042F;
+    static constexpr wchar_t RUSSIAN_YA_LOWER = 0x044F;
 
     /**
     @brief Russian stemmer.
-    @date 2010
+
     @par Algorithm:
 
     PERFECTIVE GERUND:
@@ -158,15 +158,17 @@ namespace stemming
     -# if the word ends 'ь', then remove it.
     */
     template <typename string_typeT = std::wstring>
-    class russian_stem : public stem<string_typeT>
+    class russian_stem final : public stem<string_typeT>
         {
     public:
-        //---------------------------------------------
-        /**@param[in,out] text string to stem*/
-        void operator()(string_typeT& text)
+        /** Stems a Russian word.
+            @param[in,out] text string to stem.*/
+        void operator()(string_typeT& text) final
             {
             if (text.length() < 2)
                 { return; }
+
+            std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
 
             //reset internal data
             stem<string_typeT>::reset_r_values();

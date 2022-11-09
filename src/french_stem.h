@@ -1,10 +1,10 @@
-/**@addtogroup Stemming
-@brief Library for stemming words down to their root words.
-@date 2003-2015
-@copyright Oleander Software, Ltd.
-@author Oleander Software, Ltd.
-@details This program is free software; you can redistribute it and/or modify
-it under the terms of the BSD License.
+/** @addtogroup Stemming
+    @brief Library for stemming words down to their root words.
+    @date 2004-2020
+    @copyright Oleander Software, Ltd.
+    @author Blake Madden
+    @details This program is free software; you can redistribute it and/or modify
+    it under the terms of the BSD License.
 * @{*/
 
 #ifndef __FRENCH_STEM_H__
@@ -16,7 +16,7 @@ namespace stemming
     {
     /**
     @brief French stemmer.
-    @date 2004
+
     @par Algorithm:
 
     Letters in French include the following accented forms:
@@ -134,23 +134,21 @@ namespace stemming
     */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>
-    class french_stem : public stem<string_typeT>
+    class french_stem final : public stem<string_typeT>
         {
     public:
-        french_stem() : m_step_1_successful(false) {}
-        //---------------------------------------------
-        /**@param[in,out] text string to stem*/
-        void operator()(string_typeT& text)
+        /** Stems a French word.
+            @param[in,out] text string to stem.*/
+        void operator()(string_typeT& text) final
             {
             if (text.length() < 2)
-                {
-                return;
-                }
+                { return; }
 
             //reset internal data
             m_step_1_successful = false;
             stem<string_typeT>::reset_r_values();
 
+            std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
             stem<string_typeT>::hash_french_yui(text, FRENCH_VOWELS);
 
@@ -158,7 +156,7 @@ namespace stemming
             stem<string_typeT>::find_r2(text, FRENCH_VOWELS);
             stem<string_typeT>::find_french_rv(text, FRENCH_VOWELS);
 
-            size_t length = text.length();
+            const size_t length = text.length();
             step_1(text);
             if (!m_step_1_successful)
                 {
@@ -204,12 +202,12 @@ namespace stemming
         //---------------------------------------------
         void step_1(string_typeT& text)
             {
-            size_t length = text.length();
+            const size_t length = text.length();
             if (stem<string_typeT>::is_suffix(text,/*issements*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
                 if (text.length() >= 10 &&
                     stem<string_typeT>::get_r1() <= (text.length()-9) &&
-                    !string_util::is_one_of(text[text.length()-10], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-10], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-9);
                     m_step_1_successful = true;
@@ -220,7 +218,7 @@ namespace stemming
                 {
                 if (text.length() >= 9 &&
                     stem<string_typeT>::get_r1() <= (text.length()-8) &&
-                    !string_util::is_one_of(text[text.length()-9], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-9], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-8);
                     m_step_1_successful = true;
@@ -471,7 +469,7 @@ namespace stemming
                 //the proceeding vowel must also be n RV
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= text.length()-6 &&
-                    string_util::is_one_of(text[text.length()-6], FRENCH_VOWELS) )
+                    is_one_of(text[text.length()-6], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-5);
                     stem<string_typeT>::update_r_sections(text);
@@ -513,7 +511,7 @@ namespace stemming
                 //the proceeding vowel must also be n RV
                 if (text.length() >= 5 &&
                     stem<string_typeT>::get_rv() <= text.length()-5 &&
-                    string_util::is_one_of(text[text.length()-5], FRENCH_VOWELS) )
+                    is_one_of(text[text.length()-5], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-4);
                     stem<string_typeT>::update_r_sections(text);
@@ -720,7 +718,7 @@ namespace stemming
                 is_either<wchar_t>(text[text.length()-4], LOWER_I_HASH, UPPER_I_HASH) )
                 {
                 if (stem<string_typeT>::get_rv() <= (text.length()-7) &&
-                    !string_util::is_one_of(text[text.length()-9], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-9], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-8);
                     return;
@@ -730,7 +728,7 @@ namespace stemming
                 {
                 if (text.length() >= 9 &&
                     stem<string_typeT>::get_rv() <= (text.length()-9) &&
-                    !string_util::is_one_of(text[text.length()-9], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-9], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-8);
                     return;
@@ -747,7 +745,7 @@ namespace stemming
                 is_either<wchar_t>(text[text.length()-4], LOWER_I_HASH, UPPER_I_HASH) )
                 {
                 if (stem<string_typeT>::get_rv() <= (text.length()-8) &&
-                    !string_util::is_one_of(text[text.length()-8], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-8], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-7);
                     return;
@@ -757,7 +755,7 @@ namespace stemming
                 {
                 if (text.length() >= 8 &&
                     stem<string_typeT>::get_rv() <= (text.length()-8) &&
-                    !string_util::is_one_of(text[text.length()-8], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-8], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-7);
                     return;
@@ -767,7 +765,7 @@ namespace stemming
                 {
                 if (text.length() >= 8 &&
                     stem<string_typeT>::get_rv() <= (text.length()-8) &&
-                    !string_util::is_one_of(text[text.length()-8], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-8], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-7);
                     return;
@@ -777,7 +775,7 @@ namespace stemming
                 {
                 if (text.length() >= 8 &&
                     stem<string_typeT>::get_rv() <= (text.length()-8) &&
-                    !string_util::is_one_of(text[text.length()-8], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-8], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-7);
                     return;
@@ -787,7 +785,7 @@ namespace stemming
                 {
                 if (text.length() >= 7 &&
                     stem<string_typeT>::get_rv() <= (text.length()-7) &&
-                    !string_util::is_one_of(text[text.length()-7], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-7], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-6);
                     return;
@@ -797,7 +795,7 @@ namespace stemming
                 {
                 if (text.length() >= 7 &&
                     stem<string_typeT>::get_rv() <= (text.length()-7) &&
-                    !string_util::is_one_of(text[text.length()-7], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-7], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-6);
                     return;
@@ -807,7 +805,7 @@ namespace stemming
                 {
                 if (text.length() >= 7 &&
                     stem<string_typeT>::get_rv() <= (text.length()-7) &&
-                    !string_util::is_one_of(text[text.length()-7], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-7], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-6);
                     return;
@@ -817,7 +815,7 @@ namespace stemming
                 {
                 if (text.length() >= 7 &&
                     stem<string_typeT>::get_rv() <= (text.length()-7) &&
-                    !string_util::is_one_of(text[text.length()-7], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-7], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-6);
                     return;
@@ -827,7 +825,7 @@ namespace stemming
                 {
                 if (text.length() >= 7 &&
                     stem<string_typeT>::get_rv() <= (text.length()-7) &&
-                    !string_util::is_one_of(text[text.length()-7], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-7], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-6);
                     return;
@@ -837,7 +835,7 @@ namespace stemming
                 {
                 if (text.length() >= 7 &&
                     stem<string_typeT>::get_rv() <= (text.length()-7) &&
-                    !string_util::is_one_of(text[text.length()-7], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-7], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-6);
                     return;
@@ -847,7 +845,7 @@ namespace stemming
                 {
                 if (text.length() >= 7 &&
                     stem<string_typeT>::get_rv() <= (text.length()-7) &&
-                    !string_util::is_one_of(text[text.length()-7], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-7], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-6);
                     return;
@@ -857,7 +855,7 @@ namespace stemming
                 {
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= (text.length()-6) &&
-                    !string_util::is_one_of(text[text.length()-6], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-6], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-5);
                     return;
@@ -867,7 +865,7 @@ namespace stemming
                 {
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= (text.length()-6) &&
-                    !string_util::is_one_of(text[text.length()-6], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-6], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-5);
                     return;
@@ -877,7 +875,7 @@ namespace stemming
                 {
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= (text.length()-6) &&
-                    !string_util::is_one_of(text[text.length()-6], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-6], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-5);
                     return;
@@ -887,7 +885,7 @@ namespace stemming
                 {
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= (text.length()-6) &&
-                    !string_util::is_one_of(text[text.length()-6], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-6], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-5);
                     return;
@@ -897,7 +895,7 @@ namespace stemming
                 {
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= (text.length()-6) &&
-                    !string_util::is_one_of(text[text.length()-6], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-6], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-5);
                     return;
@@ -907,7 +905,7 @@ namespace stemming
                 {
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= (text.length()-6) &&
-                    !string_util::is_one_of(text[text.length()-6], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-6], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-5);
                     return;
@@ -917,7 +915,7 @@ namespace stemming
                 {
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= (text.length()-6) &&
-                    !string_util::is_one_of(text[text.length()-6], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-6], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-5);
                     return;
@@ -927,7 +925,7 @@ namespace stemming
                 {
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= (text.length()-6)&&
-                    !string_util::is_one_of(text[text.length()-6], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-6], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-5);
                     return;
@@ -937,7 +935,7 @@ namespace stemming
                 {
                 if (text.length() >= 5 &&
                     stem<string_typeT>::get_rv() <= (text.length()-5) &&
-                    !string_util::is_one_of(text[text.length()-5], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-5], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-4);
                     return;
@@ -947,7 +945,7 @@ namespace stemming
                 {
                 if (text.length() >= 5 &&
                     stem<string_typeT>::get_rv() <= (text.length()-5) &&
-                    !string_util::is_one_of(text[text.length()-5], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-5], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-4);
                     return;
@@ -957,7 +955,7 @@ namespace stemming
                 {
                 if (text.length() >= 5 &&
                     stem<string_typeT>::get_rv() <= (text.length()-5) &&
-                    !string_util::is_one_of(text[text.length()-5], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-5], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-4);
                     return;
@@ -967,7 +965,7 @@ namespace stemming
                 {
                 if (text.length() >= 5 &&
                     stem<string_typeT>::get_rv() <= (text.length()-5) &&
-                    !string_util::is_one_of(text[text.length()-5], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-5], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-4);
                     return;
@@ -977,7 +975,7 @@ namespace stemming
                 {
                 if (text.length() >= 5 &&
                     stem<string_typeT>::get_rv() <= (text.length()-5) &&
-                    !string_util::is_one_of(text[text.length()-5], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-5], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-4);
                     return;
@@ -987,7 +985,7 @@ namespace stemming
                 {
                 if (text.length() >= 5 &&
                     stem<string_typeT>::get_rv() <= (text.length()-5) &&
-                    !string_util::is_one_of(text[text.length()-5], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-5], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-4);
                     return;
@@ -997,7 +995,7 @@ namespace stemming
                 {
                 if (text.length() >= 4 &&
                     stem<string_typeT>::get_rv() <= (text.length()-4) &&
-                    !string_util::is_one_of(text[text.length()-4], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-4], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-3);
                     return;
@@ -1007,7 +1005,7 @@ namespace stemming
                 {
                 if (text.length() >= 4 &&
                     stem<string_typeT>::get_rv() <= (text.length()-4) &&
-                    !string_util::is_one_of(text[text.length()-4], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-4], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-3);
                     return;
@@ -1017,7 +1015,7 @@ namespace stemming
                 {
                 if (text.length() >= 3 &&
                     stem<string_typeT>::get_rv() <= text.length()-3 &&
-                    !string_util::is_one_of(text[text.length()-3], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-3], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-2);
                     return;
@@ -1027,7 +1025,7 @@ namespace stemming
                 {
                 if (text.length() >= 3 &&
                     stem<string_typeT>::get_rv() <= text.length()-3 &&
-                    !string_util::is_one_of(text[text.length()-3], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-3], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-2);
                     return;
@@ -1037,7 +1035,7 @@ namespace stemming
                 {
                 if (text.length() >= 3 &&
                     stem<string_typeT>::get_rv() <= text.length()-3 &&
-                    !string_util::is_one_of(text[text.length()-3], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-3], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-2);
                     return;
@@ -1047,7 +1045,7 @@ namespace stemming
                 {
                 if (text.length() >= 3 &&
                     stem<string_typeT>::get_rv() <= (text.length()-3) &&
-                    !string_util::is_one_of(text[text.length()-3], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-3], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-2);
                     return;
@@ -1057,7 +1055,7 @@ namespace stemming
                 {
                 if (text.length() >= 3 &&
                     stem<string_typeT>::get_rv() <= (text.length()-3) &&
-                    !string_util::is_one_of(text[text.length()-3], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-3], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-2);
                     return;
@@ -1067,7 +1065,7 @@ namespace stemming
                 {
                 if (text.length() >= 2 &&
                     stem<string_typeT>::get_rv() <= (text.length()-2) &&
-                    !string_util::is_one_of(text[text.length()-2], FRENCH_VOWELS) )
+                    !is_one_of(text[text.length()-2], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-1);
                     return;
@@ -1294,7 +1292,7 @@ namespace stemming
             {
             if (text.length() >= 2 &&
                 (text[text.length()-1] == common_lang_constants::LOWER_S || text[text.length()-1] == common_lang_constants::UPPER_S) &&
-                !string_util::is_one_of(text[text.length()-2], FRENCH_AIOUES) )
+                !is_one_of(text[text.length()-2], FRENCH_AIOUES) )
                 {
                 text.erase(text.length()-1);
                 stem<string_typeT>::update_r_sections(text);
@@ -1375,7 +1373,7 @@ namespace stemming
         //---------------------------------------------
         void step_6(string_typeT& text)
             {
-            size_t last_vowel = text.find_last_of(FRENCH_VOWELS);
+            const size_t last_vowel = text.find_last_of(FRENCH_VOWELS);
             if (last_vowel == string_typeT::npos ||
                 last_vowel == text.length()-1)
                 {
@@ -1389,7 +1387,7 @@ namespace stemming
             }
 
         //internal data specific to French stemmer
-        bool m_step_1_successful;
+        bool m_step_1_successful{ false };
         };
     }
 

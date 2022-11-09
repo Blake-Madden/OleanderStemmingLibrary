@@ -1,10 +1,10 @@
-/**@addtogroup Stemming
-@brief Library for stemming words down to their root words.
-@date 2003-2015
-@copyright Oleander Software, Ltd.
-@author Oleander Software, Ltd.
-@details This program is free software; you can redistribute it and/or modify
-it under the terms of the BSD License.
+/** @addtogroup Stemming
+    @brief Library for stemming words down to their root words.
+    @date 2004-2020
+    @copyright Oleander Software, Ltd.
+    @author Blake Madden
+    @details This program is free software; you can redistribute it and/or modify
+    it under the terms of the BSD License.
 * @{*/
 
 #ifndef __SPANISH_STEM_H__
@@ -121,12 +121,12 @@ namespace stemming
     */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>
-    class spanish_stem : public stem<string_typeT>
+    class spanish_stem final : public stem<string_typeT>
         {
     public:
-        //---------------------------------------------
-        /**@param[in,out] text string to stem*/
-        void operator()(string_typeT& text)
+        /** Stems a Spanish word.
+            @param[in,out] text string to stem.*/
+        void operator()(string_typeT& text) final
             {
             if (text.length() < 3)
                 {
@@ -137,6 +137,7 @@ namespace stemming
             //reset internal data
             stem<string_typeT>::reset_r_values();
 
+            std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
             stem<string_typeT>::find_r1(text, SPANISH_VOWELS);
@@ -145,7 +146,7 @@ namespace stemming
 
             step_0(text);
             step_1(text);
-            ///steps 2a and 2b and only called from step1
+            ///steps 2a and 2b are only called from step1
             step_3(text);
 
             stem<string_typeT>::remove_spanish_acutes(text);
@@ -434,7 +435,7 @@ namespace stemming
         //---------------------------------------------
         void step_1(string_typeT& text)
             {
-            size_t original_length = text.length();
+            const size_t original_length = text.length();
             if (stem<string_typeT>::delete_if_is_in_r2(text,/*imientos*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
                 if (original_length > text.length() )
@@ -802,7 +803,7 @@ namespace stemming
         //---------------------------------------------
         void step_2a(string_typeT& text)
             {
-            size_t original_length = text.length();
+            const size_t original_length = text.length();
             if (stem<string_typeT>::is_suffix_in_rv(text,/*yeron*/common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N))
                 {
                 if (is_either<wchar_t>(text[text.length()-6], common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) )
@@ -944,153 +945,79 @@ namespace stemming
         void step_2b(string_typeT& text) 
             {
             if (stem<string_typeT>::delete_if_is_in_rv(text,/*aríamos*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*eríamos*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*iríamos*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*iéramos*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_E_ACUTE, common_lang_constants::UPPER_E_ACUTE, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*iésemos*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_E_ACUTE, common_lang_constants::UPPER_E_ACUTE, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*aríais*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*aremos*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*eríais*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*eremos*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*iríais*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*iremos*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ierais*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ieseis*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*asteis*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*isteis*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ábamos*/common_lang_constants::LOWER_A_ACUTE, common_lang_constants::UPPER_A_ACUTE, common_lang_constants::LOWER_B, common_lang_constants::UPPER_B, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*áramos*/common_lang_constants::LOWER_A_ACUTE, common_lang_constants::UPPER_A_ACUTE, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ásemos*/common_lang_constants::LOWER_A_ACUTE, common_lang_constants::UPPER_A_ACUTE, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*arían*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*arías*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*aréis*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_E_ACUTE, common_lang_constants::UPPER_E_ACUTE, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*erían*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*erías*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*eréis*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_E_ACUTE, common_lang_constants::UPPER_E_ACUTE, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*irían*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*irías*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*iréis*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_E_ACUTE, common_lang_constants::UPPER_E_ACUTE, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ieran*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*iesen*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ieron*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*iendo*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_D, common_lang_constants::UPPER_D, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ieras*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ieses*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*abais*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_B, common_lang_constants::UPPER_B, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*arais*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*aseis*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*íamos*/common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*emos*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
                 {
                 if (stem<string_typeT>::is_suffix(text,/*gu*/common_lang_constants::LOWER_G, common_lang_constants::UPPER_G, common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) )
@@ -1101,181 +1028,93 @@ namespace stemming
                 return;
                 }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*arán*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A_ACUTE, common_lang_constants::UPPER_A_ACUTE, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*arás*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A_ACUTE, common_lang_constants::UPPER_A_ACUTE, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*aría*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*erán*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A_ACUTE, common_lang_constants::UPPER_A_ACUTE, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*erás*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A_ACUTE, common_lang_constants::UPPER_A_ACUTE, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ería*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*irán*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A_ACUTE, common_lang_constants::UPPER_A_ACUTE, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*irás*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A_ACUTE, common_lang_constants::UPPER_A_ACUTE, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*iría*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*iera*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*iese*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*aste*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*iste*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*aban*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_B, common_lang_constants::UPPER_B, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*aran*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*asen*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*aron*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ando*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_D, common_lang_constants::UPPER_D, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*abas*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_B, common_lang_constants::UPPER_B, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*adas*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_D, common_lang_constants::UPPER_D, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*idas*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_D, common_lang_constants::UPPER_D, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*aras*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ases*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*íais*/common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ados*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_D, common_lang_constants::UPPER_D, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*idos*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_D, common_lang_constants::UPPER_D, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*amos*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*imos*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ará*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A_ACUTE, common_lang_constants::UPPER_A_ACUTE, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*aré*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_E_ACUTE, common_lang_constants::UPPER_E_ACUTE, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*erá*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A_ACUTE, common_lang_constants::UPPER_A_ACUTE, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*eré*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_E_ACUTE, common_lang_constants::UPPER_E_ACUTE, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*irá*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A_ACUTE, common_lang_constants::UPPER_A_ACUTE, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*iré*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_E_ACUTE, common_lang_constants::UPPER_E_ACUTE, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*aba*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_B, common_lang_constants::UPPER_B, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ada*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_D, common_lang_constants::UPPER_D, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ida*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_D, common_lang_constants::UPPER_D, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ara*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ase*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ían*/common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ado*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_D, common_lang_constants::UPPER_D, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ido*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_D, common_lang_constants::UPPER_D, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ías*/common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*áis*/common_lang_constants::LOWER_A_ACUTE, common_lang_constants::UPPER_A_ACUTE, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*éis*/common_lang_constants::LOWER_E_ACUTE, common_lang_constants::UPPER_E_ACUTE, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
                 {
                 if (stem<string_typeT>::is_suffix(text,/*gu*/common_lang_constants::LOWER_G, common_lang_constants::UPPER_G, common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) )
@@ -1286,49 +1125,27 @@ namespace stemming
                 return;
                 }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ía*/common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ad*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_D, common_lang_constants::UPPER_D, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ed*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_D, common_lang_constants::UPPER_D, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*id*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_D, common_lang_constants::UPPER_D, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*an*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ió*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_O_ACUTE, common_lang_constants::UPPER_O_ACUTE, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ar*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*er*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ir*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*as*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ís*/common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
-                {
-                return;
-                }
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*en*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, false) )
                 {
                 if (stem<string_typeT>::is_suffix(text,/*gu*/common_lang_constants::LOWER_G, common_lang_constants::UPPER_G, common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) )
@@ -1351,31 +1168,13 @@ namespace stemming
          //---------------------------------------------
         void step_3(string_typeT& text) 
             {
-            if (stem<string_typeT>::delete_if_is_in_rv(text,/*os*/common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
-                {
-                return;
-                }
-            else if (stem<string_typeT>::delete_if_is_in_rv(text,/*a*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) )
-                {
-                return;
-                }
-            else if (stem<string_typeT>::delete_if_is_in_rv(text,/*o*/common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) )
-                {
-                return;
-                }
-            else if (stem<string_typeT>::delete_if_is_in_rv(text,/*á*/common_lang_constants::LOWER_A_ACUTE, common_lang_constants::UPPER_A_ACUTE) )
-                {
-                return;
-                }
-            else if (stem<string_typeT>::delete_if_is_in_rv(text,/*í*/common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE) )
-                {
-                return;
-                }
-            else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ó*/common_lang_constants::LOWER_O_ACUTE, common_lang_constants::UPPER_O_ACUTE) )
-                {
-                return;
-                }
-
+            if (stem<string_typeT>::delete_if_is_in_rv(text,/*os*/common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,/*a*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,/*o*/common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,/*á*/common_lang_constants::LOWER_A_ACUTE, common_lang_constants::UPPER_A_ACUTE) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,/*í*/common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,/*ó*/common_lang_constants::LOWER_O_ACUTE, common_lang_constants::UPPER_O_ACUTE) )
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,/*é*/common_lang_constants::LOWER_E_ACUTE, common_lang_constants::UPPER_E_ACUTE) ||
                     stem<string_typeT>::delete_if_is_in_rv(text,/*e*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
                 {
@@ -1383,9 +1182,7 @@ namespace stemming
                     {
                     if (text.length() >= 2 &&
                         is_either<wchar_t>(text[text.length()-2], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) )
-                        {
-                        text.erase(text.length()-1);
-                        }
+                        { text.erase(text.length()-1); }
                     }
                 return;
                 }

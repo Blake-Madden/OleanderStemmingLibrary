@@ -1,11 +1,12 @@
-/**@addtogroup Stemming
-@brief Library for stemming words down to their root words.
-@date 2003-2015
-@copyright Oleander Software, Ltd.
-@author Oleander Software, Ltd.
-@details This program is free software; you can redistribute it and/or modify
-it under the terms of the BSD License.
+/** @addtogroup Stemming
+    @brief Library for stemming words down to their root words.
+    @date 2004-2020
+    @copyright Oleander Software, Ltd.
+    @author Blake Madden
+    @details This program is free software; you can redistribute it and/or modify
+    it under the terms of the BSD License.
 * @{*/
+
 #ifndef __DANISH_STEM_H__
 #define __DANISH_STEM_H__
 
@@ -15,7 +16,7 @@ namespace stemming
     {
     /**
     @brief Danish stemmer.
-    @date 2004
+
     @par Algorithm:
 
     The Danish alphabet includes the following additional letters:
@@ -71,15 +72,14 @@ namespace stemming
     StemDanish(word);
     \endcode
     */
-    /** @} */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>
-    class danish_stem : public stem<string_typeT>
+    class danish_stem final : public stem<string_typeT>
         {
     public:
-        //---------------------------------------------
-        /**@param[in,out] text Danish string to stem.*/
-        void operator()(string_typeT& text)
+        /** Stems a Danish word.
+            @param[in,out] text Danish string to stem.*/
+        void operator()(string_typeT& text) final
             {
             if (text.length() < 3)
                 { return; }
@@ -87,6 +87,7 @@ namespace stemming
             //reset internal data
             stem<string_typeT>::reset_r_values();
 
+            std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
             //see where the R1 section begins
@@ -173,7 +174,7 @@ namespace stemming
             else if (stem<string_typeT>::is_suffix_in_r1(text, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
                 if (text.length() >= 2 &&
-                    string_util::is_one_of(text[text.length()-2], DANISH_ALPHABET) )
+                    is_one_of(text[text.length()-2], DANISH_ALPHABET) )
                     {
                     text.erase(text.length()-1);
                     stem<string_typeT>::update_r_sections(text);
@@ -251,9 +252,9 @@ namespace stemming
             //undouble consecutive (same) consonants if either are in R1 section
             if (text.length() >= 2 &&
                 stem<string_typeT>::get_r1() <= text.length()-1 &&
-                string_util::tolower_western(text[text.length()-2]) == string_util::tolower_western(text[text.length()-1]) )
+                tolower_western(text[text.length()-2]) == tolower_western(text[text.length()-1]) )
                 {
-                if (!string_util::is_one_of(text[text.length()-2], DANISH_VOWELS) )
+                if (!is_one_of(text[text.length()-2], DANISH_VOWELS) )
                     {
                     text.erase(text.length()-1);
                     stem<string_typeT>::update_r_sections(text);

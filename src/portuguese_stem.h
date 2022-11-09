@@ -1,10 +1,10 @@
-/**@addtogroup Stemming
-@brief Library for stemming words down to their root words.
-@date 2003-2015
-@copyright Oleander Software, Ltd.
-@author Oleander Software, Ltd.
-@details This program is free software; you can redistribute it and/or modify
-it under the terms of the BSD License.
+/** @addtogroup Stemming
+    @brief Library for stemming words down to their root words.
+    @date 2004-2020
+    @copyright Oleander Software, Ltd.
+    @author Blake Madden
+    @details This program is free software; you can redistribute it and/or modify
+    it under the terms of the BSD License.
 * @{*/
 
 #ifndef __PORTUGUESE_STEM_H__
@@ -16,7 +16,7 @@ namespace stemming
     {
     /**
     @brief Portuguese stemmer.
-    @date 2004
+
     @par Algorithm:
 
     Letters in Portuguese include the following accented forms,
@@ -105,54 +105,52 @@ namespace stemming
     */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>
-    class portuguese_stem : public stem<string_typeT>
+    class portuguese_stem final : public stem<string_typeT>
         {
     public:
-        portuguese_stem() : m_step1_step2_altered(false), m_altered_suffix_index(0)
-            {}
-        //---------------------------------------------
-        /**@param[in,out] text string to stem*/
-        void operator()(string_typeT& text)
+        /** Stems a Portuguese word.
+            @param[in,out] text string to stem.*/
+        void operator()(string_typeT& text) final
             {
             if (text.length() < 3)
-                {
-                return;
-                }
+                { return; }
+
+            std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
-            //reset internal data
+            // reset internal data
             m_altered_suffix_index = 0;
             m_step1_step2_altered = false;
             stem<string_typeT>::reset_r_values();
 
-            string_util::replace_all<string_typeT>(text, string_typeT(1, common_lang_constants::LOWER_A_TILDE), L"a~");
-            string_util::replace_all<string_typeT>(text, string_typeT(1, common_lang_constants::UPPER_A_TILDE), L"A~");
-            string_util::replace_all<string_typeT>(text, string_typeT(1, common_lang_constants::LOWER_O_TILDE), L"o~");
-            string_util::replace_all<string_typeT>(text, string_typeT(1, common_lang_constants::UPPER_O_TILDE), L"O~");
+            replace_all(text, string_typeT(1, common_lang_constants::LOWER_A_TILDE), L"a~");
+            replace_all(text, string_typeT(1, common_lang_constants::UPPER_A_TILDE), L"A~");
+            replace_all(text, string_typeT(1, common_lang_constants::LOWER_O_TILDE), L"o~");
+            replace_all(text, string_typeT(1, common_lang_constants::UPPER_O_TILDE), L"O~");
 
             stem<string_typeT>::find_r1(text, PORTUGUESE_VOWELS);
             stem<string_typeT>::find_r2(text, PORTUGUESE_VOWELS);
             stem<string_typeT>::find_spanish_rv(text, PORTUGUESE_VOWELS);
 
             step_1(text);
-            //intermediate steps handled by step 1
+            // intermediate steps handled by step 1
             if (!m_step1_step2_altered)
                 {
                 step_4(text);
                 }
             step_5(text);
 
-            //Turn a~, o~ back into ã, õ
-            string_util::replace_all<string_typeT>(text, L"a~", string_typeT(1, common_lang_constants::LOWER_A_TILDE));
-            string_util::replace_all<string_typeT>(text, L"A~", string_typeT(1, common_lang_constants::UPPER_A_TILDE));
-            string_util::replace_all<string_typeT>(text, L"o~", string_typeT(1, common_lang_constants::LOWER_O_TILDE));
-            string_util::replace_all<string_typeT>(text, L"O~", string_typeT(1, common_lang_constants::UPPER_O_TILDE));
+            // turn a~, o~ back into ã, õ
+            replace_all(text, L"a~", string_typeT(1, common_lang_constants::LOWER_A_TILDE));
+            replace_all(text, L"A~", string_typeT(1, common_lang_constants::UPPER_A_TILDE));
+            replace_all(text, L"o~", string_typeT(1, common_lang_constants::LOWER_O_TILDE));
+            replace_all(text, L"O~", string_typeT(1, common_lang_constants::UPPER_O_TILDE));
             }
     private:
         //---------------------------------------------
         void step_1(string_typeT& text)
             {
-            size_t original_length = text.length();
+            const size_t original_length = text.length();
             if (stem<string_typeT>::delete_if_is_in_r2(text,/*amentos*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
                 //NOOP (fall through to branching statement)
@@ -424,8 +422,7 @@ namespace stemming
         //---------------------------------------------
         void step_2(string_typeT& text)
             {
-            size_t original_length = text.length();
-
+            const size_t original_length = text.length();
             if (stem<string_typeT>::delete_if_is_in_rv(text,/*aríamos*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
@@ -1005,9 +1002,9 @@ namespace stemming
                 text[text.length()-1] = common_lang_constants::LOWER_C;
                 }
             }
-        //internal data specific to Portuguese stemmer
-        bool m_step1_step2_altered;
-        size_t m_altered_suffix_index;
+        // internal data specific to Portuguese stemmer
+        bool m_step1_step2_altered{ false };
+        size_t m_altered_suffix_index{ 0 };
         };
     }
 

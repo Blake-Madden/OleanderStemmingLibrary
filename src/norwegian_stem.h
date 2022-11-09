@@ -1,10 +1,10 @@
-/**@addtogroup Stemming
-@brief Library for stemming words down to their root words.
-@date 2003-2015
-@copyright Oleander Software, Ltd.
-@author Oleander Software, Ltd.
-@details This program is free software; you can redistribute it and/or modify
-it under the terms of the BSD License.
+/** @addtogroup Stemming
+    @brief Library for stemming words down to their root words.
+    @date 2004-2020
+    @copyright Oleander Software, Ltd.
+    @author Blake Madden
+    @details This program is free software; you can redistribute it and/or modify
+    it under the terms of the BSD License.
 * @{*/
 
 #ifndef __NORWEGIAN_STEM_H__
@@ -59,17 +59,17 @@ namespace stemming
     */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>
-    class norwegian_stem : public stem<string_typeT>
+    class norwegian_stem final : public stem<string_typeT>
         {
     public:
-        //---------------------------------------------
-        /**@param[in,out] text string to stem*/
-        void operator()(string_typeT& text)
+        /** Stems a Norwegian word.
+            @param[in,out] text string to stem.*/
+        void operator()(string_typeT& text) final
             {
             if (text.length() < 3)
-                {
-                return;
-                }
+                { return; }
+
+            std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
             //reset internal data
@@ -217,7 +217,7 @@ namespace stemming
                     {
                     //only delete if a valid "s" ending
                     if (text.length() >= 2 &&
-                        string_util::is_one_of(text[text.length()-2],
+                        is_one_of(text[text.length()-2],
                         L"bcdfghjlmnoprtvyzBCDFGHJLMNOPRTVYZ") )
                         {
                         text.erase(text.length()-1);
@@ -226,7 +226,7 @@ namespace stemming
                         }
                     else if (text.length() >= 3 &&
                         is_either<wchar_t>(text[text.length()-2], common_lang_constants::LOWER_K, common_lang_constants::UPPER_K) &&
-                        !string_util::is_one_of(text[text.length()-3], NORWEGIAN_VOWELS))
+                        !is_one_of(text[text.length()-3], NORWEGIAN_VOWELS))
                         {
                         text.erase(text.length()-1);
                         stem<string_typeT>::update_r_sections(text);
