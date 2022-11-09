@@ -52,9 +52,9 @@ int main()
     stemming::english_stem<> StemEnglish;
     std::wcout << L"(English) Original text:\t" << word.c_str() << std::endl;
 
-    // the "english_stem" has its operator() overloaded, so you can
+    // The "english_stem" has its operator() overloaded, so you can
     // treat your class instance like it's a function.  In this case,
-    // pass in the std::wstring to be stemmed.  Note that this alters
+    // pass in the std::wstring to be stemmed. Note that this alters
     // the original std::wstring, so when the call is done the string will
     // be stemmed.
     StemEnglish(word);
@@ -68,7 +68,7 @@ int main()
     // now the variable "word" should equal "document"
     std::wcout << L"(English) Stemmed text:\t" << word.c_str() << std::endl;
 
-    // Now try a French word
+    // now try a French word
     stemming::french_stem<> StemFrench;
     word = L"continuellement";
     std::wcout << L"\n(French) Original text:\t" << word.c_str() << std::endl;
@@ -76,7 +76,7 @@ int main()
     // now the variable "word" should equal "continuel"
     std::wcout << L"(French) Stemmed text:\t" << word.c_str() << std::endl;
 
-    // Many other stemmers are also available
+    // many other stemmers are also available
     stemming::german_stem<> StemGerman;
     stemming::finnish_stem<> StemFinnish;
     stemming::swedish_stem<> StemSwedish;
