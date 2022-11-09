@@ -13,18 +13,18 @@ This is a header-only library that can be included in your project as such:
 ## Example
 
 ```cpp
+#include "danish_stem.h"
+#include "dutch_stem.h"
 #include "english_stem.h"
+#include "finnish_stem.h"
 #include "french_stem.h"
 #include "german_stem.h"
-#include "finnish_stem.h"
-#include "swedish_stem.h"
-#include "spanish_stem.h"
-#include "dutch_stem.h"
-#include "danish_stem.h"
 #include "italian_stem.h"
 #include "norwegian_stem.h"
 #include "portuguese_stem.h"
 #include "russian_stem.h"
+#include "spanish_stem.h"
+#include "swedish_stem.h"
 
 #include <iostream>
 #include <string>
@@ -77,15 +77,16 @@ int main()
     std::wcout << L"(French) Stemmed text:\t" << word.c_str() << std::endl;
 
     // many other stemmers are also available
-    stemming::german_stem<> StemGerman;
-    stemming::finnish_stem<> StemFinnish;
-    stemming::swedish_stem<> StemSwedish;
-    stemming::dutch_stem<> StemDutch;
-    stemming::spanish_stem<> StemSpanish;
-    stemming::italian_stem<> StemItalian;
-    stemming::norwegian_stem<> StemNorwgian;
     stemming::danish_stem<> StemDanish;
+    stemming::dutch_stem<> StemDutch;
+    stemming::finnish_stem<> StemFinnish;
+    stemming::italian_stem<> StemItalian;
+    stemming::german_stem<> StemGerman;
+    stemming::norwegian_stem<> StemNorwegian;
     stemming::portuguese_stem<> StemPortuguese;
+    stemming::russian_stem<> StemRussian;
+    stemming::spanish_stem<> StemSpanish;
+    stemming::swedish_stem<> StemSwedish;
 
     return 0;
     }
