@@ -1,7 +1,10 @@
 ## Change Log
 
 ### 2022 Release
-- Modernize code to C++17.
+- Modernized code to C++17.
+- Added support for full-width characters (e.g., "Ｄｏｃｕｍｅｎｔｉｎｇ" will become "Document").
+- Streamlined the library, removing most of the peripheral helper files.
+- Changed license to BSD.
 
 ### 2016 Release
 - Updated *Portuguese* stemmer to new standard.
@@ -17,7 +20,6 @@
 
 ### 2009.1 Release
 - Added support for smart apostrophes.
-
 
 ### 2009 Release
 - Removed "common_lang_constants.cpp" so that the library now consists only of header files.
