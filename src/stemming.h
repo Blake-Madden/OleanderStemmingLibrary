@@ -2435,13 +2435,11 @@ namespace stemming
                 text[i] == common_lang_constants::LOWER_Y)
                 {
                 text[i] = LOWER_Y_HASH;
-                in_vowel_block = false;
                 }
             else if (in_vowel_block &&
                 text[i] == common_lang_constants::UPPER_Y)
                 {
                 text[i] = UPPER_Y_HASH;
-                in_vowel_block = false;
                 }
             }
 
