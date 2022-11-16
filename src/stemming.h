@@ -20,18 +20,31 @@ namespace stemming
     /// Languages available for stemming.
     enum class stemming_type
         {
+        /// @brief A no-op stemmer.
         no_stemming,
+        /// @brief Danish
         danish,
+        /// @brief Dutch
         dutch,
+        /// @brief English
         english,
+        /// @brief Finnish
         finnish,
+        /// @brief french
         french,
+        /// @brief German
         german,
+        /// @brief Italian
         italian,
+        /// @brief Norwegian
         norwegian,
+        /// @brief Portuguese
         portuguese,
+        /// @brief Spanish
         spanish,
+        /// @brief Swedish
         swedish,
+        /// @private
         STEMMING_TYPE_COUNT
         };
     // these characters should not appear in an indexed word
@@ -111,7 +124,7 @@ namespace stemming
 
     /** @brief The base class for language-specific stemmers.
         @details The template argument for the stemmers are the type
-        of `std::basic_string` that you are trying to stem, by default `std::wstring` (Unicode strings).
+        of `std::basic_string` that you are trying to stem, by default `std::wstring` (double-byte strings).
         As long as the char type of your `basic_string` is `wchar_t`, then you can use any type of `basic_string`.
         This is to say, if your `basic_string` has a custom character traits or allocator, then just specify it in
         your template argument to the stemmer.
@@ -136,18 +149,18 @@ namespace stemming
         virtual ~stem() {}
     protected:
         // R1, R2, RV functions
-        /// Finds the start of R1.
+        /// @brief Finds the start of R1.
         /// @param text The string to review.
         /// @param vowel_list The list of vowels by the stemmer's language.
         void find_r1(const string_typeT& text,
                      const wchar_t* vowel_list) noexcept
             {
-            //see where the R1 section begin
-            //R1 is the region after the first consonant after the first vowel
+            // see where the R1 section begin
+            // R1 is the region after the first consonant after the first vowel
             size_t start = text.find_first_of(vowel_list, 0);
             if (start == string_typeT::npos)
                 {
-                //we need at least need a vowel somewhere in the word
+                // we need at least need a vowel somewhere in the word
                 m_r1 = text.length();
                 return;
                 }
@@ -163,15 +176,15 @@ namespace stemming
                 }
             }
 
-        /// Finds the start of R2.
+        /// @brief Finds the start of R2.
         /// @param text The string to review.
         /// @param vowel_list The list of vowels by the stemmer's language.
         void find_r2(const string_typeT& text,
                      const wchar_t* vowel_list) noexcept
             {
             size_t start = 0;
-            //look for R2--not required for all criteria.
-            //R2 is the region after the first consonant after the first vowel after R1
+            // look for R2--not required for all criteria.
+            // R2 is the region after the first consonant after the first vowel after R1
             if (get_r1() != text.length() )
                 {
                 start = text.find_first_of(vowel_list, get_r1());
@@ -199,25 +212,25 @@ namespace stemming
                 }
             }
 
-        /// Finds the start of RV (Spanish stemmer).
+        /// @brief Finds the start of RV (Spanish stemmer).
         /// @param text The string to review.
         /// @param vowel_list The list of vowels by the stemmer's language.
         void find_spanish_rv(const string_typeT& text,
                              const wchar_t* vowel_list)
             {
-            //see where the RV section begin
+            // see where the RV section begin
             if (text.length() < 4)
                 {
                 m_rv = text.length();
                 return;
                 }
-            //if second letter is a consonant
+            // if second letter is a consonant
             if (!is_one_of(text[1], vowel_list) )
                 {
                 const size_t start = text.find_first_of(vowel_list, 2);
                 if (start == string_typeT::npos)
                     {
-                    //can't find next vowel
+                    // can't find next vowel
                     m_rv = text.length();
                     return;
                     }
@@ -226,14 +239,14 @@ namespace stemming
                     m_rv = start+1;
                     }
                 }
-            //if first two letters are vowels
+            // if first two letters are vowels
             else if (is_one_of(text[0], vowel_list) &&
                      is_one_of(text[1], vowel_list))
                 {
                 const size_t start = text.find_first_not_of(vowel_list, 2);
                 if (start == string_typeT::npos)
                     {
-                    //can't find next consonant
+                    // can't find next consonant
                     m_rv = text.length();
                     return;
                     }
@@ -242,7 +255,7 @@ namespace stemming
                     m_rv = start+1;
                     }
                 }
-            //consonant/vowel at beginning
+            // consonant/vowel at beginning
             else if (!is_one_of(text[0], vowel_list) &&
                      is_one_of(text[1], vowel_list))
                 {
@@ -254,7 +267,7 @@ namespace stemming
                 }
             }
 
-        /* Finds the start of RV (French stemmer).
+        /* @brief Finds the start of RV (French stemmer).
            @param text The string to review.
            @param vowel_list The list of vowels by the stemmer's language.
            @note If the word begins with two vowels, RV is the region after the third letter,
@@ -264,32 +277,32 @@ namespace stemming
         void find_french_rv(const string_typeT& text,
                             const wchar_t* vowel_list)
             {
-            //see where the RV section begin
+            // see where the RV section begin
             if (text.length() < 3)
                 {
                 m_rv = text.length();
                 return;
                 }
-            /*Exceptions: If the word begins with these then RV goes right after them,
-              whether it be a letter or simply the end of the word.*/
+            /* Exceptions: If the word begins with these then RV goes right after them,
+               whether it be a letter or simply the end of the word.*/
             if (text.length() >= 3 &&
                 ((is_either<wchar_t>(text[0], common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) &&
                 is_either<wchar_t>(text[1], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
-                is_either<wchar_t>(text[2], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) ) || //par
+                is_either<wchar_t>(text[2], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) ) || // par
 
                 (is_either<wchar_t>(text[0], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
                 is_either<wchar_t>(text[1], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
-                is_either<wchar_t>(text[2], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) ) || //col
+                is_either<wchar_t>(text[2], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) ) || // col
 
                 (is_either<wchar_t>(text[0], common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) &&
                 is_either<wchar_t>(text[1], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
-                is_either<wchar_t>(text[2], common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) )) //tap
+                is_either<wchar_t>(text[2], common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) )) // tap
                 )
                 {
                 m_rv = 3;
                 return;
                 }
-            //if first two letters are vowels
+            // if first two letters are vowels
             if (is_one_of(text[0], vowel_list) &&
                 is_one_of(text[1], vowel_list))
                 {
@@ -300,14 +313,14 @@ namespace stemming
                 size_t start = text.find_first_not_of(vowel_list, 0);
                 if (start == string_typeT::npos)
                     {
-                    //can't find first consonant
+                    // can't find first consonant
                     m_rv = text.length();
                     return;
                     }
                 start = text.find_first_of(vowel_list, start);
                 if (start == string_typeT::npos)
                     {
-                    //can't find first vowel
+                    // can't find first vowel
                     m_rv = text.length();
                     return;
                     }
@@ -315,7 +328,7 @@ namespace stemming
                 }
             }
 
-        /* Finds the start of RV (Russian stemmer).
+        /* @brief Finds the start of RV (Russian stemmer).
            @param text The string to review.
            @param vowel_list The list of vowels by the stemmer's language.*/
         void find_russian_rv(const string_typeT& text,
@@ -324,7 +337,7 @@ namespace stemming
             const size_t start = text.find_first_of(vowel_list);
             if (start == string_typeT::npos)
                 {
-                //can't find first vowel
+                // can't find first vowel
                 m_rv = text.length();
                 return;
                 }
@@ -334,7 +347,7 @@ namespace stemming
                 }
             }
 
-        /// Updates positions of the R sections.
+        /// @brief Updates positions of the R sections.
         /// @param text The string being reviewed.
         inline void update_r_sections(const string_typeT& text) noexcept
             {
@@ -345,9 +358,9 @@ namespace stemming
             if (get_rv() > text.length() )
                 { m_rv = text.length(); }
             }
-        /** Determines if a character is an apostrophe (includes straight single quotes).
+        /** @brief Determines if a character is an apostrophe (includes straight single quotes).
             @param ch The letter to be analyzed.
-            @returns True if character is an apostrophe.*/
+            @returns @c true if character is an apostrophe.*/
         constexpr bool is_apostrophe(const wchar_t& ch) const noexcept
             {
             return (ch == 39) ?         // '
@@ -357,7 +370,7 @@ namespace stemming
                 true : false;
             }
 
-        /// Trims punctions from the end of a string.
+        /// @brief Trims punctions from the end of a string.
         /// @param text The string to trim.
         void trim_western_punctuation(string_typeT& text) const
             {
@@ -380,7 +393,7 @@ namespace stemming
                     !(lastChar >= 97 && lastChar <= 122) &&
                     !(lastChar >= 192 && lastChar <= 246) &&
                     !(lastChar >= 248 && lastChar <= 255) &&
-                    lastChar != 0xA0) //space
+                    lastChar != 0xA0) // space
                     {
                     text.erase(text.length()-1);
                     }
@@ -402,11 +415,11 @@ namespace stemming
 
         //  suffix determinant functions
         //------------------------------------
-        /// is_suffix for one character.
+        /// @brief is_suffix for one character.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
-        /// @returns True if characters match suffix.
+        /// @returns @c true if characters match suffix.
         inline bool is_suffix(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U) const
             {
@@ -414,13 +427,13 @@ namespace stemming
                 { return false; }
             return is_either<wchar_t>(text[text.length()-1], suffix1L, suffix1U);
             }
-        /// is_suffix for two characters.
+        /// @brief is_suffix for two characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
         /// @param suffix2L The lowercased version of the second character of the suffix.
         /// @param suffix2U The uppercased version of the second character of the suffix.
-        /// @returns True if characters match suffix.
+        /// @returns @c true if characters match suffix.
         inline bool is_suffix(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U) const
@@ -433,7 +446,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix2L, suffix2U);
             }
 
-        /// is_suffix for three characters.
+        /// @brief is_suffix for three characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -441,7 +454,7 @@ namespace stemming
         /// @param suffix2U The uppercased version of the second character of the suffix.
         /// @param suffix3L The lowercased version of the third character of the suffix.
         /// @param suffix3U The uppercased version of the third character of the suffix.
-        /// @returns True if characters match suffix.
+        /// @returns @c true if characters match suffix.
         inline bool is_suffix(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -455,7 +468,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-2], suffix2L, suffix2U) &&
                     is_either<wchar_t>(text[text.length()-1], suffix3L, suffix3U);
             }
-        /// is_suffix for four characters.
+        /// @brief is_suffix for four characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -465,7 +478,7 @@ namespace stemming
         /// @param suffix3U The uppercased version of the third character of the suffix.
         /// @param suffix4L The lowercased version of the fourth character of the suffix.
         /// @param suffix4U The uppercased version of the fourth character of the suffix.
-        /// @returns True if characters match suffix.
+        /// @returns @c true if characters match suffix.
         inline bool is_suffix(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -481,7 +494,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-2], suffix3L, suffix3U) &&
                     is_either<wchar_t>(text[text.length()-1], suffix4L, suffix4U);
             }
-        /// is_suffix for five characters.
+        /// @brief is_suffix for five characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -493,7 +506,7 @@ namespace stemming
         /// @param suffix4U The uppercased version of the fourth character of the suffix.
         /// @param suffix5L The lowercased version of the fifth character of the suffix.
         /// @param suffix5U The uppercased version of the fifth character of the suffix.
-        /// @returns True if characters match suffix.
+        /// @returns @c true if characters match suffix.
         inline bool is_suffix(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -511,7 +524,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-2], suffix4L, suffix4U) &&
                     is_either<wchar_t>(text[text.length()-1], suffix5L, suffix5U);
             }
-        /// is_suffix for six characters.
+        /// @brief is_suffix for six characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -525,7 +538,7 @@ namespace stemming
         /// @param suffix5U The uppercased version of the fifth character of the suffix.
         /// @param suffix6L The lowercased version of the sixth character of the suffix.
         /// @param suffix6U The uppercased version of the sixth character of the suffix.
-        /// @returns True if characters match suffix.
+        /// @returns @c true if characters match suffix.
         inline bool is_suffix(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -545,7 +558,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-2], suffix5L, suffix5U) &&
                     is_either<wchar_t>(text[text.length()-1], suffix6L, suffix6U);
             }
-        /// is_suffix for seven characters.
+        /// @brief is_suffix for seven characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -561,7 +574,7 @@ namespace stemming
         /// @param suffix6U The uppercased version of the sixth character of the suffix.
         /// @param suffix7L The lowercased version of the seventh character of the suffix.
         /// @param suffix7U The uppercased version of the seventh character of the suffix.
-        /// @returns True if characters match suffix.
+        /// @returns @c true if characters match suffix.
         inline bool is_suffix(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -583,7 +596,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-2], suffix6L, suffix6U) &&
                     is_either<wchar_t>(text[text.length()-1], suffix7L, suffix7U);
             }
-        /// is_suffix for eight characters.
+        /// @brief is_suffix for eight characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -601,7 +614,7 @@ namespace stemming
         /// @param suffix7U The uppercased version of the seventh character of the suffix.
         /// @param suffix8L The lowercased version of the eighth character of the suffix.
         /// @param suffix8U The uppercased version of the eighth character of the suffix.
-        /// @returns True if characters match suffix.
+        /// @returns @c true if characters match suffix.
         inline bool is_suffix(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -625,7 +638,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-2], suffix7L, suffix7U) &&
                     is_either<wchar_t>(text[text.length()-1], suffix8L, suffix8U);
             }
-        /// is_suffix for nine characters.
+        /// @brief is_suffix for nine characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -645,7 +658,7 @@ namespace stemming
         /// @param suffix8U The uppercased version of the eighth character of the suffix.
         /// @param suffix9L The lowercased version of the ninth character of the suffix.
         /// @param suffix9U The uppercased version of the ninth character of the suffix.
-        /// @returns True if characters match suffix.
+        /// @returns @c true if characters match suffix.
         inline bool is_suffix(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -672,14 +685,14 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix9L, suffix9U);
             }
 
-        /// Comparison for two characters.
+        /// @brief Comparison for two characters.
         /// @param text The string being reviewed.
         /// @param start_index Where to start the suffix comparison.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
         /// @param suffix2L The lowercased version of the second character of the suffix.
         /// @param suffix2U The uppercased version of the second character of the suffix.
-        /// @returns True if characters are a partial suffix.
+        /// @returns @c true if characters are a partial suffix.
         inline bool is_partial_suffix(const string_typeT& text,
                     const size_t start_index,
                     const wchar_t suffix1L, const wchar_t suffix1U,
@@ -690,7 +703,7 @@ namespace stemming
             return (is_either<wchar_t>(text[start_index], suffix1L, suffix1U) &&
                     is_either<wchar_t>(text[start_index+1], suffix2L, suffix2U));
             }
-        /// Comparison for three characters.
+        /// @brief Comparison for three characters.
         /// @param text The string being reviewed.
         /// @param start_index Where to start the suffix comparison.
         /// @param suffix1L The lowercased version of the first character of the suffix.
@@ -699,7 +712,7 @@ namespace stemming
         /// @param suffix2U The uppercased version of the second character of the suffix.
         /// @param suffix3L The lowercased version of the third character of the suffix.
         /// @param suffix3U The uppercased version of the third character of the suffix.
-        /// @returns True if characters are a partial suffix.
+        /// @returns @c true if characters are a partial suffix.
         inline bool is_partial_suffix(const string_typeT& text,
                     const size_t start_index,
                     const wchar_t suffix1L, const wchar_t suffix1U,
@@ -715,11 +728,11 @@ namespace stemming
 
         //  RV suffix functions
         //-------------------------------------------------
-        /// RV suffix comparison for one character.
+        /// @brief RV suffix comparison for one character.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
-        /// @returns True if suffix is in RV.
+        /// @returns @c true if suffix is in RV.
         inline bool is_suffix_in_rv(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U)
             {
@@ -730,13 +743,13 @@ namespace stemming
             return (is_either<wchar_t>(text[text.length()-1], suffix1L, suffix1U) &&
                     (get_rv() <= text.length()-1) );
             }
-        /// RV suffix comparison for two characters.
+        /// @brief RV suffix comparison for two characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
         /// @param suffix2L The lowercased version of the second character of the suffix.
         /// @param suffix2U The uppercased version of the second character of the suffix.
-        /// @returns True if suffix is in RV.
+        /// @returns @c true if suffix is in RV.
         inline bool is_suffix_in_rv(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U)
@@ -749,7 +762,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix2L, suffix2U) ) &&
                     (get_rv() <= text.length()-2) );
             }
-        /// RV suffix comparison for three characters.
+        /// @brief RV suffix comparison for three characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -757,7 +770,7 @@ namespace stemming
         /// @param suffix2U The uppercased version of the second character of the suffix.
         /// @param suffix3L The lowercased version of the third character of the suffix.
         /// @param suffix3U The uppercased version of the third character of the suffix.
-        /// @returns True if suffix is in RV.
+        /// @returns @c true if suffix is in RV.
         inline bool is_suffix_in_rv(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -772,7 +785,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix3L, suffix3U) ) &&
                     (get_rv() <= text.length()-3) );
             }
-        /// RV suffix comparison for four characters.
+        /// @brief RV suffix comparison for four characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -782,7 +795,7 @@ namespace stemming
         /// @param suffix3U The uppercased version of the third character of the suffix.
         /// @param suffix4L The lowercased version of the fourth character of the suffix.
         /// @param suffix4U The uppercased version of the fourth character of the suffix.
-        /// @returns True if suffix is in RV.
+        /// @returns @c true if suffix is in RV.
         inline bool is_suffix_in_rv(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -799,7 +812,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix4L, suffix4U) ) &&
                     (get_rv() <= text.length()-4) );
             }
-        /// RV suffix comparison for five characters.
+        /// @brief RV suffix comparison for five characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -811,7 +824,7 @@ namespace stemming
         /// @param suffix4U The uppercased version of the fourth character of the suffix.
         /// @param suffix5L The lowercased version of the fifth character of the suffix.
         /// @param suffix5U The uppercased version of the fifth character of the suffix.
-        /// @returns True if suffix is in RV.
+        /// @returns @c true if suffix is in RV.
         inline bool is_suffix_in_rv(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -830,7 +843,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix5L, suffix5U) ) &&
                     (get_rv() <= text.length()-5) );
             }
-        /// RV suffix comparison for six characters.
+        /// @brief RV suffix comparison for six characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -844,7 +857,7 @@ namespace stemming
         /// @param suffix5U The uppercased version of the fifth character of the suffix.
         /// @param suffix6L The lowercased version of the sixth character of the suffix.
         /// @param suffix6U The uppercased version of the sixth character of the suffix.
-        /// @returns True if suffix is in RV.
+        /// @returns @c true if suffix is in RV.
         inline bool is_suffix_in_rv(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -865,7 +878,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix6L, suffix6U) ) &&
                     (get_rv() <= text.length()-6) );
             }
-        /// RV suffix comparison for seven characters.
+        /// @brief RV suffix comparison for seven characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -881,7 +894,7 @@ namespace stemming
         /// @param suffix6U The uppercased version of the sixth character of the suffix.
         /// @param suffix7L The lowercased version of the seventh character of the suffix.
         /// @param suffix7U The uppercased version of the seventh character of the suffix.
-        /// @returns True if suffix is in RV.
+        /// @returns @c true if suffix is in RV.
         inline bool is_suffix_in_rv(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -904,7 +917,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix7L, suffix7U) ) &&
                     (get_rv() <= text.length()-7) );
             }
-        /// RV suffix comparison for eight characters.
+        /// @brief RV suffix comparison for eight characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -922,7 +935,7 @@ namespace stemming
         /// @param suffix7U The uppercased version of the seventh character of the suffix.
         /// @param suffix8L The lowercased version of the eigth character of the suffix.
         /// @param suffix8U The uppercased version of the eigth character of the suffix.
-        /// @returns True if suffix is in RV.
+        /// @returns @c true if suffix is in RV.
         inline bool is_suffix_in_rv(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -950,11 +963,11 @@ namespace stemming
 
         //  R1 suffix functions
         //-------------------------------------------------
-        /// R1 suffix comparison for one character.
+        /// @brief R1 suffix comparison for one character.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
-        /// @returns True if suffix is in R1.
+        /// @returns @c true if suffix is in R1.
         inline bool is_suffix_in_r1(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U)
             {
@@ -965,13 +978,13 @@ namespace stemming
             return (is_either<wchar_t>(text[text.length()-1], suffix1L, suffix1U) &&
                     (get_r1() <= text.length()-1) );
             }
-        /// R1 suffix comparison for two characters.
+        /// @brief 1 suffix comparison for two characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
         /// @param suffix2L The lowercased version of the second character of the suffix.
         /// @param suffix2U The uppercased version of the second character of the suffix.
-        /// @returns True if suffix is in R1.
+        /// @returns @c true if suffix is in R1.
         inline bool is_suffix_in_r1(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U)
@@ -984,7 +997,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix2L, suffix2U) ) &&
                     (get_r1() <= text.length()-2) );
             }
-        /// R1 suffix comparison for three characters.
+        /// @brief R1 suffix comparison for three characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -992,7 +1005,7 @@ namespace stemming
         /// @param suffix2U The uppercased version of the second character of the suffix.
         /// @param suffix3L The lowercased version of the third character of the suffix.
         /// @param suffix3U The uppercased version of the third character of the suffix.
-        /// @returns True if suffix is in R1.
+        /// @returns @c true if suffix is in R1.
         inline bool is_suffix_in_r1(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1007,7 +1020,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix3L, suffix3U) ) &&
                     (get_r1() <= text.length()-3) );
             }
-        /// R1 suffix comparison for four characters.
+        /// @brief R1 suffix comparison for four characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1017,7 +1030,7 @@ namespace stemming
         /// @param suffix3U The uppercased version of the third character of the suffix.
         /// @param suffix4L The lowercased version of the fourth character of the suffix.
         /// @param suffix4U The uppercased version of the fourth character of the suffix.
-        /// @returns True if suffix is in R1.
+        /// @returns @c true if suffix is in R1.
         inline bool is_suffix_in_r1(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1034,7 +1047,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix4L, suffix4U) ) &&
                     (get_r1() <= text.length()-4) );
             }
-        /// R1 suffix comparison for five characters.
+        /// @brief R1 suffix comparison for five characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1046,7 +1059,7 @@ namespace stemming
         /// @param suffix4U The uppercased version of the fourth character of the suffix.
         /// @param suffix5L The lowercased version of the fifth character of the suffix.
         /// @param suffix5U The uppercased version of the fifth character of the suffix.
-        /// @returns True if suffix is in R1.
+        /// @returns @c true if suffix is in R1.
         inline bool is_suffix_in_r1(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1065,7 +1078,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix5L, suffix5U) ) &&
                     (get_r1() <= text.length()-5) );
             }
-        /// R1 suffix comparison for six characters.
+        /// @brief R1 suffix comparison for six characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1079,7 +1092,7 @@ namespace stemming
         /// @param suffix5U The uppercased version of the fifth character of the suffix.
         /// @param suffix6L The lowercased version of the sixth character of the suffix.
         /// @param suffix6U The uppercased version of the sixth character of the suffix.
-        /// @returns True if suffix is in R1.
+        /// @returns @c true if suffix is in R1.
         inline bool is_suffix_in_r1(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1103,11 +1116,11 @@ namespace stemming
 
         //  R2 suffix functions
         //-------------------------------------------------
-        /// R2 suffix comparison for one character.
+        /// @brief R2 suffix comparison for one character.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
-        /// @returns True if suffix is in R21.
+        /// @returns @c true if suffix is in R21.
         inline bool is_suffix_in_r2(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U)
             {
@@ -1118,13 +1131,13 @@ namespace stemming
             return (is_either<wchar_t>(text[text.length()-1], suffix1L, suffix1U) &&
                     (get_r2() <= text.length()-1) );
             }
-        /// R2 suffix comparison for two characters.
+        /// @brief R2 suffix comparison for two characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
         /// @param suffix2L The lowercased version of the second character of the suffix.
         /// @param suffix2U The uppercased version of the second character of the suffix.
-        /// @returns True if suffix is in R2.
+        /// @returns @c true if suffix is in R2.
         inline bool is_suffix_in_r2(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U)
@@ -1137,7 +1150,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix2L, suffix2U) ) &&
                     (get_r2() <= text.length()-2) );
             }
-        /// R2 suffix comparison for three characters.
+        /// @brief R2 suffix comparison for three characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1145,7 +1158,7 @@ namespace stemming
         /// @param suffix2U The uppercased version of the second character of the suffix.
         /// @param suffix3L The lowercased version of the third character of the suffix.
         /// @param suffix3U The uppercased version of the third character of the suffix.
-        /// @returns True if suffix is in R2.
+        /// @returns @c true if suffix is in R2.
         inline bool is_suffix_in_r2(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1160,7 +1173,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix3L, suffix3U) ) &&
                     (get_r2() <= text.length()-3) );
             }
-        /// R2 suffix comparison for four characters.
+        /// @brief R2 suffix comparison for four characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1170,7 +1183,7 @@ namespace stemming
         /// @param suffix3U The uppercased version of the third character of the suffix.
         /// @param suffix4L The lowercased version of the fourth character of the suffix.
         /// @param suffix4U The uppercased version of the fourth character of the suffix.
-        /// @returns True if suffix is in R2.
+        /// @returns @c true if suffix is in R2.
         inline bool is_suffix_in_r2(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1187,7 +1200,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix4L, suffix4U) ) &&
                     (get_r2() <= text.length()-4) );
             }
-        /// R2 suffix comparison for five characters.
+        /// @brief R2 suffix comparison for five characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1199,7 +1212,7 @@ namespace stemming
         /// @param suffix4U The uppercased version of the fourth character of the suffix.
         /// @param suffix5L The lowercased version of the fifth character of the suffix.
         /// @param suffix5U The uppercased version of the fifth character of the suffix.
-        /// @returns True if suffix is in R2.
+        /// @returns @c true if suffix is in R2.
         inline bool is_suffix_in_r2(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1218,7 +1231,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix5L, suffix5U) ) &&
                     (get_r2() <= text.length()-5) );
             }
-        /// R2 suffix comparison for six characters.
+        /// @brief R2 suffix comparison for six characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1232,7 +1245,7 @@ namespace stemming
         /// @param suffix5U The uppercased version of the fifth character of the suffix.
         /// @param suffix6L The lowercased version of the sixth character of the suffix.
         /// @param suffix6U The uppercased version of the sixth character of the suffix.
-        /// @returns True if suffix is in R2.
+        /// @returns @c true if suffix is in R2.
         inline bool is_suffix_in_r2(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1253,7 +1266,7 @@ namespace stemming
                     is_either<wchar_t>(text[text.length()-1], suffix6L, suffix6U) ) &&
                     (get_r2() <= text.length()-6) );
             }
-        /// R2 suffix comparison for seven characters.
+        /// @brief R2 suffix comparison for seven characters.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1269,7 +1282,7 @@ namespace stemming
         /// @param suffix6U The uppercased version of the sixth character of the suffix.
         /// @param suffix7L The lowercased version of the seventh character of the suffix.
         /// @param suffix7U The uppercased version of the seventh character of the suffix.
-        /// @returns True if suffix is in R2.
+        /// @returns @c true if suffix is in R2.
         inline bool is_suffix_in_r2(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1295,12 +1308,12 @@ namespace stemming
 
         //  suffix removal functions
         //---------------------------
-        /// R1 deletion for one character suffix
+        /// @brief R1 deletion for one character suffix
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_r1(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const bool success_on_find = true)
@@ -1325,14 +1338,14 @@ namespace stemming
                 return false;
                 }
             }
-        /// R1 deletion for two character suffix.
+        /// @brief R1 deletion for two character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
         /// @param suffix2L The lowercased version of the second character of the suffix.
         /// @param suffix2U The uppercased version of the second character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_r1(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1358,7 +1371,7 @@ namespace stemming
                 return false;
                 }
             }
-        /// R1 deletion for three character suffix.
+        /// @brief R1 deletion for three character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1367,7 +1380,7 @@ namespace stemming
         /// @param suffix3L The lowercased version of the third character of the suffix.
         /// @param suffix3U The uppercased version of the third character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_r1(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1395,7 +1408,7 @@ namespace stemming
                 return false;
                 }
             }
-        /// R1 deletion for four character suffix.
+        /// @brief R1 deletion for four character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1406,7 +1419,7 @@ namespace stemming
         /// @param suffix4L The lowercased version of the fourth character of the suffix.
         /// @param suffix4U The uppercased version of the fourth character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_r1(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1436,7 +1449,7 @@ namespace stemming
                 return false;
                 }
             }
-        /// R1 deletion for five character suffix.
+        /// @brief R1 deletion for five character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1449,7 +1462,7 @@ namespace stemming
         /// @param suffix5L The lowercased version of the fifth character of the suffix.
         /// @param suffix5U The uppercased version of the fifth character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_r1(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1481,7 +1494,7 @@ namespace stemming
                 return false;
                 }
             }
-        /// R1 deletion for six character suffix.
+        /// @brief R1 deletion for six character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1496,7 +1509,7 @@ namespace stemming
         /// @param suffix6L The lowercased version of the sixth character of the suffix.
         /// @param suffix6U The uppercased version of the sixth character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_r1(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1530,7 +1543,7 @@ namespace stemming
                 return false;
                 }
             }
-        /// R1 deletion for seven character suffix.
+        /// @brief R1 deletion for seven character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1547,7 +1560,7 @@ namespace stemming
         /// @param suffix7L The lowercased version of the seventh character of the suffix.
         /// @param suffix7U The uppercased version of the seventh character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_r1(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1586,12 +1599,12 @@ namespace stemming
 
         //  R2 deletion functions
         //------------------------
-        // R2 deletion for one character suffix.
+        /// @brief R2 deletion for one character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_r2(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const bool success_on_find = true)
@@ -1615,14 +1628,14 @@ namespace stemming
                 return false;
                 }
             }
-        /// R2 deletion for two character suffix.
+        /// @brief R2 deletion for two character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
         /// @param suffix2L The lowercased version of the second character of the suffix.
         /// @param suffix2U The uppercased version of the second character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_r2(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1648,7 +1661,7 @@ namespace stemming
                 return false;
                 }
             }
-        /// R2 deletion for three character suffix.
+        /// @brief R2 deletion for three character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1657,7 +1670,7 @@ namespace stemming
         /// @param suffix3L The lowercased version of the third character of the suffix.
         /// @param suffix3U The uppercased version of the third character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_r2(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1685,7 +1698,7 @@ namespace stemming
                 return false;
                 }
             }
-        /// R2 deletion for four character suffix.
+        /// @brief R2 deletion for four character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1696,7 +1709,7 @@ namespace stemming
         /// @param suffix4L The lowercased version of the fourth character of the suffix.
         /// @param suffix4U The uppercased version of the fourth character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_r2(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1726,7 +1739,7 @@ namespace stemming
                 return false;
                 }
             }
-        /// R2 deletion for five character suffix.
+        /// @brief R2 deletion for five character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1739,7 +1752,7 @@ namespace stemming
         /// @param suffix5L The lowercased version of the fifth character of the suffix.
         /// @param suffix5U The uppercased version of the fifth character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_r2(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1771,7 +1784,7 @@ namespace stemming
                 return false;
                 }
             }
-        /// R2 deletion for six character suffix.
+        /// @brief R2 deletion for six character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1786,7 +1799,7 @@ namespace stemming
         /// @param suffix6L The lowercased version of the sixth character of the suffix.
         /// @param suffix6U The uppercased version of the sixth character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_r2(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1820,7 +1833,7 @@ namespace stemming
                 return false;
                 }
             }
-        /// R2 deletion for seven character suffix.
+        /// @brief R2 deletion for seven character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1837,7 +1850,7 @@ namespace stemming
         /// @param suffix7L The lowercased version of the seventh character of the suffix.
         /// @param suffix7U The uppercased version of the seventh character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_r2(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1873,7 +1886,7 @@ namespace stemming
                 return false;
                 }
             }
-        /// R2 deletion for eight character suffix.
+        /// @brief R2 deletion for eight character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -1892,7 +1905,7 @@ namespace stemming
         /// @param suffix8L The lowercased version of the eigth character of the suffix.
         /// @param suffix8U The uppercased version of the eigth character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_r2(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1933,12 +1946,12 @@ namespace stemming
         
         //  RV deletion functions
         //---------------------------
-        /// RV deletion for one character suffix.
+        /// @brief RV deletion for one character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_rv(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const bool success_on_find = true)
@@ -1962,14 +1975,14 @@ namespace stemming
                 return false;
                 }
             }
-        /// RV deletion for two character suffix.
+        /// @brief RV deletion for two character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
         /// @param suffix2L The lowercased version of the second character of the suffix.
         /// @param suffix2U The uppercased version of the second character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_rv(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1995,7 +2008,7 @@ namespace stemming
                 return false;
                 }
             }
-        /// RV deletion for three character suffix.
+        /// @brief RV deletion for three character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -2004,7 +2017,7 @@ namespace stemming
         /// @param suffix3L The lowercased version of the third character of the suffix.
         /// @param suffix3U The uppercased version of the third character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_rv(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -2032,7 +2045,7 @@ namespace stemming
                 return false;
                 }
             }
-        /// RV deletion for four character suffix.
+        /// @brief RV deletion for four character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -2043,7 +2056,7 @@ namespace stemming
         /// @param suffix4L The lowercased version of the fourth character of the suffix.
         /// @param suffix4U The uppercased version of the fourth character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_rv(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -2073,7 +2086,7 @@ namespace stemming
                 return false;
                 }
             }
-        /// RV deletion for five character suffix.
+        /// @brief RV deletion for five character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -2086,7 +2099,7 @@ namespace stemming
         /// @param suffix5L The lowercased version of the fifth character of the suffix.
         /// @param suffix5U The uppercased version of the fifth character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_rv(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -2118,7 +2131,7 @@ namespace stemming
                 return false;
                 }
             }
-        /// RV deletion for six character suffix.
+        /// @brief RV deletion for six character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -2133,7 +2146,7 @@ namespace stemming
         /// @param suffix6L The lowercased version of the sixth character of the suffix.
         /// @param suffix6U The uppercased version of the sixth character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_rv(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -2167,7 +2180,7 @@ namespace stemming
                 return false;
                 }
             }
-        /// RV deletion for seven character suffix.
+        /// @brief RV deletion for seven character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -2184,7 +2197,7 @@ namespace stemming
         /// @param suffix7L The lowercased version of the seventh character of the suffix.
         /// @param suffix7U The uppercased version of the seventh character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_rv(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -2220,7 +2233,7 @@ namespace stemming
                 return false;
                 }
             }
-        /// RV deletion for eight character suffix.
+        /// @brief RV deletion for eight character suffix.
         /// @param text The string being reviewed.
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
@@ -2239,7 +2252,7 @@ namespace stemming
         /// @param suffix8L The lowercased version of the eigth character of the suffix.
         /// @param suffix8U The uppercased version of the eigth character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
-        /// @returns True if characters match suffix and are deleted.
+        /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_rv(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -2278,7 +2291,7 @@ namespace stemming
                 }
             }
 
-        /// Removes umlauts from string.
+        /// @brief Removes umlauts from string.
         /// @param text The string to update.
         void remove_german_umlauts(string_typeT& text)
             {
@@ -2310,62 +2323,62 @@ namespace stemming
                     }
                 }
             }
-        /// Encodes acutes to graves.
+        /// @brief Encodes acutes to graves.
         /// @param text The string to update.
         void italian_acutes_to_graves(string_typeT& text)
             {
             for (size_t i = 0; i < text.length(); ++i)
                 {
-                if (text[i] == 0xC1)//A acute
+                if (text[i] == 0xC1) // A acute
                     {
                     text[i] = 0xC0;
                     }
-                else if (text[i] == 0xC9)//E acute
+                else if (text[i] == 0xC9) // E acute
                     {
                     text[i] = 0xC8;
                     }
-                else if (text[i] == 0xCD)//I acute
+                else if (text[i] == 0xCD) // I acute
                     {
                     text[i] = 0xCC;
                     }
-                else if (text[i] == 0xD3)//O acute
+                else if (text[i] == 0xD3) // O acute
                     {
                     text[i] = 0xD2;
                     }
-                else if (text[i] == 0xDA)//U acute
+                else if (text[i] == 0xDA) // U acute
                     {
                     text[i] = 0xD9;
                     }
-                else if (text[i] == 0xE1)//a acute
+                else if (text[i] == 0xE1) // a acute
                     {
                     text[i] = 0xE0;
                     }
-                else if (text[i] == 0xE9)//e acute
+                else if (text[i] == 0xE9) // e acute
                     {
                     text[i] = 0xE8;
                     }
-                else if (text[i] == 0xED)//i acute
+                else if (text[i] == 0xED) // i acute
                     {
                     text[i] = 0xEC;
                     }
-                else if (text[i] == 0xF3)//o acute
+                else if (text[i] == 0xF3) // o acute
                     {
                     text[i] = 0xF2;
                     }
-                else if (text[i] == 0xFA)//u acute
+                else if (text[i] == 0xFA) // u acute
                     {
                     text[i] = 0xF9;
                     }
                 }
             }
 
-        /// Hashes initial y, y after a vowel, and i between vowels into hashed character.
+        /// @brief Hashes initial y, y after a vowel, and i between vowels into hashed character.
         /// @param text The string to update.
         /// @param vowel_string The list of vowels used by the stemmer's language.
         void hash_dutch_yi(string_typeT& text,
                     const wchar_t* vowel_string)
             {
-            //need at least 2 letters for hashing
+            // need at least 2 letters for hashing
             if (text.length() < 2)
                 { return; }
 
@@ -2417,7 +2430,7 @@ namespace stemming
                     in_vowel_block = false;
                     }
                 }
-            //check the last letter
+            // check the last letter
             if (in_vowel_block &&
                 text[i] == common_lang_constants::LOWER_Y)
                 {
@@ -2432,7 +2445,7 @@ namespace stemming
                 }
             }
 
-        /// Unhashes y and i in a sting.
+        /// @brief Unhashes y and i in a sting.
         /// @param text The string to update.
         inline void unhash_dutch_yi(string_typeT& text)
             {
@@ -2442,13 +2455,13 @@ namespace stemming
             replace_all(text, UPPER_I_HASH, common_lang_constants::UPPER_I);
             }
 
-        /// Hash 'u' and 'y' between vowels.
+        /// @brief Hash 'u' and 'y' between vowels.
         /// @param text The string to update.
         /// @param vowel_string The list of vowels used by the stemmer's language.
         void hash_german_yu(string_typeT& text,
                     const wchar_t* vowel_string)
             {
-            //need at least 2 letters for hashing
+            // need at least 2 letters for hashing
             if (text.length() < 2)
                 { return; }
 
@@ -2486,10 +2499,10 @@ namespace stemming
                     in_vowel_block = false;
                     }
                 }
-            //hashable values must be between vowels, so don't bother looking at last letter
+            // hashable values must be between vowels, so don't bother looking at last letter
             }
 
-        /// Unhashes y and u in a sting.
+        /// @brief Unhashes y and u in a sting.
         /// @param text The string to update.
         inline void unhash_german_yu(string_typeT& text)
             {
@@ -2510,13 +2523,13 @@ namespace stemming
         void hash_french_yui(string_typeT& text,
                     const wchar_t* vowel_string)
             {
-            //need at least 2 letters for hashing
+            // need at least 2 letters for hashing
             if (text.length() < 2)
                 { return; }
 
             bool in_vowel_block = false;
 
-            //start loop at zero because 'y' at start of string can be hashed
+            // start loop at zero because 'y' at start of string can be hashed
             size_t i = 0;
             for (i = 0; i < text.length()-1; ++i)
                 {
@@ -2555,7 +2568,7 @@ namespace stemming
                         in_vowel_block = false;
                         }
                     }
-                //if just previous letter is a vowel then examine for 'y'
+                // if just previous letter is a vowel then examine for 'y'
                 else if (in_vowel_block &&
                         text[i] == common_lang_constants::LOWER_Y)
                     {
@@ -2568,7 +2581,7 @@ namespace stemming
                     text[i] = UPPER_Y_HASH;
                     in_vowel_block = false;
                     }
-                //if just following letter is a vowel then examine for 'y'
+                // if just following letter is a vowel then examine for 'y'
                 else if (text[i] == common_lang_constants::LOWER_Y &&
                         is_one_of(text[i+1], vowel_string) &&
                         is_neither<wchar_t>(text[i+1], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
@@ -2609,7 +2622,7 @@ namespace stemming
                     in_vowel_block = false;
                     }
                 }
-            //verify that the last letter
+            // verify that the last letter
             if (text[i] == common_lang_constants::LOWER_Y &&
                 (i > 0) &&
                 is_one_of(text[i-1], vowel_string)    )
@@ -2636,7 +2649,7 @@ namespace stemming
                 }
             }
 
-        /// Unhashes y, u, and i in a sting.
+        /// @brief Unhashes y, u, and i in a sting.
         /// @param text The string to update.
         void unhash_french_yui(string_typeT& text)
             {
@@ -2648,17 +2661,17 @@ namespace stemming
             replace_all(text, UPPER_I_HASH, common_lang_constants::UPPER_I);
             }
 
-        /// Hashes Y and y in a sting.
+        /// @brief Hashes Y and y in a sting.
         /// @param text The string to update.
         /// @param vowel_string The list of vowels used by the stemmer's language.
         void hash_y(string_typeT& text,
                     const wchar_t* vowel_string)
             {
-            //need at least 2 letters for hashing
+            // need at least 2 letters for hashing
             if (text.length() < 2)
                 { return; }
 
-            //if first letter is a 'y', then it is likely not a vowel
+            // if first letter is a 'y', then it is likely not a vowel
             if (text[0] == common_lang_constants::LOWER_Y)
                 {
                 text[0] = LOWER_Y_HASH;
@@ -2672,7 +2685,7 @@ namespace stemming
 
             for (size_t i = 1; i < text.length(); ++i)
                 {
-                //LOWER_Y after vowel is a consonant
+                // LOWER_Y after vowel is a consonant
                 if (in_vowel_block &&
                     text[i] == common_lang_constants::LOWER_Y)
                     {
@@ -2689,7 +2702,7 @@ namespace stemming
                     {
                     in_vowel_block = true;
                     }
-                //we are on a consonant
+                // we are on a consonant
                 else
                     {
                     in_vowel_block = false;
@@ -2697,7 +2710,7 @@ namespace stemming
                 }
             }
 
-        /// Unhashes Y and y in a sting.
+        /// @brief Unhashes Y and y in a sting.
         /// @param text The string to update.
         inline void unhash_y(string_typeT& text)
             {
@@ -2705,13 +2718,13 @@ namespace stemming
             replace_all(text, UPPER_Y_HASH, common_lang_constants::UPPER_Y);
             }
 
-        /// Hashes u after q, and u, i between vowels.
+        /// @brief Hashes u after q, and u, i between vowels.
         /// @param text The string to update.
         /// @param vowel_string The list of vowels used by the stemmer's language.
         void hash_italian_ui(string_typeT& text,
                     const wchar_t* vowel_string)
             {
-            //need at least 2 letters for hashing
+            // need at least 2 letters for hashing
             if (text.length() < 2)
                 { return; }
 
@@ -2743,8 +2756,8 @@ namespace stemming
                     }
                 else if (is_one_of(text[i], vowel_string) )
                     {
-                    /*u after q should be encrypted and not be
-                    treated as a vowel*/
+                    /* u after q should be encrypted and not be
+                       treated as a vowel*/
                     if (text[i] == common_lang_constants::LOWER_U &&
                         (i > 0) &&
                         is_either<wchar_t>(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
@@ -2764,13 +2777,13 @@ namespace stemming
                         in_vowel_block = true;
                         }
                     }
-                //we are on a consonant
+                // we are on a consonant
                 else
                     {
                     in_vowel_block = false;
                     }
                 }
-            //verify the last letter
+            // verify the last letter
             if (text[i] == common_lang_constants::LOWER_U &&
                 (i > 0) &&
                 is_either<wchar_t>(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
@@ -2785,7 +2798,7 @@ namespace stemming
                 }
             }
 
-        /// Unhashes Italian UIs in a sting.
+        /// @brief Unhashes Italian UIs in a sting.
         /// @param text The string to update.
         inline void unhash_italian_ui(string_typeT& text)
             {
@@ -2795,7 +2808,7 @@ namespace stemming
             replace_all(text, UPPER_U_HASH, common_lang_constants::UPPER_U);
             }
 
-        /// Encodes Dutch umlautsin a sting.
+        /// @brief Encodes Dutch umlautsin a sting.
         /// @param text The string to update.
         void remove_dutch_umlauts(string_typeT& text)
             {
@@ -2844,7 +2857,7 @@ namespace stemming
                 }
             }
 
-        /// Encodes Dutch acutes in a sting.
+        /// @brief Encodes Dutch acutes in a sting.
         /// @param text The string to update.
         void remove_dutch_acutes(string_typeT& text)
             {
@@ -2893,7 +2906,7 @@ namespace stemming
                 }
             }
 
-        /// Encodes Spanish acutes in a sting.
+        /// @brief Encodes Spanish acutes in a sting.
         /// @param text The string to update.
         void remove_spanish_acutes(string_typeT& text)
             {
@@ -2953,7 +2966,7 @@ namespace stemming
         /// @returns The position of R2.
         [[nodiscard]] inline size_t get_r2() const noexcept
             { return m_r2; }
-        /// Sets the position of R2.
+        /// @brief Sets the position of R2.
         /// @param pos The position.
         inline void set_r2(const size_t pos)
             { m_r2 = pos; }
@@ -2961,16 +2974,16 @@ namespace stemming
         /// @returns The position of RV.
         [[nodiscard]] inline size_t get_rv() const noexcept
             { return m_rv; }
-        /// Sets the position of RV.
+        /// @brief Sets the position of RV.
         /// @param pos The position.
         inline void set_rv(const size_t pos)
             { m_rv = pos; }
 
-        /// Resets the positions of R sections to 0.
+        /// @brief Resets the positions of R sections to 0.
         inline void reset_r_values() noexcept
             { m_r1 = m_r2 = m_rv = 0; }
 
-        /// lowercases any Western European alphabetic characters.
+        /// @brief lowercases any Western European alphabetic characters.
         /// @param c The character to lowercase.
         /// @returns The lowercased character.
         [[nodiscard]] inline static constexpr wchar_t tolower_western(const wchar_t c) noexcept
@@ -2981,10 +2994,10 @@ namespace stemming
                 ? (c + 32) : c;
             }
         
-        /** Determines if a character is one of a list of characters.
+        /** @brief Determines if a character is one of a list of characters.
             @param character The character to review.
             @param char_string The list of characters to compare against.
-            @returns True if the character of one of the list of characters.*/
+            @returns @c true if the character of one of the list of characters.*/
         [[nodiscard]] inline static constexpr bool is_one_of(const wchar_t character, const wchar_t* char_string) noexcept
             {
             if (!char_string)
@@ -2999,11 +3012,10 @@ namespace stemming
             return false;
             }
 
-        /** Replace all instances of a character in a string.
+        /** @brief Replace all instances of a character in a string.
             @param text The text to replace items in.
             @param charToReplace The character to replace.
-            @param replacementChar The character to replace @c charToReplace with.
-            @returns Does not return anything.*/ //hack to workaround incorrect Doxygen warning.
+            @param replacementChar The character to replace @c charToReplace with.*/
         static void replace_all(string_typeT& text,
                      const typename string_typeT::traits_type::char_type charToReplace,
                      const typename string_typeT::traits_type::char_type replacementChar)
@@ -3018,12 +3030,12 @@ namespace stemming
                 }
             }
 
-        /** Replace all instances of a substring in a string.
+        /** @brief Replace all instances of a substring in a string.
             @param text The text to replace items in.
             @param textToReplace The text to replace.
-            @param replacementText The text to replace @c textToReplace with.
-            @returns Does not return anything.*/
-        static void replace_all(string_typeT& text, const string_typeT& textToReplace, const string_typeT& replacementText)
+            @param replacementText The text to replace @c textToReplace with.*/
+        static void replace_all(string_typeT& text, const string_typeT& textToReplace,
+                                const string_typeT& replacementText)
             {
             size_t start = 0;
             while (start != string_typeT::npos)
@@ -3035,20 +3047,20 @@ namespace stemming
                 }
             }
 
-        /// Determines if a given value is either of two other given values.
+        /// @brief Determines if a given value is either of two other given values.
         /// @param value The value to compare with.
         /// @param first The first value to compare against.
         /// @param second The second value to compare against.
-        /// @returns True if value is either of the other values.
+        /// @returns @c true if value is either of the other values.
         template<typename T>
         [[nodiscard]] static inline constexpr bool is_either(const T value, const T first, const T second) noexcept
             { return (value == first || value == second); }
 
-        /// Determines if a given value is neither of two other given values.
+        /// @brief Determines if a given value is neither of two other given values.
         /// @param value The value to compare with.
         /// @param first The first value to compare against.
         /// @param second The second value to compare against.
-        /// @returns True if value is neither of the other values.
+        /// @returns @c true if value is neither of the other values.
         template<typename T>
         [[nodiscard]] static inline constexpr bool is_neither(const T value, const T first, const T second) noexcept
             {
@@ -3056,9 +3068,9 @@ namespace stemming
             return (value != first && value != second);
             }
 
-        /** Converts a full-width number/English letter/various symbols into its "narrow" counterpart.
-        @param ch The character to convert.
-        @returns The narrow version of a character, or the character if not full-width.*/
+        /** @brief Converts a full-width number/English letter/various symbols into its "narrow" counterpart.
+            @param ch The character to convert.
+            @returns The narrow version of a character, or the character if not full-width.*/
         [[nodiscard]] static inline constexpr wchar_t full_width_to_narrow(const wchar_t ch) noexcept
             {
             return (ch >= 65'281 && ch <= 65'374) ? (ch - 65'248) :
