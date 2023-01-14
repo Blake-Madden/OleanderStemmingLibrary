@@ -14,10 +14,10 @@
 #include <cassert>
 #include "common_lang_constants.h"
 
-/// Namespace for stemming classes.
+/// @brief Namespace for stemming classes.
 namespace stemming
     {
-    /// Languages available for stemming.
+    /// @brief Languages available for stemming.
     enum class stemming_type
         {
         /// @brief A no-op stemmer.
@@ -47,6 +47,7 @@ namespace stemming
         /// @private
         STEMMING_TYPE_COUNT
         };
+
     // these characters should not appear in an indexed word
     constexpr wchar_t UPPER_Y_HASH = 7;  // bell
     constexpr wchar_t LOWER_Y_HASH = 9;  // tab
@@ -121,6 +122,30 @@ namespace stemming
         0xE8, 0xEC, 0xF2,
         65, 69, 73, 79, 0xC0, 0xC8,
         0xCC, 0xD2, 0 };
+
+    /** @brief Converts a full-width number/English letter/various symbols
+            into its "narrow" counterpart.
+        @param ch The character to convert.
+        @returns The narrow version of a character, or the character if not full-width.*/
+    [[nodiscard]]
+    inline constexpr wchar_t full_width_to_narrow(const wchar_t ch) noexcept
+        {
+        return 
+            // lower area of Unicode, most likely branch
+            (ch < 65'000) ? ch :
+            (ch >= 65'281 && ch <= 65'374) ? (ch - 65'248) :
+            // cent and pound sterling
+            (ch >= 65'504 && ch <= 65'505) ? (ch - 65'342) :
+            // Yen
+            (ch == 65'509) ? 165 :
+            // Not
+            (ch == 65'506) ? 172 :
+            // macron
+            (ch == 65'507) ? 175 :
+            // broken bar
+            (ch == 65'508) ? 166 :
+            ch;
+        }
 
     /** @brief The base class for language-specific stemmers.
         @details The template argument for the stemmers are the type
@@ -3064,25 +3089,6 @@ namespace stemming
             {
             assert(first != second);
             return (value != first && value != second);
-            }
-
-        /** @brief Converts a full-width number/English letter/various symbols into its "narrow" counterpart.
-            @param ch The character to convert.
-            @returns The narrow version of a character, or the character if not full-width.*/
-        [[nodiscard]] static inline constexpr wchar_t full_width_to_narrow(const wchar_t ch) noexcept
-            {
-            return (ch >= 65'281 && ch <= 65'374) ? (ch - 65'248) :
-                // cent and pound sterling
-                (ch >= 65'504 && ch <= 65'505) ? (ch - 65'342) :
-                // Yen
-                (ch == 65'509) ? 165 :
-                // Not
-                (ch == 65'506) ? 172 :
-                // macron
-                (ch == 65'507) ? 175 :
-                // broken bar
-                (ch == 65'508) ? 166 :
-                ch;
             }
     private:
         size_t m_r1{ 0 };
