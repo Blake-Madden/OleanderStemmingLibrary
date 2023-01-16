@@ -66,32 +66,30 @@ namespace stemming
     class dutch_stem final : public stem<string_typeT>
         {
     public:
-        /** Stems a Dutch word.
+        /** @brief Stems a Dutch word.
             @param[in,out] text string to stem*/
         void operator()(string_typeT& text) final
             {
-            //First, remove all umlaut and acute accents
+            // First, remove all umlaut and acute accents
             stem<string_typeT>::remove_dutch_umlauts(text);
             stem<string_typeT>::remove_dutch_acutes(text);
 
-            if (text.length() < 3)
-                {
-                return;
-                }
-
-            //reset internal data
+            // reset internal data
             m_step_2_succeeded = false;
             stem<string_typeT>::reset_r_values();
 
             std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
-            //Hash initial y, y after a vowel, and i between vowels
+            if (text.length() < 3)
+                { return; }
+
+            // Hash initial y, y after a vowel, and i between vowels
             stem<string_typeT>::hash_dutch_yi(text, DUTCH_VOWELS);
 
             stem<string_typeT>::find_r1(text, DUTCH_VOWELS);
             stem<string_typeT>::find_r2(text, DUTCH_VOWELS);
-            //R1 must have at least 3 characters in front of it
+            // R1 must have at least 3 characters in front of it
             if (stem<string_typeT>::get_r1() < 3)
                 { stem<string_typeT>::set_r1(3); }
 
@@ -101,7 +99,7 @@ namespace stemming
             step_3b(text);
             step_4(text);
 
-            //unhash I and Y back into their original form 
+            // unhash I and Y back into their original form 
             stem<string_typeT>::unhash_dutch_yi(text);
             }
     private:
