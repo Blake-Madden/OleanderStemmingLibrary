@@ -183,21 +183,21 @@ namespace stemming
     class english_stem final : public stem<string_typeT>
         {
     public:
-        /** Stems an English string.
+        /** @brief Stems an English string.
             @param[in,out] text English string to stem.*/
         void operator()(string_typeT& text) final
             {
-            if (text.length() < 3)
-                { return; }
-
-            //reset internal data
+            // reset internal data
             m_first_vowel = string_typeT::npos;
             stem<string_typeT>::reset_r_values();
 
             std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
-            //handle exceptions first
+            if (text.length() < 3)
+                { return; }
+
+            // handle exceptions first
             if (is_exception(text) )
                 { return; }
 
