@@ -1,3 +1,6 @@
 [submodule "tests/snowball-data"]
 	path = tests/snowball-data
 	url = https://github.com/snowballstem/snowball-data.git
+[submodule "tests/utfcpp"]
+	path = tests/utfcpp
+	url = https://github.com/nemtrif/utfcpp.git
