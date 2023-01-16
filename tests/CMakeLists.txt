@@ -13,6 +13,9 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.12)
 SET(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_STANDARD_REQUIRED True)
 
+ADD_COMPILE_OPTIONS("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+ADD_COMPILE_OPTIONS("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+
 # https://github.com/bilke/cmake-modules/blob/master/CodeCoverage.cmake
 IF(CMAKE_COMPILER_IS_GNUCXX)
     LIST(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake_modules")
@@ -33,10 +36,32 @@ ELSE()
     FIND_PACKAGE(Catch2 3 REQUIRED)
 ENDIF()
 
-ADD_EXECUTABLE(${CMAKE_PROJECT_NAME} englishtests.cpp)
+MESSAGE("Test runner will build to: ${CMAKE_BINARY_DIR}")
+ADD_EXECUTABLE(${CMAKE_PROJECT_NAME} stemmingtests.cpp)
 TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} PRIVATE Catch2::Catch2WithMain)
+
+# Set definitions, warnings, and optimizations
+IF(MSVC)
+    # /Zc:__cplusplus tells MSVC to set the C++ version what we are
+    # actually compiling as. (This is needed for UTF8CPP.)
+
+    # /MP enables multi-core build support, speeding up compilation time.
+
+    # /W3 cranks up the warning level, /WX treats all warnings as error.
+    # Note that simply using /W4 causes a warning that it is overriding
+    # /W3, and then that turns into an error because of /W4. So /W3 is the
+    # highest you can go with /WX.
+    TARGET_COMPILE_OPTIONS(${CMAKE_PROJECT_NAME} PUBLIC /Zc:__cplusplus /MP /W3 /WX
+                           $<$<CONFIG:Debug>:/Od> $<$<CONFIG:Release>:/O2>)
+ENDIF()
 
 # load the test cases into the runner
 INCLUDE(CTest)
 INCLUDE(Catch)
 CATCH_DISCOVER_TESTS(${CMAKE_PROJECT_NAME})
+
+MESSAGE(STATUS "Copying test files...")
+ADD_CUSTOM_COMMAND(TARGET ${CMAKE_PROJECT_NAME}
+                   POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                   ${CMAKE_SOURCE_DIR}/snowball-data $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>)
