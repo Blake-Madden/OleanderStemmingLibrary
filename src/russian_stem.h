@@ -117,7 +117,16 @@ namespace stemming
     /**
     @brief Russian stemmer.
 
-    @par Algorithm:
+    i-suffixes of Russian tend to be quite regular, with irregularities of
+    declension involving a change to the stem. Irregular forms therefore
+    usually just generate two or more possible stems. Stems in Russian can
+    be very short, and many of the suffixes are also particle words that make
+    ‘natural stopwords,’ so a tempting way of running the stemmer is to set a
+    minimum stem length of zero, and thereby reduce to null all words which
+    are made up entirely of suffix parts. We have been a little more cautious,
+    and have insisted that a minimum stem contains one vowel.
+
+    @par Definitions:
 
     PERFECTIVE GERUND:
         - Group 1: в вши вшись
@@ -130,6 +139,11 @@ namespace stemming
 
     NOUN:
         - а ев ов ие ье е иями ями ами еи ии и ией ей ой ий й иям ям ием ем ам ом о у ах иях ях ы ь ию ью ю ия ья я
+
+    NOTE:
+        There is a 33rd letter of the Russian alphabet, 'ё', but it is rarely used and often
+        replaced by 'е' in informal writing.  The original algorithm here assumed it
+        had already been mapped to 'е'; this algorithm will now map it for you.
 
     @par Algorithm:
 
@@ -149,7 +163,8 @@ namespace stemming
 
     <b>Step 3:</b>
 
-    Search for a DERIVATIONAL (ост, ость) ending in R2 (i.e., the entire ending must lie in R2), and if one is found, then remove it.
+    Search for a DERIVATIONAL (ост, ость) ending in R2 (i.e., the entire ending must lie in R2),
+    and if one is found, then remove it.
 
     <b>Step 4:</b>
 
@@ -161,30 +176,29 @@ namespace stemming
     class russian_stem final : public stem<string_typeT>
         {
     public:
-        /** Stems a Russian word.
+        /** @brief Stems a Russian word.
             @param[in,out] text string to stem.*/
         void operator()(string_typeT& text) final
             {
             if (text.length() < 2)
                 { return; }
 
-            std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
+            std::transform(text.cbegin(), text.cend(), text.begin(), full_width_to_narrow);
+            // change 33rd letter ('&#x0451;') to '&#x0435;'
+            std::transform(text.cbegin(), text.cend(), text.begin(),
+                [](auto& ch) noexcept
+                {
+                return (ch == 0x0451 ? RUSSIAN_IE_LOWER :
+                        ch == 0x0401 ? RUSSIAN_IE_UPPER:
+                        ch);
+                });
 
-            //reset internal data
+            // reset internal data
             stem<string_typeT>::reset_r_values();
 
             stem<string_typeT>::find_r1(text, RUSSIAN_VOWELS);
             stem<string_typeT>::find_r2(text, RUSSIAN_VOWELS);
             stem<string_typeT>::find_russian_rv(text, RUSSIAN_VOWELS);
-
-            //change 33rd letter ('&#x0451;') to '&#x0435;'
-            for (size_t i = 0; i < text.length(); ++i)
-                {
-                if (text[i] == 0x0451)
-                    { text[i] = RUSSIAN_IE_LOWER; }
-                else if (text[i] == 0x0401)
-                    { text[i] = RUSSIAN_IE_UPPER; }
-                }
 
             step_1(text);
             step_2(text);
@@ -194,8 +208,8 @@ namespace stemming
     private:
         void step_1(string_typeT& text)
             {
-            //search for a perfect gerund
-            //group 2
+            // search for a perfect gerund
+            // group 2
             if (stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER,
                                    RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
                                    RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
@@ -209,7 +223,7 @@ namespace stemming
                                    RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER,
                                    RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false) )
                 { return; }
-            //group 1
+            // group 1
             else if (stem<string_typeT>::is_suffix_in_rv(text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
                                         RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
                                         RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
@@ -234,7 +248,7 @@ namespace stemming
                     return;
                     }
                 }
-            //group 2
+            // group 2
             else if (stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
                                         RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
                                         RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
@@ -244,7 +258,7 @@ namespace stemming
                                         RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
                                         RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) )
                 { return; }
-            //group 1
+            // group 1
             else if (stem<string_typeT>::is_suffix_in_rv(text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER,
                                         RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER,
                                         RUSSIAN_I_LOWER, RUSSIAN_I_UPPER) )
@@ -263,11 +277,11 @@ namespace stemming
                     return;
                     }
                 }
-            //group 2
+            // group 2
             else if (stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||
                 stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) )
                 { return; }
-            //group 1
+            // group 1
             else if (stem<string_typeT>::is_suffix_in_rv(text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER) )
                 {
                 if (stem<string_typeT>::is_suffix_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER) ||
@@ -278,11 +292,11 @@ namespace stemming
                     return;
                     }
                 }
-            //reflexive
+            // reflexive
             if (stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
                 stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_ES_LOWER, RUSSIAN_ES_UPPER, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false) )
                 { /*NOOP*/ }
-            //adjectival
+            // adjectival
             if (stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
                 stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_YERU_UPPER, RUSSIAN_YERU_LOWER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
                 stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_GHE_LOWER, RUSSIAN_GHE_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, false) ||
@@ -310,13 +324,13 @@ namespace stemming
                 stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
                 stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) )
                 {
-                //delete participles
-                //group 2
+                // delete participles
+                // group 2
                 if (stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER, false) ||
                     stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER, false) ||
                     stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, RUSSIAN_SHCHA_LOWER, RUSSIAN_SHCHA_UPPER, false) )
-                    {/*NOOP*/}
-                //group 1
+                    { /*NOOP*/ }
+                // group 1
                 else if (stem<string_typeT>::is_suffix_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER) ||
                         stem<string_typeT>::is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER) ||
                         stem<string_typeT>::is_suffix_in_rv(text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER) ||
@@ -346,8 +360,8 @@ namespace stemming
                     }
                 return;
                 }
-            //verb
-            //group 2
+            // verb
+            // group 2
             else if (stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||/*4*/
                 stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
                 stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
@@ -355,7 +369,7 @@ namespace stemming
                 {
                 return;
                 }
-            //group 1
+            // group 1
             if (stem<string_typeT>::is_suffix_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER) ||
                 stem<string_typeT>::is_suffix_in_rv(text, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, RUSSIAN_TE_LOWER, RUSSIAN_TE_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER) ||
                 stem<string_typeT>::is_suffix_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER) ||
@@ -371,7 +385,7 @@ namespace stemming
                     return;
                     }
                 }
-            //group 2
+            // group 2
             else if (stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, false) ||
                 stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, false) ||
                 stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, false) ||
@@ -400,7 +414,7 @@ namespace stemming
                 {
                 return;
                 }
-            //group 1
+            // group 1
             else if (stem<string_typeT>::is_suffix_in_rv(text, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER) ||/*2*/
                 stem<string_typeT>::is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER) ||
                 stem<string_typeT>::is_suffix_in_rv(text, RUSSIAN_EL_LOWER, RUSSIAN_EL_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER) ||
@@ -437,7 +451,7 @@ namespace stemming
                     }
                 }
 
-            //noun
+            // noun
             if (stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
                                    RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER,
                                    RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER,
