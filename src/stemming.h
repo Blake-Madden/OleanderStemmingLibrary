@@ -407,9 +407,10 @@ namespace stemming
             else if (text.length() >= 1 &&
                 is_apostrophe(text[text.length()-1]))
                 { text.erase(text.length()-1); }
+
             while (text.length() )
                 {
-                const wchar_t lastChar = text[text.length()-1];
+                const auto& lastChar = text.back();
                 if (!(lastChar >= 48 && lastChar <= 57) &&
                     !(lastChar >= 65 && lastChar <= 90) &&
                     !(lastChar >= 97 && lastChar <= 122) &&
@@ -3006,12 +3007,40 @@ namespace stemming
         /// @brief lowercases any Western European alphabetic characters.
         /// @param c The character to lowercase.
         /// @returns The lowercased character.
-        [[nodiscard]] inline static constexpr wchar_t tolower_western(const wchar_t c) noexcept
+        [[nodiscard]]
+        inline static constexpr wchar_t tolower_western(const wchar_t c) noexcept
             {
             return ((c >= L'A') && (c <= L'Z')) ||
                 ((c >= 0xC0) && (c <= 0xD6)) ||
                 ((c >= 0xD8) && (c <= 0xDE))
                 ? (c + 32) : c;
+            }
+
+        /// @brief Determines if a character is a Western European letter.
+        /// @param ch The character to review.
+        /// @returns @c true if character is a Western European letter.
+        [[nodiscard]]
+        inline static constexpr wchar_t is_western_letter(const wchar_t ch) noexcept
+            {
+            return (
+                // A-Z
+                (ch >= 0x41 && ch <= 0x5A) ||
+                // uppercase extended ASCII set
+                (ch >= 0xC0 && ch <= 0xD6) ||
+                (ch >= 0xD8 && ch <= 0xDE) ||
+                (ch == 0x0112) || // E with macron
+                // Y with umlaut
+                (ch == 0x0178) ||
+                // a-z
+                (ch >= 0x61 && ch <= 0x7A) ||
+                // lowercase extended ASCII set
+                (ch >= 0xE0 && ch <= 0xF6) ||
+                (ch >= 0xF8 && ch <= 0xFF) ||
+                (ch == 0x0113) || // e with macron
+                // OE ligature
+                (ch == 0x0153) ||
+                // German eszett
+                (ch == 0xDF));
             }
         
         /** @brief Determines if a character is one of a list of characters.
