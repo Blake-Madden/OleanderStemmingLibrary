@@ -62,30 +62,26 @@ namespace stemming
     class norwegian_stem final : public stem<string_typeT>
         {
     public:
-        /** Stems a Norwegian word.
+        /** @brief Stems a Norwegian word.
             @param[in,out] text string to stem.*/
         void operator()(string_typeT& text) final
             {
-            if (text.length() < 3)
-                { return; }
+            // reset internal data
+            stem<string_typeT>::reset_r_values();
 
             std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
-            //reset internal data
-            stem<string_typeT>::reset_r_values();
+            if (text.length() < 3)
+                { return; }
 
             stem<string_typeT>::find_r1(text, NORWEGIAN_VOWELS);
             if (stem<string_typeT>::get_r1() == text.length() )
-                {
-                return;
-                }
-            //R1 must have at least 3 characters in front of it
+                { return; }
+            // R1 must have at least 3 characters in front of it
             if (stem<string_typeT>::get_r1() < 3)
-                {
-                stem<string_typeT>::set_r1(3);
-                }
-            //norwegian does not use R2
+                { stem<string_typeT>::set_r1(3); }
+            // norwegian does not use R2
 
             step_1(text);
             step_2(text);

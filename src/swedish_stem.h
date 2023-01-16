@@ -66,18 +66,18 @@ namespace stemming
     class swedish_stem final : public stem<string_typeT>
         {
     public:
-        /** Stems a Swedish word.
+        /** @brief Stems a Swedish word.
             @param[in,out] text string to stem.*/
         void operator()(string_typeT& text) final
             {
-            if (text.length() < 3)
-                { return; }
-
-            //reset internal data
+            // reset internal data
             stem<string_typeT>::reset_r_values();
 
             std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
+
+            if (text.length() < 3)
+                { return; }
 
             //see where the R1 section begins
             //R1 is the first consonant after the first vowel

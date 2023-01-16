@@ -124,21 +124,21 @@ namespace stemming
     class spanish_stem final : public stem<string_typeT>
         {
     public:
-        /** Stems a Spanish word.
+        /** @brief Stems a Spanish word.
             @param[in,out] text string to stem.*/
         void operator()(string_typeT& text) final
             {
+            // reset internal data
+            stem<string_typeT>::reset_r_values();
+
+            std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
+            stem<string_typeT>::trim_western_punctuation(text);
+
             if (text.length() < 3)
                 {
                 stem<string_typeT>::remove_spanish_acutes(text);
                 return;
                 }
-
-            //reset internal data
-            stem<string_typeT>::reset_r_values();
-
-            std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
-            stem<string_typeT>::trim_western_punctuation(text);
 
             stem<string_typeT>::find_r1(text, SPANISH_VOWELS);
             stem<string_typeT>::find_r2(text, SPANISH_VOWELS);

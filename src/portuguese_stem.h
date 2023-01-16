@@ -108,20 +108,20 @@ namespace stemming
     class portuguese_stem final : public stem<string_typeT>
         {
     public:
-        /** Stems a Portuguese word.
+        /** @brief Stems a Portuguese word.
             @param[in,out] text string to stem.*/
         void operator()(string_typeT& text) final
             {
-            if (text.length() < 3)
-                { return; }
-
-            std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
-            stem<string_typeT>::trim_western_punctuation(text);
-
             // reset internal data
             m_altered_suffix_index = 0;
             m_step1_step2_altered = false;
             stem<string_typeT>::reset_r_values();
+
+            std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
+            stem<string_typeT>::trim_western_punctuation(text);
+
+            if (text.length() < 3)
+                { return; }
 
             replace_all(text, string_typeT(1, common_lang_constants::LOWER_A_TILDE), L"a~");
             replace_all(text, string_typeT(1, common_lang_constants::UPPER_A_TILDE), L"A~");
