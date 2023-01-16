@@ -395,20 +395,17 @@ namespace stemming
                 true : false;
             }
 
-        /// @brief Trims punctions from the end of a string.
-        /// @param text The string to trim.
+        /// @brief Trims punction (and possessive "'s") from the end of a string.
+        /// @param[in,out] text The string to trim.
         void trim_western_punctuation(string_typeT& text) const
             {
-            if (text.length() >= 3 &&
-                is_apostrophe(text[text.length()-3]) &&
-                is_either<wchar_t>(text[text.length()-2], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
-                is_apostrophe(text[text.length()-1]) )
-                { text.erase(text.length()-3); }
-            else if (text.length() >= 2 &&
+            if (text.length() >= 2 &&
                 is_apostrophe(text[text.length()-2]) &&
-                is_either<wchar_t>(text[text.length()-1], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
+                is_either<wchar_t>(text[text.length()-1], common_lang_constants::LOWER_S,
+                                                          common_lang_constants::UPPER_S) )
                 { text.erase(text.length()-2); }
-            else if (is_apostrophe(text[text.length()-1]))
+            else if (text.length() >= 1 &&
+                is_apostrophe(text[text.length()-1]))
                 { text.erase(text.length()-1); }
             while (text.length() )
                 {
