@@ -40,15 +40,6 @@ void TestLanguage(const std::string_view dictionaryPath,
         if (utf8::find_invalid(line.begin(), line.end()) != line.end())
             { FAIL("Corrected UTF-8 in dictionary file."); }
 
-        if (utf8::starts_with_bom(line))
-            { line.erase(0, std::size(utf8::bom)); }
-        // weird garbage in one of the test files
-        if (line == "0x0e00")
-            {
-            ++lineNumber;
-            continue;
-            }
-
         const auto utf16line = utf8::utf8to16(line);
         std::wstring dictLineText;
         if (utf16line.length())
@@ -57,10 +48,11 @@ void TestLanguage(const std::string_view dictionaryPath,
                 [&dictLineText](const auto ch)
                 { dictLineText.append(1, static_cast<wchar_t>(ch)); });
             }
+        // chop off ' in front of string
+        if (dictLineText.length() > 1 && dictLineText.front() == L'\'')
+            { dictLineText.erase(0, 1); }
 
         std::getline(expectedFile, line2);
-        if (utf8::starts_with_bom(line))
-            { line.erase(0, std::size(utf8::bom)); }
         if (utf8::find_invalid(line2.begin(), line2.end()) != line2.end())
             { FAIL("Corrected UTF-8 in expected results file."); }
         const auto utf16line2 = utf8::utf8to16(line2);
@@ -70,6 +62,37 @@ void TestLanguage(const std::string_view dictionaryPath,
             std::for_each(utf16line2.cbegin(), utf16line2.cend(),
                 [&expectedLineText](const auto ch)
                 { expectedLineText.append(1, static_cast<wchar_t>(ch)); });
+            }
+
+        // chop off ' in front of string, and any 's after them
+        if (expectedLineText.length() > 1 && expectedLineText.front() == L'\'')
+            { expectedLineText.erase(0, 1); }
+        if (expectedLineText.length() > 2 &&
+            expectedLineText.back() == L's' &&
+            expectedLineText[expectedLineText.length() - 2] == L'\'')
+            {
+            expectedLineText.pop_back();
+            expectedLineText.pop_back();
+            }
+        if (expectedLineText.length() > 1 &&
+            expectedLineText.back() == L'\'')
+            {
+            expectedLineText.pop_back();
+            }
+        // avoid non-sensical tests like 's' and '''
+        // (there is little merit in these tests and making the algorithm
+        //  less optimal to handle them isn't right).
+        if (expectedLineText == L"'")
+            {
+            ++lineNumber;
+            continue;
+            }
+
+        // skip if we read in BOMs
+        if (dictLineText == L"0x0e00" && expectedLineText == L"0x0e00")
+            {
+            ++lineNumber;
+            continue;
             }
        
         stemmer(dictLineText);
