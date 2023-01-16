@@ -33,8 +33,9 @@ namespace stemming
         - e em en ern er es
         - s (preceded by a valid s-ending)
     and delete if in R1. (Of course the letter of the valid s-ending is not necessarily in R1).
+    If an ending of group (b) is deleted, and the ending is preceded by niss, delete the final s.
 
-    (For example, äckern -> äck, ackers -> acker, armes -> arm).
+    (For example, äckern -> äck, ackers -> acker, armes -> arm, bedürfnissen -> bedürfnis).
 
     <b>Step 2:</b>
 
@@ -70,15 +71,14 @@ namespace stemming
         {
     public:
         german_stem() noexcept : m_transliterate_umlauts(false) {}
-        ~german_stem() {}
-        /**Set to true to use the variant algorithm that expands "ä" to "ae", etc...
-           @param transliterate_umlauts Whether to transliterate umlauted vowels.*/
+        /** @brief Set to true to use the variant algorithm that expands "ä" to "ae", etc...
+            @param transliterate_umlauts Whether to transliterate umlauted vowels.*/
         void should_transliterate_umlauts(const bool transliterate_umlauts)
             { m_transliterate_umlauts = transliterate_umlauts; }
-        ///@returns Whether umlauted vowels are being transliterated.
+        /// @returns Whether umlauted vowels are being transliterated.
         bool is_transliterating_umlauts() const noexcept
             { return m_transliterate_umlauts; }
-        /**@param[in,out] text string to stem.*/
+        /** @param[in,out] text string to stem.*/
         void operator()(string_typeT& text) final
             {
             if (text.length() < 2)
@@ -141,6 +141,7 @@ namespace stemming
         //---------------------------------------------
         void step_1(string_typeT& text)
             {
+            bool stepBSucessfull{ false };
             if (stem<string_typeT>::delete_if_is_in_r1(text,/*ern*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) )
                 {
                 return;
@@ -149,23 +150,24 @@ namespace stemming
                 {
                 return;
                 }
-            else if (stem<string_typeT>::delete_if_is_in_r1(text,/*es*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
-                {
-                return;
-                }
-            else if (stem<string_typeT>::delete_if_is_in_r1(text,/*en*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) )
-                {
-                return;
-                }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,/*em*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) )
                 {
                 return;
                 }
+            else if (stem<string_typeT>::delete_if_is_in_r1(text,/*es*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
+                {
+                stepBSucessfull = true;
+                }
+            else if (stem<string_typeT>::delete_if_is_in_r1(text,/*en*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) )
+                {
+                stepBSucessfull = true;
+                }
+            
             else if (stem<string_typeT>::delete_if_is_in_r1(text, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
                 {
-                return;
+                stepBSucessfull = true;
                 }
-            ///Define a valid s-ending as one of b, d, f, g, h, k, l, m, n, r or t.
+            // Define a valid s-ending as one of b, d, f, g, h, k, l, m, n, r or t.
             else if (stem<string_typeT>::is_suffix_in_r1(text, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
                 if (is_one_of(text[text.length()-2], L"bdfghklmnrtBDFGHKLMNRT") )
@@ -175,6 +177,14 @@ namespace stemming
                     }
                 return;
                 }
+
+            if (stepBSucessfull && text.length() > 4 &&
+                is_suffix(text,
+                          common_lang_constants::LOWER_N, common_lang_constants::UPPER_N,
+                          common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
+                          common_lang_constants::LOWER_S, common_lang_constants::UPPER_S,
+                          common_lang_constants::LOWER_S, common_lang_constants::UPPER_S))
+                { text.pop_back(); }
             }
         //---------------------------------------------
         void step_2(string_typeT& text)
