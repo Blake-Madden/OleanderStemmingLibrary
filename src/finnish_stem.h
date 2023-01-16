@@ -498,7 +498,7 @@ namespace stemming
             {
             if (text.length() >= 2 &&
                 stem<string_typeT>::get_r1() <= text.length()-2 &&
-                !is_one_of(text[text.length()-2], FINNISH_VOWELS) &&
+                is_one_of(text[text.length()-2], FINNISH_CONSONANTS) &&
                 is_one_of(text[text.length()-1], FINNISH_VOWELS_SIMPLE) )
                 {
                 text.erase(text.end()-1);
@@ -532,7 +532,7 @@ namespace stemming
             if (index == string_typeT::npos ||
                 index < 1)
                 { return; }
-            if (is_western_letter(text[index]) &&
+            if (is_one_of(text[index], FINNISH_CONSONANTS) &&
                 tolower_western(text[index]) == tolower_western(text[index-1]))
                 {
                 text.erase(index, 1);

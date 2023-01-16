@@ -87,6 +87,10 @@ namespace stemming
     static const wchar_t FINNISH_VOWELS_NO_Y[] = { 97, 101, 105, 111, 117, 0xE4, 0xF6, 65, 69, 73, 79, 85,
         0xC4, 0xD6, 0 };
     static const wchar_t FINNISH_VOWELS_SIMPLE[] = { 97, 101, 105, 0xE4, 65, 69, 73, 0xC4, 0 };
+    static constexpr wchar_t FINNISH_CONSONANTS[] =
+        { L'b', L'c', L'd', L'f', L'g', L'h', L'j', L'k', L'l', L'm', L'n', L'p', L'q', L'r', L's',
+          L't', L'v', L'w', L'x', L'z', L'B', L'C', L'D', L'F', L'G', L'H', L'J', L'K', L'L', L'M',
+          L'N', L'P', L'Q', L'R', L'S', L'T', L'V', L'W', L'X', L'Z', 0 };
     static const wchar_t FINNISH_STEP_1_SUFFIX[] = { 110, 116, 97, 101, 105, 111, 117, 121, 0xE4,
         0xF6, 78, 84, 65, 69, 73, 79, 85, 89, 0xC4, 0xD6, 0 };
 
