@@ -28,9 +28,17 @@ namespace stemming
 
     R2 and RV have the same definition as in the Spanish stemmer.
 
+    First exceptional cases are checked for. These need to match the whole word, and currently are:
+
+    - divano: replace with divan (to avoid conflating with diva) [Added 2022-11-16]
+    
+    If found then handle as described and that's it.
+
+    Otherwise always do steps 0 and 1.
+
     @par Algorithm:
 
-    <b>Step 0:</b>
+    <b>Step 0:</b> Attached pronoun
 
     Search for the longest among the following suffixes
         - ci gli la le li lo mi ne si ti vi sene gliela gliele glieli glielo gliene mela
@@ -99,22 +107,23 @@ namespace stemming
     class italian_stem final : public stem<string_typeT>
         {
     public:
-        /** Stems an Italian word.
+        /** @brief Stems an Italian word.
             @param[in,out] text string to stem.*/
         void operator()(string_typeT& text) final
             {
-            if (text.length() < 3)
-                {
-                stem<string_typeT>::italian_acutes_to_graves(text);
-                return;
-                }
-
-            //reset internal data
+            // reset internal data
             stem<string_typeT>::reset_r_values();
+
+            if (is_exception(text))
+                { return; }
 
             std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
             stem<string_typeT>::italian_acutes_to_graves(text);
+            if (text.length() < 3)
+                {
+                return;
+                }
             stem<string_typeT>::hash_italian_ui(text, ITALIAN_VOWELS);
 
             stem<string_typeT>::find_r1(text, ITALIAN_VOWELS);
@@ -140,6 +149,24 @@ namespace stemming
             stem<string_typeT>::unhash_italian_ui(text);
             }
     private:
+        //---------------------------------------------
+        [[nodiscard]]
+        bool is_exception(string_typeT& text)
+            {
+            if (text.length() == 6 &&
+                is_suffix(text,
+                    common_lang_constants::LOWER_D, common_lang_constants::UPPER_D,
+                    common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
+                    common_lang_constants::LOWER_V, common_lang_constants::UPPER_V,
+                    common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
+                    common_lang_constants::LOWER_N, common_lang_constants::UPPER_N,
+                    common_lang_constants::LOWER_O, common_lang_constants::UPPER_O))
+                {
+                text = L"divan";
+                return true;
+                }
+            return false;
+            }
         //---------------------------------------------
         void step_0(string_typeT& text)
             {
