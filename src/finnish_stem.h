@@ -77,10 +77,10 @@ namespace stemming
     <b>Step 3 (cases):</b>
 
     Define a v (vowel) as one of:
-        - a   e   i   o   u   y   ä ö.
+        - a   e   i   o   u   y   ä   ö.
 
     Define a V (restricted vowel) as one of:
-        - a   e   i   o   u   ä ö.
+        - a   e   i   o   u   ä   ö.
 
     So Vi means a V followed by letter i.
 
@@ -161,7 +161,7 @@ namespace stemming
             std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
             stem<string_typeT>::trim_western_punctuation(text);
 
-             if (text.length() < 2)
+            if (text.length() < 2)
                 { return; }
 
             stem<string_typeT>::find_r1(text, FINNISH_VOWELS);
@@ -527,18 +527,19 @@ namespace stemming
         //---------------------------------------------
         void step_6e(string_typeT& text)
             {
-            //find the last consonant
+            // find the last consonant
             const size_t index = text.find_last_not_of(FINNISH_VOWELS);
             if (index == string_typeT::npos ||
                 index < 1)
                 { return; }
-            if (tolower_western(text[index]) == tolower_western(text[index-1]))
+            if (is_western_letter(text[index]) &&
+                tolower_western(text[index]) == tolower_western(text[index-1]))
                 {
-                text.erase(text.begin()+(index) );
+                text.erase(index, 1);
                 stem<string_typeT>::update_r_sections(text);
                 }
             }
-        //internal data specific to Finnish stemmer
+        // internal data specific to Finnish stemmer
         bool m_step_3_successful{ false };
         };
     }
