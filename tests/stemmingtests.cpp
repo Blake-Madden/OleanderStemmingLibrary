@@ -94,11 +94,26 @@ void TestLanguage(const std::string_view dictionaryPath,
             ++lineNumber;
             continue;
             }
-       
+
         stemmer(dictLineText);
         if (dictLineText != expectedLineText)
             {
             UNSCOPED_INFO("Comparison failed on line #" << lineNumber);
+            }
+        CHECK(dictLineText == expectedLineText);
+
+        // uppercase the string, stem it, then lowercase it and compare that with the expected result
+        std::wstring upperDictLineText{ dictLineText };
+        std::transform(upperDictLineText.cbegin(), upperDictLineText.cend(), upperDictLineText.begin(),
+            [](const auto& ch)
+            { return std::towupper(ch); });
+        stemmer(upperDictLineText);
+        std::transform(upperDictLineText.cbegin(), upperDictLineText.cend(), upperDictLineText.begin(),
+            [](const auto& ch)
+            { return std::towlower(ch); });
+        if (dictLineText != expectedLineText)
+            {
+            UNSCOPED_INFO("UCase comparison failed on line #" << lineNumber);
             }
         CHECK(dictLineText == expectedLineText);
 
