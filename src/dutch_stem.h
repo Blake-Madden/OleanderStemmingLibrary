@@ -117,7 +117,7 @@ namespace stemming
                     text[text.length()-1] = common_lang_constants::LOWER_D;
                     }
                 }
-            ///Define a valid en-ending as a non-vowel, and not gem.
+            /// Define a valid en-ending as a non-vowel, and not gem.
             else if (stem<string_typeT>::is_suffix(text,/*ene*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E)    )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-3 &&
@@ -166,7 +166,7 @@ namespace stemming
                     return;
                     }
                 }
-            ///Define a valid s-ending as a non-vowel other than j
+            /// Define a valid s-ending as a non-vowel other than j
             else if (text.length() >= 2 &&
                 stem<string_typeT>::is_suffix(text, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
                 !stem<string_typeT>::is_one_of(text[text.length()-2], DUTCH_S_ENDING))
@@ -293,7 +293,7 @@ namespace stemming
         //------------------------------------------------------
         void step_4(string_typeT& text)
             {
-            //undouble consecutive (same) consonants
+            // undouble consecutive (same) consonants
             if (text.length() >= 4 &&
                 !stem<string_typeT>::is_one_of(text[text.length()-4], DUTCH_VOWELS) &&
                 !stem<string_typeT>::is_one_of(text[text.length()-1], DUTCH_VOWELS) &&
@@ -306,7 +306,7 @@ namespace stemming
                 stem<string_typeT>::update_r_sections(text);
                 }
             }
-        //internal data specific to Dutch stemmer
+        // internal data specific to Dutch stemmer
         bool m_step_2_succeeded{ false  };
         };
     }

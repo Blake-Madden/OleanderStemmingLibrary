@@ -17,20 +17,19 @@ namespace stemming
     /**
     @brief Italian stemmer.
 
-    @par Algorithm:
+    @par Definitions:
 
     Italian can include the following accented forms:
         - á é í ó ú à è ì ò ù
 
     First, replace all acute accents by grave accents.
-    And, as in French, put u after q, and u, i between vowels into upper case. The vowels are then:
+    And, as in French, put u after q, and u or i between vowels into upper case. The vowels are then:
         - a e i o u à è ì ò ù
 
     R2 and RV have the same definition as in the Spanish stemmer.
 
     First exceptional cases are checked for. These need to match the whole word, and currently are:
-
-    - divano: replace with divan (to avoid conflating with diva) [Added 2022-11-16]
+        - divano: replace with divan (to avoid conflating with diva) [Added 2022-11-16]
     
     If found then handle as described and that's it.
 
@@ -121,28 +120,22 @@ namespace stemming
             stem<string_typeT>::trim_western_punctuation(text);
             stem<string_typeT>::italian_acutes_to_graves(text);
             if (text.length() < 3)
-                {
-                return;
-                }
+                { return; }
             stem<string_typeT>::hash_italian_ui(text, ITALIAN_VOWELS);
 
             stem<string_typeT>::find_r1(text, ITALIAN_VOWELS);
             stem<string_typeT>::find_r2(text, ITALIAN_VOWELS);
             stem<string_typeT>::find_spanish_rv(text, ITALIAN_VOWELS);
 
-            //step 0:
             step_0(text);
-            //step 1:
+
             const size_t text_length = text.length();
             step_1(text);
 
-            //step 2 is called only if step 1 did not remove a suffix
+            //s tep 2 is called only if step 1 did not remove a suffix
             if (text_length == text.length() )
-                {
-                step_2(text);
-                }
+                { step_2(text); }
 
-            //step 3:
             step_3a(text);
             step_3b(text);
 

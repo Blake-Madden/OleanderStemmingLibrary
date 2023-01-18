@@ -11,6 +11,7 @@
 #define __STEM_H__
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include "common_lang_constants.h"
 
@@ -391,6 +392,7 @@ namespace stemming
         /** @brief Determines if a character is an apostrophe (includes straight single quotes).
             @param ch The letter to be analyzed.
             @returns @c true if character is an apostrophe.*/
+        [[nodiscard]]
         constexpr bool is_apostrophe(const wchar_t& ch) const noexcept
             {
             return (ch == 39) ?         // '
@@ -448,8 +450,9 @@ namespace stemming
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
         /// @returns @c true if characters match suffix.
-        inline bool is_suffix(const string_typeT& text,
-                    const wchar_t suffix1L, const wchar_t suffix1U) const
+        [[nodiscard]]
+        inline static bool is_suffix(const string_typeT& text,
+                    const wchar_t suffix1L, const wchar_t suffix1U) noexcept
             {
             if (text.length() < 1)
                 { return false; }
@@ -462,14 +465,13 @@ namespace stemming
         /// @param suffix2L The lowercased version of the second character of the suffix.
         /// @param suffix2U The uppercased version of the second character of the suffix.
         /// @returns @c true if characters match suffix.
-        inline bool is_suffix(const string_typeT& text,
+        [[nodiscard]]
+        inline static bool is_suffix(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
-                    const wchar_t suffix2L, const wchar_t suffix2U) const
+                    const wchar_t suffix2L, const wchar_t suffix2U) noexcept
             {
             if (text.length() < 2)
-                {
-                return false;
-                }
+                { return false; }
             return stem<string_typeT>::is_either(text[text.length()-2], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-1], suffix2L, suffix2U);
             }
@@ -483,15 +485,14 @@ namespace stemming
         /// @param suffix3L The lowercased version of the third character of the suffix.
         /// @param suffix3U The uppercased version of the third character of the suffix.
         /// @returns @c true if characters match suffix.
-        inline bool is_suffix(const string_typeT& text,
+        [[nodiscard]]
+        inline static bool is_suffix(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
-                    const wchar_t suffix3L, const wchar_t suffix3U) const
+                    const wchar_t suffix3L, const wchar_t suffix3U) noexcept
             {
             if (text.length() < 3)
-                {
-                return false;
-                }
+                { return false; }
             return stem<string_typeT>::is_either(text[text.length()-3], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-2], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-1], suffix3L, suffix3U);
@@ -507,16 +508,15 @@ namespace stemming
         /// @param suffix4L The lowercased version of the fourth character of the suffix.
         /// @param suffix4U The uppercased version of the fourth character of the suffix.
         /// @returns @c true if characters match suffix.
-        inline bool is_suffix(const string_typeT& text,
+        [[nodiscard]]
+        inline static bool is_suffix(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
                     const wchar_t suffix3L, const wchar_t suffix3U,
-                    const wchar_t suffix4L, const wchar_t suffix4U) const
+                    const wchar_t suffix4L, const wchar_t suffix4U) noexcept
             {
             if (text.length() < 4)
-                {
-                return false;
-                }
+                { return false; }
             return stem<string_typeT>::is_either(text[text.length()-4], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-3], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-2], suffix3L, suffix3U) &&
@@ -535,17 +535,16 @@ namespace stemming
         /// @param suffix5L The lowercased version of the fifth character of the suffix.
         /// @param suffix5U The uppercased version of the fifth character of the suffix.
         /// @returns @c true if characters match suffix.
-        inline bool is_suffix(const string_typeT& text,
+        [[nodiscard]]
+        inline static bool is_suffix(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
                     const wchar_t suffix3L, const wchar_t suffix3U,
                     const wchar_t suffix4L, const wchar_t suffix4U,
-                    const wchar_t suffix5L, const wchar_t suffix5U) const
+                    const wchar_t suffix5L, const wchar_t suffix5U) noexcept
             {
             if (text.length() < 5)
-                {
-                return false;
-                }
+                { return false; }
             return stem<string_typeT>::is_either(text[text.length()-5], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-4], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-3], suffix3L, suffix3U) &&
@@ -567,18 +566,17 @@ namespace stemming
         /// @param suffix6L The lowercased version of the sixth character of the suffix.
         /// @param suffix6U The uppercased version of the sixth character of the suffix.
         /// @returns @c true if characters match suffix.
-        inline bool is_suffix(const string_typeT& text,
+        [[nodiscard]]
+        inline static bool is_suffix(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
                     const wchar_t suffix3L, const wchar_t suffix3U,
                     const wchar_t suffix4L, const wchar_t suffix4U,
                     const wchar_t suffix5L, const wchar_t suffix5U,
-                    const wchar_t suffix6L, const wchar_t suffix6U) const
+                    const wchar_t suffix6L, const wchar_t suffix6U) noexcept
             {
             if (text.length() < 6)
-                {
-                return false;
-                }
+                { return false; }
             return stem<string_typeT>::is_either(text[text.length()-6], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-5], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-4], suffix3L, suffix3U) &&
@@ -603,19 +601,18 @@ namespace stemming
         /// @param suffix7L The lowercased version of the seventh character of the suffix.
         /// @param suffix7U The uppercased version of the seventh character of the suffix.
         /// @returns @c true if characters match suffix.
-        inline bool is_suffix(const string_typeT& text,
+        [[nodiscard]]
+        inline static bool is_suffix(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
                     const wchar_t suffix3L, const wchar_t suffix3U,
                     const wchar_t suffix4L, const wchar_t suffix4U,
                     const wchar_t suffix5L, const wchar_t suffix5U,
                     const wchar_t suffix6L, const wchar_t suffix6U,
-                    const wchar_t suffix7L, const wchar_t suffix7U) const
+                    const wchar_t suffix7L, const wchar_t suffix7U) noexcept
             {
             if (text.length() < 7)
-                {
-                return false;
-                }
+                { return false; }
             return stem<string_typeT>::is_either(text[text.length()-7], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-6], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-5], suffix3L, suffix3U) &&
@@ -643,7 +640,8 @@ namespace stemming
         /// @param suffix8L The lowercased version of the eighth character of the suffix.
         /// @param suffix8U The uppercased version of the eighth character of the suffix.
         /// @returns @c true if characters match suffix.
-        inline bool is_suffix(const string_typeT& text,
+        [[nodiscard]]
+        inline static bool is_suffix(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
                     const wchar_t suffix3L, const wchar_t suffix3U,
@@ -651,12 +649,10 @@ namespace stemming
                     const wchar_t suffix5L, const wchar_t suffix5U,
                     const wchar_t suffix6L, const wchar_t suffix6U,
                     const wchar_t suffix7L, const wchar_t suffix7U,
-                    const wchar_t suffix8L, const wchar_t suffix8U) const
+                    const wchar_t suffix8L, const wchar_t suffix8U) noexcept
             {
             if (text.length() < 8)
-                {
-                return false;
-                }
+                { return false; }
             return stem<string_typeT>::is_either(text[text.length()-8], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-7], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-6], suffix3L, suffix3U) &&
@@ -687,7 +683,8 @@ namespace stemming
         /// @param suffix9L The lowercased version of the ninth character of the suffix.
         /// @param suffix9U The uppercased version of the ninth character of the suffix.
         /// @returns @c true if characters match suffix.
-        inline bool is_suffix(const string_typeT& text,
+        [[nodiscard]]
+        inline static bool is_suffix(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
                     const wchar_t suffix3L, const wchar_t suffix3U,
@@ -696,12 +693,10 @@ namespace stemming
                     const wchar_t suffix6L, const wchar_t suffix6U,
                     const wchar_t suffix7L, const wchar_t suffix7U,
                     const wchar_t suffix8L, const wchar_t suffix8U,
-                    const wchar_t suffix9L, const wchar_t suffix9U) const
+                    const wchar_t suffix9L, const wchar_t suffix9U) noexcept
             {
             if (text.length() < 9)
-                {
-                return false;
-                }
+                { return false; }
             return stem<string_typeT>::is_either(text[text.length()-9], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-8], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-7], suffix3L, suffix3U) &&
@@ -721,10 +716,11 @@ namespace stemming
         /// @param suffix2L The lowercased version of the second character of the suffix.
         /// @param suffix2U The uppercased version of the second character of the suffix.
         /// @returns @c true if characters are a partial suffix.
-        inline bool is_partial_suffix(const string_typeT& text,
+        [[nodiscard]]
+        inline static bool is_partial_suffix(const string_typeT& text,
                     const size_t start_index,
                     const wchar_t suffix1L, const wchar_t suffix1U,
-                    const wchar_t suffix2L, const wchar_t suffix2U)
+                    const wchar_t suffix2L, const wchar_t suffix2U) noexcept
             {
             if ((start_index+2) >= text.length())
                 { return false; }
@@ -741,11 +737,12 @@ namespace stemming
         /// @param suffix3L The lowercased version of the third character of the suffix.
         /// @param suffix3U The uppercased version of the third character of the suffix.
         /// @returns @c true if characters are a partial suffix.
-        inline bool is_partial_suffix(const string_typeT& text,
+        [[nodiscard]]
+        inline static bool is_partial_suffix(const string_typeT& text,
                     const size_t start_index,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
-                    const wchar_t suffix3L, const wchar_t suffix3U)
+                    const wchar_t suffix3L, const wchar_t suffix3U) noexcept
             {
             if ((start_index+3) >= text.length())
                 { return false; }
@@ -761,13 +758,12 @@ namespace stemming
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
         /// @returns @c true if suffix is in RV.
+        [[nodiscard]]
         inline bool is_suffix_in_rv(const string_typeT& text,
-                    const wchar_t suffix1L, const wchar_t suffix1U)
+                    const wchar_t suffix1L, const wchar_t suffix1U) noexcept
             {
             if (text.length() < 1)
-                {
-                return false;
-                }
+                { return false; }
             return (stem<string_typeT>::is_either(text[text.length()-1], suffix1L, suffix1U) &&
                     (get_rv() <= text.length()-1) );
             }
@@ -778,14 +774,13 @@ namespace stemming
         /// @param suffix2L The lowercased version of the second character of the suffix.
         /// @param suffix2U The uppercased version of the second character of the suffix.
         /// @returns @c true if suffix is in RV.
+        [[nodiscard]]
         inline bool is_suffix_in_rv(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
-                    const wchar_t suffix2L, const wchar_t suffix2U)
+                    const wchar_t suffix2L, const wchar_t suffix2U) noexcept
             {
             if (text.length() < 2)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-2], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-1], suffix2L, suffix2U) ) &&
                     (get_rv() <= text.length()-2) );
@@ -799,15 +794,14 @@ namespace stemming
         /// @param suffix3L The lowercased version of the third character of the suffix.
         /// @param suffix3U The uppercased version of the third character of the suffix.
         /// @returns @c true if suffix is in RV.
+        [[nodiscard]]
         inline bool is_suffix_in_rv(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
-                    const wchar_t suffix3L, const wchar_t suffix3U)
+                    const wchar_t suffix3L, const wchar_t suffix3U) noexcept
             {
             if (text.length() < 3)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-3], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-2], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-1], suffix3L, suffix3U) ) &&
@@ -824,16 +818,15 @@ namespace stemming
         /// @param suffix4L The lowercased version of the fourth character of the suffix.
         /// @param suffix4U The uppercased version of the fourth character of the suffix.
         /// @returns @c true if suffix is in RV.
+        [[nodiscard]]
         inline bool is_suffix_in_rv(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
                     const wchar_t suffix3L, const wchar_t suffix3U,
-                    const wchar_t suffix4L, const wchar_t suffix4U)
+                    const wchar_t suffix4L, const wchar_t suffix4U) noexcept
             {
             if (text.length() < 4)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-4], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-3], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-2], suffix3L, suffix3U) &&
@@ -853,17 +846,16 @@ namespace stemming
         /// @param suffix5L The lowercased version of the fifth character of the suffix.
         /// @param suffix5U The uppercased version of the fifth character of the suffix.
         /// @returns @c true if suffix is in RV.
+        [[nodiscard]]
         inline bool is_suffix_in_rv(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
                     const wchar_t suffix3L, const wchar_t suffix3U,
                     const wchar_t suffix4L, const wchar_t suffix4U,
-                    const wchar_t suffix5L, const wchar_t suffix5U)
+                    const wchar_t suffix5L, const wchar_t suffix5U) noexcept
             {
             if (text.length() < 5)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-5], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-4], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-3], suffix3L, suffix3U) &&
@@ -886,18 +878,17 @@ namespace stemming
         /// @param suffix6L The lowercased version of the sixth character of the suffix.
         /// @param suffix6U The uppercased version of the sixth character of the suffix.
         /// @returns @c true if suffix is in RV.
+        [[nodiscard]]
         inline bool is_suffix_in_rv(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
                     const wchar_t suffix3L, const wchar_t suffix3U,
                     const wchar_t suffix4L, const wchar_t suffix4U,
                     const wchar_t suffix5L, const wchar_t suffix5U,
-                    const wchar_t suffix6L, const wchar_t suffix6U)
+                    const wchar_t suffix6L, const wchar_t suffix6U) noexcept
             {
             if (text.length() < 6)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-6], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-5], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-4], suffix3L, suffix3U) &&
@@ -923,6 +914,7 @@ namespace stemming
         /// @param suffix7L The lowercased version of the seventh character of the suffix.
         /// @param suffix7U The uppercased version of the seventh character of the suffix.
         /// @returns @c true if suffix is in RV.
+        [[nodiscard]]
         inline bool is_suffix_in_rv(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -930,12 +922,10 @@ namespace stemming
                     const wchar_t suffix4L, const wchar_t suffix4U,
                     const wchar_t suffix5L, const wchar_t suffix5U,
                     const wchar_t suffix6L, const wchar_t suffix6U,
-                    const wchar_t suffix7L, const wchar_t suffix7U)
+                    const wchar_t suffix7L, const wchar_t suffix7U) noexcept
             {
             if (text.length() < 7)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-7], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-6], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-5], suffix3L, suffix3U) &&
@@ -964,6 +954,7 @@ namespace stemming
         /// @param suffix8L The lowercased version of the eigth character of the suffix.
         /// @param suffix8U The uppercased version of the eigth character of the suffix.
         /// @returns @c true if suffix is in RV.
+        [[nodiscard]]
         inline bool is_suffix_in_rv(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -972,12 +963,10 @@ namespace stemming
                     const wchar_t suffix5L, const wchar_t suffix5U,
                     const wchar_t suffix6L, const wchar_t suffix6U,
                     const wchar_t suffix7L, const wchar_t suffix7U,
-                    const wchar_t suffix8L, const wchar_t suffix8U)
+                    const wchar_t suffix8L, const wchar_t suffix8U) noexcept
             {
             if (text.length() < 8)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-8], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-7], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-6], suffix3L, suffix3U) &&
@@ -996,13 +985,12 @@ namespace stemming
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
         /// @returns @c true if suffix is in R1.
+        [[nodiscard]]
         inline bool is_suffix_in_r1(const string_typeT& text,
-                    const wchar_t suffix1L, const wchar_t suffix1U)
+                    const wchar_t suffix1L, const wchar_t suffix1U) noexcept
             {
             if (text.length() < 1)
-                {
-                return false;
-                }
+                { return false; }
             return (stem<string_typeT>::is_either(text[text.length()-1], suffix1L, suffix1U) &&
                     (get_r1() <= text.length()-1) );
             }
@@ -1013,14 +1001,13 @@ namespace stemming
         /// @param suffix2L The lowercased version of the second character of the suffix.
         /// @param suffix2U The uppercased version of the second character of the suffix.
         /// @returns @c true if suffix is in R1.
+        [[nodiscard]]
         inline bool is_suffix_in_r1(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
-                    const wchar_t suffix2L, const wchar_t suffix2U)
+                    const wchar_t suffix2L, const wchar_t suffix2U) noexcept
             {
             if (text.length() < 2)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-2], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-1], suffix2L, suffix2U) ) &&
                     (get_r1() <= text.length()-2) );
@@ -1034,15 +1021,14 @@ namespace stemming
         /// @param suffix3L The lowercased version of the third character of the suffix.
         /// @param suffix3U The uppercased version of the third character of the suffix.
         /// @returns @c true if suffix is in R1.
+        [[nodiscard]]
         inline bool is_suffix_in_r1(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
-                    const wchar_t suffix3L, const wchar_t suffix3U)
+                    const wchar_t suffix3L, const wchar_t suffix3U) noexcept
             {
             if (text.length() < 3)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-3], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-2], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-1], suffix3L, suffix3U) ) &&
@@ -1059,16 +1045,15 @@ namespace stemming
         /// @param suffix4L The lowercased version of the fourth character of the suffix.
         /// @param suffix4U The uppercased version of the fourth character of the suffix.
         /// @returns @c true if suffix is in R1.
+        [[nodiscard]]
         inline bool is_suffix_in_r1(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
                     const wchar_t suffix3L, const wchar_t suffix3U,
-                    const wchar_t suffix4L, const wchar_t suffix4U)
+                    const wchar_t suffix4L, const wchar_t suffix4U) noexcept
             {
             if (text.length() < 4)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-4], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-3], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-2], suffix3L, suffix3U) &&
@@ -1088,17 +1073,16 @@ namespace stemming
         /// @param suffix5L The lowercased version of the fifth character of the suffix.
         /// @param suffix5U The uppercased version of the fifth character of the suffix.
         /// @returns @c true if suffix is in R1.
+        [[nodiscard]]
         inline bool is_suffix_in_r1(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
                     const wchar_t suffix3L, const wchar_t suffix3U,
                     const wchar_t suffix4L, const wchar_t suffix4U,
-                    const wchar_t suffix5L, const wchar_t suffix5U)
+                    const wchar_t suffix5L, const wchar_t suffix5U) noexcept
             {
             if (text.length() < 5)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-5], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-4], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-3], suffix3L, suffix3U) &&
@@ -1121,18 +1105,17 @@ namespace stemming
         /// @param suffix6L The lowercased version of the sixth character of the suffix.
         /// @param suffix6U The uppercased version of the sixth character of the suffix.
         /// @returns @c true if suffix is in R1.
+        [[nodiscard]]
         inline bool is_suffix_in_r1(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
                     const wchar_t suffix3L, const wchar_t suffix3U,
                     const wchar_t suffix4L, const wchar_t suffix4U,
                     const wchar_t suffix5L, const wchar_t suffix5U,
-                    const wchar_t suffix6L, const wchar_t suffix6U)
+                    const wchar_t suffix6L, const wchar_t suffix6U) noexcept
             {
             if (text.length() < 6)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-6], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-5], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-4], suffix3L, suffix3U) &&
@@ -1149,13 +1132,12 @@ namespace stemming
         /// @param suffix1L The lowercased version of the first character of the suffix.
         /// @param suffix1U The uppercased version of the first character of the suffix.
         /// @returns @c true if suffix is in R21.
+        [[nodiscard]]
         inline bool is_suffix_in_r2(const string_typeT& text,
-                    const wchar_t suffix1L, const wchar_t suffix1U)
+                    const wchar_t suffix1L, const wchar_t suffix1U) noexcept
             {
             if (text.length() < 1)
-                {
-                return false;
-                }
+                { return false; }
             return (stem<string_typeT>::is_either(text[text.length()-1], suffix1L, suffix1U) &&
                     (get_r2() <= text.length()-1) );
             }
@@ -1166,14 +1148,13 @@ namespace stemming
         /// @param suffix2L The lowercased version of the second character of the suffix.
         /// @param suffix2U The uppercased version of the second character of the suffix.
         /// @returns @c true if suffix is in R2.
+        [[nodiscard]]
         inline bool is_suffix_in_r2(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
-                    const wchar_t suffix2L, const wchar_t suffix2U)
+                    const wchar_t suffix2L, const wchar_t suffix2U) noexcept
             {
             if (text.length() < 2)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-2], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-1], suffix2L, suffix2U) ) &&
                     (get_r2() <= text.length()-2) );
@@ -1187,15 +1168,14 @@ namespace stemming
         /// @param suffix3L The lowercased version of the third character of the suffix.
         /// @param suffix3U The uppercased version of the third character of the suffix.
         /// @returns @c true if suffix is in R2.
+        [[nodiscard]]
         inline bool is_suffix_in_r2(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
-                    const wchar_t suffix3L, const wchar_t suffix3U)
+                    const wchar_t suffix3L, const wchar_t suffix3U) noexcept
             {
             if (text.length() < 3)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-3], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-2], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-1], suffix3L, suffix3U) ) &&
@@ -1212,16 +1192,15 @@ namespace stemming
         /// @param suffix4L The lowercased version of the fourth character of the suffix.
         /// @param suffix4U The uppercased version of the fourth character of the suffix.
         /// @returns @c true if suffix is in R2.
+        [[nodiscard]]
         inline bool is_suffix_in_r2(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
                     const wchar_t suffix3L, const wchar_t suffix3U,
-                    const wchar_t suffix4L, const wchar_t suffix4U)
+                    const wchar_t suffix4L, const wchar_t suffix4U) noexcept
             {
             if (text.length() < 4)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-4], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-3], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-2], suffix3L, suffix3U) &&
@@ -1241,17 +1220,16 @@ namespace stemming
         /// @param suffix5L The lowercased version of the fifth character of the suffix.
         /// @param suffix5U The uppercased version of the fifth character of the suffix.
         /// @returns @c true if suffix is in R2.
+        [[nodiscard]]
         inline bool is_suffix_in_r2(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
                     const wchar_t suffix3L, const wchar_t suffix3U,
                     const wchar_t suffix4L, const wchar_t suffix4U,
-                    const wchar_t suffix5L, const wchar_t suffix5U)
+                    const wchar_t suffix5L, const wchar_t suffix5U) noexcept
             {
             if (text.length() < 5)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-5], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-4], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-3], suffix3L, suffix3U) &&
@@ -1274,18 +1252,17 @@ namespace stemming
         /// @param suffix6L The lowercased version of the sixth character of the suffix.
         /// @param suffix6U The uppercased version of the sixth character of the suffix.
         /// @returns @c true if suffix is in R2.
+        [[nodiscard]]
         inline bool is_suffix_in_r2(string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
                     const wchar_t suffix3L, const wchar_t suffix3U,
                     const wchar_t suffix4L, const wchar_t suffix4U,
                     const wchar_t suffix5L, const wchar_t suffix5U,
-                    const wchar_t suffix6L, const wchar_t suffix6U)
+                    const wchar_t suffix6L, const wchar_t suffix6U) noexcept
             {
             if (text.length() < 6)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-6], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-5], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-4], suffix3L, suffix3U) &&
@@ -1311,6 +1288,7 @@ namespace stemming
         /// @param suffix7L The lowercased version of the seventh character of the suffix.
         /// @param suffix7U The uppercased version of the seventh character of the suffix.
         /// @returns @c true if suffix is in R2.
+        [[nodiscard]]
         inline bool is_suffix_in_r2(const string_typeT& text,
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const wchar_t suffix2L, const wchar_t suffix2U,
@@ -1318,12 +1296,10 @@ namespace stemming
                     const wchar_t suffix4L, const wchar_t suffix4U,
                     const wchar_t suffix5L, const wchar_t suffix5U,
                     const wchar_t suffix6L, const wchar_t suffix6U,
-                    const wchar_t suffix7L, const wchar_t suffix7U)
+                    const wchar_t suffix7L, const wchar_t suffix7U) noexcept
             {
             if (text.length() < 7)
-                {
-                return false;
-                }
+                { return false; }
             return ((stem<string_typeT>::is_either(text[text.length()-7], suffix1L, suffix1U) &&
                     stem<string_typeT>::is_either(text[text.length()-6], suffix2L, suffix2U) &&
                     stem<string_typeT>::is_either(text[text.length()-5], suffix3L, suffix3U) &&
@@ -1355,7 +1331,7 @@ namespace stemming
                 {
                 if (get_r1() <= text.length()-1)
                     {
-                    text.erase(text.length()-1);
+                    text.pop_back();
                     update_r_sections(text);
                     return true;
                     }
@@ -1638,23 +1614,19 @@ namespace stemming
                     const bool success_on_find = true)
             {
             if (text.length() < 1)
-                {
-                return false;
-                }
-            if (stem<string_typeT>::is_either(text[text.length()-1], suffix1L, suffix1U))
+                { return false; }
+            else if (stem<string_typeT>::is_either(text[text.length()-1], suffix1L, suffix1U))
                 {
                 if (get_r2() <= text.length()-1)
                     {
-                    text.erase(text.length()-1);
+                    text.pop_back();
                     update_r_sections(text);
                     return true;
                     }
                 return success_on_find;
                 }
             else
-                {
-                return false;
-                }
+                { return false; }
             }
         /// @brief R2 deletion for two character suffix.
         /// @param text The string being reviewed.
@@ -2352,52 +2324,34 @@ namespace stemming
                 }
             }
         /// @brief Encodes acutes to graves.
-        /// @param text The string to update.
-        void italian_acutes_to_graves(string_typeT& text)
+        /// @param[in,out] text The string to update.
+        void italian_acutes_to_graves(string_typeT& text) noexcept
             {
-            for (size_t i = 0; i < text.length(); ++i)
+            std::transform(text.cbegin(), text.cend(), text.begin(),
+                [](const auto& ch) noexcept
                 {
-                if (text[i] == 0xC1) // A acute
-                    {
-                    text[i] = 0xC0;
-                    }
-                else if (text[i] == 0xC9) // E acute
-                    {
-                    text[i] = 0xC8;
-                    }
-                else if (text[i] == 0xCD) // I acute
-                    {
-                    text[i] = 0xCC;
-                    }
-                else if (text[i] == 0xD3) // O acute
-                    {
-                    text[i] = 0xD2;
-                    }
-                else if (text[i] == 0xDA) // U acute
-                    {
-                    text[i] = 0xD9;
-                    }
-                else if (text[i] == 0xE1) // a acute
-                    {
-                    text[i] = 0xE0;
-                    }
-                else if (text[i] == 0xE9) // e acute
-                    {
-                    text[i] = 0xE8;
-                    }
-                else if (text[i] == 0xED) // i acute
-                    {
-                    text[i] = 0xEC;
-                    }
-                else if (text[i] == 0xF3) // o acute
-                    {
-                    text[i] = 0xF2;
-                    }
-                else if (text[i] == 0xFA) // u acute
-                    {
-                    text[i] = 0xF9;
-                    }
-                }
+                return (ch == common_lang_constants::UPPER_A_ACUTE) ?
+                    common_lang_constants::UPPER_A_GRAVE :
+                    (ch == common_lang_constants::UPPER_E_ACUTE) ?
+                    common_lang_constants::UPPER_E_GRAVE :
+                    (ch == common_lang_constants::UPPER_I_ACUTE) ?
+                    common_lang_constants::UPPER_I_GRAVE :
+                    (ch == common_lang_constants::UPPER_O_ACUTE) ?
+                    common_lang_constants::UPPER_O_GRAVE :
+                    (ch == common_lang_constants::UPPER_U_ACUTE) ?
+                    0xD9 :
+                    (ch == common_lang_constants::LOWER_A_ACUTE) ?
+                    common_lang_constants::LOWER_A_GRAVE :
+                    (ch == common_lang_constants::LOWER_E_ACUTE) ?
+                    common_lang_constants::LOWER_E_GRAVE :
+                    (ch == common_lang_constants::LOWER_I_ACUTE) ?
+                    common_lang_constants::LOWER_I_GRAVE :
+                    (ch == common_lang_constants::LOWER_O_ACUTE) ?
+                    common_lang_constants::LOWER_O_GRAVE :
+                    (ch == common_lang_constants::LOWER_U_ACUTE) ?
+                    0xF9 :
+                    ch;
+                });
             }
 
         /// @brief Hashes initial y, y after a vowel, and i between vowels into hashed character.
@@ -2475,10 +2429,19 @@ namespace stemming
         /// @param text The string to update.
         inline void unhash_dutch_yi(string_typeT& text)
             {
-            stem<string_typeT>::replace_all(text, LOWER_Y_HASH, common_lang_constants::LOWER_Y);
-            stem<string_typeT>::replace_all(text, UPPER_Y_HASH, common_lang_constants::UPPER_Y);
-            stem<string_typeT>::replace_all(text, LOWER_I_HASH, common_lang_constants::LOWER_I);
-            stem<string_typeT>::replace_all(text, UPPER_I_HASH, common_lang_constants::UPPER_I);
+            std::transform(text.cbegin(), text.cend(), text.begin(),
+                [](const auto& ch) noexcept
+                {
+                return (ch == LOWER_Y_HASH) ?
+                    common_lang_constants::LOWER_Y :
+                    (ch == UPPER_Y_HASH) ?
+                    common_lang_constants::UPPER_Y :
+                    (ch == LOWER_I_HASH) ?
+                    common_lang_constants::LOWER_I :
+                    (ch == UPPER_I_HASH) ?
+                    common_lang_constants::UPPER_I :
+                    ch;
+                });
             }
 
         /// @brief Hash 'u' and 'y' between vowels.
@@ -2532,10 +2495,19 @@ namespace stemming
         /// @param text The string to update.
         inline void unhash_german_yu(string_typeT& text)
             {
-            stem<string_typeT>::replace_all(text, LOWER_Y_HASH, common_lang_constants::LOWER_Y);
-            stem<string_typeT>::replace_all(text, UPPER_Y_HASH, common_lang_constants::UPPER_Y);
-            stem<string_typeT>::replace_all(text, LOWER_U_HASH, common_lang_constants::LOWER_U);
-            stem<string_typeT>::replace_all(text, UPPER_U_HASH, common_lang_constants::UPPER_U);
+            std::transform(text.cbegin(), text.cend(), text.begin(),
+                [](const auto& ch) noexcept
+                {
+                return (ch == LOWER_Y_HASH) ?
+                    common_lang_constants::LOWER_Y :
+                    (ch == UPPER_Y_HASH) ?
+                    common_lang_constants::UPPER_Y :
+                    (ch == LOWER_U_HASH) ?
+                    common_lang_constants::LOWER_U :
+                    (ch == UPPER_U_HASH) ?
+                    common_lang_constants::UPPER_U :
+                    ch;
+                });
             }
 
         /** @brief Hashes the following:\n
@@ -2792,8 +2764,15 @@ namespace stemming
         /// @param text The string to update.
         inline void unhash_y(string_typeT& text)
             {
-            stem<string_typeT>::replace_all(text, LOWER_Y_HASH, common_lang_constants::LOWER_Y);
-            stem<string_typeT>::replace_all(text, UPPER_Y_HASH, common_lang_constants::UPPER_Y);
+            std::transform(text.cbegin(), text.cend(), text.begin(),
+                [](const auto& ch) noexcept
+                {
+                return (ch == LOWER_Y_HASH) ?
+                    common_lang_constants::LOWER_Y :
+                    (ch == UPPER_Y_HASH) ?
+                    common_lang_constants::UPPER_Y :
+                    ch;
+                });
             }
 
         /// @brief Hashes u after q, and u, i between vowels.
@@ -2807,12 +2786,20 @@ namespace stemming
                 { return; }
 
             bool in_vowel_block = stem<string_typeT>::is_one_of(text[0], vowel_string);
+            constexpr static std::array<wchar_t, 4> uiValues =
+                {
+                common_lang_constants::LOWER_U,
+                common_lang_constants::UPPER_U,
+                common_lang_constants::LOWER_I,
+                common_lang_constants::UPPER_I
+                };
 
             size_t i = 1;
             for (i = 1; i < text.length()-1; ++i)
                 {
+                // u or i in between vowels
                 if (in_vowel_block &&
-                    stem<string_typeT>::is_one_of(text[i], vowel_string) &&
+                    std::find(uiValues.cbegin(), uiValues.cend(), text[i]) != uiValues.cend() &&
                     stem<string_typeT>::is_one_of(text[i+1], vowel_string) )
                     {
                     if (text[i] == common_lang_constants::LOWER_I )
@@ -2878,12 +2865,21 @@ namespace stemming
 
         /// @brief Unhashes Italian UIs in a string.
         /// @param text The string to update.
-        inline void unhash_italian_ui(string_typeT& text)
+        inline void unhash_italian_ui(string_typeT& text) noexcept
             {
-            stem<string_typeT>::replace_all(text, LOWER_I_HASH, common_lang_constants::LOWER_I);
-            stem<string_typeT>::replace_all(text, UPPER_I_HASH, common_lang_constants::UPPER_I);
-            stem<string_typeT>::replace_all(text, LOWER_U_HASH, common_lang_constants::LOWER_U);
-            stem<string_typeT>::replace_all(text, UPPER_U_HASH, common_lang_constants::UPPER_U);
+            std::transform(text.cbegin(), text.cend(), text.begin(),
+                [](const auto& ch) noexcept
+                {
+                return (ch == LOWER_I_HASH) ?
+                    common_lang_constants::LOWER_I :
+                    (ch == UPPER_I_HASH) ?
+                    common_lang_constants::UPPER_I :
+                    (ch == LOWER_U_HASH) ?
+                    common_lang_constants::LOWER_U :
+                    (ch == UPPER_U_HASH) ?
+                    common_lang_constants::UPPER_U :
+                    ch;
+                });
             }
 
         /// @brief Encodes Dutch umlauts (diaerises) in a string.
@@ -3124,8 +3120,8 @@ namespace stemming
             @param charToReplace The character to replace.
             @param replacementChar The character to replace @c charToReplace with.*/
         static void replace_all(string_typeT& text,
-                     const typename string_typeT::traits_type::char_type charToReplace,
-                     const typename string_typeT::traits_type::char_type replacementChar)
+                     const typename string_typeT::value_type charToReplace,
+                     const typename string_typeT::value_type replacementChar)
             {
             size_t start = 0;
             while (start != string_typeT::npos)
