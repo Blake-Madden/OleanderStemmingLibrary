@@ -208,32 +208,32 @@ namespace stemming
 
             if (text.length() >= 5 &&
                 /*gener*/
-                (is_either<wchar_t>(text[0], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) ) )
+                (stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) ) )
                 {
                 stem<string_typeT>::set_r1(5);
                 }
             else if (text.length() >= 6 &&
                 /*commun*/
-                (is_either<wchar_t>(text[0], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) &&
-                    is_either<wchar_t>(text[5], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) ) )
+                (stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) &&
+                    stem<string_typeT>::is_either(text[5], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) ) )
                 {
                 stem<string_typeT>::set_r1(6);
                 }
             else if (text.length() >= 5 &&
                 /*arsen*/
-                (is_either<wchar_t>(text[0], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) ) )
+                (stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) ) )
                 {
                 stem<string_typeT>::set_r1(5);
                 }
@@ -271,119 +271,119 @@ namespace stemming
             //exception #0
             /*skis*/
             if (text.length() == 4 &&
-                is_either<wchar_t>(text[0], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
-                is_either<wchar_t>(text[1], common_lang_constants::LOWER_K, common_lang_constants::UPPER_K) &&
-                is_either<wchar_t>(text[2], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
-                is_either<wchar_t>(text[3], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
+                stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
+                stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_K, common_lang_constants::UPPER_K) &&
+                stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
                 text = L"ski";
                 return true;
                 }
             /*skies*/
             else if (text.length() == 5 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_K, common_lang_constants::UPPER_K) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_K, common_lang_constants::UPPER_K) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
                 text = L"sky";
                 return true;
                 }
             /*dying*/
             else if (text.length() == 5 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) )
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) )
                 {
                 text = L"die";
                 return true;
                 }
             /*lying*/
             else if (text.length() == 5 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) )
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) )
                 {
                 text = L"lie";
                 return true;
                 }
             /*tying*/
             else if (text.length() == 5 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) )
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) )
                 {
                 text = L"tie";
                 return true;
                 }
             /*idly*/
             else if (text.length() == 4 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
                 {
                 text = L"idl";
                 return true;
                 }
             /*gently*/
             else if (text.length() == 6 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
-                    is_either<wchar_t>(text[5], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
+                    stem<string_typeT>::is_either(text[5], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
                 {
                 text = L"gentl";
                 return true;
                 }
             /*ugly*/
             else if (text.length() == 4 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
                 {
                 text = L"ugli";
                 return true;
                 }
             /*early*/
             else if (text.length() == 5 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
                 {
                 text = L"earli";
                 return true;
                 }
             /*only*/
             else if (text.length() == 4 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
                 {
                 text = L"onli";
                 return true;
                 }
             /*singly*/
             else if (text.length() == 6 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
-                    is_either<wchar_t>(text[5], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
+                    stem<string_typeT>::is_either(text[5], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
                 {
                 text = L"singl";
                 return true;
@@ -392,49 +392,49 @@ namespace stemming
             else if (
                 /*sky*/
                 (text.length() == 3 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_K, common_lang_constants::UPPER_K) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) ) ||
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_K, common_lang_constants::UPPER_K) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) ) ||
                 /*news*/
                 (text.length() == 4 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_W, common_lang_constants::UPPER_W) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ) ||
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_W, common_lang_constants::UPPER_W) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ) ||
                 /*howe*/
                 (text.length() == 4 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_H, common_lang_constants::UPPER_H) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_W, common_lang_constants::UPPER_W) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) ) ||
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_H, common_lang_constants::UPPER_H) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_W, common_lang_constants::UPPER_W) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) ) ||
                 /*atlas*/
                 (text.length() == 5 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ) ||
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ) ||
                 /*cosmos*/
                 (text.length() == 6 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
-                    is_either<wchar_t>(text[5], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ) ||
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
+                    stem<string_typeT>::is_either(text[5], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ) ||
                 /*bias*/
                 (text.length() == 4 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_B, common_lang_constants::UPPER_B) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ) ||
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_B, common_lang_constants::UPPER_B) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ) ||
                 /*andes*/
                 (text.length() == 5 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ) )
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ) )
                 {
                 return true;
                 }
@@ -447,73 +447,73 @@ namespace stemming
             //exception #2
             if (/*inning*/
                 (text.length() == 6 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[5], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) ) ||
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[5], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) ) ||
                 /*outing*/
                 (text.length() == 6 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[5], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) ) ||
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[5], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) ) ||
                 /*canning*/
                 (text.length() == 7 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
-                    is_either<wchar_t>(text[5], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[6], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) ) ||
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(text[5], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[6], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) ) ||
                 /*herring*/
                 (text.length() == 7 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_H, common_lang_constants::UPPER_H) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
-                    is_either<wchar_t>(text[5], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[6], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) ) ||
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_H, common_lang_constants::UPPER_H) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(text[5], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[6], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) ) ||
                 /*earring*/
                 (text.length() == 7 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
-                    is_either<wchar_t>(text[5], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_either<wchar_t>(text[6], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) ) ||
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(text[5], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(text[6], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) ) ||
                 /*proceed*/
                 (text.length() == 7 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[5], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[6], common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) ) ||
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[5], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[6], common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) ) ||
                 /*exceed*/
                 (text.length() == 6 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_X, common_lang_constants::UPPER_X) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[5], common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) ) ||
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_X, common_lang_constants::UPPER_X) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[5], common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) ) ||
                 /*succeed*/
                 (text.length() == 7 &&
-                    is_either<wchar_t>(text[0], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
-                    is_either<wchar_t>(text[1], common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) &&
-                    is_either<wchar_t>(text[2], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
-                    is_either<wchar_t>(text[3], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
-                    is_either<wchar_t>(text[4], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[5], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[6], common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) ) )
+                    stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
+                    stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) &&
+                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
+                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
+                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[5], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[6], common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) ) )
                 {
                 return true;
                 }
@@ -542,9 +542,9 @@ namespace stemming
                     }
                 }
             else if (text.length() >= 2 &&
-                    is_either<wchar_t>(text[text.length()-1], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
                     m_first_vowel < text.length()-2 &&
-                    !is_one_of(text[text.length()-2], L"suSU") )
+                    !stem<string_typeT>::is_one_of(text[text.length()-2], L"suSU") )
                 {
                 text.erase(text.length()-1);
                 stem<string_typeT>::update_r_sections(text);
@@ -638,11 +638,11 @@ namespace stemming
             if (text.length() > 2 &&
                 !is_vowel(text[text.length()-2]) )
                 {
-                if (is_either<wchar_t>(text[text.length()-1], common_lang_constants::LOWER_Y, LOWER_Y_HASH) )
+                if (stem<string_typeT>::is_either(text[text.length()-1], common_lang_constants::LOWER_Y, LOWER_Y_HASH) )
                     {
                     text[text.length()-1] = common_lang_constants::LOWER_I;
                     }
-                else if (is_either<wchar_t>(text[text.length()-1], common_lang_constants::UPPER_Y, UPPER_Y_HASH) )
+                else if (stem<string_typeT>::is_either(text[text.length()-1], common_lang_constants::UPPER_Y, UPPER_Y_HASH) )
                     {
                     text[text.length()-1] = common_lang_constants::UPPER_I;
                     }
@@ -770,7 +770,7 @@ namespace stemming
                 stem<string_typeT>::get_r1() <= (text.length()-3) &&
                 stem<string_typeT>::is_suffix(text,/*ogi*/common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_G, common_lang_constants::UPPER_G, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) )
                 {
-                if (is_either<wchar_t>(text[text.length()-4], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) )
+                if (stem<string_typeT>::is_either(text[text.length()-4], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) )
                     {
                     text.erase(text.length()-1);
                     stem<string_typeT>::update_r_sections(text);
@@ -780,7 +780,7 @@ namespace stemming
                     stem<string_typeT>::get_r1() <= (text.length()-2) &&
                     stem<string_typeT>::is_suffix(text,/*li*/common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) )
                 {
-                if (is_one_of(text[text.length()-3], L"cdeghkmnrtCDEGHKMNRT") )
+                if (stem<string_typeT>::is_one_of(text[text.length()-3], L"cdeghkmnrtCDEGHKMNRT") )
                     {
                     text.erase(text.length()-2);
                     stem<string_typeT>::update_r_sections(text);
@@ -918,7 +918,7 @@ namespace stemming
         void step_5(string_typeT& text)
             {
             if (text.length() >= 1 &&
-                is_either<wchar_t>(text[text.length()-1], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
+                stem<string_typeT>::is_either(text[text.length()-1], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
                 {
                 if (stem<string_typeT>::get_r2() != text.length())
                     {
@@ -967,8 +967,8 @@ namespace stemming
                     start == (length-2) &&
                     //following letter
                     (!is_vowel(text[start+1]) &&
-                    !is_one_of(text[start+1], L"wxWX") &&
-                    is_neither(text[start+1], LOWER_Y_HASH, UPPER_Y_HASH)) &&
+                    !stem<string_typeT>::is_one_of(text[start+1], L"wxWX") &&
+                    stem<string_typeT>::is_neither(text[start+1], LOWER_Y_HASH, UPPER_Y_HASH)) &&
                     //proceeding letter
                     !is_vowel(text[start-1]) )
                     { return true; }
@@ -984,7 +984,7 @@ namespace stemming
             { return (ends_with_short_syllable(text, length) && stem<string_typeT>::get_r1() == text.length()); }
         //---------------------------------------------
         inline bool is_vowel(const wchar_t character) const noexcept
-            { return (is_one_of(character, L"aeiouyAEIOUY") ); }
+            { return (stem<string_typeT>::is_one_of(character, L"aeiouyAEIOUY") ); }
 
         size_t m_first_vowel{ string_typeT::npos };
         };

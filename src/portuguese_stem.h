@@ -123,10 +123,10 @@ namespace stemming
             if (text.length() < 3)
                 { return; }
 
-            replace_all(text, string_typeT(1, common_lang_constants::LOWER_A_TILDE), L"a~");
-            replace_all(text, string_typeT(1, common_lang_constants::UPPER_A_TILDE), L"A~");
-            replace_all(text, string_typeT(1, common_lang_constants::LOWER_O_TILDE), L"o~");
-            replace_all(text, string_typeT(1, common_lang_constants::UPPER_O_TILDE), L"O~");
+            stem<string_typeT>::replace_all(text, string_typeT(1, common_lang_constants::LOWER_A_TILDE), L"a~");
+            stem<string_typeT>::replace_all(text, string_typeT(1, common_lang_constants::UPPER_A_TILDE), L"A~");
+            stem<string_typeT>::replace_all(text, string_typeT(1, common_lang_constants::LOWER_O_TILDE), L"o~");
+            stem<string_typeT>::replace_all(text, string_typeT(1, common_lang_constants::UPPER_O_TILDE), L"O~");
 
             stem<string_typeT>::find_r1(text, PORTUGUESE_VOWELS);
             stem<string_typeT>::find_r2(text, PORTUGUESE_VOWELS);
@@ -141,10 +141,10 @@ namespace stemming
             step_5(text);
 
             // turn a~, o~ back into ã, õ
-            replace_all(text, L"a~", string_typeT(1, common_lang_constants::LOWER_A_TILDE));
-            replace_all(text, L"A~", string_typeT(1, common_lang_constants::UPPER_A_TILDE));
-            replace_all(text, L"o~", string_typeT(1, common_lang_constants::LOWER_O_TILDE));
-            replace_all(text, L"O~", string_typeT(1, common_lang_constants::UPPER_O_TILDE));
+            stem<string_typeT>::replace_all(text, L"a~", string_typeT(1, common_lang_constants::LOWER_A_TILDE));
+            stem<string_typeT>::replace_all(text, L"A~", string_typeT(1, common_lang_constants::UPPER_A_TILDE));
+            stem<string_typeT>::replace_all(text, L"o~", string_typeT(1, common_lang_constants::LOWER_O_TILDE));
+            stem<string_typeT>::replace_all(text, L"O~", string_typeT(1, common_lang_constants::UPPER_O_TILDE));
             }
     private:
         //---------------------------------------------

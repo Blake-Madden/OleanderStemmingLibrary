@@ -154,7 +154,7 @@ namespace stemming
         bool is_exception(string_typeT& text)
             {
             if (text.length() == 6 &&
-                is_suffix(text,
+                stem<string_typeT>::is_suffix(text,
                     common_lang_constants::LOWER_D, common_lang_constants::UPPER_D,
                     common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
                     common_lang_constants::LOWER_V, common_lang_constants::UPPER_V,
@@ -361,14 +361,14 @@ namespace stemming
             {
             if (text.length() >= (suffix_length+4) &&
                 stem<string_typeT>::get_rv() <= text.length()-(4+suffix_length) &&
-                (/*ando*/(is_either<wchar_t>(text[text.length()-(4+suffix_length)], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
-                        is_either<wchar_t>(text[text.length()-(3+suffix_length)], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                        is_either<wchar_t>(text[text.length()-(2+suffix_length)], common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) &&
-                        is_either<wchar_t>(text[text.length()-(1+suffix_length)], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) ) ||
-                /*endo*/(is_either<wchar_t>(text[text.length()-(4+suffix_length)], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                        is_either<wchar_t>(text[text.length()-(3+suffix_length)], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                        is_either<wchar_t>(text[text.length()-(2+suffix_length)], common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) &&
-                        is_either<wchar_t>(text[text.length()-(1+suffix_length)], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) ) ) )
+                (/*ando*/(stem<string_typeT>::is_either(text[text.length()-(4+suffix_length)], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
+                        stem<string_typeT>::is_either(text[text.length()-(3+suffix_length)], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                        stem<string_typeT>::is_either(text[text.length()-(2+suffix_length)], common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) &&
+                        stem<string_typeT>::is_either(text[text.length()-(1+suffix_length)], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) ) ||
+                /*endo*/(stem<string_typeT>::is_either(text[text.length()-(4+suffix_length)], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                        stem<string_typeT>::is_either(text[text.length()-(3+suffix_length)], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                        stem<string_typeT>::is_either(text[text.length()-(2+suffix_length)], common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) &&
+                        stem<string_typeT>::is_either(text[text.length()-(1+suffix_length)], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) ) ) )
                 {
                 text.erase(text.length()-suffix_length);
                 stem<string_typeT>::update_r_sections(text);
@@ -382,9 +382,9 @@ namespace stemming
             if ((text.length() >= suffix_length+2) &&
                 stem<string_typeT>::get_rv() <= (text.length()-(2+suffix_length)) &&
                 (
-                /*ar*/(is_either<wchar_t>(text[text.length()-(2+suffix_length)], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) && is_either<wchar_t>(text[text.length()-1-suffix_length], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) ) ||
-                /*er*/(is_either<wchar_t>(text[text.length()-(2+suffix_length)], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) && is_either<wchar_t>(text[text.length()-1-suffix_length], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) ) ||
-                /*or*/(is_either<wchar_t>(text[text.length()-(2+suffix_length)], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) && is_either<wchar_t>(text[text.length()-1-suffix_length], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) )
+                /*ar*/(stem<string_typeT>::is_either(text[text.length()-(2+suffix_length)], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) && stem<string_typeT>::is_either(text[text.length()-1-suffix_length], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) ) ||
+                /*er*/(stem<string_typeT>::is_either(text[text.length()-(2+suffix_length)], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) && stem<string_typeT>::is_either(text[text.length()-1-suffix_length], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) ) ||
+                /*or*/(stem<string_typeT>::is_either(text[text.length()-(2+suffix_length)], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) && stem<string_typeT>::is_either(text[text.length()-1-suffix_length], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) )
                 ) )
                 {
                 text.replace(text.end()-suffix_length, text.end(), L"e");
@@ -900,12 +900,12 @@ namespace stemming
             {
             if (text.length() >= 1 &&
                 stem<string_typeT>::get_rv() <= text.length()-1 &&
-                is_one_of(text[text.length()-1], ITALIAN_VOWELS_SIMPLE) )
+                stem<string_typeT>::is_one_of(text[text.length()-1], ITALIAN_VOWELS_SIMPLE) )
                 {
                 text.erase(text.length()-1);
                 stem<string_typeT>::update_r_sections(text);
                 if (stem<string_typeT>::get_rv() <= text.length()-1 &&                    
-                    is_either<wchar_t>(text[text.length()-1], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) )
+                    stem<string_typeT>::is_either(text[text.length()-1], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) )
                     {
                     text.erase(text.length()-1);
                     stem<string_typeT>::update_r_sections(text);

@@ -255,7 +255,7 @@ namespace stemming
                 return;
                 }
             // if second letter is a consonant
-            if (!is_one_of(text[1], vowel_list) )
+            if (!stem<string_typeT>::is_one_of(text[1], vowel_list) )
                 {
                 const size_t start = text.find_first_of(vowel_list, 2);
                 if (start == string_typeT::npos)
@@ -270,8 +270,8 @@ namespace stemming
                     }
                 }
             // if first two letters are vowels
-            else if (is_one_of(text[0], vowel_list) &&
-                     is_one_of(text[1], vowel_list))
+            else if (stem<string_typeT>::is_one_of(text[0], vowel_list) &&
+                     stem<string_typeT>::is_one_of(text[1], vowel_list))
                 {
                 const size_t start = text.find_first_not_of(vowel_list, 2);
                 if (start == string_typeT::npos)
@@ -286,8 +286,8 @@ namespace stemming
                     }
                 }
             // consonant/vowel at beginning
-            else if (!is_one_of(text[0], vowel_list) &&
-                     is_one_of(text[1], vowel_list))
+            else if (!stem<string_typeT>::is_one_of(text[0], vowel_list) &&
+                     stem<string_typeT>::is_one_of(text[1], vowel_list))
                 {
                 m_rv = 3;
                 }
@@ -316,25 +316,25 @@ namespace stemming
             /* Exceptions: If the word begins with these then RV goes right after them,
                whether it be a letter or simply the end of the word.*/
             if (text.length() >= 3 &&
-                ((is_either<wchar_t>(text[0], common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) &&
-                is_either<wchar_t>(text[1], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
-                is_either<wchar_t>(text[2], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) ) || // par
+                ((stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) &&
+                stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
+                stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) ) || // par
 
-                (is_either<wchar_t>(text[0], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
-                is_either<wchar_t>(text[1], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
-                is_either<wchar_t>(text[2], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) ) || // col
+                (stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
+                stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
+                stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) ) || // col
 
-                (is_either<wchar_t>(text[0], common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) &&
-                is_either<wchar_t>(text[1], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
-                is_either<wchar_t>(text[2], common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) )) // tap
+                (stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) &&
+                stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
+                stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) )) // tap
                 )
                 {
                 m_rv = 3;
                 return;
                 }
             // if first two letters are vowels
-            if (is_one_of(text[0], vowel_list) &&
-                is_one_of(text[1], vowel_list))
+            if (stem<string_typeT>::is_one_of(text[0], vowel_list) &&
+                stem<string_typeT>::is_one_of(text[1], vowel_list))
                 {
                 m_rv = 3;
                 }
@@ -406,7 +406,7 @@ namespace stemming
             {
             if (text.length() >= 2 &&
                 is_apostrophe(text[text.length()-2]) &&
-                is_either<wchar_t>(text[text.length()-1], common_lang_constants::LOWER_S,
+                stem<string_typeT>::is_either(text[text.length()-1], common_lang_constants::LOWER_S,
                                                           common_lang_constants::UPPER_S) )
                 { text.erase(text.length()-2); }
             else if (text.length() >= 1 &&
@@ -453,7 +453,7 @@ namespace stemming
             {
             if (text.length() < 1)
                 { return false; }
-            return is_either<wchar_t>(text[text.length()-1], suffix1L, suffix1U);
+            return stem<string_typeT>::is_either(text[text.length()-1], suffix1L, suffix1U);
             }
         /// @brief is_suffix for two characters.
         /// @param text The string being reviewed.
@@ -470,8 +470,8 @@ namespace stemming
                 {
                 return false;
                 }
-            return is_either<wchar_t>(text[text.length()-2], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix2L, suffix2U);
+            return stem<string_typeT>::is_either(text[text.length()-2], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix2L, suffix2U);
             }
 
         /// @brief is_suffix for three characters.
@@ -492,9 +492,9 @@ namespace stemming
                 {
                 return false;
                 }
-            return is_either<wchar_t>(text[text.length()-3], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix3L, suffix3U);
+            return stem<string_typeT>::is_either(text[text.length()-3], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix3L, suffix3U);
             }
         /// @brief is_suffix for four characters.
         /// @param text The string being reviewed.
@@ -517,10 +517,10 @@ namespace stemming
                 {
                 return false;
                 }
-            return is_either<wchar_t>(text[text.length()-4], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix4L, suffix4U);
+            return stem<string_typeT>::is_either(text[text.length()-4], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix4L, suffix4U);
             }
         /// @brief is_suffix for five characters.
         /// @param text The string being reviewed.
@@ -546,11 +546,11 @@ namespace stemming
                 {
                 return false;
                 }
-            return is_either<wchar_t>(text[text.length()-5], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-4], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix4L, suffix4U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix5L, suffix5U);
+            return stem<string_typeT>::is_either(text[text.length()-5], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix4L, suffix4U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix5L, suffix5U);
             }
         /// @brief is_suffix for six characters.
         /// @param text The string being reviewed.
@@ -579,12 +579,12 @@ namespace stemming
                 {
                 return false;
                 }
-            return is_either<wchar_t>(text[text.length()-6], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-5], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-4], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix4L, suffix4U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix5L, suffix5U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix6L, suffix6U);
+            return stem<string_typeT>::is_either(text[text.length()-6], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-5], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix4L, suffix4U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix5L, suffix5U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix6L, suffix6U);
             }
         /// @brief is_suffix for seven characters.
         /// @param text The string being reviewed.
@@ -616,13 +616,13 @@ namespace stemming
                 {
                 return false;
                 }
-            return is_either<wchar_t>(text[text.length()-7], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-6], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-5], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-4], suffix4L, suffix4U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix5L, suffix5U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix6L, suffix6U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix7L, suffix7U);
+            return stem<string_typeT>::is_either(text[text.length()-7], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-6], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-5], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], suffix4L, suffix4U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix5L, suffix5U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix6L, suffix6U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix7L, suffix7U);
             }
         /// @brief is_suffix for eight characters.
         /// @param text The string being reviewed.
@@ -657,14 +657,14 @@ namespace stemming
                 {
                 return false;
                 }
-            return is_either<wchar_t>(text[text.length()-8], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-7], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-6], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-5], suffix4L, suffix4U) &&
-                    is_either<wchar_t>(text[text.length()-4], suffix5L, suffix5U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix6L, suffix6U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix7L, suffix7U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix8L, suffix8U);
+            return stem<string_typeT>::is_either(text[text.length()-8], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-7], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-6], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-5], suffix4L, suffix4U) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], suffix5L, suffix5U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix6L, suffix6U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix7L, suffix7U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix8L, suffix8U);
             }
         /// @brief is_suffix for nine characters.
         /// @param text The string being reviewed.
@@ -702,15 +702,15 @@ namespace stemming
                 {
                 return false;
                 }
-            return is_either<wchar_t>(text[text.length()-9], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-8], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-7], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-6], suffix4L, suffix4U) &&
-                    is_either<wchar_t>(text[text.length()-5], suffix5L, suffix5U) &&
-                    is_either<wchar_t>(text[text.length()-4], suffix6L, suffix6U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix7L, suffix7U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix8L, suffix8U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix9L, suffix9U);
+            return stem<string_typeT>::is_either(text[text.length()-9], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-8], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-7], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-6], suffix4L, suffix4U) &&
+                    stem<string_typeT>::is_either(text[text.length()-5], suffix5L, suffix5U) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], suffix6L, suffix6U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix7L, suffix7U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix8L, suffix8U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix9L, suffix9U);
             }
 
         /// @brief Comparison for two characters.
@@ -728,8 +728,8 @@ namespace stemming
             {
             if ((start_index+2) >= text.length())
                 { return false; }
-            return (is_either<wchar_t>(text[start_index], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[start_index+1], suffix2L, suffix2U));
+            return (stem<string_typeT>::is_either(text[start_index], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[start_index+1], suffix2L, suffix2U));
             }
         /// @brief Comparison for three characters.
         /// @param text The string being reviewed.
@@ -749,9 +749,9 @@ namespace stemming
             {
             if ((start_index+3) >= text.length())
                 { return false; }
-            return (is_either<wchar_t>(text[start_index], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[start_index+1], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[start_index+2], suffix3L, suffix3U));
+            return (stem<string_typeT>::is_either(text[start_index], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[start_index+1], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[start_index+2], suffix3L, suffix3U));
             }
 
         //  RV suffix functions
@@ -768,7 +768,7 @@ namespace stemming
                 {
                 return false;
                 }
-            return (is_either<wchar_t>(text[text.length()-1], suffix1L, suffix1U) &&
+            return (stem<string_typeT>::is_either(text[text.length()-1], suffix1L, suffix1U) &&
                     (get_rv() <= text.length()-1) );
             }
         /// @brief RV suffix comparison for two characters.
@@ -786,8 +786,8 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-2], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix2L, suffix2U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-2], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix2L, suffix2U) ) &&
                     (get_rv() <= text.length()-2) );
             }
         /// @brief RV suffix comparison for three characters.
@@ -808,9 +808,9 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-3], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix3L, suffix3U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-3], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix3L, suffix3U) ) &&
                     (get_rv() <= text.length()-3) );
             }
         /// @brief RV suffix comparison for four characters.
@@ -834,10 +834,10 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-4], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix4L, suffix4U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-4], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix4L, suffix4U) ) &&
                     (get_rv() <= text.length()-4) );
             }
         /// @brief RV suffix comparison for five characters.
@@ -864,11 +864,11 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-5], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-4], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix4L, suffix4U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix5L, suffix5U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-5], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix4L, suffix4U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix5L, suffix5U) ) &&
                     (get_rv() <= text.length()-5) );
             }
         /// @brief RV suffix comparison for six characters.
@@ -898,12 +898,12 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-6], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-5], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-4], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix4L, suffix4U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix5L, suffix5U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix6L, suffix6U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-6], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-5], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix4L, suffix4U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix5L, suffix5U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix6L, suffix6U) ) &&
                     (get_rv() <= text.length()-6) );
             }
         /// @brief RV suffix comparison for seven characters.
@@ -936,13 +936,13 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-7], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-6], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-5], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-4], suffix4L, suffix4U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix5L, suffix5U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix6L, suffix6U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix7L, suffix7U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-7], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-6], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-5], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], suffix4L, suffix4U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix5L, suffix5U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix6L, suffix6U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix7L, suffix7U) ) &&
                     (get_rv() <= text.length()-7) );
             }
         /// @brief RV suffix comparison for eight characters.
@@ -978,14 +978,14 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-8], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-7], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-6], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-5], suffix4L, suffix4U) &&
-                    is_either<wchar_t>(text[text.length()-4], suffix5L, suffix5U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix6L, suffix6U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix7L, suffix7U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix8L, suffix8U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-8], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-7], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-6], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-5], suffix4L, suffix4U) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], suffix5L, suffix5U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix6L, suffix6U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix7L, suffix7U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix8L, suffix8U) ) &&
                     (get_rv() <= text.length()-8) );
             }
 
@@ -1003,7 +1003,7 @@ namespace stemming
                 {
                 return false;
                 }
-            return (is_either<wchar_t>(text[text.length()-1], suffix1L, suffix1U) &&
+            return (stem<string_typeT>::is_either(text[text.length()-1], suffix1L, suffix1U) &&
                     (get_r1() <= text.length()-1) );
             }
         /// @brief 1 suffix comparison for two characters.
@@ -1021,8 +1021,8 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-2], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix2L, suffix2U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-2], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix2L, suffix2U) ) &&
                     (get_r1() <= text.length()-2) );
             }
         /// @brief R1 suffix comparison for three characters.
@@ -1043,9 +1043,9 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-3], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix3L, suffix3U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-3], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix3L, suffix3U) ) &&
                     (get_r1() <= text.length()-3) );
             }
         /// @brief R1 suffix comparison for four characters.
@@ -1069,10 +1069,10 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-4], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix4L, suffix4U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-4], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix4L, suffix4U) ) &&
                     (get_r1() <= text.length()-4) );
             }
         /// @brief R1 suffix comparison for five characters.
@@ -1099,11 +1099,11 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-5], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-4], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix4L, suffix4U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix5L, suffix5U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-5], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix4L, suffix4U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix5L, suffix5U) ) &&
                     (get_r1() <= text.length()-5) );
             }
         /// @brief R1 suffix comparison for six characters.
@@ -1133,12 +1133,12 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-6], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-5], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-4], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix4L, suffix4U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix5L, suffix5U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix6L, suffix6U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-6], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-5], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix4L, suffix4U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix5L, suffix5U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix6L, suffix6U) ) &&
                     (get_r1() <= text.length()-6) );
             }
 
@@ -1156,7 +1156,7 @@ namespace stemming
                 {
                 return false;
                 }
-            return (is_either<wchar_t>(text[text.length()-1], suffix1L, suffix1U) &&
+            return (stem<string_typeT>::is_either(text[text.length()-1], suffix1L, suffix1U) &&
                     (get_r2() <= text.length()-1) );
             }
         /// @brief R2 suffix comparison for two characters.
@@ -1174,8 +1174,8 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-2], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix2L, suffix2U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-2], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix2L, suffix2U) ) &&
                     (get_r2() <= text.length()-2) );
             }
         /// @brief R2 suffix comparison for three characters.
@@ -1196,9 +1196,9 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-3], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix3L, suffix3U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-3], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix3L, suffix3U) ) &&
                     (get_r2() <= text.length()-3) );
             }
         /// @brief R2 suffix comparison for four characters.
@@ -1222,10 +1222,10 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-4], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix4L, suffix4U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-4], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix4L, suffix4U) ) &&
                     (get_r2() <= text.length()-4) );
             }
         /// @brief R2 suffix comparison for five characters.
@@ -1252,11 +1252,11 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-5], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-4], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix4L, suffix4U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix5L, suffix5U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-5], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix4L, suffix4U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix5L, suffix5U) ) &&
                     (get_r2() <= text.length()-5) );
             }
         /// @brief R2 suffix comparison for six characters.
@@ -1286,12 +1286,12 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-6], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-5], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-4], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix4L, suffix4U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix5L, suffix5U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix6L, suffix6U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-6], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-5], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix4L, suffix4U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix5L, suffix5U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix6L, suffix6U) ) &&
                     (get_r2() <= text.length()-6) );
             }
         /// @brief R2 suffix comparison for seven characters.
@@ -1324,13 +1324,13 @@ namespace stemming
                 {
                 return false;
                 }
-            return ((is_either<wchar_t>(text[text.length()-7], suffix1L, suffix1U) &&
-                    is_either<wchar_t>(text[text.length()-6], suffix2L, suffix2U) &&
-                    is_either<wchar_t>(text[text.length()-5], suffix3L, suffix3U) &&
-                    is_either<wchar_t>(text[text.length()-4], suffix4L, suffix4U) &&
-                    is_either<wchar_t>(text[text.length()-3], suffix5L, suffix5U) &&
-                    is_either<wchar_t>(text[text.length()-2], suffix6L, suffix6U) &&
-                    is_either<wchar_t>(text[text.length()-1], suffix7L, suffix7U) ) &&
+            return ((stem<string_typeT>::is_either(text[text.length()-7], suffix1L, suffix1U) &&
+                    stem<string_typeT>::is_either(text[text.length()-6], suffix2L, suffix2U) &&
+                    stem<string_typeT>::is_either(text[text.length()-5], suffix3L, suffix3U) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], suffix4L, suffix4U) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], suffix5L, suffix5U) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], suffix6L, suffix6U) &&
+                    stem<string_typeT>::is_either(text[text.length()-1], suffix7L, suffix7U) ) &&
                     (get_r2() <= text.length()-7) );
             }
 
@@ -1346,12 +1346,12 @@ namespace stemming
                     const wchar_t suffix1L, const wchar_t suffix1U,
                     const bool success_on_find = true)
             {
-            assert(suffix1L == tolower_western(suffix1U) );
+            assert(suffix1L == stem<string_typeT>::tolower_western(suffix1U) );
             if (text.length() < 1)
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-1], suffix1L, suffix1U))
+            if (stem<string_typeT>::is_either(text[text.length()-1], suffix1L, suffix1U))
                 {
                 if (get_r1() <= text.length()-1)
                     {
@@ -1383,8 +1383,8 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-2], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix2L, suffix2U))
+            if (stem<string_typeT>::is_either(text[text.length()-2], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix2L, suffix2U))
                 {
                 if (get_r1() <= text.length()-2)
                     {
@@ -1419,9 +1419,9 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-3], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-2], suffix2L, suffix2U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix3L, suffix3U) )
+            if (stem<string_typeT>::is_either(text[text.length()-3], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-2], suffix2L, suffix2U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix3L, suffix3U) )
                 {
                 if (get_r1() <= text.length()-3)
                     {
@@ -1459,10 +1459,10 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-4], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-3], suffix2L, suffix2U) &&
-                is_either<wchar_t>(text[text.length()-2], suffix3L, suffix3U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix4L, suffix4U) )
+            if (stem<string_typeT>::is_either(text[text.length()-4], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-3], suffix2L, suffix2U) &&
+                stem<string_typeT>::is_either(text[text.length()-2], suffix3L, suffix3U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix4L, suffix4U) )
                 {
                 if (get_r1() <= text.length()-4)
                     {
@@ -1503,11 +1503,11 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-5], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-4], suffix2L, suffix2U) &&
-                is_either<wchar_t>(text[text.length()-3], suffix3L, suffix3U) &&
-                is_either<wchar_t>(text[text.length()-2], suffix4L, suffix4U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix5L, suffix5U) )
+            if (stem<string_typeT>::is_either(text[text.length()-5], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-4], suffix2L, suffix2U) &&
+                stem<string_typeT>::is_either(text[text.length()-3], suffix3L, suffix3U) &&
+                stem<string_typeT>::is_either(text[text.length()-2], suffix4L, suffix4U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix5L, suffix5U) )
                 {
                 if (get_r1() <= text.length()-5)
                     {
@@ -1551,12 +1551,12 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-6], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-5], suffix2L, suffix2U) &&
-                is_either<wchar_t>(text[text.length()-4], suffix3L, suffix3U) &&
-                is_either<wchar_t>(text[text.length()-3], suffix4L, suffix4U) &&
-                is_either<wchar_t>(text[text.length()-2], suffix5L, suffix5U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix6L, suffix6U) )
+            if (stem<string_typeT>::is_either(text[text.length()-6], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-5], suffix2L, suffix2U) &&
+                stem<string_typeT>::is_either(text[text.length()-4], suffix3L, suffix3U) &&
+                stem<string_typeT>::is_either(text[text.length()-3], suffix4L, suffix4U) &&
+                stem<string_typeT>::is_either(text[text.length()-2], suffix5L, suffix5U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix6L, suffix6U) )
                 {
                 if (get_r1() <= text.length()-6)
                     {
@@ -1603,13 +1603,13 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-7], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-6], suffix2L, suffix2U) &&
-                is_either<wchar_t>(text[text.length()-5], suffix3L, suffix3U) &&
-                is_either<wchar_t>(text[text.length()-4], suffix4L, suffix4U) &&
-                is_either<wchar_t>(text[text.length()-3], suffix5L, suffix5U) &&
-                is_either<wchar_t>(text[text.length()-2], suffix6L, suffix6U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix7L, suffix7U) )
+            if (stem<string_typeT>::is_either(text[text.length()-7], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-6], suffix2L, suffix2U) &&
+                stem<string_typeT>::is_either(text[text.length()-5], suffix3L, suffix3U) &&
+                stem<string_typeT>::is_either(text[text.length()-4], suffix4L, suffix4U) &&
+                stem<string_typeT>::is_either(text[text.length()-3], suffix5L, suffix5U) &&
+                stem<string_typeT>::is_either(text[text.length()-2], suffix6L, suffix6U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix7L, suffix7U) )
                 {
                 if (get_r1() <= text.length()-7)
                     {
@@ -1641,7 +1641,7 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-1], suffix1L, suffix1U))
+            if (stem<string_typeT>::is_either(text[text.length()-1], suffix1L, suffix1U))
                 {
                 if (get_r2() <= text.length()-1)
                     {
@@ -1673,8 +1673,8 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-2], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix2L, suffix2U))
+            if (stem<string_typeT>::is_either(text[text.length()-2], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix2L, suffix2U))
                 {
                 if (get_r2() <= text.length()-2)
                     {
@@ -1709,9 +1709,9 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-3], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-2], suffix2L, suffix2U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix3L, suffix3U) )
+            if (stem<string_typeT>::is_either(text[text.length()-3], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-2], suffix2L, suffix2U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix3L, suffix3U) )
                 {
                 if (get_r2() <= text.length()-3)
                     {
@@ -1749,10 +1749,10 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-4], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-3], suffix2L, suffix2U) &&
-                is_either<wchar_t>(text[text.length()-2], suffix3L, suffix3U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix4L, suffix4U) )
+            if (stem<string_typeT>::is_either(text[text.length()-4], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-3], suffix2L, suffix2U) &&
+                stem<string_typeT>::is_either(text[text.length()-2], suffix3L, suffix3U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix4L, suffix4U) )
                 {
                 if (get_r2() <= text.length()-4)
                     {
@@ -1793,11 +1793,11 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-5], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-4], suffix2L, suffix2U) &&
-                is_either<wchar_t>(text[text.length()-3], suffix3L, suffix3U) &&
-                is_either<wchar_t>(text[text.length()-2], suffix4L, suffix4U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix5L, suffix5U) )
+            if (stem<string_typeT>::is_either(text[text.length()-5], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-4], suffix2L, suffix2U) &&
+                stem<string_typeT>::is_either(text[text.length()-3], suffix3L, suffix3U) &&
+                stem<string_typeT>::is_either(text[text.length()-2], suffix4L, suffix4U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix5L, suffix5U) )
                 {
                 if (get_r2() <= text.length()-5)
                     {
@@ -1841,12 +1841,12 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-6], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-5], suffix2L, suffix2U) &&
-                is_either<wchar_t>(text[text.length()-4], suffix3L, suffix3U) &&
-                is_either<wchar_t>(text[text.length()-3], suffix4L, suffix4U) &&
-                is_either<wchar_t>(text[text.length()-2], suffix5L, suffix5U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix6L, suffix6U) )
+            if (stem<string_typeT>::is_either(text[text.length()-6], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-5], suffix2L, suffix2U) &&
+                stem<string_typeT>::is_either(text[text.length()-4], suffix3L, suffix3U) &&
+                stem<string_typeT>::is_either(text[text.length()-3], suffix4L, suffix4U) &&
+                stem<string_typeT>::is_either(text[text.length()-2], suffix5L, suffix5U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix6L, suffix6U) )
                 {
                 if (get_r2() <= text.length()-6)
                     {
@@ -1893,13 +1893,13 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-7], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-6], suffix2L, suffix2U) &&
-                is_either<wchar_t>(text[text.length()-5], suffix3L, suffix3U) &&
-                is_either<wchar_t>(text[text.length()-4], suffix4L, suffix4U) &&
-                is_either<wchar_t>(text[text.length()-3], suffix5L, suffix5U) &&
-                is_either<wchar_t>(text[text.length()-2], suffix6L, suffix6U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix7L, suffix7U) )
+            if (stem<string_typeT>::is_either(text[text.length()-7], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-6], suffix2L, suffix2U) &&
+                stem<string_typeT>::is_either(text[text.length()-5], suffix3L, suffix3U) &&
+                stem<string_typeT>::is_either(text[text.length()-4], suffix4L, suffix4U) &&
+                stem<string_typeT>::is_either(text[text.length()-3], suffix5L, suffix5U) &&
+                stem<string_typeT>::is_either(text[text.length()-2], suffix6L, suffix6U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix7L, suffix7U) )
                 {
                 if (get_r2() <= text.length()-7)
                     {
@@ -1949,14 +1949,14 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-8], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-7], suffix2L, suffix2U) &&
-                is_either<wchar_t>(text[text.length()-6], suffix3L, suffix3U) &&
-                is_either<wchar_t>(text[text.length()-5], suffix4L, suffix4U) &&
-                is_either<wchar_t>(text[text.length()-4], suffix5L, suffix5U) &&
-                is_either<wchar_t>(text[text.length()-3], suffix6L, suffix6U) &&
-                is_either<wchar_t>(text[text.length()-2], suffix7L, suffix7U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix8L, suffix8U) )
+            if (stem<string_typeT>::is_either(text[text.length()-8], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-7], suffix2L, suffix2U) &&
+                stem<string_typeT>::is_either(text[text.length()-6], suffix3L, suffix3U) &&
+                stem<string_typeT>::is_either(text[text.length()-5], suffix4L, suffix4U) &&
+                stem<string_typeT>::is_either(text[text.length()-4], suffix5L, suffix5U) &&
+                stem<string_typeT>::is_either(text[text.length()-3], suffix6L, suffix6U) &&
+                stem<string_typeT>::is_either(text[text.length()-2], suffix7L, suffix7U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix8L, suffix8U) )
                 {
                 if (get_r2() <= text.length()-8)
                     {
@@ -1988,7 +1988,7 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-1], suffix1L, suffix1U))
+            if (stem<string_typeT>::is_either(text[text.length()-1], suffix1L, suffix1U))
                 {
                 if (get_rv() <= text.length()-1)
                     {
@@ -2020,8 +2020,8 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-2], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix2L, suffix2U))
+            if (stem<string_typeT>::is_either(text[text.length()-2], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix2L, suffix2U))
                 {
                 if (get_rv() <= text.length()-2)
                     {
@@ -2056,9 +2056,9 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-3], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-2], suffix2L, suffix2U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix3L, suffix3U) )
+            if (stem<string_typeT>::is_either(text[text.length()-3], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-2], suffix2L, suffix2U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix3L, suffix3U) )
                 {
                 if (get_rv() <= text.length()-3)
                     {
@@ -2096,10 +2096,10 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-4], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-3], suffix2L, suffix2U) &&
-                is_either<wchar_t>(text[text.length()-2], suffix3L, suffix3U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix4L, suffix4U) )
+            if (stem<string_typeT>::is_either(text[text.length()-4], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-3], suffix2L, suffix2U) &&
+                stem<string_typeT>::is_either(text[text.length()-2], suffix3L, suffix3U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix4L, suffix4U) )
                 {
                 if (get_rv() <= text.length()-4)
                     {
@@ -2140,11 +2140,11 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-5], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-4], suffix2L, suffix2U) &&
-                is_either<wchar_t>(text[text.length()-3], suffix3L, suffix3U) &&
-                is_either<wchar_t>(text[text.length()-2], suffix4L, suffix4U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix5L, suffix5U) )
+            if (stem<string_typeT>::is_either(text[text.length()-5], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-4], suffix2L, suffix2U) &&
+                stem<string_typeT>::is_either(text[text.length()-3], suffix3L, suffix3U) &&
+                stem<string_typeT>::is_either(text[text.length()-2], suffix4L, suffix4U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix5L, suffix5U) )
                 {
                 if (get_rv() <= text.length()-5)
                     {
@@ -2188,12 +2188,12 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-6], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-5], suffix2L, suffix2U) &&
-                is_either<wchar_t>(text[text.length()-4], suffix3L, suffix3U) &&
-                is_either<wchar_t>(text[text.length()-3], suffix4L, suffix4U) &&
-                is_either<wchar_t>(text[text.length()-2], suffix5L, suffix5U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix6L, suffix6U) )
+            if (stem<string_typeT>::is_either(text[text.length()-6], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-5], suffix2L, suffix2U) &&
+                stem<string_typeT>::is_either(text[text.length()-4], suffix3L, suffix3U) &&
+                stem<string_typeT>::is_either(text[text.length()-3], suffix4L, suffix4U) &&
+                stem<string_typeT>::is_either(text[text.length()-2], suffix5L, suffix5U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix6L, suffix6U) )
                 {
                 if (get_rv() <= text.length()-6)
                     {
@@ -2240,13 +2240,13 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-7], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-6], suffix2L, suffix2U) &&
-                is_either<wchar_t>(text[text.length()-5], suffix3L, suffix3U) &&
-                is_either<wchar_t>(text[text.length()-4], suffix4L, suffix4U) &&
-                is_either<wchar_t>(text[text.length()-3], suffix5L, suffix5U) &&
-                is_either<wchar_t>(text[text.length()-2], suffix6L, suffix6U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix7L, suffix7U) )
+            if (stem<string_typeT>::is_either(text[text.length()-7], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-6], suffix2L, suffix2U) &&
+                stem<string_typeT>::is_either(text[text.length()-5], suffix3L, suffix3U) &&
+                stem<string_typeT>::is_either(text[text.length()-4], suffix4L, suffix4U) &&
+                stem<string_typeT>::is_either(text[text.length()-3], suffix5L, suffix5U) &&
+                stem<string_typeT>::is_either(text[text.length()-2], suffix6L, suffix6U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix7L, suffix7U) )
                 {
                 if (get_rv() <= text.length()-7)
                     {
@@ -2296,14 +2296,14 @@ namespace stemming
                 {
                 return false;
                 }
-            if (is_either<wchar_t>(text[text.length()-8], suffix1L, suffix1U) &&
-                is_either<wchar_t>(text[text.length()-7], suffix2L, suffix2U) &&
-                is_either<wchar_t>(text[text.length()-6], suffix3L, suffix3U) &&
-                is_either<wchar_t>(text[text.length()-5], suffix4L, suffix4U) &&
-                is_either<wchar_t>(text[text.length()-4], suffix5L, suffix5U) &&
-                is_either<wchar_t>(text[text.length()-3], suffix6L, suffix6U) &&
-                is_either<wchar_t>(text[text.length()-2], suffix7L, suffix7U) &&
-                is_either<wchar_t>(text[text.length()-1], suffix8L, suffix8U) )
+            if (stem<string_typeT>::is_either(text[text.length()-8], suffix1L, suffix1U) &&
+                stem<string_typeT>::is_either(text[text.length()-7], suffix2L, suffix2U) &&
+                stem<string_typeT>::is_either(text[text.length()-6], suffix3L, suffix3U) &&
+                stem<string_typeT>::is_either(text[text.length()-5], suffix4L, suffix4U) &&
+                stem<string_typeT>::is_either(text[text.length()-4], suffix5L, suffix5U) &&
+                stem<string_typeT>::is_either(text[text.length()-3], suffix6L, suffix6U) &&
+                stem<string_typeT>::is_either(text[text.length()-2], suffix7L, suffix7U) &&
+                stem<string_typeT>::is_either(text[text.length()-1], suffix8L, suffix8U) )
                 {
                 if (get_rv() <= text.length()-8)
                     {
@@ -2418,21 +2418,21 @@ namespace stemming
                 {
                 text[0] = UPPER_Y_HASH;
                 }
-            bool in_vowel_block = is_one_of(text[0], vowel_string);
+            bool in_vowel_block = stem<string_typeT>::is_one_of(text[0], vowel_string);
 
             size_t i = 1;
             for (i = 1; i < text.length()-1; ++i)
                 {
                 if (in_vowel_block &&
                     text[i] == common_lang_constants::LOWER_I &&
-                    is_one_of(text[i+1], vowel_string) )
+                    stem<string_typeT>::is_one_of(text[i+1], vowel_string) )
                     {
                     text[i] = LOWER_I_HASH;
                     in_vowel_block = false;
                     }
                 else if (in_vowel_block &&
                     text[i] == common_lang_constants::UPPER_I &&
-                    is_one_of(text[i+1], vowel_string) )
+                    stem<string_typeT>::is_one_of(text[i+1], vowel_string) )
                     {
                     text[i] = UPPER_I_HASH;
                     in_vowel_block = false;
@@ -2449,7 +2449,7 @@ namespace stemming
                     text[i] = UPPER_Y_HASH;
                     in_vowel_block = false;
                     }
-                else if (is_one_of(text[i], vowel_string) )
+                else if (stem<string_typeT>::is_one_of(text[i], vowel_string) )
                     {
                     in_vowel_block = true;
                     }
@@ -2475,10 +2475,10 @@ namespace stemming
         /// @param text The string to update.
         inline void unhash_dutch_yi(string_typeT& text)
             {
-            replace_all(text, LOWER_Y_HASH, common_lang_constants::LOWER_Y);
-            replace_all(text, UPPER_Y_HASH, common_lang_constants::UPPER_Y);
-            replace_all(text, LOWER_I_HASH, common_lang_constants::LOWER_I);
-            replace_all(text, UPPER_I_HASH, common_lang_constants::UPPER_I);
+            stem<string_typeT>::replace_all(text, LOWER_Y_HASH, common_lang_constants::LOWER_Y);
+            stem<string_typeT>::replace_all(text, UPPER_Y_HASH, common_lang_constants::UPPER_Y);
+            stem<string_typeT>::replace_all(text, LOWER_I_HASH, common_lang_constants::LOWER_I);
+            stem<string_typeT>::replace_all(text, UPPER_I_HASH, common_lang_constants::UPPER_I);
             }
 
         /// @brief Hash 'u' and 'y' between vowels.
@@ -2491,13 +2491,13 @@ namespace stemming
             if (text.length() < 2)
                 { return; }
 
-            bool in_vowel_block = is_one_of(text[0], vowel_string);
+            bool in_vowel_block = stem<string_typeT>::is_one_of(text[0], vowel_string);
 
             for (size_t i = 1; i < text.length()-1; ++i)
                 {
                 if (in_vowel_block &&
-                    is_one_of(text[i], vowel_string) &&
-                    is_one_of(text[i+1], vowel_string) )
+                    stem<string_typeT>::is_one_of(text[i], vowel_string) &&
+                    stem<string_typeT>::is_one_of(text[i+1], vowel_string) )
                     {
                     if (text[i] == common_lang_constants::LOWER_Y)
                         {
@@ -2516,7 +2516,7 @@ namespace stemming
                         text[i] = UPPER_U_HASH;
                         }
                     }
-                else if (is_one_of(text[i], vowel_string) )
+                else if (stem<string_typeT>::is_one_of(text[i], vowel_string) )
                     {
                     in_vowel_block = true;
                     }
@@ -2532,10 +2532,10 @@ namespace stemming
         /// @param text The string to update.
         inline void unhash_german_yu(string_typeT& text)
             {
-            replace_all(text, LOWER_Y_HASH, common_lang_constants::LOWER_Y);
-            replace_all(text, UPPER_Y_HASH, common_lang_constants::UPPER_Y);
-            replace_all(text, LOWER_U_HASH, common_lang_constants::LOWER_U);
-            replace_all(text, UPPER_U_HASH, common_lang_constants::UPPER_U);
+            stem<string_typeT>::replace_all(text, LOWER_Y_HASH, common_lang_constants::LOWER_Y);
+            stem<string_typeT>::replace_all(text, UPPER_Y_HASH, common_lang_constants::UPPER_Y);
+            stem<string_typeT>::replace_all(text, LOWER_U_HASH, common_lang_constants::LOWER_U);
+            stem<string_typeT>::replace_all(text, UPPER_U_HASH, common_lang_constants::UPPER_U);
             }
 
         /** @brief Hashes the following:\n
@@ -2612,8 +2612,8 @@ namespace stemming
             for (i = 0; i < text.length()-1; ++i)
                 {
                 if (in_vowel_block &&
-                    is_one_of(text[i], vowel_string) &&
-                    is_one_of(text[i+1], vowel_string) )
+                    stem<string_typeT>::is_one_of(text[i], vowel_string) &&
+                    stem<string_typeT>::is_one_of(text[i+1], vowel_string) )
                     {
                     if (text[i] == common_lang_constants::LOWER_Y)
                         {
@@ -2661,31 +2661,31 @@ namespace stemming
                     }
                 // if just following letter is a vowel then examine for 'y'
                 else if (text[i] == common_lang_constants::LOWER_Y &&
-                        is_one_of(text[i+1], vowel_string) &&
-                        is_neither<wchar_t>(text[i+1], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
+                        stem<string_typeT>::is_one_of(text[i+1], vowel_string) &&
+                        stem<string_typeT>::is_neither(text[i+1], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
                     {
                     text[i] = LOWER_Y_HASH;
                     in_vowel_block = false;
                     }
                 else if (text[i] == common_lang_constants::UPPER_Y &&
-                        is_one_of(text[i+1], vowel_string) &&
-                        is_neither<wchar_t>(text[i+1], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
+                        stem<string_typeT>::is_one_of(text[i+1], vowel_string) &&
+                        stem<string_typeT>::is_neither(text[i+1], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
                     {
                     text[i] = UPPER_Y_HASH;
                     in_vowel_block = false;
                     }
-                else if (is_one_of(text[i], vowel_string) )
+                else if (stem<string_typeT>::is_one_of(text[i], vowel_string) )
                     {
                     if (text[i] == common_lang_constants::LOWER_U &&
                         (i > 0) &&
-                        is_either<wchar_t>(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
+                        stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
                         {
                         text[i] = LOWER_U_HASH;
                         in_vowel_block = false;
                         }
                     else if (text[i] == common_lang_constants::UPPER_U &&
                         (i > 0) &&
-                        is_either<wchar_t>(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
+                        stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
                         {
                         text[i] = UPPER_U_HASH;
                         in_vowel_block = false;
@@ -2703,25 +2703,25 @@ namespace stemming
             // verify that the last letter
             if (text[i] == common_lang_constants::LOWER_Y &&
                 (i > 0) &&
-                is_one_of(text[i-1], vowel_string)    )
+                stem<string_typeT>::is_one_of(text[i-1], vowel_string)    )
                 {
                 text[i] = LOWER_Y_HASH;
                 }
             else if (text[i] == common_lang_constants::UPPER_Y &&
                     (i > 0) &&
-                    is_one_of(text[i-1], vowel_string) )
+                    stem<string_typeT>::is_one_of(text[i-1], vowel_string) )
                 {
                 text[i] = UPPER_Y_HASH;
                 }
             else if (text[i] == common_lang_constants::LOWER_U &&
                     (i > 0) &&
-                    is_either<wchar_t>(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
+                    stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
                 {
                 text[i] = LOWER_U_HASH;
                 }
             else if (text[i] == common_lang_constants::UPPER_U &&
                     (i > 0) &&
-                    is_either<wchar_t>(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
+                    stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
                 {
                 text[i] = UPPER_U_HASH;
                 }
@@ -2731,12 +2731,12 @@ namespace stemming
         /// @param text The string to update.
         void unhash_french_yui(string_typeT& text)
             {
-            replace_all(text, LOWER_Y_HASH, common_lang_constants::LOWER_Y);
-            replace_all(text, UPPER_Y_HASH, common_lang_constants::UPPER_Y);
-            replace_all(text, LOWER_U_HASH, common_lang_constants::LOWER_U);
-            replace_all(text, UPPER_U_HASH, common_lang_constants::UPPER_U);
-            replace_all(text, LOWER_I_HASH, common_lang_constants::LOWER_I);
-            replace_all(text, UPPER_I_HASH, common_lang_constants::UPPER_I);
+            stem<string_typeT>::replace_all(text, LOWER_Y_HASH, common_lang_constants::LOWER_Y);
+            stem<string_typeT>::replace_all(text, UPPER_Y_HASH, common_lang_constants::UPPER_Y);
+            stem<string_typeT>::replace_all(text, LOWER_U_HASH, common_lang_constants::LOWER_U);
+            stem<string_typeT>::replace_all(text, UPPER_U_HASH, common_lang_constants::UPPER_U);
+            stem<string_typeT>::replace_all(text, LOWER_I_HASH, common_lang_constants::LOWER_I);
+            stem<string_typeT>::replace_all(text, UPPER_I_HASH, common_lang_constants::UPPER_I);
             }
 
         /// @brief Hashes Y and y in a sting.
@@ -2759,7 +2759,7 @@ namespace stemming
                 text[0] = UPPER_Y_HASH;
                 }
 
-            bool in_vowel_block = is_one_of(text[0], vowel_string);
+            bool in_vowel_block = stem<string_typeT>::is_one_of(text[0], vowel_string);
 
             for (size_t i = 1; i < text.length(); ++i)
                 {
@@ -2776,7 +2776,7 @@ namespace stemming
                     text[i] = UPPER_Y_HASH;
                     in_vowel_block = false;
                     }
-                else if (is_one_of(text[i], vowel_string) )
+                else if (stem<string_typeT>::is_one_of(text[i], vowel_string) )
                     {
                     in_vowel_block = true;
                     }
@@ -2792,8 +2792,8 @@ namespace stemming
         /// @param text The string to update.
         inline void unhash_y(string_typeT& text)
             {
-            replace_all(text, LOWER_Y_HASH, common_lang_constants::LOWER_Y);
-            replace_all(text, UPPER_Y_HASH, common_lang_constants::UPPER_Y);
+            stem<string_typeT>::replace_all(text, LOWER_Y_HASH, common_lang_constants::LOWER_Y);
+            stem<string_typeT>::replace_all(text, UPPER_Y_HASH, common_lang_constants::UPPER_Y);
             }
 
         /// @brief Hashes u after q, and u, i between vowels.
@@ -2806,14 +2806,14 @@ namespace stemming
             if (text.length() < 2)
                 { return; }
 
-            bool in_vowel_block = is_one_of(text[0], vowel_string);
+            bool in_vowel_block = stem<string_typeT>::is_one_of(text[0], vowel_string);
 
             size_t i = 1;
             for (i = 1; i < text.length()-1; ++i)
                 {
                 if (in_vowel_block &&
-                    is_one_of(text[i], vowel_string) &&
-                    is_one_of(text[i+1], vowel_string) )
+                    stem<string_typeT>::is_one_of(text[i], vowel_string) &&
+                    stem<string_typeT>::is_one_of(text[i+1], vowel_string) )
                     {
                     if (text[i] == common_lang_constants::LOWER_I )
                         {
@@ -2832,20 +2832,20 @@ namespace stemming
                         text[i] = UPPER_U_HASH;
                         }
                     }
-                else if (is_one_of(text[i], vowel_string) )
+                else if (stem<string_typeT>::is_one_of(text[i], vowel_string) )
                     {
                     /* u after q should be encrypted and not be
                        treated as a vowel*/
                     if (text[i] == common_lang_constants::LOWER_U &&
                         (i > 0) &&
-                        is_either<wchar_t>(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
+                        stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
                         {
                         text[i] = LOWER_U_HASH;
                         in_vowel_block = false;
                         }
                     else if (text[i] == common_lang_constants::UPPER_U &&
                         (i > 0) &&
-                        is_either<wchar_t>(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
+                        stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
                         {
                         text[i] = UPPER_U_HASH;
                         in_vowel_block = false;
@@ -2864,13 +2864,13 @@ namespace stemming
             // verify the last letter
             if (text[i] == common_lang_constants::LOWER_U &&
                 (i > 0) &&
-                is_either<wchar_t>(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
+                stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
                 {
                 text[i] = LOWER_U_HASH;
                 }
             else if (text[i] == common_lang_constants::UPPER_U &&
                 (i > 0) &&
-                is_either<wchar_t>(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
+                stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
                 {
                 text[i] = UPPER_U_HASH;
                 }
@@ -2880,10 +2880,10 @@ namespace stemming
         /// @param text The string to update.
         inline void unhash_italian_ui(string_typeT& text)
             {
-            replace_all(text, LOWER_I_HASH, common_lang_constants::LOWER_I);
-            replace_all(text, UPPER_I_HASH, common_lang_constants::UPPER_I);
-            replace_all(text, LOWER_U_HASH, common_lang_constants::LOWER_U);
-            replace_all(text, UPPER_U_HASH, common_lang_constants::UPPER_U);
+            stem<string_typeT>::replace_all(text, LOWER_I_HASH, common_lang_constants::LOWER_I);
+            stem<string_typeT>::replace_all(text, UPPER_I_HASH, common_lang_constants::UPPER_I);
+            stem<string_typeT>::replace_all(text, LOWER_U_HASH, common_lang_constants::LOWER_U);
+            stem<string_typeT>::replace_all(text, UPPER_U_HASH, common_lang_constants::UPPER_U);
             }
 
         /// @brief Encodes Dutch umlautsin a sting.
@@ -3104,7 +3104,8 @@ namespace stemming
             @param character The character to review.
             @param char_string The list of characters to compare against.
             @returns @c true if the character of one of the list of characters.*/
-        [[nodiscard]] inline static constexpr bool is_one_of(const wchar_t character, const wchar_t* char_string) noexcept
+        [[nodiscard]]
+        inline static constexpr bool is_one_of(const wchar_t character, const wchar_t* char_string) noexcept
             {
             if (!char_string)
                 { return false; }
@@ -3160,7 +3161,8 @@ namespace stemming
         /// @param second The second value to compare against.
         /// @returns @c true if value is either of the other values.
         template<typename T>
-        [[nodiscard]] static inline constexpr bool is_either(const T value, const T first, const T second) noexcept
+        [[nodiscard]]
+        static inline constexpr bool is_either(const T value, const T first, const T second) noexcept
             { return (value == first || value == second); }
 
         /// @brief Determines if a given value is neither of two other given values.
@@ -3169,7 +3171,8 @@ namespace stemming
         /// @param second The second value to compare against.
         /// @returns @c true if value is neither of the other values.
         template<typename T>
-        [[nodiscard]] static inline constexpr bool is_neither(const T value, const T first, const T second) noexcept
+        [[nodiscard]]
+        static inline constexpr bool is_neither(const T value, const T first, const T second) noexcept
             {
             assert(first != second);
             return (value != first && value != second);

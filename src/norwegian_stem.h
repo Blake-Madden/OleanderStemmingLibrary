@@ -213,7 +213,7 @@ namespace stemming
                     {
                     //only delete if a valid "s" ending
                     if (text.length() >= 2 &&
-                        is_one_of(text[text.length()-2],
+                        stem<string_typeT>::is_one_of(text[text.length()-2],
                         L"bcdfghjlmnoprtvyzBCDFGHJLMNOPRTVYZ") )
                         {
                         text.erase(text.length()-1);
@@ -221,8 +221,8 @@ namespace stemming
                         return;
                         }
                     else if (text.length() >= 3 &&
-                        is_either<wchar_t>(text[text.length()-2], common_lang_constants::LOWER_K, common_lang_constants::UPPER_K) &&
-                        !is_one_of(text[text.length()-3], NORWEGIAN_VOWELS))
+                        stem<string_typeT>::is_either(text[text.length()-2], common_lang_constants::LOWER_K, common_lang_constants::UPPER_K) &&
+                        !stem<string_typeT>::is_one_of(text[text.length()-3], NORWEGIAN_VOWELS))
                         {
                         text.erase(text.length()-1);
                         stem<string_typeT>::update_r_sections(text);

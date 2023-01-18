@@ -259,7 +259,7 @@ namespace stemming
                 {
                 if (text.length() >= 10 &&
                     stem<string_typeT>::get_r1() <= (text.length()-9) &&
-                    !is_one_of(text[text.length()-10], FRENCH_VOWELS) )
+                    !stem<string_typeT>::is_one_of(text[text.length()-10], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-9);
                     m_step_1_successful = true;
@@ -270,7 +270,7 @@ namespace stemming
                 {
                 if (text.length() >= 9 &&
                     stem<string_typeT>::get_r1() <= (text.length()-8) &&
-                    !is_one_of(text[text.length()-9], FRENCH_VOWELS) )
+                    !stem<string_typeT>::is_one_of(text[text.length()-9], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-8);
                     m_step_1_successful = true;
@@ -363,7 +363,7 @@ namespace stemming
                 else if (text.length() >= 3 &&
                     (text[text.length()-3] == common_lang_constants::LOWER_I || text[text.length()-3] == common_lang_constants::UPPER_I) &&
                     (text[text.length()-2] == common_lang_constants::LOWER_Q || text[text.length()-2] == common_lang_constants::UPPER_Q) &&
-                    is_either<wchar_t>(text[text.length()-1], LOWER_U_HASH, UPPER_U_HASH) )
+                    stem<string_typeT>::is_either(text[text.length()-1], LOWER_U_HASH, UPPER_U_HASH) )
                     {
                     if (stem<string_typeT>::get_r2() <= text.length()-3)
                         {
@@ -380,7 +380,7 @@ namespace stemming
                     stem<string_typeT>::get_rv() <= (text.length()-3) &&
                     (text[text.length()-2] == common_lang_constants::LOWER_E_GRAVE || text[text.length()-2] == common_lang_constants::UPPER_E_GRAVE) &&
                     (text[text.length()-1] == common_lang_constants::LOWER_R || text[text.length()-1] == common_lang_constants::UPPER_R) &&
-                    is_either<wchar_t>(text[text.length()-3], LOWER_I_HASH, UPPER_I_HASH) )
+                    stem<string_typeT>::is_either(text[text.length()-3], LOWER_I_HASH, UPPER_I_HASH) )
                     {
                     text.replace(text.end()-3, text.end(), L"i");
                     stem<string_typeT>::update_r_sections(text);
@@ -439,7 +439,7 @@ namespace stemming
                     (text[text.length()-4] == common_lang_constants::LOWER_Q || text[text.length()-4] == common_lang_constants::UPPER_Q) &&
                     (text[text.length()-2] == common_lang_constants::LOWER_E || text[text.length()-2] == common_lang_constants::UPPER_E) &&
                     (text[text.length()-1] == common_lang_constants::LOWER_S || text[text.length()-1] == common_lang_constants::UPPER_S) &&
-                    is_either<wchar_t>(text[text.length()-3], LOWER_U_HASH, UPPER_U_HASH) )
+                    stem<string_typeT>::is_either(text[text.length()-3], LOWER_U_HASH, UPPER_U_HASH) )
                     {
                     if (stem<string_typeT>::get_r2() <= text.length()-5)
                         {
@@ -489,7 +489,7 @@ namespace stemming
                 else if (text.length() >= 3 &&
                     (text[text.length()-3] == common_lang_constants::LOWER_I || text[text.length()-3] == common_lang_constants::UPPER_I) &&
                     (text[text.length()-2] == common_lang_constants::LOWER_Q || text[text.length()-2] == common_lang_constants::UPPER_Q) &&
-                    is_either<wchar_t>(text[text.length()-1], LOWER_U_HASH, UPPER_U_HASH) )
+                    stem<string_typeT>::is_either(text[text.length()-1], LOWER_U_HASH, UPPER_U_HASH) )
                     {
                     if (stem<string_typeT>::get_r2() <= text.length()-3)
                         {
@@ -506,7 +506,7 @@ namespace stemming
                     stem<string_typeT>::get_rv() <= (text.length()-3) &&
                     (text[text.length()-2] == common_lang_constants::LOWER_E_GRAVE || text[text.length()-2] == common_lang_constants::UPPER_E_GRAVE) &&
                     (text[text.length()-1] == common_lang_constants::LOWER_R || text[text.length()-1] == common_lang_constants::UPPER_R) &&
-                    is_either<wchar_t>(text[text.length()-3], LOWER_I_HASH, UPPER_I_HASH) )
+                    stem<string_typeT>::is_either(text[text.length()-3], LOWER_I_HASH, UPPER_I_HASH) )
                     {
                     text.erase(text.length()-2);
                     stem<string_typeT>::update_r_sections(text);
@@ -521,7 +521,7 @@ namespace stemming
                 //the proceeding vowel must also be n RV
                 if (text.length() >= 6 &&
                     stem<string_typeT>::get_rv() <= text.length()-6 &&
-                    is_one_of(text[text.length()-6], FRENCH_VOWELS) )
+                    stem<string_typeT>::is_one_of(text[text.length()-6], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-5);
                     stem<string_typeT>::update_r_sections(text);
@@ -563,7 +563,7 @@ namespace stemming
                 //the proceeding vowel must also be n RV
                 if (text.length() >= 5 &&
                     stem<string_typeT>::get_rv() <= text.length()-5 &&
-                    is_one_of(text[text.length()-5], FRENCH_VOWELS) )
+                    stem<string_typeT>::is_one_of(text[text.length()-5], FRENCH_VOWELS) )
                     {
                     text.erase(text.length()-4);
                     stem<string_typeT>::update_r_sections(text);
@@ -595,7 +595,7 @@ namespace stemming
                     (text[text.length()-4] == common_lang_constants::LOWER_I || text[text.length()-4] == common_lang_constants::UPPER_I) &&
                     (text[text.length()-3] == common_lang_constants::LOWER_Q || text[text.length()-3] == common_lang_constants::UPPER_Q) &&
                     (text[text.length()-1] == common_lang_constants::LOWER_E || text[text.length()-1] == common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[text.length()-2], LOWER_U_HASH, UPPER_U_HASH) )
+                    stem<string_typeT>::is_either(text[text.length()-2], LOWER_U_HASH, UPPER_U_HASH) )
                     {
                     if (stem<string_typeT>::get_r2() <= text.length()-4)
                         {
@@ -759,7 +759,7 @@ namespace stemming
         void step_2a(string_typeT& text)
             {
             const auto notVowelNorH = [](const auto& ch) noexcept
-                { return (ch != DIARESIS_HASH && !is_one_of(ch, FRENCH_VOWELS)); };
+                { return (ch != DIARESIS_HASH && !stem<string_typeT>::is_one_of(ch, FRENCH_VOWELS)); };
 
             if (text.length() >= 9 &&
                 stem<string_typeT>::get_rv() <= (text.length()-8) &&
@@ -770,7 +770,7 @@ namespace stemming
                 (text[text.length()-3] == common_lang_constants::LOWER_E || text[text.length()-3] == common_lang_constants::UPPER_E) &&
                 (text[text.length()-2] == common_lang_constants::LOWER_N || text[text.length()-2] == common_lang_constants::UPPER_N) &&
                 (text[text.length()-1] == common_lang_constants::LOWER_T || text[text.length()-1] == common_lang_constants::UPPER_T) &&
-                is_either<wchar_t>(text[text.length()-4], LOWER_I_HASH, UPPER_I_HASH) )
+                stem<string_typeT>::is_either(text[text.length()-4], LOWER_I_HASH, UPPER_I_HASH) )
                 {
                 if (stem<string_typeT>::get_rv() <= (text.length()-7) &&
                     notVowelNorH(text[text.length()-9]) )
@@ -797,7 +797,7 @@ namespace stemming
                 (text[text.length()-3] == common_lang_constants::LOWER_E || text[text.length()-3] == common_lang_constants::UPPER_E) &&
                 (text[text.length()-2] == common_lang_constants::LOWER_N || text[text.length()-2] == common_lang_constants::UPPER_N) &&
                 (text[text.length()-1] == common_lang_constants::LOWER_T || text[text.length()-1] == common_lang_constants::UPPER_T) &&
-                is_either<wchar_t>(text[text.length()-4], LOWER_I_HASH, UPPER_I_HASH) )
+                stem<string_typeT>::is_either(text[text.length()-4], LOWER_I_HASH, UPPER_I_HASH) )
                 {
                 if (stem<string_typeT>::get_rv() <= (text.length()-8) &&
                     notVowelNorH(text[text.length()-8]) )
@@ -1155,7 +1155,7 @@ namespace stemming
                 (text[text.length()-3] == common_lang_constants::LOWER_E || text[text.length()-3] == common_lang_constants::UPPER_E) &&
                 (text[text.length()-2] == common_lang_constants::LOWER_N || text[text.length()-2] == common_lang_constants::UPPER_N) &&
                 (text[text.length()-1] == common_lang_constants::LOWER_T || text[text.length()-1] == common_lang_constants::UPPER_T) &&
-                is_either<wchar_t>(text[text.length()-4], LOWER_I_HASH, UPPER_I_HASH) )
+                stem<string_typeT>::is_either(text[text.length()-4], LOWER_I_HASH, UPPER_I_HASH) )
                 {
                 text.erase(text.length()-7);
                 return;
@@ -1170,7 +1170,7 @@ namespace stemming
                 (text[text.length()-3] == common_lang_constants::LOWER_E || text[text.length()-3] == common_lang_constants::UPPER_E) &&
                 (text[text.length()-2] == common_lang_constants::LOWER_N || text[text.length()-2] == common_lang_constants::UPPER_N) &&
                 (text[text.length()-1] == common_lang_constants::LOWER_T || text[text.length()-1] == common_lang_constants::UPPER_T) &&
-                is_either<wchar_t>(text[text.length()-4], LOWER_I_HASH, UPPER_I_HASH) )
+                stem<string_typeT>::is_either(text[text.length()-4], LOWER_I_HASH, UPPER_I_HASH) )
                 {
                 text.erase(text.length()-5);
                 stem<string_typeT>::delete_if_is_in_rv(text, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E);
@@ -1347,14 +1347,14 @@ namespace stemming
             {
             if (text.length() >= 2 &&
                 (text[text.length()-1] == common_lang_constants::LOWER_S || text[text.length()-1] == common_lang_constants::UPPER_S) &&
-                !is_one_of(text[text.length()-2], FRENCH_AIOUES))
+                !stem<string_typeT>::is_one_of(text[text.length()-2], FRENCH_AIOUES))
                 {
                 text.erase(text.length() - 1);
                 stem<string_typeT>::update_r_sections(text);
                 }
             if (text.length() >= 3 &&
                 (text[text.length()-1] == common_lang_constants::LOWER_S || text[text.length()-1] == common_lang_constants::UPPER_S) &&
-                is_either(text[text.length() - 2], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                stem<string_typeT>::is_either(text[text.length() - 2], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
                 text[text.length() - 3] == DIARESIS_HASH)
                 {
                 text.erase(text.length() - 1);
@@ -1372,7 +1372,7 @@ namespace stemming
                 (text[text.length()-3] == common_lang_constants::LOWER_E_GRAVE || text[text.length()-3] == common_lang_constants::UPPER_E_GRAVE) &&
                 (text[text.length()-2] == common_lang_constants::LOWER_R || text[text.length()-2] == common_lang_constants::UPPER_R) &&
                 (text[text.length()-1] == common_lang_constants::LOWER_E || text[text.length()-1] == common_lang_constants::UPPER_E) &&
-                is_either<wchar_t>(text[text.length()-4], LOWER_I_HASH, UPPER_I_HASH) )
+                stem<string_typeT>::is_either(text[text.length()-4], LOWER_I_HASH, UPPER_I_HASH) )
                 {
                 text.replace(text.end()-4, text.end(), L"i");
                 stem<string_typeT>::update_r_sections(text);
@@ -1388,7 +1388,7 @@ namespace stemming
                 stem<string_typeT>::get_rv() <= (text.length()-3) &&
                 (text[text.length()-2] == common_lang_constants::LOWER_E || text[text.length()-2] == common_lang_constants::UPPER_E) &&
                 (text[text.length()-1] == common_lang_constants::LOWER_R || text[text.length()-1] == common_lang_constants::UPPER_R) &&
-                is_either<wchar_t>(text[text.length()-3], LOWER_I_HASH, UPPER_I_HASH) )
+                stem<string_typeT>::is_either(text[text.length()-3], LOWER_I_HASH, UPPER_I_HASH) )
                 {
                 text.replace(text.end()-3, text.end(), L"i");
                 stem<string_typeT>::update_r_sections(text);
@@ -1408,8 +1408,8 @@ namespace stemming
             else if (stem<string_typeT>::is_suffix_in_rv(text,/*ë*/common_lang_constants::LOWER_E_UMLAUTS, common_lang_constants::UPPER_E_UMLAUTS) )
                 {
                 if (text.length() >= 3 &&
-                    (is_either<wchar_t>(text[text.length()-3], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) &&
-                    is_either<wchar_t>(text[text.length()-2], common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) ) )
+                    (stem<string_typeT>::is_either(text[text.length()-3], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) &&
+                    stem<string_typeT>::is_either(text[text.length()-2], common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) ) )
                     {
                     text.erase(text.length()-1);
                     }
@@ -1442,14 +1442,14 @@ namespace stemming
                 {
                 return;
                 }
-            else if (is_either<wchar_t>(text[last_vowel], 0xE9, 0xE8) ||
-                    is_either<wchar_t>(text[last_vowel], 0xC9, 0xC8) )
+            else if (stem<string_typeT>::is_either(text[last_vowel], common_lang_constants::LOWER_E_ACUTE, common_lang_constants::LOWER_E_GRAVE) ||
+                    stem<string_typeT>::is_either(text[last_vowel], common_lang_constants::UPPER_E_ACUTE, common_lang_constants::UPPER_E_GRAVE) )
                 {
                 text[last_vowel] = common_lang_constants::LOWER_E;
                 }
             }
 
-        //internal data specific to French stemmer
+        // internal data specific to French stemmer
         bool m_step_1_successful{ false };
         };
     }

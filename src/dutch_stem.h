@@ -121,17 +121,17 @@ namespace stemming
             else if (stem<string_typeT>::is_suffix(text,/*ene*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E)    )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-3 &&
-                    !is_one_of(text[text.length()-4], DUTCH_VOWELS) &&
+                    !stem<string_typeT>::is_one_of(text[text.length()-4], DUTCH_VOWELS) &&
                     (text.length() < 6 ||
                     //"gem" in front of "en" ending
-                    !(is_either<wchar_t>(text[text.length()-6], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) &&
-                    is_either<wchar_t>(text[text.length()-5], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[text.length()-4], common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) ) ) )
+                    !(stem<string_typeT>::is_either(text[text.length()-6], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) &&
+                    stem<string_typeT>::is_either(text[text.length()-5], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) ) ) )
                     {
                     text.erase(text.length()-3);
                     //undouble dd, kk, tt
-                    if (is_one_of(text[text.length()-1], DUTCH_KDT) &&
-                        tolower_western(text[text.length()-2]) == tolower_western(text[text.length()-1]))
+                    if (stem<string_typeT>::is_one_of(text[text.length()-1], DUTCH_KDT) &&
+                        stem<string_typeT>::tolower_western(text[text.length()-2]) == stem<string_typeT>::tolower_western(text[text.length()-1]))
                         { text.erase(text.length()-1); }
                     stem<string_typeT>::update_r_sections(text);
                     }
@@ -140,16 +140,16 @@ namespace stemming
             else if (stem<string_typeT>::is_suffix(text,/*en*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) )
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-2 &&
-                    !is_one_of(text[text.length()-3], DUTCH_VOWELS) &&
+                    !stem<string_typeT>::is_one_of(text[text.length()-3], DUTCH_VOWELS) &&
                     (text.length() < 5 ||
-                    !(is_either<wchar_t>(text[text.length()-5], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) &&
-                    is_either<wchar_t>(text[text.length()-4], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    is_either<wchar_t>(text[text.length()-3], common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) ) ) )
+                    !(stem<string_typeT>::is_either(text[text.length()-5], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[text.length()-3], common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) ) ) )
                     {
                     text.erase(text.length()-2);
                     //undouble dd, kk, tt
-                    if (is_one_of(text[text.length()-1], DUTCH_KDT) &&
-                        tolower_western(text[text.length()-2]) == tolower_western(text[text.length()-1]) )
+                    if (stem<string_typeT>::is_one_of(text[text.length()-1], DUTCH_KDT) &&
+                        stem<string_typeT>::tolower_western(text[text.length()-2]) == stem<string_typeT>::tolower_western(text[text.length()-1]) )
                         { text.erase(text.length()-1); }
                     stem<string_typeT>::update_r_sections(text);
                     }
@@ -157,7 +157,7 @@ namespace stemming
                 }
             else if (text.length() >= 3 &&
                 stem<string_typeT>::is_suffix(text,/*se*/common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                !is_one_of(text[text.length()-3], DUTCH_S_ENDING))
+                !stem<string_typeT>::is_one_of(text[text.length()-3], DUTCH_S_ENDING))
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-2)
                     {
@@ -169,7 +169,7 @@ namespace stemming
             ///Define a valid s-ending as a non-vowel other than j
             else if (text.length() >= 2 &&
                 stem<string_typeT>::is_suffix(text, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
-                !is_one_of(text[text.length()-2], DUTCH_S_ENDING))
+                !stem<string_typeT>::is_one_of(text[text.length()-2], DUTCH_S_ENDING))
                 {
                 if (stem<string_typeT>::get_r1() <= text.length()-1)
                     {
@@ -187,19 +187,19 @@ namespace stemming
                 {
                 if (text.length() >= 2 &&
                     stem<string_typeT>::get_r1() <= text.length()-1 &&
-                    !is_one_of(text[text.length()-2], DUTCH_VOWELS) )
+                    !stem<string_typeT>::is_one_of(text[text.length()-2], DUTCH_VOWELS) )
                     {
                     //watch out for vowel I/Y vowel
                     if (text.length() >= 3 &&
-                        is_one_of(text[text.length()-2], L"iyIY") &&
-                        is_one_of(text[text.length()-3], DUTCH_VOWELS) )
+                        stem<string_typeT>::is_one_of(text[text.length()-2], L"iyIY") &&
+                        stem<string_typeT>::is_one_of(text[text.length()-3], DUTCH_VOWELS) )
                         { return; }
                     else
                         {
                         text.erase(text.length()-1);
                         //undouble dd, kk, tt
-                        if (is_one_of(text[text.length()-1], DUTCH_KDT) &&
-                            tolower_western(text[text.length()-2]) == tolower_western(text[text.length()-1]))
+                        if (stem<string_typeT>::is_one_of(text[text.length()-1], DUTCH_KDT) &&
+                            stem<string_typeT>::tolower_western(text[text.length()-2]) == stem<string_typeT>::tolower_western(text[text.length()-1]))
                             { text.erase(text.length()-1); }
                         stem<string_typeT>::update_r_sections(text);
                         m_step_2_succeeded = true;
@@ -214,25 +214,25 @@ namespace stemming
                 {
                 if (text.length() >= 5 &&
                     stem<string_typeT>::get_r2() <= text.length()-4 &&
-                    is_neither<wchar_t>(text[text.length()-5], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) )
+                    stem<string_typeT>::is_neither(text[text.length()-5], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) )
                     {
                     text.erase(text.length()-4);
                     stem<string_typeT>::update_r_sections(text);
                     if (stem<string_typeT>::get_r1() <= text.length()-2 &&
                         stem<string_typeT>::is_suffix(text, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) )
                         {
-                        if ((!is_one_of(text[text.length()-3], DUTCH_VOWELS) ||
-                            (is_one_of(text[text.length()-3], L"iyYI") &&
-                            is_one_of(text[text.length()-4], DUTCH_VOWELS))) &&
+                        if ((!stem<string_typeT>::is_one_of(text[text.length()-3], DUTCH_VOWELS) ||
+                            (stem<string_typeT>::is_one_of(text[text.length()-3], L"iyYI") &&
+                            stem<string_typeT>::is_one_of(text[text.length()-4], DUTCH_VOWELS))) &&
                             (text.length() < 5 ||
-                            !(is_either<wchar_t>(text[text.length()-5], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) &&
-                            is_either<wchar_t>(text[text.length()-4], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                            is_either<wchar_t>(text[text.length()-3], common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) ) ) )
+                            !(stem<string_typeT>::is_either(text[text.length()-5], common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) &&
+                            stem<string_typeT>::is_either(text[text.length()-4], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                            stem<string_typeT>::is_either(text[text.length()-3], common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) ) ) )
                             {
                             text.erase(text.length()-2);
-                            //undouble dd, kk, tt
-                            if (is_one_of(text[text.length()-1], DUTCH_KDT) &&
-                                tolower_western(text[text.length()-2]) == tolower_western(text[text.length()-1]))
+                            // undouble dd, kk, tt
+                            if (stem<string_typeT>::is_one_of(text[text.length()-1], DUTCH_KDT) &&
+                                stem<string_typeT>::tolower_western(text[text.length()-2]) == stem<string_typeT>::tolower_western(text[text.length()-1]))
                                 { text.erase(text.length()-1); }
                             stem<string_typeT>::update_r_sections(text);
                             }
@@ -250,7 +250,7 @@ namespace stemming
                 stem<string_typeT>::update_r_sections(text);
                 if (text.length() > 3)
                     {
-                    if (is_neither<wchar_t>(text[text.length()-3], common_lang_constants::LOWER_E , common_lang_constants::UPPER_E) &&
+                    if (stem<string_typeT>::is_neither(text[text.length()-3], common_lang_constants::LOWER_E , common_lang_constants::UPPER_E) &&
                         stem<string_typeT>::delete_if_is_in_r2(text,/*ig*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) )
                         {
                         stem<string_typeT>::update_r_sections(text);
@@ -258,8 +258,8 @@ namespace stemming
                         }
                     else
                         {
-                        if (is_one_of(text[text.length()-1], DUTCH_KDT) &&
-                            tolower_western(text[text.length()-2]) == tolower_western(text[text.length()-1]))
+                        if (stem<string_typeT>::is_one_of(text[text.length()-1], DUTCH_KDT) &&
+                            stem<string_typeT>::tolower_western(text[text.length()-2]) == stem<string_typeT>::tolower_western(text[text.length()-1]))
                             {
                             text.erase(text.length()-1);
                             stem<string_typeT>::update_r_sections(text);
@@ -269,7 +269,7 @@ namespace stemming
                     }
                 return;
                 }
-            else if (!(text.length() >= 3 && is_either<wchar_t>(text[text.length()-3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) ) &&
+            else if (!(text.length() >= 3 && stem<string_typeT>::is_either(text[text.length()-3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) ) &&
                     stem<string_typeT>::delete_if_is_in_r2(text,/*ig*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) )
                 {
                 stem<string_typeT>::update_r_sections(text);
@@ -295,12 +295,12 @@ namespace stemming
             {
             //undouble consecutive (same) consonants
             if (text.length() >= 4 &&
-                !is_one_of(text[text.length()-4], DUTCH_VOWELS) &&
-                !is_one_of(text[text.length()-1], DUTCH_VOWELS) &&
+                !stem<string_typeT>::is_one_of(text[text.length()-4], DUTCH_VOWELS) &&
+                !stem<string_typeT>::is_one_of(text[text.length()-1], DUTCH_VOWELS) &&
                 text[text.length()-1] != LOWER_I_HASH &&
                 text[text.length()-1] != UPPER_I_HASH &&
-                is_one_of(text[text.length()-2], L"aeouAEOU") &&
-                tolower_western(text[text.length()-2]) == tolower_western(text[text.length()-3]) )
+                stem<string_typeT>::is_one_of(text[text.length()-2], L"aeouAEOU") &&
+                stem<string_typeT>::tolower_western(text[text.length()-2]) == stem<string_typeT>::tolower_western(text[text.length()-3]) )
                 {
                 text.erase(text.end()-2, text.end()-1);
                 stem<string_typeT>::update_r_sections(text);

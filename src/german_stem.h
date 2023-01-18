@@ -95,19 +95,19 @@ namespace stemming
 
             stem<string_typeT>::hash_german_yu(text, GERMAN_VOWELS);
             //change 'ß' to "ss"
-            replace_all(text, string_typeT(1, common_lang_constants::ESZETT), L"ss");
+            stem<string_typeT>::replace_all(text, string_typeT(1, common_lang_constants::ESZETT), L"ss");
             //German variant addition
             if (is_transliterating_umlauts())
                 {
-                replace_all(text, L"ae", string_typeT(1, common_lang_constants::LOWER_A_UMLAUTS));
-                replace_all(text, L"oe", string_typeT(1, common_lang_constants::LOWER_O_UMLAUTS));
+                stem<string_typeT>::replace_all(text, L"ae", string_typeT(1, common_lang_constants::LOWER_A_UMLAUTS));
+                stem<string_typeT>::replace_all(text, L"oe", string_typeT(1, common_lang_constants::LOWER_O_UMLAUTS));
                 //ue to ü, if not in front of 'q'
                 size_t start = 1;
                 while (start != string_typeT::npos)
                     {
                     start = text.find(L"ue", start);
                     if (start == string_typeT::npos ||
-                        is_either<wchar_t>(text[start-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
+                        stem<string_typeT>::is_either(text[start-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
                         {
                         break;
                         }
@@ -170,7 +170,7 @@ namespace stemming
             // Define a valid s-ending as one of b, d, f, g, h, k, l, m, n, r or t.
             else if (stem<string_typeT>::is_suffix_in_r1(text, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
-                if (is_one_of(text[text.length()-2], L"bdfghklmnrtBDFGHKLMNRT") )
+                if (stem<string_typeT>::is_one_of(text[text.length()-2], L"bdfghklmnrtBDFGHKLMNRT") )
                     {
                     text.erase(text.length()-1);
                     stem<string_typeT>::update_r_sections(text);
@@ -179,7 +179,7 @@ namespace stemming
                 }
 
             if (stepBSucessfull && text.length() > 4 &&
-                is_suffix(text,
+                stem<string_typeT>::is_suffix(text,
                           common_lang_constants::LOWER_N, common_lang_constants::UPPER_N,
                           common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
                           common_lang_constants::LOWER_S, common_lang_constants::UPPER_S,
@@ -205,7 +205,7 @@ namespace stemming
             else if (text.length() >= 6 &&
                     stem<string_typeT>::is_suffix_in_r1(text,/*st*/common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) )
                 {
-                if (is_one_of(text[text.length()-3], L"bdfghklmntBDFGHKLMNT") )
+                if (stem<string_typeT>::is_one_of(text[text.length()-3], L"bdfghklmntBDFGHKLMNT") )
                     {
                     text.erase(text.length()-2);
                     stem<string_typeT>::update_r_sections(text);
@@ -239,7 +239,7 @@ namespace stemming
                 {
                 if (text.length() >= 5 &&
                     stem<string_typeT>::get_r2() <= (text.length()-4) &&
-                    is_neither<wchar_t>(text[text.length()-5], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
+                    stem<string_typeT>::is_neither(text[text.length()-5], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
                     {
                     text.erase(text.length()-4);
                     stem<string_typeT>::update_r_sections(text);
@@ -249,7 +249,7 @@ namespace stemming
                 {
                 if (text.length() >= 3 &&
                     stem<string_typeT>::is_suffix_in_r2(text,/*ig*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_G, common_lang_constants::UPPER_G)  &&
-                    is_neither<wchar_t>(text[text.length()-3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
+                    stem<string_typeT>::is_neither(text[text.length()-3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
                     {
                     text.erase(text.length()-2);
                     stem<string_typeT>::update_r_sections(text);
@@ -260,7 +260,7 @@ namespace stemming
                 {
                 if (text.length() >= 3 &&
                     stem<string_typeT>::is_suffix_in_r2(text,/*ig*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_G, common_lang_constants::UPPER_G)  &&
-                    is_neither<wchar_t>(text[text.length()-3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
+                    stem<string_typeT>::is_neither(text[text.length()-3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
                     {
                     text.erase(text.length()-2);
                     stem<string_typeT>::update_r_sections(text);
@@ -271,7 +271,7 @@ namespace stemming
                 {
                 if (text.length() >= 3 &&
                     stem<string_typeT>::get_r2() <= text.length()-2 &&
-                    is_neither<wchar_t>(text[text.length()-3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
+                    stem<string_typeT>::is_neither(text[text.length()-3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
                     {
                     text.erase(text.length()-2);
                     stem<string_typeT>::update_r_sections(text);
@@ -281,7 +281,7 @@ namespace stemming
                 {
                 if (text.length() >= 3 &&
                     stem<string_typeT>::get_r2() <= text.length()-2 &&
-                    is_neither<wchar_t>(text[text.length()-3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
+                    stem<string_typeT>::is_neither(text[text.length()-3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
                     {
                     text.erase(text.length()-2);
                     stem<string_typeT>::update_r_sections(text);

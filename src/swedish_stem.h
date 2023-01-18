@@ -173,7 +173,7 @@ namespace stemming
             else if (stem<string_typeT>::is_suffix_in_r1(text, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
                 if (text.length() >= 2 &&
-                    is_one_of(text[text.length()-2],
+                    stem<string_typeT>::is_one_of(text[text.length()-2],
                     L"bcdfghjklmnoprtvyBCDFGHJKLMNOPRTVY") )
                     {
                     text.erase(text.length()-1);

@@ -174,7 +174,7 @@ namespace stemming
             else if (stem<string_typeT>::is_suffix_in_r1(text, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
                 if (text.length() >= 2 &&
-                    is_one_of(text[text.length()-2], DANISH_ALPHABET) )
+                    stem<string_typeT>::is_one_of(text[text.length()-2], DANISH_ALPHABET) )
                     {
                     text.erase(text.length()-1);
                     stem<string_typeT>::update_r_sections(text);
@@ -252,9 +252,9 @@ namespace stemming
             //undouble consecutive (same) consonants if either are in R1 section
             if (text.length() >= 2 &&
                 stem<string_typeT>::get_r1() <= text.length()-1 &&
-                tolower_western(text[text.length()-2]) == tolower_western(text[text.length()-1]) )
+                stem<string_typeT>::tolower_western(text[text.length()-2]) == stem<string_typeT>::tolower_western(text[text.length()-1]) )
                 {
-                if (!is_one_of(text[text.length()-2], DANISH_VOWELS) )
+                if (!stem<string_typeT>::is_one_of(text[text.length()-2], DANISH_VOWELS) )
                     {
                     text.erase(text.length()-1);
                     stem<string_typeT>::update_r_sections(text);

@@ -182,7 +182,7 @@ namespace stemming
                 stem<string_typeT>::is_suffix_in_r1(text,/*kään*/common_lang_constants::LOWER_K, common_lang_constants::UPPER_K, common_lang_constants::LOWER_A_UMLAUTS, common_lang_constants::UPPER_A_UMLAUTS, common_lang_constants::LOWER_A_UMLAUTS, common_lang_constants::UPPER_A_UMLAUTS, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) )
                 {
                 if (text.length() >= 5 &&
-                    is_one_of(text[text.length()-5], FINNISH_STEP_1_SUFFIX) )
+                    stem<string_typeT>::is_one_of(text[text.length()-5], FINNISH_STEP_1_SUFFIX) )
                     {
                     text.erase(text.length()-4);
                     stem<string_typeT>::update_r_sections(text);
@@ -194,7 +194,7 @@ namespace stemming
                 stem<string_typeT>::is_suffix_in_r1(text,/*hän*/common_lang_constants::LOWER_H, common_lang_constants::UPPER_H, common_lang_constants::LOWER_A_UMLAUTS, common_lang_constants::UPPER_A_UMLAUTS, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) )
                 {
                 if (text.length() >= 4 &&
-                    is_one_of(text[text.length()-4], FINNISH_STEP_1_SUFFIX) )
+                    stem<string_typeT>::is_one_of(text[text.length()-4], FINNISH_STEP_1_SUFFIX) )
                     {
                     text.erase(text.length()-3);
                     stem<string_typeT>::update_r_sections(text);
@@ -212,7 +212,7 @@ namespace stemming
                 stem<string_typeT>::is_suffix_in_r1(text,/*pä*/common_lang_constants::LOWER_P, common_lang_constants::UPPER_P,common_lang_constants:: LOWER_A_UMLAUTS, common_lang_constants::UPPER_A_UMLAUTS) )
                 {
                 if (text.length() >= 3 &&
-                    is_one_of(text[text.length()-3], FINNISH_STEP_1_SUFFIX) )
+                    stem<string_typeT>::is_one_of(text[text.length()-3], FINNISH_STEP_1_SUFFIX) )
                     {
                     text.erase(text.length()-2);
                     stem<string_typeT>::update_r_sections(text);
@@ -298,8 +298,8 @@ namespace stemming
             //seen followed by LV
             if (text.length() >= 6 &&
                 stem<string_typeT>::is_suffix_in_r1(text,/*seen*/common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                is_one_of(text[text.length()-5], FINNISH_VOWELS_NO_Y) &&
-                tolower_western(text[text.length()-5]) == tolower_western(text[text.length()-6]) )
+                stem<string_typeT>::is_one_of(text[text.length()-5], FINNISH_VOWELS_NO_Y) &&
+                stem<string_typeT>::tolower_western(text[text.length()-5]) == stem<string_typeT>::tolower_western(text[text.length()-6]) )
                 {
                 text.erase(text.length()-4);
                 stem<string_typeT>::update_r_sections(text);
@@ -308,10 +308,10 @@ namespace stemming
                 }
             //suffix followed by Vi
             else if (text.length() >= 6 &&
-                    is_either<wchar_t>(text[text.length()-5], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(text[text.length()-5], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
                     (stem<string_typeT>::is_suffix_in_r1(text,/*siin*/common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) ||
                     stem<string_typeT>::is_suffix_in_r1(text,/*tten*/common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) ) &&
-                    is_one_of(text[text.length()-6], FINNISH_VOWELS_NO_Y) )
+                    stem<string_typeT>::is_one_of(text[text.length()-6], FINNISH_VOWELS_NO_Y) )
                 {
                 text.erase(text.length()-4);
                 stem<string_typeT>::update_r_sections(text);
@@ -320,9 +320,9 @@ namespace stemming
                 }
             //suffix followed by Vi
             else if (text.length() >= 5 &&
-                    is_either<wchar_t>(text[text.length()-4], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
                     stem<string_typeT>::is_suffix_in_r1(text,/*den*/common_lang_constants::LOWER_D, common_lang_constants::UPPER_D, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    is_one_of(text[text.length()-5], FINNISH_VOWELS_NO_Y) )
+                    stem<string_typeT>::is_one_of(text[text.length()-5], FINNISH_VOWELS_NO_Y) )
                 {
                 text.erase(text.length()-3);
                 stem<string_typeT>::update_r_sections(text);
@@ -331,7 +331,7 @@ namespace stemming
                 }
             else if ((stem<string_typeT>::is_suffix_in_r1(text,/*tta*/common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) ||
                 stem<string_typeT>::is_suffix_in_r1(text,/*ttä*/common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_A_UMLAUTS, common_lang_constants::UPPER_A_UMLAUTS)) &&
-                is_either<wchar_t>(text[text.length()-4], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
+                stem<string_typeT>::is_either(text[text.length()-4], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
                 {
                 text.erase(text.length()-3);
                 stem<string_typeT>::update_r_sections(text);
@@ -347,7 +347,7 @@ namespace stemming
                 stem<string_typeT>::is_suffix_in_r1(text,/*hän*/common_lang_constants::LOWER_H, common_lang_constants::UPPER_H, common_lang_constants::LOWER_A_UMLAUTS, common_lang_constants::UPPER_A_UMLAUTS, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) ||
                 stem<string_typeT>::is_suffix_in_r1(text,/*hön*/common_lang_constants::LOWER_H, common_lang_constants::UPPER_H, common_lang_constants::LOWER_O_UMLAUTS, common_lang_constants::UPPER_O_UMLAUTS, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) ) )
                 {
-                if (tolower_western(text[text.length()-2]) == tolower_western(text[text.length()-4]) )
+                if (stem<string_typeT>::tolower_western(text[text.length()-2]) == stem<string_typeT>::tolower_western(text[text.length()-4]) )
                     {
                     text.erase(text.length()-3);
                     stem<string_typeT>::update_r_sections(text);
@@ -381,8 +381,8 @@ namespace stemming
             //suffix followed by cv
             else if (text.length() >= 3 &&
                     (stem<string_typeT>::is_suffix_in_r1(text, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) || stem<string_typeT>::is_suffix_in_r1(text, common_lang_constants::LOWER_A_UMLAUTS, common_lang_constants::UPPER_A_UMLAUTS) ) &&
-                    !is_one_of(text[text.length()-3], FINNISH_VOWELS) &&
-                    is_one_of(text[text.length()-2], FINNISH_VOWELS) )
+                    !stem<string_typeT>::is_one_of(text[text.length()-3], FINNISH_VOWELS) &&
+                    stem<string_typeT>::is_one_of(text[text.length()-2], FINNISH_VOWELS) )
                 {
                 text.erase(text.length()-1);
                 stem<string_typeT>::update_r_sections(text);
@@ -395,8 +395,8 @@ namespace stemming
                 text.erase(text.length()-1);
                 stem<string_typeT>::update_r_sections(text);
                 if (text.length() >= 2 &&
-                    ((is_one_of(text[text.length()-1], FINNISH_VOWELS_NO_Y) &&
-                      tolower_western(text[text.length()-1]) == tolower_western(text[text.length()-2])) ||
+                    ((stem<string_typeT>::is_one_of(text[text.length()-1], FINNISH_VOWELS_NO_Y) &&
+                      stem<string_typeT>::tolower_western(text[text.length()-1]) == stem<string_typeT>::tolower_western(text[text.length()-2])) ||
                      stem<string_typeT>::is_suffix_in_r1(text,/*ie*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E)) )
                     {
                     text.erase(text.length()-1);
@@ -428,8 +428,8 @@ namespace stemming
                     stem<string_typeT>::is_suffix_in_r2(text,/*mma*/common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) ||
                     stem<string_typeT>::is_suffix_in_r2(text,/*mmä*/common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_A_UMLAUTS, common_lang_constants::UPPER_A_UMLAUTS) ) )
                 {
-                if (!(is_either<wchar_t>(text[text.length()-5], common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) &&
-                    is_either<wchar_t>(text[text.length()-4], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) ) )
+                if (!(stem<string_typeT>::is_either(text[text.length()-5], common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) &&
+                    stem<string_typeT>::is_either(text[text.length()-4], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) ) )
                     {
                     text.erase(text.length()-3);
                     stem<string_typeT>::update_r_sections(text);
@@ -452,7 +452,7 @@ namespace stemming
             else
                 {
                 if (text.length() >= 2 &&
-                    is_one_of(text[text.length()-2], FINNISH_VOWELS) )
+                    stem<string_typeT>::is_one_of(text[text.length()-2], FINNISH_VOWELS) )
                     {
                     if (stem<string_typeT>::delete_if_is_in_r1(text, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) )
                         {
@@ -461,8 +461,8 @@ namespace stemming
                             if (text.length() >= 5 &&
                                 stem<string_typeT>::is_suffix_in_r2(text,/*mma*/common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
                                 //isn't proceeded by "po"
-                                !(is_either<wchar_t>(text[text.length()-5], common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) &&
-                                is_either<wchar_t>(text[text.length()-4], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) ) )
+                                !(stem<string_typeT>::is_either(text[text.length()-5], common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) &&
+                                stem<string_typeT>::is_either(text[text.length()-4], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) ) )
                                 {
                                 text.erase(text.length()-3);
                                 stem<string_typeT>::update_r_sections(text);
@@ -486,8 +486,8 @@ namespace stemming
             {
             if (text.length() >= 2 &&
                 stem<string_typeT>::get_r1() <= text.length()-2 &&
-                is_one_of(text[text.length()-1], FINNISH_VOWELS_NO_Y) &&
-                tolower_western(text[text.length()-1]) == tolower_western(text[text.length()-2]))
+                stem<string_typeT>::is_one_of(text[text.length()-1], FINNISH_VOWELS_NO_Y) &&
+                stem<string_typeT>::tolower_western(text[text.length()-1]) == stem<string_typeT>::tolower_western(text[text.length()-2]))
                 {
                 text.erase(text.end()-1);
                 stem<string_typeT>::update_r_sections(text);
@@ -498,8 +498,8 @@ namespace stemming
             {
             if (text.length() >= 2 &&
                 stem<string_typeT>::get_r1() <= text.length()-2 &&
-                is_one_of(text[text.length()-2], FINNISH_CONSONANTS) &&
-                is_one_of(text[text.length()-1], FINNISH_VOWELS_SIMPLE) )
+                stem<string_typeT>::is_one_of(text[text.length()-2], FINNISH_CONSONANTS) &&
+                stem<string_typeT>::is_one_of(text[text.length()-1], FINNISH_VOWELS_SIMPLE) )
                 {
                 text.erase(text.end()-1);
                 stem<string_typeT>::update_r_sections(text);
@@ -532,8 +532,8 @@ namespace stemming
             if (index == string_typeT::npos ||
                 index < 1)
                 { return; }
-            if (is_one_of(text[index], FINNISH_CONSONANTS) &&
-                tolower_western(text[index]) == tolower_western(text[index-1]))
+            if (stem<string_typeT>::is_one_of(text[index], FINNISH_CONSONANTS) &&
+                stem<string_typeT>::tolower_western(text[index]) == stem<string_typeT>::tolower_western(text[index-1]))
                 {
                 text.erase(index, 1);
                 stem<string_typeT>::update_r_sections(text);

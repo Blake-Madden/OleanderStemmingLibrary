@@ -338,8 +338,8 @@ namespace stemming
                     {
                     if (text.length() >= 3 &&
                         stem<string_typeT>::get_rv() <= text.length()-3 &&
-                        (is_either<wchar_t>(text[text.length()-3], RUSSIAN_A_LOWER, RUSSIAN_A_UPPER) ||
-                        is_either<wchar_t>(text[text.length()-3], RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER)) )
+                        (stem<string_typeT>::is_either(text[text.length()-3], RUSSIAN_A_LOWER, RUSSIAN_A_UPPER) ||
+                        stem<string_typeT>::is_either(text[text.length()-3], RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER)) )
                         {
                         text.erase(text.end()-2, text.end() );
                         stem<string_typeT>::update_r_sections(text);
@@ -350,8 +350,8 @@ namespace stemming
                     {
                     if (text.length() >= 2 &&
                         stem<string_typeT>::get_rv() <= text.length()-2 &&
-                        (is_either<wchar_t>(text[text.length()-2], RUSSIAN_A_LOWER, RUSSIAN_A_UPPER) ||
-                        is_either<wchar_t>(text[text.length()-2], RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER)) )
+                        (stem<string_typeT>::is_either(text[text.length()-2], RUSSIAN_A_LOWER, RUSSIAN_A_UPPER) ||
+                        stem<string_typeT>::is_either(text[text.length()-2], RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER)) )
                         {
                         text.erase(text.end()-1, text.end() );
                         stem<string_typeT>::update_r_sections(text);
@@ -377,8 +377,8 @@ namespace stemming
                 {
                 if (text.length() >= 4 &&
                     stem<string_typeT>::get_rv() <= text.length()-4 &&
-                    (is_either<wchar_t>(text[text.length()-4], RUSSIAN_A_LOWER, RUSSIAN_A_UPPER) ||
-                    is_either<wchar_t>(text[text.length()-4], RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER)) )
+                    (stem<string_typeT>::is_either(text[text.length()-4], RUSSIAN_A_LOWER, RUSSIAN_A_UPPER) ||
+                    stem<string_typeT>::is_either(text[text.length()-4], RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER)) )
                     {
                     text.erase(text.end()-3, text.end() );
                     stem<string_typeT>::update_r_sections(text);
@@ -428,8 +428,8 @@ namespace stemming
                 {
                 if (text.length() >= 3 &&
                     stem<string_typeT>::get_rv() <= text.length()-3 &&
-                    (is_either<wchar_t>(text[text.length()-3], RUSSIAN_A_LOWER, RUSSIAN_A_UPPER) ||
-                    is_either<wchar_t>(text[text.length()-3], RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER)) )
+                    (stem<string_typeT>::is_either(text[text.length()-3], RUSSIAN_A_LOWER, RUSSIAN_A_UPPER) ||
+                    stem<string_typeT>::is_either(text[text.length()-3], RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER)) )
                     {
                     text.erase(text.end()-2, text.end() );
                     stem<string_typeT>::update_r_sections(text);
@@ -442,8 +442,8 @@ namespace stemming
                 {
                 if (text.length() >= 2 &&
                     stem<string_typeT>::get_rv() <= text.length()-2 &&
-                    (is_either<wchar_t>(text[text.length()-2], RUSSIAN_A_LOWER, RUSSIAN_A_UPPER) ||
-                    is_either<wchar_t>(text[text.length()-2], RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER)) )
+                    (stem<string_typeT>::is_either(text[text.length()-2], RUSSIAN_A_LOWER, RUSSIAN_A_UPPER) ||
+                    stem<string_typeT>::is_either(text[text.length()-2], RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER)) )
                     {
                     text.erase(text.end()-1, text.end() );
                     stem<string_typeT>::update_r_sections(text);
