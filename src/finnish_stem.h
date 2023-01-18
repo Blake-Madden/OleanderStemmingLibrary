@@ -1,6 +1,6 @@
 ﻿/** @addtogroup Stemming
     @brief Library for stemming words down to their root words.
-    @date 2004-2020
+    @date 2004-2023
     @copyright Oleander Software, Ltd.
     @author Blake Madden
     @details This program is free software; you can redistribute it and/or modify
