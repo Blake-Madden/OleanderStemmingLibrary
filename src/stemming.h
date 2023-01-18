@@ -2471,7 +2471,7 @@ namespace stemming
                 }
             }
 
-        /// @brief Unhashes y and i in a sting.
+        /// @brief Unhashes y and i in a string.
         /// @param text The string to update.
         inline void unhash_dutch_yi(string_typeT& text)
             {
@@ -2528,7 +2528,7 @@ namespace stemming
             // hashable values must be between vowels, so don't bother looking at last letter
             }
 
-        /// @brief Unhashes y and u in a sting.
+        /// @brief Unhashes y and u in a string.
         /// @param text The string to update.
         inline void unhash_german_yu(string_typeT& text)
             {
@@ -2570,7 +2570,7 @@ namespace stemming
             }
 
         /** @brief Unhashes 'e' and 'i' with diaerses back to 'ë' and 'ï'.
-            @param[in,out] text The sting to unhash.*/
+            @param[in,out] text The string to unhash.*/
         void unhash_french_ei_diaeresis(string_typeT& text)
             {
             for (size_t i = 0; i < text.length(); ++i)
@@ -2727,7 +2727,7 @@ namespace stemming
                 }
             }
 
-        /// @brief Unhashes y, u, and i in a sting.
+        /// @brief Unhashes y, u, and i in a string.
         /// @param text The string to update.
         void unhash_french_yui(string_typeT& text)
             {
@@ -2739,7 +2739,7 @@ namespace stemming
             stem<string_typeT>::replace_all(text, UPPER_I_HASH, common_lang_constants::UPPER_I);
             }
 
-        /// @brief Hashes Y and y in a sting.
+        /// @brief Hashes Y and y in a string.
         /// @param text The string to update.
         /// @param vowel_string The list of vowels used by the stemmer's language.
         void hash_y(string_typeT& text,
@@ -2788,7 +2788,7 @@ namespace stemming
                 }
             }
 
-        /// @brief Unhashes Y and y in a sting.
+        /// @brief Unhashes Y and y in a string.
         /// @param text The string to update.
         inline void unhash_y(string_typeT& text)
             {
@@ -2876,7 +2876,7 @@ namespace stemming
                 }
             }
 
-        /// @brief Unhashes Italian UIs in a sting.
+        /// @brief Unhashes Italian UIs in a string.
         /// @param text The string to update.
         inline void unhash_italian_ui(string_typeT& text)
             {
@@ -2886,7 +2886,7 @@ namespace stemming
             stem<string_typeT>::replace_all(text, UPPER_U_HASH, common_lang_constants::UPPER_U);
             }
 
-        /// @brief Encodes Dutch umlautsin a sting.
+        /// @brief Encodes Dutch umlauts (diaerises) in a string.
         /// @param text The string to update.
         void remove_dutch_umlauts(string_typeT& text)
             {
@@ -2935,7 +2935,7 @@ namespace stemming
                 }
             }
 
-        /// @brief Encodes Dutch acutes in a sting.
+        /// @brief Encodes Dutch acutes in a string.
         /// @param text The string to update.
         void remove_dutch_acutes(string_typeT& text)
             {
@@ -2984,7 +2984,7 @@ namespace stemming
                 }
             }
 
-        /// @brief Encodes Spanish acutes in a sting.
+        /// @brief Encodes Spanish acutes in a string.
         /// @param text The string to update.
         void remove_spanish_acutes(string_typeT& text)
             {
