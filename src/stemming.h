@@ -55,6 +55,7 @@ namespace stemming
     constexpr wchar_t LOWER_I_HASH = 11; // vertical tab
     constexpr wchar_t UPPER_U_HASH = 12; // form feed (new page)
     constexpr wchar_t LOWER_U_HASH = 13; // carriage return
+    constexpr wchar_t DIARESIS_HASH = 14; // shift out
 
     // language constants
     static const wchar_t FRENCH_VOWELS[] = { 97, 101, 105, 111, 117, 121, 0xE2,
@@ -2537,13 +2538,65 @@ namespace stemming
             replace_all(text, UPPER_U_HASH, common_lang_constants::UPPER_U);
             }
 
+        /** @brief Hashes the following:\n
+             ï -> [control character]i\n
+             ë -> [control character]i
+            @param[in,out] text The string to hash.*/
+        void hash_french_ei_diaeresis(string_typeT& text)
+            {
+            for (size_t i = 0; i < text.length(); ++i)
+                {
+                if (text[i] == common_lang_constants::LOWER_I_UMLAUTS)
+                    {
+                    text[i] = common_lang_constants::LOWER_I;
+                    text.insert(text.begin() + i, DIARESIS_HASH);
+                    }
+                else if (text[i] == common_lang_constants::UPPER_I_UMLAUTS)
+                    {
+                    text[i] = common_lang_constants::UPPER_I;
+                    text.insert(text.begin() + i, DIARESIS_HASH);
+                    }
+                else if (text[i] == common_lang_constants::LOWER_E_UMLAUTS)
+                    {
+                    text[i] = common_lang_constants::LOWER_E;
+                    text.insert(text.begin() + i, DIARESIS_HASH);
+                    }
+                else if (text[i] == common_lang_constants::UPPER_E_UMLAUTS)
+                    {
+                    text[i] = common_lang_constants::UPPER_E;
+                    text.insert(text.begin() + i, DIARESIS_HASH);
+                    }
+                }
+            }
+
+        /** @brief Unhashes 'e' and 'i' with diaerses back to 'ë' and 'ï'.
+            @param[in,out] text The sting to unhash.*/
+        void unhash_french_ei_diaeresis(string_typeT& text)
+            {
+            for (size_t i = 0; i < text.length(); ++i)
+                {
+                if (text[i] == DIARESIS_HASH)
+                    {
+                    text.erase(i, 1);
+                    if (text[i] == common_lang_constants::LOWER_I)
+                        { text[i] = common_lang_constants::LOWER_I_UMLAUTS; }
+                    else if (text[i] == common_lang_constants::UPPER_I)
+                        { text[i] = common_lang_constants::UPPER_I_UMLAUTS; }
+                    else if (text[i] == common_lang_constants::LOWER_E)
+                        { text[i] = common_lang_constants::LOWER_E_UMLAUTS; }
+                    else if (text[i] == common_lang_constants::UPPER_E)
+                        { text[i] = common_lang_constants::UPPER_E_UMLAUTS; }
+                    }
+                }
+            }
+
         /** Hash u or i preceded and followed by a vowel, and y preceded or followed by a vowel.
-            u after q is also hashed. For example,
+            u after q is also hashed. For example,\n
             jouer        ->         joUer
             ennuie       ->         ennuIe
             yeux         ->         Yeux
             quand        ->         qUand
-        @param text The string to update.
+        @param text[in,out] The string to update.
         @param vowel_string The list of vowels used by the stemmer's language.*/
         void hash_french_yui(string_typeT& text,
                     const wchar_t* vowel_string)
@@ -3097,6 +3150,7 @@ namespace stemming
                 if (start == string_typeT::npos)
                     { return; }
                 text.replace(start, textToReplace.length(), replacementText);
+                start += replacementText.length();
                 }
             }
 
