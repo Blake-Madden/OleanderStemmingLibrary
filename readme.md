@@ -1,16 +1,27 @@
-# Oleander Stemming Library
+Oleander Stemming Library
+=============================
 
 ![logo](stemming.png)
 
-Library for stemming words down to their roots (case insensitively).
+About
+=============================
 
-This is a header-only library that can be included in your project as such:
+C++ library for stemming words down to their roots.
 
-```cpp
-#include "english_stem.h"
-```
+Stemming is useful for Natural Language Processing systems.
+The first step in an NLP system is to strip words down to their roots.
+Afterwards, these roots can be combined, tabulated, categorized, etc. Stemming provides this first step for NLP.
 
-## Example
+Features
+=============================
+
+- Based on the Porter/Snowball stemming family of algorithms
+- Header-only library
+- Case insensitive
+- Includes Danish, Dutch, English, Finnish, French, German, Italian, Norwegian, Portuguese, Russian, Spanish, and Swedish
+
+Example
+=============================
 
 ```cpp
 #include "danish_stem.h"
