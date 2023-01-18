@@ -17,7 +17,7 @@ namespace stemming
     /**
     @brief Swedish stemmer.
 
-    @par Algorithm:
+    @par Definitions:
 
     The Swedish alphabet includes the following additional letters,
         - ä   å   ö

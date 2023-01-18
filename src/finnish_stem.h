@@ -34,7 +34,7 @@ namespace stemming
     although the common case where strong and weak forms only differ in the single or double form of
     a final consonant can be dealt with.
 
-    @par Algorithm:
+    @par Definitions:
 
     Finnish includes the following accented forms:
         - ä ö

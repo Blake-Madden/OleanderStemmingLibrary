@@ -17,7 +17,7 @@ namespace stemming
     /**
     @brief French stemmer.
 
-    @par Definition:
+    @par Definitions:
 
     Letters in French include the following accented forms:
         - â à ç ë é ê è ï î ô û ù 

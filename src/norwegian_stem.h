@@ -17,7 +17,7 @@ namespace stemming
     /**
     @brief Norwegian stemmer.
     @date 2004
-    @par Algorithm:
+    @par Definitions:
 
     The Norwegian alphabet includes the following additional letters:
         - æ   å   ø

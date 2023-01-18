@@ -17,7 +17,7 @@ namespace stemming
     /**
     @brief Danish stemmer.
 
-    @par Algorithm:
+    @par Definitions:
 
     The Danish alphabet includes the following additional letters:
     - æ å ø

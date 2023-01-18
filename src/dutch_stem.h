@@ -16,7 +16,8 @@ namespace stemming
     {
     /**
     @brief Dutch stemmer.
-    @par Algorithm:
+
+    @par Definitions:
 
    Dutch includes the following accented forms:
     - ä ë ï ö ü á é í ó ú è

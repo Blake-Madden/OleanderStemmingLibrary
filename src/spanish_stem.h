@@ -17,7 +17,7 @@ namespace stemming
     /**
     @brief Spanish stemmer.
 
-    @par Algorithm:
+    @par Definitions:
 
     Letters in Spanish include the following accented forms:
         - á é í ó ú ü ñ

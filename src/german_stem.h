@@ -17,7 +17,7 @@ namespace stemming
     /**
     @brief German stemmer.
 
-    @par Algorithm:
+    @par Definitions:
 
     German includes the following accented forms,
     -ä ö ü and a special letter, ß, equivalent to double s.

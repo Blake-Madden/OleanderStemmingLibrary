@@ -17,7 +17,7 @@ namespace stemming
     /**
     @brief Portuguese stemmer.
 
-    @par Algorithm:
+    @par Definitions:
 
     Letters in Portuguese include the following accented forms,
         - á é í ó ú â ê ô ç ã õ ü ñ
