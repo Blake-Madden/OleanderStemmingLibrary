@@ -2,6 +2,8 @@
 
 ### 2023 Release
 - Updated Spanish, Russian, Italian, and French stemmers to the latest Snowball standard.
+- Made stemming less aggressive with punctuation at the end of a word. Now, only trailing `'` and `'s'
+  are removed.
 - Added Catch2 unit tests which compare results against the latest Snowball datasets.\n
   (Unit tests can be built with CMake.)
 

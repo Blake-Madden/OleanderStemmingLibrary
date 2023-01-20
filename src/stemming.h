@@ -402,45 +402,19 @@ namespace stemming
                 true : false;
             }
 
-        /// @brief Trims punction (and possessive "'s") from the end of a string.
+        /// @brief Removes possessive suffix (apostrophe and "'s") from the end of a string.
         /// @param[in,out] text The string to trim.
-        void trim_western_punctuation(string_typeT& text) const
+        void remove_possessive_suffix(string_typeT& text) const
             {
             if (text.length() >= 2 &&
                 is_apostrophe(text[text.length()-2]) &&
-                stem<string_typeT>::is_either(text[text.length()-1], common_lang_constants::LOWER_S,
-                                                          common_lang_constants::UPPER_S) )
+                stem<string_typeT>::is_either(text.back(), common_lang_constants::LOWER_S,
+                                                           common_lang_constants::UPPER_S) )
                 { text.erase(text.length()-2); }
-            else if (text.length() >= 1 &&
-                is_apostrophe(text[text.length()-1]))
-                { text.erase(text.length()-1); }
 
-            while (text.length() )
-                {
-                const auto& lastChar = text.back();
-                if (!(lastChar >= 48 && lastChar <= 57) &&
-                    !(lastChar >= 65 && lastChar <= 90) &&
-                    !(lastChar >= 97 && lastChar <= 122) &&
-                    !(lastChar >= 192 && lastChar <= 246) &&
-                    !(lastChar >= 248 && lastChar <= 255) &&
-                    lastChar != 0xA0) // space
-                    {
-                    text.erase(text.length()-1);
-                    }
-                else
-                    { break; }
-                }
-            while (text.length() )
-                {
-                if (!(text[0] >= 48 && text[0] <= 57) &&
-                    !(text[0] >= 65 && text[0] <= 90) &&
-                    !(text[0] >= 97 && text[0] <= 122) &&
-                    !(text[0] >= 192 && text[0] <= 246) &&
-                    !(text[0] >= 248 && text[0] <= 255) )
-                    { text.erase(0, 1); }
-                else
-                    { break; }
-                }
+            while (text.length() >= 1 &&
+                is_apostrophe(text.back()))
+                { text.pop_back(); }
             }
 
         //  suffix determinant functions
@@ -1964,7 +1938,7 @@ namespace stemming
                 {
                 if (get_rv() <= text.length()-1)
                     {
-                    text.erase(text.length()-1);
+                    text.pop_back();
                     update_r_sections(text);
                     return true;
                     }

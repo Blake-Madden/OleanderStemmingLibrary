@@ -117,7 +117,7 @@ namespace stemming
                 { return; }
 
             std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
-            stem<string_typeT>::trim_western_punctuation(text);
+            stem<string_typeT>::remove_possessive_suffix(text);
             stem<string_typeT>::italian_acutes_to_graves(text);
             if (text.length() < 3)
                 { return; }

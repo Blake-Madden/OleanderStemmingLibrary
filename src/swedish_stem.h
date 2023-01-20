@@ -74,7 +74,7 @@ namespace stemming
             stem<string_typeT>::reset_r_values();
 
             std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
-            stem<string_typeT>::trim_western_punctuation(text);
+            stem<string_typeT>::remove_possessive_suffix(text);
 
             if (text.length() < 3)
                 { return; }
