@@ -50,7 +50,10 @@ namespace common_lang_constants
     constexpr wchar_t RIGHT_PARENTHESIS_FULL_WIDTH = 0xFF09;
     constexpr wchar_t RIGHT_BRACKET = 0x5D;
     constexpr wchar_t INTERROBANG = 0x203D;
-    //numbers
+    constexpr wchar_t COPYRIGHT_SYMBOL = 0xA9;
+    constexpr wchar_t REGISTERED_SYMBOL = 0xAE;
+    constexpr wchar_t TRADEMARK_SYMBOL = 0x2122;
+    // numbers
     constexpr wchar_t NUMBER_0 = 0x30;
     constexpr wchar_t NUMBER_1 = 0x31;
     constexpr wchar_t NUMBER_2 = 0x32;
@@ -71,7 +74,7 @@ namespace common_lang_constants
     constexpr wchar_t NUMBER_7_FULL_WIDTH = 0xFF17;
     constexpr wchar_t NUMBER_8_FULL_WIDTH = 0xFF18;
     constexpr wchar_t NUMBER_9_FULL_WIDTH = 0xFF19;
-    //constants for letters
+    // letters
     constexpr wchar_t UPPER_A = 0x41;
     constexpr wchar_t LOWER_A = 0x61;
     constexpr wchar_t UPPER_B = 0x42;
@@ -174,7 +177,7 @@ namespace common_lang_constants
     constexpr wchar_t LOWER_O_GRAVE = 0xF2;
     constexpr wchar_t UPPER_Y_ACUTE = 0xDD;
     constexpr wchar_t LOWER_Y_ACUTE = 0xFD;
-    constexpr wchar_t ESZETT = 0xDF; //a.k.a. "sharp s"
+    constexpr wchar_t ESZETT = 0xDF; // a.k.a. "sharp s"
     constexpr wchar_t Y_UMLAUT = 0xFF;
     constexpr wchar_t ELLIPSE = 0x2026;
     const std::wstring COMPOUND_WORD_SEPARATORS{ HYPHEN, HYPHEN_FULL_WIDTH, SOFT_HYPHEN,
