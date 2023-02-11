@@ -45,6 +45,8 @@ namespace stemming
         spanish,
         /// @brief Swedish
         swedish,
+        /// @brief Russian
+        russian,
         /// @private
         STEMMING_TYPE_COUNT
         };
@@ -172,10 +174,13 @@ namespace stemming
     class stem
         {
     public:
-        /// The string type that this class will accept.
+        /// @brief The string type that this class will accept.
         using string_type = string_typeT;
-
+        /// @brief The main interface for stemming a word.
         virtual void operator()(string_typeT& text) = 0;
+        /// @breturns The stemmer's language.
+        [[nodiscard]]
+        virtual stemming_type get_language() const noexcept = 0;
         /// Destructor.
         virtual ~stem() {}
     protected:
@@ -3150,7 +3155,7 @@ namespace stemming
     private:
         size_t m_r1{ 0 };
         size_t m_r2{ 0 };
-        // only used for Russian/romance languages
+        // only used for Russian & romance languages
         size_t m_rv{ 0 };
         };
 
@@ -3166,6 +3171,10 @@ namespace stemming
         /// @brief No-op stemming of declared string type.
         void operator()([[maybe_unused]] string_typeT&  text) final
             {}
+        /// @returns The stemmer's language.
+        [[nodiscard]]
+        stemming_type get_language() const noexcept final
+            { return stemming_type::no_stemming; }
         };
     }
 

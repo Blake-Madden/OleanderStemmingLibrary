@@ -78,6 +78,10 @@ namespace stemming
         /// @returns Whether umlauted vowels are being transliterated.
         bool is_transliterating_umlauts() const noexcept
             { return m_transliterate_umlauts; }
+        /// @returns The stemmer's language.
+        [[nodiscard]]
+        stemming_type get_language() const noexcept final
+            { return stemming_type::german; }
         /** @param[in,out] text string to stem.*/
         void operator()(string_typeT& text) final
             {

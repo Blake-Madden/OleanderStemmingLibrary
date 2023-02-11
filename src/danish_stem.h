@@ -81,7 +81,7 @@ namespace stemming
             @param[in,out] text Danish string to stem.*/
         void operator()(string_typeT& text) final
             {
-            //reset internal data
+            // reset internal data
             stem<string_typeT>::reset_r_values();
 
             std::transform(text.begin(), text.end(), text.begin(), full_width_to_narrow);
@@ -90,21 +90,25 @@ namespace stemming
             if (text.length() < 3)
                 { return; }
 
-            //see where the R1 section begins
-            //R1 is the first consonant after the first vowel
+            // see where the R1 section begins
+            // R1 is the first consonant after the first vowel
             stem<string_typeT>::find_r1(text, DANISH_VOWELS);
             if (stem<string_typeT>::get_r1() == text.length() )
                 { return; }
-            //R1 must have at least 3 characters in front of it
+            // R1 must have at least 3 characters in front of it
             if (stem<string_typeT>::get_r1() < 3)
                 { stem<string_typeT>::set_r1(3); }
-            //danish does not use R2
+            // danish does not use R2
 
             step_1(text);
             step_2(text);
             step_3(text);
             step_4(text);
             }
+        /// @returns The stemmer's language.
+        [[nodiscard]]
+        stemming_type get_language() const noexcept final
+            { return stemming_type::danish; }
     private:
         //---------------------------------------------
         void step_1(string_typeT& text)

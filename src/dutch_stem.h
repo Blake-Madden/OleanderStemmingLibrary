@@ -103,6 +103,10 @@ namespace stemming
             // unhash I and Y back into their original form 
             stem<string_typeT>::unhash_dutch_yi(text);
             }
+        /// @returns The stemmer's language.
+        [[nodiscard]]
+        stemming_type get_language() const noexcept final
+            { return stemming_type::dutch; }
     private:
         //---------------------------------------------
         void step_1(string_typeT& text)

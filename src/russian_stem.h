@@ -205,6 +205,10 @@ namespace stemming
             step_3(text);
             step_4(text);
             }
+        /// @returns The stemmer's language.
+        [[nodiscard]]
+        stemming_type get_language() const noexcept final
+            { return stemming_type::russian; }
     private:
         void step_1(string_typeT& text)
             {

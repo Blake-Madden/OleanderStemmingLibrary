@@ -94,6 +94,10 @@ namespace stemming
             step_2(text);
             step_3(text);
             }
+        /// @returns The stemmer's language.
+        [[nodiscard]]
+        stemming_type get_language() const noexcept final
+            { return stemming_type::swedish; }
     private:
         //---------------------------------------------
         void step_1(string_typeT& text)

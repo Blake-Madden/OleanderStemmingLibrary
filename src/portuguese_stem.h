@@ -146,6 +146,10 @@ namespace stemming
             stem<string_typeT>::replace_all(text, L"o~", string_typeT(1, common_lang_constants::LOWER_O_TILDE));
             stem<string_typeT>::replace_all(text, L"O~", string_typeT(1, common_lang_constants::UPPER_O_TILDE));
             }
+        /// @returns The stemmer's language.
+        [[nodiscard]]
+        stemming_type get_language() const noexcept final
+            { return stemming_type::portuguese; }
     private:
         //---------------------------------------------
         void step_1(string_typeT& text)

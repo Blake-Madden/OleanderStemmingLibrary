@@ -227,6 +227,10 @@ namespace stemming
             stem<string_typeT>::unhash_french_yui(text);
             stem<string_typeT>::unhash_french_ei_diaeresis(text);
             }
+        /// @returns The stemmer's language.
+        [[nodiscard]]
+        stemming_type get_language() const noexcept final
+            { return stemming_type::french; }
     private:
         bool ic_to_iqu(string_typeT& text)
             {

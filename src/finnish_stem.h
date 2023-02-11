@@ -174,6 +174,10 @@ namespace stemming
             step_5(text);
             step_6(text);
             }
+        /// @returns The stemmer's language.
+        [[nodiscard]]
+        stemming_type get_language() const noexcept final
+            { return stemming_type::finnish; }
     private:
         //---------------------------------------------
         void step_1(string_typeT& text)

@@ -141,6 +141,10 @@ namespace stemming
 
             stem<string_typeT>::unhash_italian_ui(text);
             }
+        /// @returns The stemmer's language.
+        [[nodiscard]]
+        stemming_type get_language() const noexcept final
+            { return stemming_type::italian; }
     private:
         //---------------------------------------------
         [[nodiscard]]

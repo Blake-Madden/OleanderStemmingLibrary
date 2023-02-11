@@ -151,6 +151,10 @@ namespace stemming
 
             stem<string_typeT>::remove_spanish_acutes(text);
             }
+        /// @returns The stemmer's language.
+        [[nodiscard]]
+        stemming_type get_language() const noexcept final
+            { return stemming_type::spanish; }
     private:
         //---------------------------------------------
         void step_0(string_typeT& text)
