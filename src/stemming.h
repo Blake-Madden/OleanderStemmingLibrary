@@ -3158,17 +3158,13 @@ namespace stemming
     /** A non-operational stemmer that is used in place of regular stemmers when
         you don't want the system to actually stem anything.*/
     template <typename string_typeT = std::wstring>
-    class no_op_stem
+    class no_op_stem final : public stem<string_typeT>
         {
     public:
-        /// The string type that this class will accept.
+        /// @brief The string type that this class will accept.
         using string_type = string_typeT;
-        /// No-op stemming of declared string type.
-        inline void operator()(const string_typeT&) const
-            {}
-        /// No-op stemming of flexible string type.
-        template <typename T>
-        inline void operator()(const T&) const noexcept
+        /// @brief No-op stemming of declared string type.
+        void operator()([[maybe_unused]] string_typeT&  text) final
             {}
         };
     }
