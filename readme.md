@@ -3,6 +3,8 @@ Oleander Stemming Library
 
 ![logo](stemming.png)
 
+[![cppcheck](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/cppcheck.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/cppcheck.yml)
+
 About
 =============================
 
