@@ -7,6 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: create test file
+        run: |
+             echo $'#include \"danish_stem.h\" \#include \"dutch_stem.h\" \#include \"english_stem.h\" \#include \"finnish_stem.h\" \#include \"french_stem.h\" \#include \"german_stem.h\" \#include \"italian_stem.h\" \#include \"norwegian_stem.h\" \#include \"portuguese_stem.h\" \#include \"russian_stem.h\" \#include \"spanish_stem.h\" \#include \"swedish_stem.h\"' > ./src/test.cpp
           
       - name: cppcheck
         uses: deep5050/cppcheck-action@main
@@ -17,10 +21,6 @@ jobs:
           exclude_check: ./tests
           output_file: cppcheck_report.txt
           
-      - name: create test file
-        run: |
-             echo $'#include \"danish_stem.h\" \#include \"dutch_stem.h\" \#include \"english_stem.h\" \#include \"finnish_stem.h\" \#include \"french_stem.h\" \#include \"german_stem.h\" \#include \"italian_stem.h\" \#include \"norwegian_stem.h\" \#include \"portuguese_stem.h\" \#include \"russian_stem.h\" \#include \"spanish_stem.h\" \#include \"swedish_stem.h\"' > ./src/test.cpp
-          
       - name: print output
         run: |
              REPORTFILE=./cppcheck_report.txt
@@ -29,7 +29,7 @@ jobs:
                 # Filter innocuous warnings and write the remaining ones to another file.
                 # Note that you can add more warnings by adding it in the parenthesis,
                 # with "\|" in front of it. For example, "(missingIncludeSystem\|useStlAlgorithm\)"
-                sed 's/\[\(missingIncludeSystem\|internalAstError\|missingInclude\|unusedFunction\|ConfigurationNotChecked\|toomanyconfigs\|unmatchedSuppression\|useStlAlgorithm\)\]//g' "$REPORTFILE" > "$WARNINGSFILE"
+                sed 's/\[\(missingIncludeSystem\|internalAstError\|unmatchedSuppression\|useStlAlgorithm\)\]//g' "$REPORTFILE" > "$WARNINGSFILE"
                 # are there any remaining warnings?
                 if grep -qP '\[[a-zA-Z0-9]{5,}\]' "$WARNINGSFILE"; then
                     # print the remaining warnings
