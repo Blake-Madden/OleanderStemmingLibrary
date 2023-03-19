@@ -23,10 +23,10 @@ jobs:
              cmake ./
              make
              cd bin
-             ./OleanderStemTestRunner --reporter JUnit::out=TE-junit.xml
-             cat TE-junit.xml
-             errors=$(cat TE-junit.xml | grep -Po '(errors)="\K[^"]*')
-             failures=$(cat TE-junit.xml | grep -Po '(failures)="\K[^"]*')
+             OleanderStemTestRunner --reporter JUnit::out=Stem-junit.xml
+             cat Stem-junit.xml
+             errors=$(cat Stem-junit.xml | grep -Po '(errors)="\K[^"]*')
+             failures=$(cat Stem-junit.xml | grep -Po '(failures)="\K[^"]*')
              echo "Error count is: ${errors}"
              echo "Failure count is: ${failures}"
              if [ "$errors" -gt 0 ]; then
