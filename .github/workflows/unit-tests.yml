@@ -23,7 +23,7 @@ jobs:
              cmake ./
              make
              cd bin
-             OleanderStemTestRunner --reporter JUnit::out=Stem-junit.xml
+             ./OleanderStemTestRunner --reporter JUnit::out=Stem-junit.xml
              cat Stem-junit.xml
              errors=$(cat Stem-junit.xml | grep -Po '(errors)="\K[^"]*')
              failures=$(cat Stem-junit.xml | grep -Po '(failures)="\K[^"]*')
