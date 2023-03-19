@@ -4,6 +4,7 @@ Oleander Stemming Library
 ![logo](stemming.png)
 
 [![cppcheck](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/cppcheck.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/cppcheck.yml)
+[![doxygen](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/doxygen.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/doxygen.yml)
 [![unit-tests](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/unit-tests.yml)
 
 About
