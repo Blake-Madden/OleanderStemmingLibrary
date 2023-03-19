@@ -19,7 +19,7 @@ jobs:
         run: |
              cd ..
              git clone https://github.com/catchorg/Catch2.git
-             cd OleanderStemmingLibrary
+             cd OleanderStemmingLibrary/tests
              cmake ./
              make
              cd bin
