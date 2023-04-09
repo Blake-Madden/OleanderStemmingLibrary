@@ -792,7 +792,7 @@ namespace stemming
                 }
             }
         //---------------------------------------------
-        void step_3(string_typeT& text) 
+        void step_3(string_typeT& text)
             {
             if (text.length() >= 7 && stem<string_typeT>::is_suffix(text,/*ational*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) )
                 {
@@ -996,4 +996,4 @@ namespace stemming
 
 /** @}*/
 
-#endif //__ENGLISH_STEM_H__
+#endif // __ENGLISH_STEM_H__

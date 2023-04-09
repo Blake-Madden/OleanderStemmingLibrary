@@ -305,4 +305,4 @@ namespace stemming
 
 /** @}*/
 
-#endif //__NORWEGIAN_STEM_H__
+#endif // __NORWEGIAN_STEM_H__

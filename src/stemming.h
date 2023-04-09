@@ -82,14 +82,14 @@ namespace stemming
     static const wchar_t DANISH_VOWELS[] = { 97, 101, 105, 111, 117, 121, 0xE6,
         0xE5, 0xF8, 65, 69, 73, 79, 85, 89,
         0xC6, 0xC5, 0xD8, 0 };
-    static const wchar_t DANISH_ALPHABET[] = { 97, 98, 99, 100, 102, 103, 104, 106, 107, 108, 109, 110, 111, 112, 114,
-        116, 118, 121, 122, 0xE5, 65, 66, 67, 68, 70, 71, 72, 74, 75, 76, 77, 78, 79,
-        80, 82, 84, 86, 89, 90, 0xC5, 0 };
+    static const wchar_t DANISH_ALPHABET[] = { 97, 98, 99, 100, 102, 103, 104, 106, 107,
+        108, 109, 110, 111, 112, 114, 116, 118, 121, 122, 0xE5, 65, 66, 67, 68, 70, 71,
+        72, 74, 75, 76, 77, 78, 79, 80, 82, 84, 86, 89, 90, 0xC5, 0 };
 
-    static const wchar_t FINNISH_VOWELS[] = { 97, 101, 105, 111, 117, 121, 0xE4, 0xF6, 65, 69, 73, 79, 85, 89,
-        0xC4, 0xD6, 0 };
-    static const wchar_t FINNISH_VOWELS_NO_Y[] = { 97, 101, 105, 111, 117, 0xE4, 0xF6, 65, 69, 73, 79, 85,
-        0xC4, 0xD6, 0 };
+    static const wchar_t FINNISH_VOWELS[] = { 97, 101, 105, 111, 117, 121, 0xE4, 0xF6, 65,
+        69, 73, 79, 85, 89, 0xC4, 0xD6, 0 };
+    static const wchar_t FINNISH_VOWELS_NO_Y[] = { 97, 101, 105, 111, 117, 0xE4, 0xF6, 65,
+        69, 73, 79, 85, 0xC4, 0xD6, 0 };
     static const wchar_t FINNISH_VOWELS_SIMPLE[] = { 97, 101, 105, 0xE4, 65, 69, 73, 0xC4, 0 };
     static constexpr wchar_t FINNISH_CONSONANTS[] =
         { L'b', L'c', L'd', L'f', L'g', L'h', L'j', L'k', L'l', L'm', L'n', L'p', L'q', L'r', L's',
@@ -157,10 +157,12 @@ namespace stemming
 
     /** @brief The base class for language-specific stemmers.
         @details The template argument for the stemmers are the type
-        of `std::basic_string` that you are trying to stem, by default `std::wstring` (double-byte strings).
-        As long as the char type of your `basic_string` is `wchar_t`, then you can use any type of `basic_string`.
-        This is to say, if your `basic_string` has a custom character traits or allocator, then just specify it in
-        your template argument to the stemmer.
+        of `std::basic_string` that you are trying to stem,
+        by default `std::wstring` (double-byte strings).
+        As long as the char type of your `basic_string` is `wchar_t`,
+        then you can use any type of `basic_string`.
+        This is to say, if your `basic_string` has a custom character traits or allocator,
+        then just specify it in your template argument to the stemmer.
 
         @par Example:
         @code
@@ -178,7 +180,7 @@ namespace stemming
         using string_type = string_typeT;
         /// @brief The main interface for stemming a word.
         virtual void operator()(string_typeT& text) = 0;
-        /// @breturns The stemmer's language.
+        /// @returns The stemmer's language.
         [[nodiscard]]
         virtual stemming_type get_language() const noexcept = 0;
         /// Destructor.
@@ -309,7 +311,8 @@ namespace stemming
            @note If the word begins with two vowels, RV is the region after the third letter,
             otherwise the region after the first vowel not at the beginning of the word,
             or the end of the word if these positions cannot be found.
-            (Exceptionally, par, col or tap, at the beginning of a word is also taken to be the region before RV.)*/
+            (Exceptionally, par, col or tap, at the beginning of a word is also taken
+            to be the region before RV.)*/
         void find_french_rv(const string_typeT& text,
                             const wchar_t* vowel_list)
             {
@@ -322,17 +325,26 @@ namespace stemming
             /* Exceptions: If the word begins with these then RV goes right after them,
                whether it be a letter or simply the end of the word.*/
             if (text.length() >= 3 &&
-                ((stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) &&
-                stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
-                stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) ) || // par
+                ((stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_P,
+                                                common_lang_constants::UPPER_P) &&
+                stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_A,
+                                              common_lang_constants::UPPER_A) &&
+                stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_R,
+                                              common_lang_constants::UPPER_R) ) || // par
 
-                (stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
-                stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
-                stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) ) || // col
+                (stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_C,
+                                               common_lang_constants::UPPER_C) &&
+                stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_O,
+                                              common_lang_constants::UPPER_O) &&
+                stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_L,
+                                              common_lang_constants::UPPER_L) ) || // col
 
-                (stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) &&
-                stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
-                stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) )) // tap
+                (stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_T,
+                                               common_lang_constants::UPPER_T) &&
+                stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_A,
+                                              common_lang_constants::UPPER_A) &&
+                stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_P,
+                                              common_lang_constants::UPPER_P) )) // tap
                 )
                 {
                 m_rv = 3;
@@ -930,8 +942,8 @@ namespace stemming
         /// @param suffix6U The uppercased version of the sixth character of the suffix.
         /// @param suffix7L The lowercased version of the seventh character of the suffix.
         /// @param suffix7U The uppercased version of the seventh character of the suffix.
-        /// @param suffix8L The lowercased version of the eigth character of the suffix.
-        /// @param suffix8U The uppercased version of the eigth character of the suffix.
+        /// @param suffix8L The lowercased version of the eighth character of the suffix.
+        /// @param suffix8U The uppercased version of the eighth character of the suffix.
         /// @returns @c true if suffix is in RV.
         [[nodiscard]]
         inline bool is_suffix_in_rv(const string_typeT& text,
@@ -1881,8 +1893,8 @@ namespace stemming
         /// @param suffix6U The uppercased version of the sixth character of the suffix.
         /// @param suffix7L The lowercased version of the seventh character of the suffix.
         /// @param suffix7U The uppercased version of the seventh character of the suffix.
-        /// @param suffix8L The lowercased version of the eigth character of the suffix.
-        /// @param suffix8U The uppercased version of the eigth character of the suffix.
+        /// @param suffix8L The lowercased version of the eighth character of the suffix.
+        /// @param suffix8U The uppercased version of the eighth character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
         /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_r2(string_typeT& text,
@@ -2228,8 +2240,8 @@ namespace stemming
         /// @param suffix6U The uppercased version of the sixth character of the suffix.
         /// @param suffix7L The lowercased version of the seventh character of the suffix.
         /// @param suffix7U The uppercased version of the seventh character of the suffix.
-        /// @param suffix8L The lowercased version of the eigth character of the suffix.
-        /// @param suffix8U The uppercased version of the eigth character of the suffix.
+        /// @param suffix8L The lowercased version of the eighth character of the suffix.
+        /// @param suffix8U The uppercased version of the eighth character of the suffix.
         /// @param success_on_find Return true if found, but not deleted.
         /// @returns @c true if characters match suffix and are deleted.
         inline bool delete_if_is_in_rv(string_typeT& text,
@@ -2520,7 +2532,7 @@ namespace stemming
                 }
             }
 
-        /** @brief Unhashes 'e' and 'i' with diaerses back to 'ë' and 'ï'.
+        /** @brief Unhashes 'e' and 'i' with diareses back to 'ë' and 'ï'.
             @param[in,out] text The string to unhash.*/
         void unhash_french_ei_diaeresis(string_typeT& text)
             {
@@ -2613,14 +2625,16 @@ namespace stemming
                 // if just following letter is a vowel then examine for 'y'
                 else if (text[i] == common_lang_constants::LOWER_Y &&
                         stem<string_typeT>::is_one_of(text[i+1], vowel_string) &&
-                        stem<string_typeT>::is_neither(text[i+1], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
+                        stem<string_typeT>::is_neither(text[i+1], common_lang_constants::LOWER_Y,
+                                                       common_lang_constants::UPPER_Y) )
                     {
                     text[i] = LOWER_Y_HASH;
                     in_vowel_block = false;
                     }
                 else if (text[i] == common_lang_constants::UPPER_Y &&
                         stem<string_typeT>::is_one_of(text[i+1], vowel_string) &&
-                        stem<string_typeT>::is_neither(text[i+1], common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
+                        stem<string_typeT>::is_neither(text[i+1], common_lang_constants::LOWER_Y,
+                                                       common_lang_constants::UPPER_Y) )
                     {
                     text[i] = UPPER_Y_HASH;
                     in_vowel_block = false;
@@ -2629,14 +2643,16 @@ namespace stemming
                     {
                     if (text[i] == common_lang_constants::LOWER_U &&
                         (i > 0) &&
-                        stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
+                        stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q,
+                                                      common_lang_constants::UPPER_Q) )
                         {
                         text[i] = LOWER_U_HASH;
                         in_vowel_block = false;
                         }
                     else if (text[i] == common_lang_constants::UPPER_U &&
                         (i > 0) &&
-                        stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
+                        stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q,
+                                                      common_lang_constants::UPPER_Q) )
                         {
                         text[i] = UPPER_U_HASH;
                         in_vowel_block = false;
@@ -2666,13 +2682,15 @@ namespace stemming
                 }
             else if (text[i] == common_lang_constants::LOWER_U &&
                     (i > 0) &&
-                    stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
+                    stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q,
+                                                  common_lang_constants::UPPER_Q) )
                 {
                 text[i] = LOWER_U_HASH;
                 }
             else if (text[i] == common_lang_constants::UPPER_U &&
                     (i > 0) &&
-                    stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
+                    stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q,
+                                                  common_lang_constants::UPPER_Q) )
                 {
                 text[i] = UPPER_U_HASH;
                 }
@@ -2804,14 +2822,16 @@ namespace stemming
                        treated as a vowel*/
                     if (text[i] == common_lang_constants::LOWER_U &&
                         (i > 0) &&
-                        stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
+                        stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q,
+                                                      common_lang_constants::UPPER_Q) )
                         {
                         text[i] = LOWER_U_HASH;
                         in_vowel_block = false;
                         }
                     else if (text[i] == common_lang_constants::UPPER_U &&
                         (i > 0) &&
-                        stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
+                        stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q,
+                                                      common_lang_constants::UPPER_Q) )
                         {
                         text[i] = UPPER_U_HASH;
                         in_vowel_block = false;
@@ -2830,13 +2850,15 @@ namespace stemming
             // verify the last letter
             if (text[i] == common_lang_constants::LOWER_U &&
                 (i > 0) &&
-                stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
+                stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q,
+                                              common_lang_constants::UPPER_Q) )
                 {
                 text[i] = LOWER_U_HASH;
                 }
             else if (text[i] == common_lang_constants::UPPER_U &&
                 (i > 0) &&
-                stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q, common_lang_constants::UPPER_Q) )
+                stem<string_typeT>::is_either(text[i-1], common_lang_constants::LOWER_Q,
+                                              common_lang_constants::UPPER_Q) )
                 {
                 text[i] = UPPER_U_HASH;
                 }
@@ -3080,7 +3102,8 @@ namespace stemming
             @param char_string The list of characters to compare against.
             @returns @c true if the character of one of the list of characters.*/
         [[nodiscard]]
-        inline static constexpr bool is_one_of(const wchar_t character, const wchar_t* char_string) noexcept
+        inline static constexpr bool is_one_of(const wchar_t character,
+                                               const wchar_t* char_string) noexcept
             {
             if (!char_string)
                 { return false; }
@@ -3180,4 +3203,4 @@ namespace stemming
 
 /** @}*/
 
-#endif //__STEM_H__
+#endif // __STEM_H__

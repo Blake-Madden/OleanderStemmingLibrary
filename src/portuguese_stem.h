@@ -427,7 +427,14 @@ namespace stemming
         void step_2(string_typeT& text)
             {
             const size_t original_length = text.length();
-            if (stem<string_typeT>::delete_if_is_in_rv(text,/*aríamos*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, common_lang_constants::LOWER_M, common_lang_constants::UPPER_M, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
+            if (stem<string_typeT>::delete_if_is_in_rv(text,
+                /*aríamos*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
+                common_lang_constants::LOWER_R, common_lang_constants::UPPER_R,
+                common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE,
+                common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
+                common_lang_constants::LOWER_M, common_lang_constants::UPPER_M,
+                common_lang_constants::LOWER_O, common_lang_constants::UPPER_O,
+                common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
                 {
                 //NOOP (fall through to branching statement)
                 }
@@ -917,7 +924,9 @@ namespace stemming
         //---------------------------------------------
         void step_3(string_typeT& text) 
             {
-            if (stem<string_typeT>::is_suffix(text,/*ci*/common_lang_constants::LOWER_C, common_lang_constants::UPPER_C, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+            if (stem<string_typeT>::is_suffix(text,
+                /*ci*/common_lang_constants::LOWER_C, common_lang_constants::UPPER_C,
+                common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
                 stem<string_typeT>::get_rv() <= text.length()-1)
                 {
                 text.erase(text.length()-1);
@@ -927,31 +936,39 @@ namespace stemming
         //---------------------------------------------
         void step_4(string_typeT& text) 
             {
-            if (stem<string_typeT>::delete_if_is_in_rv(text,/*os*/common_lang_constants::LOWER_O, common_lang_constants::UPPER_O, common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
+            if (stem<string_typeT>::delete_if_is_in_rv(text,
+                /*os*/common_lang_constants::LOWER_O, common_lang_constants::UPPER_O,
+                common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
                 return;
                 }
-            else if (stem<string_typeT>::delete_if_is_in_rv(text, common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) )
+            else if (stem<string_typeT>::delete_if_is_in_rv(text,
+                common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) )
                 {
                 return;
                 }
-            else if (stem<string_typeT>::delete_if_is_in_rv(text, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) )
+            else if (stem<string_typeT>::delete_if_is_in_rv(text,
+                common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) )
                 {
                 return;
                 }
-            else if (stem<string_typeT>::delete_if_is_in_rv(text, common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) )
+            else if (stem<string_typeT>::delete_if_is_in_rv(text,
+                common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) )
                 {
                 return;
                 }
-            else if (stem<string_typeT>::delete_if_is_in_rv(text, common_lang_constants::LOWER_A_ACUTE, common_lang_constants::UPPER_A_ACUTE) )
+            else if (stem<string_typeT>::delete_if_is_in_rv(text,
+                common_lang_constants::LOWER_A_ACUTE, common_lang_constants::UPPER_A_ACUTE) )
                 {
                 return;
                 }
-            else if (stem<string_typeT>::delete_if_is_in_rv(text, common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE) )
+            else if (stem<string_typeT>::delete_if_is_in_rv(text,
+                common_lang_constants::LOWER_I_ACUTE, common_lang_constants::UPPER_I_ACUTE) )
                 {
                 return;
                 }
-            else if (stem<string_typeT>::delete_if_is_in_rv(text, common_lang_constants::LOWER_O_ACUTE, common_lang_constants::UPPER_O_ACUTE) )
+            else if (stem<string_typeT>::delete_if_is_in_rv(text,
+                common_lang_constants::LOWER_O_ACUTE, common_lang_constants::UPPER_O_ACUTE) )
                 {
                 return;
                 }
@@ -959,36 +976,51 @@ namespace stemming
         //---------------------------------------------
         void step_5(string_typeT& text) 
             {
-            if (stem<string_typeT>::delete_if_is_in_rv(text, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, false) )
+            if (stem<string_typeT>::delete_if_is_in_rv(text,
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, false) )
                 {
                 if (text.length() >= 1 &&
                     stem<string_typeT>::get_rv() <= text.length()-1 &&
-                    (stem<string_typeT>::is_suffix(text,/*gu*/common_lang_constants::LOWER_G, common_lang_constants::UPPER_G, common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) ||
-                    stem<string_typeT>::is_suffix(text,/*ci*/common_lang_constants::LOWER_C, common_lang_constants::UPPER_C, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I)) )
+                    (stem<string_typeT>::is_suffix(text,
+                        /*gu*/common_lang_constants::LOWER_G, common_lang_constants::UPPER_G,
+                        common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) ||
+                    stem<string_typeT>::is_suffix(text,
+                        /*ci*/common_lang_constants::LOWER_C, common_lang_constants::UPPER_C,
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I)) )
                     {
                     text.erase(text.length()-1);
                     stem<string_typeT>::update_r_sections(text);
                     }
                 return;
                 }
-            else if (stem<string_typeT>::delete_if_is_in_rv(text,/*é*/common_lang_constants::LOWER_E_ACUTE, common_lang_constants::UPPER_E_ACUTE, false) )
+            else if (stem<string_typeT>::delete_if_is_in_rv(text,
+                /*é*/common_lang_constants::LOWER_E_ACUTE, common_lang_constants::UPPER_E_ACUTE, false) )
                 {
                 if (text.length() >= 1 &&
                     stem<string_typeT>::get_rv() <= text.length()-1 &&
-                    (stem<string_typeT>::is_suffix(text,/*gu*/common_lang_constants::LOWER_G, common_lang_constants::UPPER_G, common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) ||
-                    stem<string_typeT>::is_suffix(text,/*ci*/common_lang_constants::LOWER_C, common_lang_constants::UPPER_C, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I)) )
+                    (stem<string_typeT>::is_suffix(text,
+                        /*gu*/common_lang_constants::LOWER_G, common_lang_constants::UPPER_G,
+                        common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) ||
+                    stem<string_typeT>::is_suffix(text,
+                        /*ci*/common_lang_constants::LOWER_C, common_lang_constants::UPPER_C,
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I)) )
                     {
                     text.erase(text.length()-1);
                     stem<string_typeT>::update_r_sections(text);
                     }
                 return;
                 }
-            else if (stem<string_typeT>::delete_if_is_in_rv(text,/*ê*/common_lang_constants::LOWER_E_CIRCUMFLEX, common_lang_constants::UPPER_E_CIRCUMFLEX, false) )
+            else if (stem<string_typeT>::delete_if_is_in_rv(text,
+                /*ê*/common_lang_constants::LOWER_E_CIRCUMFLEX, common_lang_constants::UPPER_E_CIRCUMFLEX, false) )
                 {
                 if (text.length() >= 1 &&
                     stem<string_typeT>::get_rv() <= text.length()-1 &&
-                    (stem<string_typeT>::is_suffix(text,/*gu*/common_lang_constants::LOWER_G, common_lang_constants::UPPER_G, common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) ||
-                    stem<string_typeT>::is_suffix(text,/*ci*/common_lang_constants::LOWER_C, common_lang_constants::UPPER_C, common_lang_constants::LOWER_I, common_lang_constants::UPPER_I)) )
+                    (stem<string_typeT>::is_suffix(text,
+                        /*gu*/common_lang_constants::LOWER_G, common_lang_constants::UPPER_G,
+                        common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) ||
+                    stem<string_typeT>::is_suffix(text,
+                        /*ci*/common_lang_constants::LOWER_C, common_lang_constants::UPPER_C,
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I)) )
                     {
                     text.erase(text.length()-1);
                     stem<string_typeT>::update_r_sections(text);
@@ -1014,4 +1046,4 @@ namespace stemming
 
 /** @}*/
 
-#endif //__PORTUGUESE_STEM_H__
+#endif // __PORTUGUESE_STEM_H__
