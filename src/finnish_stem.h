@@ -1,4 +1,4 @@
-﻿/** @addtogroup Stemming
+/** @addtogroup Stemming
     @brief Library for stemming words down to their root words.
     @date 2004-2023
     @copyright Oleander Software, Ltd.
