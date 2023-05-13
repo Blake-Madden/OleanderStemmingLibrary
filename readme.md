@@ -3,9 +3,15 @@ Oleander Stemming Library
 
 ![logo](stemming.png)
 
+[![Linux Build & Unit Tests](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/unit-tests.yml)
+[![macOS Build & Unit Tests](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/mac-unit-tests.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/mac-unit-tests.yml)
+[![Windows Build & Unit Tests](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/windows-unit-tests.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/windows-unit-tests.yml)
+
 [![cppcheck](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/cppcheck.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/cppcheck.yml)
+[![CodeQL](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/codeql.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/codeql.yml)
+
 [![doxygen](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/doxygen.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/doxygen.yml)
-[![unit-tests](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/unit-tests.yml)
+[![i18n-check](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/i18n-check.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/i18n-check.yml)
 
 About
 =============================
