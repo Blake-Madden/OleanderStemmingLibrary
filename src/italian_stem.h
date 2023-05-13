@@ -984,7 +984,7 @@ namespace stemming
                 }
             else if (stem<string_typeT>::delete_if_is_in_r2(text,
                     /*osi*/
-                    common_lang_constants::LOWER_O, common_lang_constants::UPPER_O
+                    common_lang_constants::LOWER_O, common_lang_constants::UPPER_O,
                     common_lang_constants::LOWER_S, common_lang_constants::UPPER_S,
                     common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) )
                 {
