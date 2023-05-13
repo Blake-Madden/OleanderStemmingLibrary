@@ -140,17 +140,20 @@ namespace stemming
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
                 /*ande*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
                 common_lang_constants::LOWER_N, common_lang_constants::UPPER_N,
-                common_lang_constants::LOWER_D, common_lang_constants::UPPER_D, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, false) )
+                common_lang_constants::LOWER_D, common_lang_constants::UPPER_D,
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, false) )
                 { return; }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
                 /*arne*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
                 common_lang_constants::LOWER_R, common_lang_constants::UPPER_R,
-                common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, false) )
+                common_lang_constants::LOWER_N, common_lang_constants::UPPER_N,
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, false) )
                 { return; }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
                 /*aste*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
                 common_lang_constants::LOWER_S, common_lang_constants::UPPER_S,
-                common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, false) )
+                common_lang_constants::LOWER_T, common_lang_constants::UPPER_T,
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, false) )
                 { return; }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
                 /*anden*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
@@ -170,7 +173,8 @@ namespace stemming
                 /*heter*/common_lang_constants::LOWER_H, common_lang_constants::UPPER_H,
                 common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
                 common_lang_constants::LOWER_T, common_lang_constants::UPPER_T,
-                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, false) )
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
+                common_lang_constants::LOWER_R, common_lang_constants::UPPER_R, false) )
                 { return; }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
                 /*arnas*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
@@ -203,7 +207,9 @@ namespace stemming
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
                 /*andet*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
                 common_lang_constants::LOWER_N, common_lang_constants::UPPER_N,
-                common_lang_constants::LOWER_D, common_lang_constants::UPPER_D, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, false) )
+                common_lang_constants::LOWER_D, common_lang_constants::UPPER_D,
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
+                common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, false) )
                 { return; }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
                 /*andes*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
@@ -368,7 +374,8 @@ namespace stemming
         void step_3(string_typeT& text)
             {
             if (stem<string_typeT>::is_suffix_in_r1(text,
-                /*fullt*/common_lang_constants::LOWER_F, common_lang_constants::UPPER_F,
+                /*fullt*/
+                common_lang_constants::LOWER_F, common_lang_constants::UPPER_F,
                 common_lang_constants::LOWER_U, common_lang_constants::UPPER_U,
                 common_lang_constants::LOWER_L, common_lang_constants::UPPER_L,
                 common_lang_constants::LOWER_L, common_lang_constants::UPPER_L,
@@ -378,7 +385,8 @@ namespace stemming
                 stem<string_typeT>::update_r_sections(text);
                 }
             else if (stem<string_typeT>::is_suffix_in_r1(text,
-                /*löst*/common_lang_constants::LOWER_L, common_lang_constants::UPPER_L,
+                /*löst*/
+                common_lang_constants::LOWER_L, common_lang_constants::UPPER_L,
                 common_lang_constants::LOWER_O_UMLAUTS, common_lang_constants::UPPER_O_UMLAUTS,
                 common_lang_constants::LOWER_S, common_lang_constants::UPPER_S,
                 common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) )
@@ -387,17 +395,20 @@ namespace stemming
                 stem<string_typeT>::update_r_sections(text);
                 }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
-                /*lig*/common_lang_constants::LOWER_L, common_lang_constants::UPPER_L,
+                /*lig*/
+                common_lang_constants::LOWER_L, common_lang_constants::UPPER_L,
                 common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
                 common_lang_constants::LOWER_G, common_lang_constants::UPPER_G, false) )
                 { return; }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
-                /*els*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
+                /*els*/
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
                 common_lang_constants::LOWER_L, common_lang_constants::UPPER_L,
                 common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
                 { return; }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
-                /*ig*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
+                /*ig*/
+                common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
                 common_lang_constants::LOWER_G, common_lang_constants::UPPER_G, false) )
                 { return; }
             }

@@ -74,8 +74,10 @@ namespace stemming
     But uproot, bestow, disturb do not end with a short syllable.
 
     A word is called short if it consists of a short syllable preceded by zero or more consonants.
-    R1 is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel.
-    R2 is the region after the first non-vowel following a vowel in R1, or the end of the word if there is no such non-vowel.
+    R1 is the region after the first non-vowel following a vowel,
+    or the end of the word if there is no such non-vowel.
+    R2 is the region after the first non-vowel following a vowel in R1,
+    or the end of the word if there is no such non-vowel.
     If the word has two letters or less, leave it as it is.
     Otherwise, do each of the following operations,
     Set initial y, or y after a vowel, to Y, and then establish the regions R1 and R2.
@@ -88,9 +90,11 @@ namespace stemming
             - sses
                 - Replace by ss.
             - ied+ ies*
-                - Replace by i if preceded by just one letter, otherwise by ie (so ties -> tie, cries -> cri).
+                - Replace by i if preceded by just one letter,
+                  otherwise by ie (so ties -> tie, cries -> cri).
             - s
-                - Delete if the preceding word part contains a vowel not immediately before the s (so gas and this retain the s, gaps and kiwis lose it).
+                - Delete if the preceding word part contains a vowel not immediately before
+                  the s (so gas and this retain the s, gaps and kiwis lose it).
             - us+ ss
                 - Do nothing.
 
@@ -112,7 +116,8 @@ namespace stemming
 
     <b>Step 2:</b>
 
-    Search for the longest among the following suffixes, and, if found and in R1, perform the action indicated:
+    Search for the longest among the following suffixes, and, if found and in R1,
+    perform the action indicated:
             - tional
                 - Replace by tion.
             - enci
@@ -148,7 +153,8 @@ namespace stemming
 
     <b>Step 3:</b>
 
-    Search for the longest among the following suffixes, and, if found and in R1, perform the action indicated:
+    Search for the longest among the following suffixes, and, if found and in R1,
+    perform the action indicated:
             - tional+
                 - Replace by tion.
             - ational+
@@ -164,7 +170,8 @@ namespace stemming
 
     <b>Step 4:</b>
 
-    Search for the longest among the following suffixes, and, if found and in R2, perform the action indicated:
+    Search for the longest among the following suffixes, and, if found and in R2,
+    perform the action indicated:
             - al ance ence er ic able ible ant ement ment ent ism ate iti ous ive ize 
                 - Delete 
             - ion 
@@ -922,7 +929,8 @@ namespace stemming
         void step_5(string_typeT& text)
             {
             if (text.length() >= 1 &&
-                stem<string_typeT>::is_either(text[text.length()-1], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
+                stem<string_typeT>::is_either(text[text.length()-1],
+                    common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
                 {
                 if (stem<string_typeT>::get_r2() != text.length())
                     {
@@ -931,8 +939,8 @@ namespace stemming
                     }
                 else if (stem<string_typeT>::get_r1() != text.length() &&
                     text.length() >= 2 &&
-                    //look at the part of the word in front of the last 'e' to see if it ends with
-                    //a short syllable.
+                    // look at the part of the word in front of the last 'e' to see if it ends with
+                    // a short syllable.
                     !ends_with_short_syllable(text, text.length()-1))
                     {
                     text.erase(text.length()-1);
@@ -940,7 +948,10 @@ namespace stemming
                     }
                 }
             else if (stem<string_typeT>::get_r2() != text.length() &&
-                stem<string_typeT>::is_suffix(text,/*ll*/common_lang_constants::LOWER_L, common_lang_constants::UPPER_L, common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) )
+                stem<string_typeT>::is_suffix(text,
+                    /*ll*/
+                    common_lang_constants::LOWER_L, common_lang_constants::UPPER_L,
+                    common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) )
                 {
                 text.erase(text.length()-1);
                 stem<string_typeT>::update_r_sections(text);
@@ -969,11 +980,11 @@ namespace stemming
                     { return false; }
                 if (start > 0 &&
                     start == (length-2) &&
-                    //following letter
+                    // following letter
                     (!is_vowel(text[start+1]) &&
                     !stem<string_typeT>::is_one_of(text[start+1], L"wxWX") &&
                     stem<string_typeT>::is_neither(text[start+1], LOWER_Y_HASH, UPPER_Y_HASH)) &&
-                    //proceeding letter
+                    // proceeding letter
                     !is_vowel(text[start-1]) )
                     { return true; }
                 else
@@ -985,7 +996,10 @@ namespace stemming
         /// A word is called short if it ends in a short syllable, and if R1 is null.
         //---------------------------------------------
         inline bool is_short_word(const string_typeT& text, const size_t length) const
-            { return (ends_with_short_syllable(text, length) && stem<string_typeT>::get_r1() == text.length()); }
+            {
+            return (ends_with_short_syllable(text, length) &&
+                    stem<string_typeT>::get_r1() == text.length());
+            }
         //---------------------------------------------
         inline bool is_vowel(const wchar_t character) const noexcept
             { return (stem<string_typeT>::is_one_of(character, L"aeiouyAEIOUY") ); }

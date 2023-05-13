@@ -307,7 +307,8 @@ namespace stemming
                     RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false) )
                 { /*NOOP*/ }
             // adjectival
-            if (stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
+            if (stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
                     RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
                 stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_YERU_UPPER, RUSSIAN_YERU_LOWER,
                     RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
@@ -362,15 +363,24 @@ namespace stemming
                 {
                 // delete participles
                 // group 2
-                if (stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER, false) ||
-                    stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER, false) ||
-                    stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, RUSSIAN_SHCHA_LOWER, RUSSIAN_SHCHA_UPPER, false) )
+                if (stem<string_typeT>::delete_if_is_in_rv(text,
+                        RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
+                        RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER, false) ||
+                    stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER,
+                        RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER, false) ||
+                    stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER,
+                        RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, RUSSIAN_SHCHA_LOWER, RUSSIAN_SHCHA_UPPER, false) )
                     { /*NOOP*/ }
                 // group 1
-                else if (stem<string_typeT>::is_suffix_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER) ||
-                        stem<string_typeT>::is_suffix_in_rv(text, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER) ||
-                        stem<string_typeT>::is_suffix_in_rv(text, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER) ||
-                        stem<string_typeT>::is_suffix_in_rv(text, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, RUSSIAN_SHCHA_LOWER, RUSSIAN_SHCHA_UPPER) )
+                else if (
+                    stem<string_typeT>::is_suffix_in_rv(text,
+                        RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER) ||
+                    stem<string_typeT>::is_suffix_in_rv(text,
+                        RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER, RUSSIAN_EN_LOWER, RUSSIAN_EN_UPPER) ||
+                    stem<string_typeT>::is_suffix_in_rv(text,
+                        RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, RUSSIAN_SHA_LOWER, RUSSIAN_SHA_UPPER) ||
+                    stem<string_typeT>::is_suffix_in_rv(text,
+                        RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, RUSSIAN_SHCHA_LOWER, RUSSIAN_SHCHA_UPPER) )
                     {
                     if (text.length() >= 3 &&
                         stem<string_typeT>::get_rv() <= text.length()-3 &&
@@ -541,51 +551,128 @@ namespace stemming
                 }
 
             // noun
-            if (stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
-                                   RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER,
-                                   RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER,
-                                   RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_HA_LOWER, RUSSIAN_HA_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, RUSSIAN_HA_LOWER, RUSSIAN_HA_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, RUSSIAN_HA_LOWER, RUSSIAN_HA_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) )
+            if (stem<string_typeT>::delete_if_is_in_rv(
+                text, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
+                    RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER,
+                    RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
+                    RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER,
+                    RUSSIAN_HA_LOWER, RUSSIAN_HA_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER,
+                    RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_A_LOWER, RUSSIAN_A_UPPER,
+                    RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
+                    RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER,
+                    RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
+                    RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER,
+                    RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER,
+                    RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_O_LOWER, RUSSIAN_O_UPPER,
+                    RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
+                    RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER,
+                    RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER,
+                    RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
+                    RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_A_LOWER, RUSSIAN_A_UPPER,
+                    RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_O_LOWER, RUSSIAN_O_UPPER,
+                    RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER,
+                    RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
+                    RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER,
+                    RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
+                    RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER,
+                    RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_O_LOWER, RUSSIAN_O_UPPER,
+                    RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER,
+                    RUSSIAN_VE_LOWER, RUSSIAN_VE_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_A_LOWER, RUSSIAN_A_UPPER,
+                    RUSSIAN_HA_LOWER, RUSSIAN_HA_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER,
+                    RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_O_LOWER, RUSSIAN_O_UPPER,
+                    RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
+                    RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER,
+                    RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER,
+                    RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER,
+                    RUSSIAN_HA_LOWER, RUSSIAN_HA_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_A_LOWER, RUSSIAN_A_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_U_LOWER, RUSSIAN_U_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_YU_LOWER, RUSSIAN_YU_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_YA_LOWER, RUSSIAN_YA_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_SOFT_SIGN_LOWER, RUSSIAN_SOFT_SIGN_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_SHORT_I_LOWER, RUSSIAN_SHORT_I_UPPER, false) ||
+                stem<string_typeT>::delete_if_is_in_rv(text,
+                    RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER, false) )
                 { return; }
             }
         void step_2(string_typeT& text)
