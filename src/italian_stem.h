@@ -1270,7 +1270,7 @@ namespace stemming
                 return;
                 }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,
-                /   *arono*/
+                    /*arono*/
                     common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
                     common_lang_constants::LOWER_R, common_lang_constants::UPPER_R,
                     common_lang_constants::LOWER_O, common_lang_constants::UPPER_O,
