@@ -663,7 +663,7 @@ namespace stemming
                 (text.length() == 7 &&
                     stem<string_typeT>::is_either(text[0],
                         common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
-                    stem<string_typeT>::is_either(text[1]
+                    stem<string_typeT>::is_either(text[1],
                         common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) &&
                     stem<string_typeT>::is_either(text[2],
                         common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
