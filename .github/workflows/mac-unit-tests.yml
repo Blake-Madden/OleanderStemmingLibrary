@@ -1,0 +1,33 @@
+name: macOS Build & Unit Tests
+on: [push]
+
+jobs:
+  build:
+    name: unit-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+          
+      - name: build & run tests
+        run: |
+             brew install grep
+             cd ..
+             git clone https://github.com/catchorg/Catch2.git
+             cd OleanderStemmingLibrary/tests
+             cmake ./
+             make -j4
+             cd bin
+             ./OleanderStemTestRunner --reporter JUnit::out=Stem-junit.xml
+             cat Stem-junit.xml
+             errors=$(cat Stem-junit.xml | ggrep -Po '(errors)="\K[^"]*')
+             failures=$(cat Stem-junit.xml | ggrep -Po '(failures)="\K[^"]*')
+             echo "Error count is: ${errors}"
+             echo "Failure count is: ${failures}"
+             if [ "$errors" -gt 0 ]; then
+               exit 1
+             fi
+             if [ "$failures" -gt 0 ]; then
+               exit 1
+             fi
