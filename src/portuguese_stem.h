@@ -1110,7 +1110,7 @@ namespace stemming
                 }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,
                 /*esses*/
-                ommon_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
                 common_lang_constants::LOWER_S, common_lang_constants::UPPER_S,
                 common_lang_constants::LOWER_S, common_lang_constants::UPPER_S,
                 common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
