@@ -251,9 +251,12 @@ namespace stemming
                         common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
                     stem<string_typeT>::is_either(text[1],
                         common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
-                    stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
-                    stem<string_typeT>::is_either(text[3], common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
-                    stem<string_typeT>::is_either(text[4], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) ) )
+                    stem<string_typeT>::is_either(text[2],
+                        common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
+                    stem<string_typeT>::is_either(text[3],
+                        common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(text[4],
+                        common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) ) )
                 {
                 stem<string_typeT>::set_r1(5);
                 }
@@ -292,7 +295,7 @@ namespace stemming
         //---------------------------------------------
         bool is_exception(string_typeT& text) const
             {
-            //exception #0
+            // exception #0
             /*skis*/
             if (text.length() == 4 &&
                 stem<string_typeT>::is_either(text[0],
@@ -349,7 +352,7 @@ namespace stemming
                         common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
                     stem<string_typeT>::is_either(text[3],
                         common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
-                    stem<string_typeT>::is_either(text[4], 
+                    stem<string_typeT>::is_either(text[4],
                        common_lang_constants::LOWER_G, common_lang_constants::UPPER_G) )
                 {
                 text = L"lie";
@@ -427,7 +430,7 @@ namespace stemming
                         common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
                     stem<string_typeT>::is_either(text[3],
                         common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
-                    stem<string_typeT>::is_either(text[4], 
+                    stem<string_typeT>::is_either(text[4],
                         common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y) )
                 {
                 text = L"earli";
@@ -465,7 +468,7 @@ namespace stemming
                 text = L"singl";
                 return true;
                 }
-            //exception #1
+            // exception #1
             else if (
                 /*sky*/
                 (text.length() == 3 &&
@@ -552,7 +555,7 @@ namespace stemming
         //---------------------------------------------
         bool is_exception_post_step1a(string_typeT& text) const
             {
-            //exception #2
+            // exception #2
             if (/*inning*/
                 (text.length() == 6 &&
                     stem<string_typeT>::is_either(text[0],
@@ -852,7 +855,7 @@ namespace stemming
                             common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) ||
                         stem<string_typeT>::is_suffix(text,
                             /*tt*/
-                            common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, 
+                            common_lang_constants::LOWER_T, common_lang_constants::UPPER_T,
                             common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) )
                     {
                     text.erase(text.length()-1);
@@ -1150,7 +1153,8 @@ namespace stemming
                     common_lang_constants::LOWER_G, common_lang_constants::UPPER_G,
                     common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) )
                 {
-                if (stem<string_typeT>::is_either(text[text.length()-4], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) )
+                if (stem<string_typeT>::is_either(text[text.length()-4],
+                    common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) )
                     {
                     text.erase(text.length()-1);
                     stem<string_typeT>::update_r_sections(text);

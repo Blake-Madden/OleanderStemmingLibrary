@@ -138,7 +138,7 @@ namespace stemming
     [[nodiscard]]
     inline constexpr wchar_t full_width_to_narrow(const wchar_t ch) noexcept
         {
-        return 
+        return
             // lower area of Unicode, most likely branch
             (ch < 65'000) ? ch :
             (ch >= 65'281 && ch <= 65'374) ? (ch - 65'248) :
@@ -1934,7 +1934,7 @@ namespace stemming
                 return false;
                 }
             }
-        
+
         //  RV deletion functions
         //---------------------------
         /// @brief RV deletion for one character suffix.
@@ -3096,7 +3096,7 @@ namespace stemming
                 // German eszett
                 (ch == 0xDF));
             }
-        
+
         /** @brief Determines if a character is one of a list of characters.
             @param character The character to review.
             @param char_string The list of characters to compare against.

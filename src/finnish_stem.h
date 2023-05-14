@@ -471,11 +471,12 @@ namespace stemming
                 m_step_3_successful = true;
                 return;
                 }
-            else if ((stem<string_typeT>::is_suffix_in_r1(text,
+            else if (
+                (stem<string_typeT>::is_suffix_in_r1(text,
                     /*tta*/
                     common_lang_constants::LOWER_T, common_lang_constants::UPPER_T,
-                common_lang_constants::LOWER_T, common_lang_constants::UPPER_T,
-               common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) ||
+                    common_lang_constants::LOWER_T, common_lang_constants::UPPER_T,
+                    common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) ||
                 stem<string_typeT>::is_suffix_in_r1(text,
                     /*ttä*/
                     common_lang_constants::LOWER_T, common_lang_constants::UPPER_T,
@@ -752,7 +753,7 @@ namespace stemming
                     stem<string_typeT>::delete_if_is_in_r1(text,
                         common_lang_constants::LOWER_J, common_lang_constants::UPPER_J) )
                     {
-                    //NOOP
+                    // NOOP
                     }
                 }
             else
@@ -764,17 +765,19 @@ namespace stemming
                         common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) )
                         {
                         if (!stem<string_typeT>::delete_if_is_in_r2(text,
-                            /*imma*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
+                            /*imma*/
+                            common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
                             common_lang_constants::LOWER_M, common_lang_constants::UPPER_M,
                             common_lang_constants::LOWER_M, common_lang_constants::UPPER_M,
                             common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) )
                             {
                             if (text.length() >= 5 &&
                                 stem<string_typeT>::is_suffix_in_r2(text,
-                                    /*mma*/common_lang_constants::LOWER_M, common_lang_constants::UPPER_M,
+                                    /*mma*/
+                                    common_lang_constants::LOWER_M, common_lang_constants::UPPER_M,
                                     common_lang_constants::LOWER_M, common_lang_constants::UPPER_M,
                                     common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
-                                //isn't proceeded by "po"
+                                // isn't proceeded by "po"
                                 !(stem<string_typeT>::is_either(text[text.length()-5],
                                     common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) &&
                                   stem<string_typeT>::is_either(text[text.length()-4],
@@ -826,10 +829,12 @@ namespace stemming
         void step_6c(string_typeT& text)
             {
             if (stem<string_typeT>::is_suffix_in_r1(text,
-                    /*oj*/common_lang_constants::LOWER_O, common_lang_constants::UPPER_O,
+                    /*oj*/
+                common_lang_constants::LOWER_O, common_lang_constants::UPPER_O,
                     common_lang_constants::LOWER_J, common_lang_constants::UPPER_J) ||
                 stem<string_typeT>::is_suffix_in_r1(text,
-                    /*uj*/common_lang_constants::LOWER_U, common_lang_constants::UPPER_U,
+                    /*uj*/
+                    common_lang_constants::LOWER_U, common_lang_constants::UPPER_U,
                     common_lang_constants::LOWER_J, common_lang_constants::UPPER_J) )
                 {
                 text.erase(text.end()-1);

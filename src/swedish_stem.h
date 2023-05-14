@@ -136,7 +136,7 @@ namespace stemming
                 common_lang_constants::LOWER_R, common_lang_constants::UPPER_R,
                 common_lang_constants::LOWER_N, common_lang_constants::UPPER_N,
                 common_lang_constants::LOWER_A, common_lang_constants::UPPER_A, false) )
-                { return; }  
+                { return; }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
                 /*ande*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
                 common_lang_constants::LOWER_N, common_lang_constants::UPPER_N,

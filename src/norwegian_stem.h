@@ -170,7 +170,10 @@ namespace stemming
                 }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
                 /*ende*/
-                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, common_lang_constants::LOWER_D, common_lang_constants::UPPER_D, common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, false) )
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
+                common_lang_constants::LOWER_N, common_lang_constants::UPPER_N,
+                common_lang_constants::LOWER_D, common_lang_constants::UPPER_D,
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, false) )
                 {
                 return;
                 }

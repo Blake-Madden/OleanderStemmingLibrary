@@ -215,7 +215,7 @@ namespace stemming
                     stem<string_typeT>::get_r1() <= text.length()-1 &&
                     !stem<string_typeT>::is_one_of(text[text.length()-2], DUTCH_VOWELS) )
                     {
-                    //watch out for vowel I/Y vowel
+                    // watch out for vowel I/Y vowel
                     if (text.length() >= 3 &&
                         stem<string_typeT>::is_one_of(text[text.length()-2], L"iyIY") &&
                         stem<string_typeT>::is_one_of(text[text.length()-3], DUTCH_VOWELS) )

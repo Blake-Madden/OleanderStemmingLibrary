@@ -1341,7 +1341,7 @@ namespace stemming
                 }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,
                     /*evamo*/
-                    common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, 
+                    common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
                     common_lang_constants::LOWER_V, common_lang_constants::UPPER_V,
                     common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
                     common_lang_constants::LOWER_M, common_lang_constants::UPPER_M,
@@ -1746,7 +1746,7 @@ namespace stemming
                 }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,
                     /*ire*/
-                    common_lang_constants::LOWER_I, common_lang_constants::UPPER_I, 
+                    common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
                     common_lang_constants::LOWER_R, common_lang_constants::UPPER_R,
                     common_lang_constants::LOWER_E, common_lang_constants::UPPER_E, false) )
                 {
@@ -1883,7 +1883,7 @@ namespace stemming
                 {
                 text.erase(text.length()-1);
                 stem<string_typeT>::update_r_sections(text);
-                if (stem<string_typeT>::get_rv() <= text.length()-1 &&                    
+                if (stem<string_typeT>::get_rv() <= text.length()-1 &&
                     stem<string_typeT>::is_either(text[text.length()-1],
                         common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) )
                     {

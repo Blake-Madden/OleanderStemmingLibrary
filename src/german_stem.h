@@ -107,7 +107,7 @@ namespace stemming
                     string_typeT(1, common_lang_constants::LOWER_A_UMLAUTS));
                 stem<string_typeT>::replace_all(text, L"oe",
                     string_typeT(1, common_lang_constants::LOWER_O_UMLAUTS));
-                //ue to ü, if not in front of 'q'
+                // ue to ü, if not in front of 'q'
                 size_t start = 1;
                 while (start != string_typeT::npos)
                     {
@@ -133,7 +133,7 @@ namespace stemming
             // R1 must have at least 3 characters in front of it
             if (stem<string_typeT>::get_r1() < 3)
                 {
-                stem<string_typeT>::set_r1(3);    
+                stem<string_typeT>::set_r1(3);
                 }
 
             step_1(text);
@@ -180,7 +180,6 @@ namespace stemming
                 {
                 stepBSucessfull = true;
                 }
-            
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
                 common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
                 {
@@ -243,7 +242,7 @@ namespace stemming
                 }
             }
         //---------------------------------------------
-        void step_3(string_typeT& text) 
+        void step_3(string_typeT& text)
             {
             if (stem<string_typeT>::delete_if_is_in_r2(text,
                     /*heit*/common_lang_constants::LOWER_H, common_lang_constants::UPPER_H,
