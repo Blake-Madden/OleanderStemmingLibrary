@@ -316,8 +316,8 @@ namespace stemming
                             common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
                             common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) ||
                         stem<string_typeT>::delete_if_is_in_r2(text,
-                            /*ad*/c
-                            ommon_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
+                            /*ad*/
+                            common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
                             common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) )
                         {
                         // NOOP (fall through to branching statement)
@@ -1064,7 +1064,7 @@ namespace stemming
                 common_lang_constants::LOWER_R, common_lang_constants::UPPER_R,
                 common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
                 common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
-                common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, alse) )
+                common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
                 {
                 // NOOP (fall through to branching statement)
                 }
