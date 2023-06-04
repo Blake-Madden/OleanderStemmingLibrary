@@ -1,17 +1,17 @@
 // This is mostly used as a CMake project used for code analysis.
 
-#include "danish_stem.h"
-#include "dutch_stem.h"
-#include "english_stem.h"
-#include "finnish_stem.h"
-#include "french_stem.h"
-#include "german_stem.h"
-#include "italian_stem.h"
-#include "norwegian_stem.h"
-#include "portuguese_stem.h"
-#include "russian_stem.h"
-#include "spanish_stem.h"
-#include "swedish_stem.h"
+#include "src/danish_stem.h"
+#include "src/dutch_stem.h"
+#include "src/english_stem.h"
+#include "src/finnish_stem.h"
+#include "src/french_stem.h"
+#include "src/german_stem.h"
+#include "src/italian_stem.h"
+#include "src/norwegian_stem.h"
+#include "src/portuguese_stem.h"
+#include "src/russian_stem.h"
+#include "src/spanish_stem.h"
+#include "src/swedish_stem.h"
 
 #include <iostream>
 #include <string>
