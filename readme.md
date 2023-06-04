@@ -9,6 +9,7 @@ Oleander Stemming Library
 
 [![cppcheck](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/cppcheck.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/cppcheck.yml)
 [![CodeQL](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/codeql.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/codeql.yml)
+[![Microsoft C++ Code Analysis](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/msvc.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/msvc.yml)
 
 [![doxygen](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/doxygen.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/doxygen.yml)
 [![i18n-check](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/i18n-check.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/i18n-check.yml)
