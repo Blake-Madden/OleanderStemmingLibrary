@@ -434,7 +434,7 @@ namespace stemming
                 { text.pop_back(); }
             }
 
-        //  suffix determinant functions
+        // suffix determinant functions
         //------------------------------------
         /// @brief is_suffix for one character.
         /// @param text The string being reviewed.
@@ -742,7 +742,7 @@ namespace stemming
                     stem<string_typeT>::is_either(text[start_index+2], suffix3L, suffix3U));
             }
 
-        //  RV suffix functions
+        // RV suffix functions
         //-------------------------------------------------
         /// @brief RV suffix comparison for one character.
         /// @param text The string being reviewed.
@@ -969,7 +969,7 @@ namespace stemming
                     (get_rv() <= text.length()-8) );
             }
 
-        //  R1 suffix functions
+        // R1 suffix functions
         //-------------------------------------------------
         /// @brief R1 suffix comparison for one character.
         /// @param text The string being reviewed.
@@ -1116,7 +1116,7 @@ namespace stemming
                     (get_r1() <= text.length()-6) );
             }
 
-        //  R2 suffix functions
+        // R2 suffix functions
         //-------------------------------------------------
         /// @brief R2 suffix comparison for one character.
         /// @param text The string being reviewed.
@@ -1301,7 +1301,7 @@ namespace stemming
                     (get_r2() <= text.length()-7) );
             }
 
-        //  suffix removal functions
+        // Suffix removal functions
         //---------------------------
         /// @brief R1 deletion for one character suffix
         /// @param text The string being reviewed.
@@ -1592,7 +1592,7 @@ namespace stemming
                 }
             }
 
-        //  R2 deletion functions
+        // R2 deletion functions
         //------------------------
         /// @brief R2 deletion for one character suffix.
         /// @param text The string being reviewed.
@@ -1935,7 +1935,7 @@ namespace stemming
                 }
             }
 
-        //  RV deletion functions
+        // RV deletion functions
         //---------------------------
         /// @brief RV deletion for one character suffix.
         /// @param text The string being reviewed.
@@ -3031,7 +3031,8 @@ namespace stemming
             }
 
         /// @returns The position of R1.
-        [[nodiscard]] inline size_t get_r1() const noexcept
+        [[nodiscard]]
+        inline size_t get_r1() const noexcept
             { return m_r1; }
         /// Sets the position of R1.
         /// @param pos The position.
@@ -3039,7 +3040,8 @@ namespace stemming
             { m_r1 = pos; }
 
         /// @returns The position of R2.
-        [[nodiscard]] inline size_t get_r2() const noexcept
+        [[nodiscard]]
+        inline size_t get_r2() const noexcept
             { return m_r2; }
         /// @brief Sets the position of R2.
         /// @param pos The position.
@@ -3047,7 +3049,8 @@ namespace stemming
             { m_r2 = pos; }
 
         /// @returns The position of RV.
-        [[nodiscard]] inline size_t get_rv() const noexcept
+        [[nodiscard]]
+        inline size_t get_rv() const noexcept
             { return m_rv; }
         /// @brief Sets the position of RV.
         /// @param pos The position.

@@ -81,7 +81,7 @@ void TestLanguage(const std::string_view dictionaryPath,
             }
         // avoid non-sensical tests like 's' and '''
         // (there is little merit in these tests and making the algorithm
-        //  less optimal to handle them isn't right).
+        // less optimal to handle them isn't right).
         if (expectedLineText == L"'")
             {
             ++lineNumber;
