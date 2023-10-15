@@ -393,15 +393,24 @@ namespace stemming
                 stem<string_typeT>::update_r_sections(text);
                 }
             else if (text.length() >= 4 &&
-                (stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ||
-                 stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_K, common_lang_constants::UPPER_K) ||
-                 stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) ||
-                 stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) ||
-                 stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) ||
-                 stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) ||
-                 stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) ||
-                 stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) ||
-                 stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_V, common_lang_constants::UPPER_V)) &&
+                (stem<string_typeT>::is_either(text[text.length() - 4],
+                    common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ||
+                 stem<string_typeT>::is_either(text[text.length() - 4],
+                     common_lang_constants::LOWER_K, common_lang_constants::UPPER_K) ||
+                 stem<string_typeT>::is_either(text[text.length() - 4],
+                     common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) ||
+                 stem<string_typeT>::is_either(text[text.length() - 4],
+                     common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) ||
+                 stem<string_typeT>::is_either(text[text.length() - 4],
+                     common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) ||
+                 stem<string_typeT>::is_either(text[text.length() - 4],
+                     common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) ||
+                 stem<string_typeT>::is_either(text[text.length() - 4],
+                     common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) ||
+                 stem<string_typeT>::is_either(text[text.length() - 4],
+                     common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) ||
+                 stem<string_typeT>::is_either(text[text.length() - 4],
+                     common_lang_constants::LOWER_V, common_lang_constants::UPPER_V)) &&
                 stem<string_typeT>::is_suffix_in_r1(text,
                 /* öst (with valid character in front of it) */
                 common_lang_constants::LOWER_O_UMLAUTS, common_lang_constants::UPPER_O_UMLAUTS,
