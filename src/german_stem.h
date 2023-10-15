@@ -33,7 +33,7 @@ namespace stemming
 
         The rules here for ae, oe and ue were
         added in Snowball 2.3.0, but were previously present as a variant of the
-        algorithm termed"german2". The condition on the replacement of ue prevents
+        algorithm termed "german2." The condition on the replacement of ue prevents
         the unwanted changing of quelle. Also note that feuer is not modified
         because the first part of the rule changes it to feUer, so ue is not found.
 
