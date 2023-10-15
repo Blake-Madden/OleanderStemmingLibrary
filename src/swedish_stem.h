@@ -30,6 +30,10 @@ namespace stemming
     Define a valid s-ending as one of:
         - b c d f g h j k l m n o p r t v y
     
+    Define a valid öst-ending as one of:
+
+        - i k l n p r t u v
+    
     @par Algorithm:
 
     <b>Step 1:</b>
@@ -51,7 +55,7 @@ namespace stemming
 
     (For example, friskt -> frisk, fröknarnn -> fröknarn).
     
-    <b>Step 2:</b>
+    <b>Step 3:</b>
 
     Search for the longest among the following suffixes in R1, and perform the action indicated.
         - lig   ig   els 
