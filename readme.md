@@ -19,16 +19,20 @@ About
 
 C++ library for stemming words down to their roots.
 
-Stemming is useful for Natural Language Processing systems.
+Stemming is useful for Natural Language Processing and Information Retrieval systems.
 The first step in an NLP system is to strip words down to their roots.
-Afterwards, these roots can be combined, tabulated, categorized, etc. Stemming provides this first step for NLP.
+Afterwards, these roots can be combined, tabulated, categorized, etc.
+
+For example, a stemmer can trim words such as *connection*, *connections*, *connective*, *connected*, and *connecting*
+down to the word *connect*. From there, the frequency counts of these words can be tabulated to determine how many
+times words related to *connect* exist in the corpus.
 
 Features
 =============================
 
-- Based on the Porter/Snowball stemming family of algorithms
-- Header-only library
+- Based on the [Porter/Snowball](https://snowballstem.org/) stemming family of algorithms
 - Case insensitive
+- Header-only library
 - Includes Danish, Dutch, English, Finnish, French, German, Italian, Norwegian, Portuguese, Russian, Spanish, and Swedish
 
 Example
