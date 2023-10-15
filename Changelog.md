@@ -1,5 +1,8 @@
 ## Change Log
 
+### 2023.1 Release
+- Updated the Swedish stemmer to the latest Snowball standard.
+
 ### 2023 Release
 - Updated Spanish, Russian, Italian, and French stemmers to the latest Snowball standard.
 - Made stemming less aggressive with punctuation at the end of a word. Now, only trailing `'` and `'s'

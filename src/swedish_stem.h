@@ -29,7 +29,7 @@ namespace stemming
 
     Define a valid s-ending as one of:
         - b c d f g h j k l m n o p r t v y
-    
+
     Define a valid öst-ending as one of:
 
         - i k l n p r t u v
@@ -58,12 +58,16 @@ namespace stemming
     <b>Step 3:</b>
 
     Search for the longest among the following suffixes in R1, and perform the action indicated.
-        - lig   ig   els 
-            - Delete 
-        - löst 
-            - Replace with lös 
-        - fullt 
-            - Replace with full
+        - lig   ig   els
+            - Delete.
+        - öst
+            - Replace with ös if preceded by a valid öst-ending.
+
+              The letter of the valid öst-ending is not necessarily in R1.
+              Prior to Snowball 2.3.0, öst-ending was effectively just
+              l and was required to be in R1.
+        - fullt
+            - Replace with full.
     */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>
@@ -378,7 +382,7 @@ namespace stemming
         void step_3(string_typeT& text)
             {
             if (stem<string_typeT>::is_suffix_in_r1(text,
-                /*fullt*/
+                /* fullt */
                 common_lang_constants::LOWER_F, common_lang_constants::UPPER_F,
                 common_lang_constants::LOWER_U, common_lang_constants::UPPER_U,
                 common_lang_constants::LOWER_L, common_lang_constants::UPPER_L,
@@ -388,9 +392,18 @@ namespace stemming
                 text.erase(text.length()-1);
                 stem<string_typeT>::update_r_sections(text);
                 }
-            else if (stem<string_typeT>::is_suffix_in_r1(text,
-                /*löst*/
-                common_lang_constants::LOWER_L, common_lang_constants::UPPER_L,
+            else if (text.length() >= 4 &&
+                (stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) ||
+                 stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_K, common_lang_constants::UPPER_K) ||
+                 stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) ||
+                 stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) ||
+                 stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) ||
+                 stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) ||
+                 stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) ||
+                 stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) ||
+                 stem<string_typeT>::is_either(text[text.length() - 4], common_lang_constants::LOWER_V, common_lang_constants::UPPER_V)) &&
+                stem<string_typeT>::is_suffix_in_r1(text,
+                /* öst (with valid character in front of it) */
                 common_lang_constants::LOWER_O_UMLAUTS, common_lang_constants::UPPER_O_UMLAUTS,
                 common_lang_constants::LOWER_S, common_lang_constants::UPPER_S,
                 common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) )
@@ -399,19 +412,19 @@ namespace stemming
                 stem<string_typeT>::update_r_sections(text);
                 }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
-                /*lig*/
+                /* lig */
                 common_lang_constants::LOWER_L, common_lang_constants::UPPER_L,
                 common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
                 common_lang_constants::LOWER_G, common_lang_constants::UPPER_G, false) )
                 { return; }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
-                /*els*/
+                /* els */
                 common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
                 common_lang_constants::LOWER_L, common_lang_constants::UPPER_L,
                 common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
                 { return; }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
-                /*ig*/
+                /* ig */
                 common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
                 common_lang_constants::LOWER_G, common_lang_constants::UPPER_G, false) )
                 { return; }
