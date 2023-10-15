@@ -27,6 +27,16 @@ namespace stemming
 
     @par Algorithm:
 
+    <b>Step 0:</b>
+
+    - Replace ß with ss, ae with ä, oe with ö, ue with ü (unless preceded by q).
+
+        The rules here for ae, oe and ue were
+        added in Snowball 2.3.0, but were previously present as a variant of the
+        algorithm termed"german2". The condition on the replacement of ue prevents
+        the unwanted changing of quelle. Also note that feuer is not modified
+        because the first part of the rule changes it to feUer, so ue is not found.
+
     <b>Step 1:</b>
 
     Search for the longest among the following suffixes:
@@ -70,8 +80,9 @@ namespace stemming
     class german_stem final : public stem<string_typeT>
         {
     public:
-        german_stem() noexcept : m_transliterate_umlauts(false) {}
-        /** @brief Set to true to use the variant algorithm that expands "ä" to "ae", etc...
+        /** @brief Set to @c true (the default) to use the algorithm that expands "ä" to "ae", etc...
+            @details This should only be @c false if preferring to use the German algorithm prior
+                to the Snowball 2.3.0 standard.
             @param transliterate_umlauts Whether to transliterate umlauted vowels.*/
         void should_transliterate_umlauts(const bool transliterate_umlauts)
             { m_transliterate_umlauts = transliterate_umlauts; }
@@ -361,7 +372,7 @@ namespace stemming
                     }
                 }
             }
-        bool m_transliterate_umlauts;
+        bool m_transliterate_umlauts{ true };
         };
     }
 

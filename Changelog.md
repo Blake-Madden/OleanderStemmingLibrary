@@ -1,7 +1,7 @@
 ## Change Log
 
 ### 2023.1 Release
-- Updated the Swedish stemmer to the latest Snowball standard.
+- Updated the Swedish and German stemmers to the latest Snowball 2.3 standard.
 
 ### 2023 Release
 - Updated Spanish, Russian, Italian, and French stemmers to the latest Snowball standard.
