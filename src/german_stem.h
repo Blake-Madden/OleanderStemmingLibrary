@@ -163,10 +163,10 @@ namespace stemming
             {
             bool stepBSucessfull{ false };
             // 'em', but not if 'system'
-            if ((is_suffix(text,
+            if ((stem<string_typeT>::is_suffix(text,
                     common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
                     common_lang_constants::LOWER_M, common_lang_constants::UPPER_M)) &&
-                !(is_suffix(text,
+                !(stem<string_typeT>::is_suffix(text,
                     common_lang_constants::LOWER_S, common_lang_constants::UPPER_S,
                     common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y,
                     common_lang_constants::LOWER_S, common_lang_constants::UPPER_S,
