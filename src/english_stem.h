@@ -106,8 +106,9 @@ namespace stemming
             - ed edly+ ing ingly+
                 - Delete if the preceding word part contains a vowel, and then 
                 - If the word ends at, bl or iz add e (so luxuriat -> luxuriate), or 
-                - If the word ends with a double remove the last letter (so hopp -> hop), or 
-                - If the word is short, add e (so hop -> hope).
+                - If the word ends with a double preceded by something other than exactly 'a', 'e' or 'o' then
+                  remove the last letter (so hopp -> hop but add, egg and off are not changed), or 
+                - If the word does not end with a double and is short, add 'e' (so hop -> hope).
 
     <b>Step 1c:</b>
 
@@ -808,6 +809,16 @@ namespace stemming
                 }
             if (regress_trim)
                 {
+                const bool isExactly3NotAEOStart
+                    {
+                    text.length() == 3 &&
+                    !(stem<string_typeT>::is_either(text[0],
+                        common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) ||
+                      stem<string_typeT>::is_either(text[0],
+                         common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) ||
+                      stem<string_typeT>::is_either(text[0],
+                         common_lang_constants::LOWER_O, common_lang_constants::UPPER_O))
+                    };
                 if (stem<string_typeT>::is_suffix(text,
                         /*at*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
                         common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) ||
@@ -822,7 +833,9 @@ namespace stemming
                     // need to search for r2 again because the 'e' added here may change that
                     stem<string_typeT>::find_r2(text, L"aeiouyAEIOUY");
                     }
-                else if (stem<string_typeT>::is_suffix(text,
+                // undouble
+                else if ((text.length() > 3 || isExactly3NotAEOStart) &&
+                        (stem<string_typeT>::is_suffix(text,
                             /*bb*/
                             common_lang_constants::LOWER_B, common_lang_constants::UPPER_B,
                             common_lang_constants::LOWER_B, common_lang_constants::UPPER_B) ||
@@ -856,15 +869,18 @@ namespace stemming
                         stem<string_typeT>::is_suffix(text,
                             /*tt*/
                             common_lang_constants::LOWER_T, common_lang_constants::UPPER_T,
-                            common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) )
+                            common_lang_constants::LOWER_T, common_lang_constants::UPPER_T)) )
                     {
                     text.erase(text.length()-1);
                     stem<string_typeT>::update_r_sections(text);
                     }
-                else if (is_short_word(text, text.length() ) )
+                else if ((text.length() < 2 ||
+                          stem<string_typeT>::tolower_western(text[text.length() - 1]) !=
+                          stem<string_typeT>::tolower_western(text[text.length() - 2]) ) &&
+                    is_short_word(text, text.length() ) )
                     {
                     text += common_lang_constants::LOWER_E;
-                    // need to search for r2 again because the 'e' added here may change that
+                    // need to search for R2 again because the 'e' added here may change that
                     stem<string_typeT>::find_r2(text, L"aeiouyAEIOUY");
                     }
                 }

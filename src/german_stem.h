@@ -40,10 +40,12 @@ namespace stemming
     <b>Step 1:</b>
 
     Search for the longest among the following suffixes:
-        - e em en ern er es
-        - s (preceded by a valid s-ending)
+        a.) em (not preceded by 'syst')
+        b.) ern er
+        c.) en es e
+        d.) s (preceded by a valid s-ending)
     and delete if in R1. (Of course the letter of the valid s-ending is not necessarily in R1).
-    If an ending of group (b) is deleted, and the ending is preceded by niss, delete the final s.
+    If an ending of group (c) is deleted, and the ending is preceded by 'niss', delete the final s.
 
     (For example, äckern -> äck, ackers -> acker, armes -> arm, bedürfnissen -> bedürfnis).
 
@@ -160,7 +162,24 @@ namespace stemming
         void step_1(string_typeT& text)
             {
             bool stepBSucessfull{ false };
-            if (stem<string_typeT>::delete_if_is_in_r1(text,
+            // 'em', but not if 'system'
+            if ((is_suffix(text,
+                    common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
+                    common_lang_constants::LOWER_M, common_lang_constants::UPPER_M)) &&
+                !(is_suffix(text,
+                    common_lang_constants::LOWER_S, common_lang_constants::UPPER_S,
+                    common_lang_constants::LOWER_Y, common_lang_constants::UPPER_Y,
+                    common_lang_constants::LOWER_S, common_lang_constants::UPPER_S,
+                    common_lang_constants::LOWER_T, common_lang_constants::UPPER_T,
+                    common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
+                    common_lang_constants::LOWER_M, common_lang_constants::UPPER_M)) &&
+                stem<string_typeT>::delete_if_is_in_r1(text,
+                /*em*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
+                common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) )
+                {
+                return;
+                }
+            else if (stem<string_typeT>::delete_if_is_in_r1(text,
                 /*ern*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
                 common_lang_constants::LOWER_R, common_lang_constants::UPPER_R,
                 common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) )
@@ -170,12 +189,6 @@ namespace stemming
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
                 /*er*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
                 common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) )
-                {
-                return;
-                }
-            else if (stem<string_typeT>::delete_if_is_in_r1(text,
-                /*em*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
-                common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) )
                 {
                 return;
                 }
