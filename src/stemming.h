@@ -179,6 +179,7 @@ namespace stemming
         /// @brief The string type that this class will accept.
         using string_type = string_typeT;
         /// @brief The main interface for stemming a word.
+        /// @param[in,out] text The text to stem.
         virtual void operator()(string_typeT& text) = 0;
         /// @returns The stemmer's language.
         [[nodiscard]]
@@ -2559,7 +2560,7 @@ namespace stemming
             ennuie       ->         ennuIe
             yeux         ->         Yeux
             quand        ->         qUand
-        @param text[in,out] The string to update.
+        @param[in,out] text The string to update.
         @param vowel_string The list of vowels used by the stemmer's language.*/
         void hash_french_yui(string_typeT& text,
                     const wchar_t* vowel_string)
@@ -3195,6 +3196,7 @@ namespace stemming
         /// @brief The string type that this class will accept.
         using string_type = string_typeT;
         /// @brief No-op stemming of declared string type.
+        /// @param[in,out] text The text to stem.
         void operator()([[maybe_unused]] string_typeT&  text) final
             {}
         /// @returns The stemmer's language.
