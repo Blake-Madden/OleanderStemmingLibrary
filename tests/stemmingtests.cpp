@@ -19,6 +19,18 @@
 #include <string>
 #include <vector>
 
+[[nodiscard]]
+inline std::string lazy_wstring_to_string(const std::wstring& str)
+    {
+    std::string retVal;
+    retVal.reserve(str.length());
+    for (const auto& ch : str)
+        {
+        retVal += static_cast<char>(ch);
+        }
+    return retVal;
+    }
+
 template<typename Tstemmer>
 void TestLanguage(const std::string_view dictionaryPath,
                   const std::string_view expectedPath,
@@ -79,7 +91,7 @@ void TestLanguage(const std::string_view dictionaryPath,
             {
             expectedLineText.pop_back();
             }
-        // avoid non-sensical tests like 's' and '''
+        // avoid nonsensical tests like 's' and '''
         // (there is little merit in these tests and making the algorithm
         // less optimal to handle them isn't right).
         if (expectedLineText == L"'")
@@ -95,15 +107,19 @@ void TestLanguage(const std::string_view dictionaryPath,
             continue;
             }
 
+        auto orginal{ dictLineText };
         stemmer(dictLineText);
         if (dictLineText != expectedLineText)
             {
             UNSCOPED_INFO("Comparison failed on line #" << lineNumber);
+            UNSCOPED_INFO("Original: " << lazy_wstring_to_string(orginal));
+            UNSCOPED_INFO("Stemmed:  " << lazy_wstring_to_string(dictLineText));
+            UNSCOPED_INFO("Expected: " << lazy_wstring_to_string(expectedLineText));
             }
         CHECK(dictLineText == expectedLineText);
 
         // uppercase the string, stem it, then lowercase it and compare that with the expected result
-        std::wstring upperDictLineText{ dictLineText };
+        std::wstring upperDictLineText{ orginal };
         std::transform(upperDictLineText.cbegin(), upperDictLineText.cend(), upperDictLineText.begin(),
             [](const auto& ch)
             { return std::towupper(ch); });
