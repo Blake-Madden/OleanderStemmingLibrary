@@ -12,7 +12,7 @@ Oleander Stemming Library
 [![Microsoft C++ Code Analysis](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/msvc.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/msvc.yml)
 
 [![doxygen](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/doxygen.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/doxygen.yml)
-[![Quneiform](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/i18n-check.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/i18n-check.yml)
+[![Quneiform](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/quneiform.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/quneiform.yml)
 
 About
 =============================
