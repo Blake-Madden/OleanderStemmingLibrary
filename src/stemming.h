@@ -18,6 +18,11 @@
 /// @brief Namespace for stemming classes.
 namespace stemming
     {
+    constexpr int OLEANDER_STEM_MAJOR_VERSION = 2023;
+    constexpr int OLEANDER_STEM_MINOR_VERSION = 1;
+    constexpr int OLEANDER_STEM_PATCH_VERSION = 0;
+    constexpr int OLEANDER_STEM_TWEAK_VERSION = 0;
+
     /// @brief Languages available for stemming.
     enum class stemming_type
         {
