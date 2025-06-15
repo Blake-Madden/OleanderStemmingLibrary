@@ -18,10 +18,24 @@
 /// @brief Namespace for stemming classes.
 namespace stemming
     {
+    /// @brief The library's major version.
     constexpr int OLEANDER_STEM_MAJOR_VERSION = 2023;
+    /// @brief The library's minor version.
     constexpr int OLEANDER_STEM_MINOR_VERSION = 1;
+    /// @brief The library's patch version.
     constexpr int OLEANDER_STEM_PATCH_VERSION = 0;
+    /// @brief The library's tweak version.
     constexpr int OLEANDER_STEM_TWEAK_VERSION = 0;
+
+    /// @brief The library's copyright notice.
+    constexpr wchar_t OLEANDER_STEM_COPYRIGHT[] = L"Copyright (c) 2004-2025 Blake Madden";
+
+    /// @brief The Snowball standard implemented by the library
+    ///     (major version).
+    constexpr int SNOWBALL_MAJOR_VERSION = 2;
+    /// @brief The Snowball standard implemented by the library
+    ///     (minor version).
+    constexpr int SNOWBALL_STEM_MINOR_VERSION = 3;
 
     /// @brief Languages available for stemming.
     enum class stemming_type
