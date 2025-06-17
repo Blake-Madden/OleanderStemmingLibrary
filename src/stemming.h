@@ -35,7 +35,7 @@ namespace stemming
     constexpr int SNOWBALL_MAJOR_VERSION = 2;
     /// @brief The Snowball standard implemented by the library
     ///     (minor version).
-    constexpr int SNOWBALL_STEM_MINOR_VERSION = 3;
+    constexpr int SNOWBALL_MINOR_VERSION = 3;
 
     /// @brief Languages available for stemming.
     enum class stemming_type
