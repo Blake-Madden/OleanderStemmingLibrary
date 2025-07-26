@@ -443,6 +443,13 @@ namespace stemming
         /// @param[in,out] text The string to trim.
         void remove_possessive_suffix(string_typeT& text) const
             {
+            // handle trash like "there's'"
+            while (text.length() >= 1 &&
+                is_apostrophe(text.back()))
+                {
+                text.pop_back();
+                }
+
             if (text.length() >= 2 &&
                 is_apostrophe(text[text.length()-2]) &&
                 stem<string_typeT>::is_either(text.back(), common_lang_constants::LOWER_S,
