@@ -11,6 +11,7 @@
 #define __STEM_H__
 
 #include <algorithm>
+#include <string_view>
 #include <array>
 #include <cassert>
 #include "common_lang_constants.h"

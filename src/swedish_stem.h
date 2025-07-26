@@ -102,6 +102,7 @@ namespace stemming
             step_2(text);
             step_3(text);
             }
+
         /// @returns The stemmer's language.
         [[nodiscard]]
         stemming_type get_language() const noexcept final
@@ -274,6 +275,10 @@ namespace stemming
                 common_lang_constants::LOWER_R, common_lang_constants::UPPER_R,
                 common_lang_constants::LOWER_N, common_lang_constants::UPPER_N, false) )
                 { return; }
+            else if (delete_if_valid_et_ending(text))
+                {
+                return;
+                }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
                 /*at*/common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
                 common_lang_constants::LOWER_T, common_lang_constants::UPPER_T, false) )
@@ -437,6 +442,289 @@ namespace stemming
                 common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
                 common_lang_constants::LOWER_G, common_lang_constants::UPPER_G, false) )
                 { return; }
+            }
+
+        //---------------------------------------------
+        [[nodiscard]]
+        bool delete_if_valid_et_ending(string_typeT& text)
+            {
+            /* Define a valid et-ending as at least one letter followed by a vowel followed by a non-vowel,
+               which is not among any of the following:
+
+               h, iet, uit, fab, cit, dit, alit, ilit, mit, nit, pit, rit, sit, tit,
+               ivit, kvit, xit, kom, rak, pak, stak */
+
+            std::basic_string_view<string_typeT::value_type> textView{ text };
+
+            const auto isValidEtEnding = [&textView]()
+                {
+                if (textView.empty())
+                    {
+                    return false;
+                    }
+                // suffix exceptions
+                if (textView.length() >= 1 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_H, common_lang_constants::UPPER_H))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 4 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 4],
+                        common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_K, common_lang_constants::UPPER_K))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 4 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 4],
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 4 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 4],
+                        common_lang_constants::LOWER_K, common_lang_constants::UPPER_K) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_V, common_lang_constants::UPPER_V) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 4 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 4],
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_V, common_lang_constants::UPPER_V) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 4 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 4],
+                        common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_L, common_lang_constants::UPPER_L) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 3 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_K, common_lang_constants::UPPER_K))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 3 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_K, common_lang_constants::UPPER_K))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 3 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_K, common_lang_constants::UPPER_K) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_O, common_lang_constants::UPPER_O) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_M, common_lang_constants::UPPER_M))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 3 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_X, common_lang_constants::UPPER_X) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 3 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 3 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 3 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 3 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_D, common_lang_constants::UPPER_D) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 3 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_R, common_lang_constants::UPPER_R) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 3 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_P, common_lang_constants::UPPER_P) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 3 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_M, common_lang_constants::UPPER_M) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 3 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 3 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 3 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_U, common_lang_constants::UPPER_U) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_I, common_lang_constants::UPPER_I) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T))
+                    {
+                    return false;
+                    }
+                else if (textView.length() >= 3 &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 3],
+                        common_lang_constants::LOWER_F, common_lang_constants::UPPER_F) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 2],
+                        common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
+                    stem<string_typeT>::is_either(textView[textView.length() - 1],
+                        common_lang_constants::LOWER_B, common_lang_constants::UPPER_B))
+                    {
+                    return false;
+                    }
+
+                return true;
+                };
+
+            
+            if (is_suffix_in_r1(text,
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
+                common_lang_constants::LOWER_T, common_lang_constants::UPPER_T))
+                {
+                textView.remove_suffix(2);
+                }
+            else if (is_suffix_in_r1(text,
+                    common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
+                    common_lang_constants::LOWER_T, common_lang_constants::UPPER_T,
+                    common_lang_constants::LOWER_S, common_lang_constants::UPPER_S))
+                {
+                textView.remove_suffix(3);
+                }
+            else
+                {
+                return false;
+                }
+
+            if (textView.length() < 3)
+                {
+                return false;
+                }
+
+            const auto lastVowel = textView.find_last_of(SWEDISH_VOWELS);
+            // we need one letter, a vowel, and non-vowel in front of the 'et'
+            if (lastVowel == std::basic_string_view<string_typeT::value_type>::npos ||
+                lastVowel != textView.length() - 2)
+                {
+                return false;
+                }
+            
+            if (isValidEtEnding())
+                {
+                text.erase(text.length() - (text.length() - textView.length()));
+                stem<string_typeT>::update_r_sections(text);
+                return true;
+                }
+            else
+                {
+                return false;
+                }
             }
         };
     }
