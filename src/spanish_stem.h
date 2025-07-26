@@ -755,7 +755,14 @@ namespace stemming
                          common_lang_constants::LOWER_C, common_lang_constants::UPPER_C,
                          common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
                          common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
-                         common_lang_constants::LOWER_S, common_lang_constants::UPPER_S))
+                         common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) ||
+                     stem<string_typeT>::delete_if_is_in_r2(text,
+                         /*acion*/
+                         common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
+                         common_lang_constants::LOWER_C, common_lang_constants::UPPER_C,
+                         common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
+                         common_lang_constants::LOWER_O, common_lang_constants::UPPER_O,
+                         common_lang_constants::LOWER_N, common_lang_constants::UPPER_N))
                 {
                 if (original_length > text.length() )
                     {
@@ -897,6 +904,18 @@ namespace stemming
                 common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) )
                 {
                 text.erase(text.length()-4);
+                stem<string_typeT>::update_r_sections(text);
+                return;
+                }
+            else if (stem<string_typeT>::is_suffix_in_r2(text,
+                /*ucion (misspelling of ución)*/
+                common_lang_constants::LOWER_U, common_lang_constants::UPPER_U,
+                common_lang_constants::LOWER_C, common_lang_constants::UPPER_C,
+                common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
+                common_lang_constants::LOWER_O, common_lang_constants::UPPER_O,
+                common_lang_constants::LOWER_N, common_lang_constants::UPPER_N))
+                {
+                text.erase(text.length() - 4);
                 stem<string_typeT>::update_r_sections(text);
                 return;
                 }
