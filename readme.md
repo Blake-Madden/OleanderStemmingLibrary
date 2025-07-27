@@ -17,7 +17,7 @@ Oleander Stemming Library
 About
 =============================
 
-C++ library for stemming words down to their roots.
+C++20 library for stemming words down to their roots.
 
 Stemming is useful for Natural Language Processing and Information Retrieval systems.
 The first step in an NLP system is to strip words down to their roots.

@@ -684,13 +684,13 @@ namespace stemming
                 };
 
             
-            if (is_suffix_in_r1(text,
+            if (stem<string_typeT>::is_suffix_in_r1(text,
                 common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
                 common_lang_constants::LOWER_T, common_lang_constants::UPPER_T))
                 {
                 textView.remove_suffix(2);
                 }
-            else if (is_suffix_in_r1(text,
+            else if (stem<string_typeT>::is_suffix_in_r1(text,
                     common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
                     common_lang_constants::LOWER_T, common_lang_constants::UPPER_T,
                     common_lang_constants::LOWER_S, common_lang_constants::UPPER_S))
