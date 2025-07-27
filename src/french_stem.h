@@ -26,7 +26,7 @@ namespace stemming
         - a e i o u y â à ë é ê è ï î ô û ù
 
     Assume the word is in lower case. Then, taking the letters in turn from the beginning
-    to end of the word, put u or i intoupper case when it is both preceded and followed by a vowel;
+    to end of the word, put u or i into upper case when it is both preceded and followed by a vowel;
     put y into upper case when it is either preceded or followed by a vowel;
     and put u into upper case when it follows q. For example,
 
@@ -211,6 +211,7 @@ namespace stemming
             stem<string_typeT>::remove_possessive_suffix(text);
             if (text.length() < 2)
                 { return; }
+            remove_elisions(text);
             stem<string_typeT>::hash_french_yui(text, FRENCH_VOWELS);
             stem<string_typeT>::hash_french_ei_diaeresis(text);
 
@@ -1050,6 +1051,32 @@ namespace stemming
                     }
                 return;
                 }
+            else if (stem<string_typeT>::is_suffix(text,
+                /*oux*/
+                common_lang_constants::LOWER_O, common_lang_constants::UPPER_O,
+                common_lang_constants::LOWER_U, common_lang_constants::UPPER_U,
+                common_lang_constants::LOWER_X, common_lang_constants::UPPER_X) )
+                {
+                if (text.length() >= 4 &&
+                    (stem<string_typeT>::is_either(text[text.length() - 4],
+                        common_lang_constants::LOWER_B, common_lang_constants::LOWER_B) ||
+                     stem<string_typeT>::is_either(text[text.length() - 4],
+                        common_lang_constants::LOWER_H, common_lang_constants::LOWER_H) ||
+                     stem<string_typeT>::is_either(text[text.length() - 4],
+                        common_lang_constants::LOWER_J, common_lang_constants::LOWER_J) ||
+                     stem<string_typeT>::is_either(text[text.length() - 4],
+                        common_lang_constants::LOWER_L, common_lang_constants::LOWER_L) ||
+                     stem<string_typeT>::is_either(text[text.length() - 4],
+                        common_lang_constants::LOWER_N, common_lang_constants::LOWER_N) ||
+                     stem<string_typeT>::is_either(text[text.length() - 4],
+                        common_lang_constants::LOWER_P, common_lang_constants::LOWER_P)))
+                    {
+                    text.erase(text.length() - 1);
+                    stem<string_typeT>::update_r_sections(text);
+                    m_step_1_successful = true;
+                    }
+                return;
+                }
             else if (
                 stem<string_typeT>::delete_if_is_in_r2(text,
                     /*ive*/common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
@@ -1828,6 +1855,31 @@ namespace stemming
                 {
                 return;
                 }
+            else if (stem<string_typeT>::is_suffix_in_rv(text,
+                /*aises*/
+                common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
+                common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
+                common_lang_constants::LOWER_S, common_lang_constants::UPPER_S,
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
+                common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
+                {
+                if (text.length() >= 6 &&
+                    has_ais_suffix(std::basic_string_view<string_typeT::value_type>{ text.c_str(), text.length() - 5 }))
+                    {
+                    text.erase(text.length() - 5);
+                    stem<string_typeT>::update_r_sections(text);
+                    }
+                return;
+                }
+            else if (stem<string_typeT>::delete_if_is_in_rv(text,
+                /*eais*/
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
+                common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
+                common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
+                common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false))
+                {
+                return;
+                }
             else if (
                 stem<string_typeT>::is_suffix_in_r1(text,
                  /*ions*/
@@ -1926,14 +1978,33 @@ namespace stemming
                 {
                 return;
                 }
-            else if (stem<string_typeT>::delete_if_is_in_rv(text,
+            else if (stem<string_typeT>::is_suffix_in_rv(text,
+                /*aise*/
+                common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
+                common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
+                common_lang_constants::LOWER_S, common_lang_constants::UPPER_S,
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
+                {
+                if (text.length() >= 5 &&
+                    has_ais_suffix(std::basic_string_view<string_typeT::value_type>{ text.c_str(), text.length() - 4 }))
+                    {
+                    text.erase(text.length() - 4);
+                    stem<string_typeT>::update_r_sections(text);
+                    }
+                return;
+                }
+            else if (stem<string_typeT>::is_suffix_in_rv(text,
                 /*ais*/
                 common_lang_constants::LOWER_A, common_lang_constants::UPPER_A,
                 common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
-                common_lang_constants::LOWER_S, common_lang_constants::UPPER_S, false) )
+                common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
-                stem<string_typeT>::delete_if_is_in_rv(text,
-                    common_lang_constants::LOWER_E, common_lang_constants::UPPER_E);
+                if (text.length() >= 4 &&
+                    has_ais_suffix(std::basic_string_view<string_typeT::value_type>{ text.c_str(), text.length() - 3 }))
+                    {
+                    text.erase(text.length() - 3);
+                    stem<string_typeT>::update_r_sections(text);
+                    }
                 return;
                 }
             else if (stem<string_typeT>::delete_if_is_in_rv(text,
@@ -2233,6 +2304,83 @@ namespace stemming
                 {
                 text[last_vowel] = common_lang_constants::LOWER_E;
                 }
+            }
+
+        //---------------------------------------------
+        void remove_elisions(string_typeT& text)
+            {
+            if (text.length() > 2 && stem<string_typeT>::is_apostrophe(text[1]) &&
+                (stem<string_typeT>::is_either(text[0],
+                    common_lang_constants::LOWER_C, common_lang_constants::LOWER_C) ||
+                 stem<string_typeT>::is_either(text[0],
+                    common_lang_constants::LOWER_D, common_lang_constants::LOWER_D) ||
+                 stem<string_typeT>::is_either(text[0],
+                    common_lang_constants::LOWER_J, common_lang_constants::LOWER_J) ||
+                 stem<string_typeT>::is_either(text[0],
+                    common_lang_constants::LOWER_L, common_lang_constants::LOWER_L) ||
+                 stem<string_typeT>::is_either(text[0],
+                    common_lang_constants::LOWER_M, common_lang_constants::LOWER_M) ||
+                 stem<string_typeT>::is_either(text[0],
+                    common_lang_constants::LOWER_N, common_lang_constants::LOWER_N) ||
+                 stem<string_typeT>::is_either(text[0],
+                    common_lang_constants::LOWER_S, common_lang_constants::LOWER_S) ||
+                 stem<string_typeT>::is_either(text[0],
+                    common_lang_constants::LOWER_T, common_lang_constants::LOWER_T)))
+                {
+                text.erase(0, 2);
+                }
+            else if (text.length() > 3 && stem<string_typeT>::is_apostrophe(text[2]) &&
+                stem<string_typeT>::is_either(text[0],
+                    common_lang_constants::LOWER_Q, common_lang_constants::LOWER_U) &&
+                stem<string_typeT>::is_either(text[0],
+                    common_lang_constants::LOWER_Q, common_lang_constants::LOWER_U))
+                {
+                text.erase(0, 3);
+                }
+
+            // any remaining apostrophe in front of the string
+            if (!text.empty() && stem<string_typeT>::is_apostrophe(text[0]))
+                {
+                text.erase(0, 1);
+                }
+            }
+
+        [[nodiscard]]
+        bool has_ais_suffix(const auto& suffix)
+            {
+            if (suffix.length() >= 3)
+                {
+                // auv
+                if (stem<string_typeT>::is_either(suffix[suffix.length() - 3],
+                        common_lang_constants::LOWER_A, common_lang_constants::LOWER_A) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 2],
+                        common_lang_constants::LOWER_U, common_lang_constants::LOWER_U) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 1],
+                        common_lang_constants::LOWER_V, common_lang_constants::LOWER_V))
+                    {
+                    return false;
+                    }
+                // al proceeded by one character
+                if (suffix.length() == 3 &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 2],
+                        common_lang_constants::LOWER_A, common_lang_constants::LOWER_A) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 1],
+                        common_lang_constants::LOWER_L, common_lang_constants::LOWER_L))
+                    {
+                    return false;
+                    }
+                // épl
+                if (stem<string_typeT>::is_either(suffix[suffix.length() - 3],
+                        common_lang_constants::LOWER_E_ACUTE, common_lang_constants::LOWER_E_ACUTE) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 2],
+                        common_lang_constants::LOWER_P, common_lang_constants::LOWER_P) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 1],
+                        common_lang_constants::LOWER_L, common_lang_constants::LOWER_L))
+                    {
+                    return false;
+                    }
+                }
+            return true;
             }
 
         // internal data specific to French stemmer
