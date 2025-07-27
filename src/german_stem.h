@@ -161,7 +161,7 @@ namespace stemming
         //---------------------------------------------
         void step_1(string_typeT& text)
             {
-            bool stepBSucessfull{ false };
+            bool groupCDeleted{ false };
             // 'em', but not if 'system'
             if ((stem<string_typeT>::is_suffix(text,
                     common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
@@ -180,7 +180,8 @@ namespace stemming
                 return;
                 }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
-                /*ern*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
+                /*ern*/
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
                 common_lang_constants::LOWER_R, common_lang_constants::UPPER_R,
                 common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) )
                 {
@@ -196,18 +197,18 @@ namespace stemming
                 /*es*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
                 common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
-                stepBSucessfull = true;
+                groupCDeleted = true;
                 }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
                 /*en*/common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
                 common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) )
                 {
-                stepBSucessfull = true;
+                groupCDeleted = true;
                 }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
                 common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
                 {
-                stepBSucessfull = true;
+                groupCDeleted = true;
                 }
             // Define a valid s-ending as one of b, d, f, g, h, k, l, m, n, r or t.
             else if (stem<string_typeT>::is_suffix_in_r1(text,
@@ -221,7 +222,7 @@ namespace stemming
                 return;
                 }
 
-            if (stepBSucessfull && text.length() > 4 &&
+            if (groupCDeleted && text.length() > 4 &&
                 stem<string_typeT>::is_suffix(text,
                           common_lang_constants::LOWER_N, common_lang_constants::UPPER_N,
                           common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
