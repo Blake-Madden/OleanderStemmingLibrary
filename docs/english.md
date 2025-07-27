@@ -1,0 +1,231 @@
+## Developing the English stemmer
+
+(Revised slightly, December 2001)  
+(Further revised, September 2002)
+
+Martin Porter made more than one attempt to improve the structure of the Porter algorithm by making it follow the pattern of ending removal of the Romance language stemmers. It is not hard to see why one should want to do this: step 1b of the Porter stemmer removes **_ed_** and **_ing_**, which are _i_\-suffixes [(\*)](glossary.md) attached to verbs. If these suffixes are removed, there should be no need to remove _d_\-suffixes which are not verbal, although it will try to do so. This seems to be a deficiency in the Porter stemmer, not shared by the Romance stemmers. Again, the divisions between steps 2, 3 and 4 seem rather arbitrary, and are not found in the Romance stemmers.
+
+Nevertheless, these attempts at improvement were abandoned. They seem to lead to a more complicated algorithm with no very obvious improvements. A reason for not taking note of the outcome of step 1b may be that English endings do not determine word categories quite as strongly as endings in the Romance languages. For example, _condition_ and _position_ in French have to be nouns, but in English they can be verbs as well as nouns,
+
+We are all conditioned by advertising  
+They are positioning themselves differently today
+
+A possible reason for having separate steps 2, 3 and 4 is that _d_\-suffix combinations in English are quite complex, a point which has been made elsewhere.
+
+But it is hardly surprising that after twenty years of use of the Porter stemmer, certain improvements did suggest themselves, and a new algorithm for English is therefore offered here. (It could be called the ‘Porter2’ stemmer to distinguish it from the Porter stemmer, from which it derives.) The changes are not so very extensive:
+
+1.  \[In C Porter stemmer but not in paper\] Extra rule in Step 2: **_logi_** -> **_log_**
+2.  \[In C Porter stemmer but not in paper\] Step 2 rule: **_abli_** -> **_able_** replace by **_bli_** -> **_ble_**
+3.  \[In C Porter stemmer but not in paper\] The algorithm leaves alone strings of length 2 (so **_as_** and **_is_** not longer lose **_s_**.
+4.  Terminating **_y_** is changed to **_i_** rather less often
+5.  Suffix **_us_** does not lose its **_s_**
+6.  A few additional suffixes are included for removal, including suffix **_ly_**
+7.  A small list of exceptional forms is included
+8.  \[December 2001\] Steps 5a and 5b of the old Porter stemmer were combined into a single step. This means that undoubling final **_ll_** is not done with removal of final **_e_**
+9.  \[December 2001\] In Step 3 **_ative_** is removed only when in region R2.
+10.  \[September 2002\] Exception added to prevent **_herring_** from stemming to **_her_**.
+11.  \[May 2005\] **_commun_** added to exceptional forms
+12.  \[July 2005\] A small adjustment was made (including a new step 0) to handle apostrophe.
+13.  \[January 2006\] "Words" **_ied_** and **_ies_** now stem to **_ie_** rather than **_i_**.
+14.  \[January 2006\] The implementation was fixed to follow the algorithm as documented here and now always treats an initial **_y_** as a consonant.
+15.  \[November 2006\] **_arsen_** added to exceptional forms
+16.  Snowball 3.0.0 Don't undouble if preceded by exactly **_a_**, **_e_** or **_o_**
+17.  Snowball 3.0.0 Exception added to prevent **_evening_** from stemming to **_even_**.
+18.  Snowball 3.0.0 Removed exception for **_skis_** as the algorithm gives the same stem without it!
+19.  Snowball 3.0.0 Avoid conflating **_past_** with **_paste_**/**_pastes_**/**_pasted_**/**_pasting_**.
+20.  Snowball 3.0.0 Avoid conflating **_universe_**/**_universes_** with **_universal_**/**_universally_** and **_university_**/**_universities_**.
+21.  Snowball 3.0.0 Avoid conflating **_lateral_**/**_laterally_** with **_later_**.
+22.  Snowball 3.0.0 Replace **_\-ogist_** with **_\-og_** to conflate **_geologist_** with **_geology_**, etc.
+23.  Snowball 3.0.0 Handle **_\-eed_** and **_\-ing_** exceptions in respective rules.
+24.  Snowball 3.1.0 Restored exception for **_skis_** which **b** is needed.
+
+## Design Notes
+
+Most comparatives (**_\-er_**) are not handled. There is a rule to remove **_\-er_** in R2 (intended mostly for other forms with that ending rather than comparatives - e.g. _flatterer_, _observer_, _publisher_) which means longer comparatives are handled (e.g. _cleverer_, _yellower_) but most longer adjectives form the comparative with _more_ e.g. _more attractive_ rather than _attractiver_). Extending this rule to check R1 as well would affect too many words where removal would be problematic - for example _charter_, _master_, _meter_, _number_, _mother_, _offer_, _proper_, _sober_, _solder_, _temper_, _wither_. The problem is worse in US English where many words which end **_\-re_** in British English are instead spelled **_\-er_** - e.g. _center_, _fiber_, _liter_, _luster_.
+
+Superlatives are not handled at all due to too many cases where it would be problematic - for example _attest_, _behest_, _request_, _tempest_. There is not a rule to remove **_\-est_** only in R2 because it would help in very few cases but be harmful for e.g. _deforest_, _disinterest_, _interest_, _manifest_, _redigest_. These could be avoided by additional conditions on the removal, but the added complexity doesn't seem justifiable by the small number of words removing _\-est_ in R2 would improve the stemming of.
+
+Suffix _\-ian_ is not removed. A significant problem with removal is that sometimes we want to remove the whole three letters (e.g. _orwellian_, _politician_), sometimes _\-an_ (e.g. _comedian_, _historian_, _italian_) and sometimes just _\-n_ (e.g. _indian_, _bolivian_, _californian_).
+
+## Definition of the English stemmer
+
+To begin with, here is the basic algorithm without reference to the exceptional forms. An exact comparison with the Porter algorithm needs to be done quite carefully if done at all. Here we indicate by `*` points of departure, and by `+` additional features. In the sample vocabulary, Porter and Porter2 stem slightly over 5% of words to different forms.
+
+Define a _vowel_ as one of
+
+**_a   e   i   o   u   y_**
+
+Define a _double_ as one of
+
+**_bb   dd   ff   gg   mm   nn   pp   rr   tt_**
+
+Define a _valid **_li_**\-ending_ as one of
+
+**_c   d   e   g   h   k   m   n   r   t_**
+
+R1 is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel. (This definition may be modified for certain exceptional words — see below.)
+
+R2 is the region after the first non-vowel following a vowel in R1, or the end of the word if there is no such non-vowel. (See [note](r1r2.md) on R1 and R2.)
+
+Define a _short syllable_ in a word as either (_a_) a vowel followed by a non-vowel other than **_w_**, **_x_** or **_Y_** and preceded by a non-vowel, or `*` (_b_) a vowel at the beginning of the word followed by a non-vowel, or (_c_) **_past_**.
+
+So _rap_, _trap_, _entrap_ end with a short syllable, and _ow_, _on_, _at_, _past_ are classed as short syllables. But _uproot_, _bestow_, _disturb_ do not end with a short syllable.
+
+A word is called _short_ if it ends in a short syllable, and if R1 is null.
+
+So _bed_, _shed_ and _shred_ are short words, _bead_, _embed_, _beds_ are not short words.
+
+An apostrophe (**_'_**) may be regarded as a letter. (See [note](apostrophe.md) on apostrophes in English.)
+
+If the word has two letters or less, leave it as it is.
+
+Otherwise, do each of the following operations,
+
+Remove initial **_'_**, if present. `+` Then,
+
+Set initial **_y_**, or **_y_** after a vowel, to **_Y_**, and then establish the regions R1 and R2\. (See [note](vowelmarking.md) on vowel marking.)
+
+Step 0: `+`
+
+Search for the longest among the suffixes,
+
+**_'_**
+
+**_'s_**
+
+**_'s'_**
+
+and remove if found.
+
+Step 1a:
+
+Search for the longest among the following suffixes, and perform the action indicated.
+
+**_sses_**
+
+replace by **_ss_**
+
+**_ied_**`+`   **_ies_**`*`
+
+replace by **_i_** if preceded by more than one letter, otherwise by **_ie_** (so _ties_ → _tie_, _cries_ → _cri_)
+
+**_s_**
+
+delete if the preceding word part contains a vowel not immediately before the **_s_** (so _gas_ and _this_ retain the **_s_**, _gaps_ and _kiwis_ lose it)
+
+**_us_**`+`   **_ss_**
+
+do nothing
+
+Step 1b:
+
+Search for the longest among the following suffixes, and perform the action indicated.
+
+**_eed   eedly_**`+`
+
+replace by **_ee_** if in R1
+
+**_ed   edly_**`+`   **_ing   ingly_**`+`
+
+for **_ing_**, check if the word before the suffix is exactly one of the following exceptional cases:
+
+*   if it's a non-vowel followed by **_y_**, replace **_y_** and **_ing_** with **_ie_** (so _dying_ → _die_), then go to step 1c.
+*   if it's exactly one of _inn_, _out_, _cann_, _herr_, _earr_ or _even_ then go to step 1c.
+
+delete if the preceding word part contains a vowel, and after the deletion:
+
+if the word ends **_at_**, **_bl_** or **_iz_** add **_e_** (so _luxuriat_ → _luxuriate_), or
+
+if the word ends with a _double_ preceded by something other than exactly **_a_**, **_e_** or **_o_** then remove the last letter (so _hopp_ → _hop_ but _add_, _egg_ and _off_ are not changed), or
+
+if the word does not end with a _double_ and is short, add **_e_** (so _hop_ → _hope_)
+
+Step 1c: `*`
+
+replace suffix **_y_** or **_Y_** by **_i_** if preceded by a non-vowel which is not the first letter of the word (so _cry_ → _cri_, _by_ → _by_, _say_ → _say_)
+
+Step 2:
+
+Search for the longest among the following suffixes, and, if found and in R1, perform the action indicated.
+
+**_tional_**:   replace by **_tion_**
+
+**_enci_**:   replace by **_ence_**
+
+**_anci_**:   replace by **_ance_**
+
+**_abli_**:   replace by **_able_**
+
+**_entli_**:   replace by **_ent_**
+
+**_izer   ization_**:   replace by **_ize_**
+
+**_ational   ation   ator_**:   replace by **_ate_**
+
+**_alism   aliti   alli_**:   replace by **_al_**
+
+**_fulness_**:   replace by **_ful_**
+
+**_ousli   ousness_**:   replace by **_ous_**
+
+**_iveness   iviti_**:   replace by **_ive_**
+
+**_biliti   bli_**`+`:   replace by **_ble_**
+
+**_ogist_**`+`:   replace by **_og_**
+
+**_ogi_**`+`:   replace by **_og_** if preceded by **_l_**
+
+**_fulli_**`+`:   replace by **_ful_**
+
+**_lessli_**`+`:   replace by **_less_**
+
+**_li_**`+`:   delete if preceded by a valid **_li_**\-ending
+
+Step 3:
+
+Search for the longest among the following suffixes, and, if found and in R1, perform the action indicated.
+
+**_tional_**`+`:   replace by **_tion_**
+
+**_ational_**`+`:   replace by **_ate_**
+
+**_alize_**:   replace by **_al_**
+
+**_icate   iciti   ical_**:   replace by **_ic_**
+
+**_ful   ness_**:   delete
+
+**_ative_**`*`:   delete if in R2
+
+Step 4:
+
+Search for the longest among the following suffixes, and, if found and in R2, perform the action indicated.
+
+**_al   ance   ence   er   ic   able   ible   ant   ement   ment   ent   ism   ate   iti   ous   ive   ize_**
+
+delete
+
+**_ion_**
+
+delete if preceded by **_s_** or **_t_**
+
+Step 5: `*`
+
+Search for the following suffixes, and, if found, perform the action indicated.
+
+**_e_**
+
+delete if in R2, or in R1 and not preceded by a short syllable
+
+**_l_**
+
+delete if in R2 and preceded by **_l_**
+
+Finally, turn any remaining **_Y_** letters in the word back into lower case.
+
+> This content is distributed under the 3-clause BSD License
+>
+> Copyright (c) 2001, Dr Martin Porter,\
+> Copyright (c) 2002, Richard Boulton.\
+> All rights reserved.
