@@ -180,11 +180,51 @@ namespace stemming
                 return;
                 }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
+                /*erinnen*/
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
+                common_lang_constants::LOWER_R, common_lang_constants::UPPER_R,
+                common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
+                common_lang_constants::LOWER_N, common_lang_constants::UPPER_N,
+                common_lang_constants::LOWER_N, common_lang_constants::UPPER_N,
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
+                common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) )
+                {
+                return;
+                }
+            else if (stem<string_typeT>::delete_if_is_in_r1(text,
+                /*erin*/
+                common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
+                common_lang_constants::LOWER_R, common_lang_constants::UPPER_R,
+                common_lang_constants::LOWER_I, common_lang_constants::UPPER_I,
+                common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) )
+                {
+                return;
+                }
+            else if (stem<string_typeT>::delete_if_is_in_r1(text,
                 /*ern*/
                 common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
                 common_lang_constants::LOWER_R, common_lang_constants::UPPER_R,
                 common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) )
                 {
+                return;
+                }
+            else if (stem<string_typeT>::is_suffix_in_r1(text,
+                /*lns*/
+                common_lang_constants::LOWER_L, common_lang_constants::UPPER_L,
+                common_lang_constants::LOWER_N, common_lang_constants::UPPER_N,
+                common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
+                {
+                text.erase(text.length() - 2);
+                stem<string_typeT>::update_r_sections(text);
+                return;
+                }
+            else if (stem<string_typeT>::is_suffix_in_r1(text,
+                /*ln*/
+                common_lang_constants::LOWER_L, common_lang_constants::UPPER_L,
+                common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) )
+                {
+                text.erase(text.length() - 1);
+                stem<string_typeT>::update_r_sections(text);
                 return;
                 }
             else if (stem<string_typeT>::delete_if_is_in_r1(text,
@@ -255,12 +295,32 @@ namespace stemming
             // Define a valid st-ending as the same list, excluding letter r.
             else if (text.length() >= 6 &&
                     stem<string_typeT>::is_suffix_in_r1(text,
-                        /*st*/common_lang_constants::LOWER_S, common_lang_constants::UPPER_S,
+                        /*st*/
+                        common_lang_constants::LOWER_S, common_lang_constants::UPPER_S,
                         common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) )
                 {
-                if (stem<string_typeT>::is_one_of(text[text.length()-3], L"bdfghklmntBDFGHKLMNT") )
+                if (stem<string_typeT>::is_one_of(text[text.length()-3], L"bdfghklmntBDFGHKLMNT"))
                     {
                     text.erase(text.length()-2);
+                    stem<string_typeT>::update_r_sections(text);
+                    }
+                return;
+                }
+            else if (text.length() >= 4 &&
+                    stem<string_typeT>::is_suffix_in_r1(text,
+                        /*et*/
+                        common_lang_constants::LOWER_E, common_lang_constants::UPPER_E,
+                        common_lang_constants::LOWER_T, common_lang_constants::UPPER_T) )
+                {
+                constexpr wchar_t VALID_ET_SUFFIX_CHARACTERS[]{
+                    L'd', L'f', L'g', L'k', L'l', L'm', L'n', L'r',
+                    L's', L't', L'z', L'ä', L'D', L'F', L'G', L'K',
+                    L'L', L'M', L'N', L'R', L'S', L'T', L'Z', L'Ä',
+                    UPPER_U_HASH, LOWER_U_HASH };
+                if (stem<string_typeT>::is_one_of(text[text.length() - 3], VALID_ET_SUFFIX_CHARACTERS) &&
+                    has_et_suffix(std::basic_string_view<string_typeT::value_type>{ text.c_str(), text.length() - 2 }))
+                    {
+                    text.erase(text.length() - 2);
                     stem<string_typeT>::update_r_sections(text);
                     }
                 return;
@@ -386,6 +446,85 @@ namespace stemming
                     }
                 }
             }
+
+        [[nodiscard]]
+        bool has_et_suffix(const auto& suffix)
+            {
+            if (suffix.length() >= 2)
+                {
+                // geordn
+                if (suffix.length() >= 6 &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 6],
+                        common_lang_constants::LOWER_G, common_lang_constants::LOWER_G) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 5],
+                        common_lang_constants::LOWER_E, common_lang_constants::LOWER_E) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 4],
+                        common_lang_constants::LOWER_O, common_lang_constants::LOWER_O) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 3],
+                        common_lang_constants::LOWER_R, common_lang_constants::LOWER_R) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 2],
+                        common_lang_constants::LOWER_D, common_lang_constants::LOWER_D) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 1],
+                        common_lang_constants::LOWER_N, common_lang_constants::LOWER_N))
+                    {
+                    return false;
+                    }
+                // intern
+                if (suffix.length() >= 6 &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 6],
+                        common_lang_constants::LOWER_I, common_lang_constants::LOWER_I) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 5],
+                        common_lang_constants::LOWER_N, common_lang_constants::LOWER_N) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 4],
+                        common_lang_constants::LOWER_T, common_lang_constants::LOWER_T) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 3],
+                        common_lang_constants::LOWER_E, common_lang_constants::LOWER_E) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 2],
+                        common_lang_constants::LOWER_R, common_lang_constants::LOWER_R) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 1],
+                        common_lang_constants::LOWER_N, common_lang_constants::LOWER_N))
+                    {
+                    return false;
+                    }
+                // tick
+                if (suffix.length() >= 4 &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 4],
+                        common_lang_constants::LOWER_T, common_lang_constants::LOWER_T) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 3],
+                        common_lang_constants::LOWER_I, common_lang_constants::LOWER_I) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 2],
+                        common_lang_constants::LOWER_C, common_lang_constants::LOWER_C) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 1],
+                        common_lang_constants::LOWER_K, common_lang_constants::LOWER_K))
+                    {
+                    return false;
+                    }
+                // plan
+                if (suffix.length() >= 4 &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 4],
+                        common_lang_constants::LOWER_P, common_lang_constants::LOWER_P) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 3],
+                        common_lang_constants::LOWER_L, common_lang_constants::LOWER_L) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 2],
+                        common_lang_constants::LOWER_A, common_lang_constants::LOWER_A) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 1],
+                        common_lang_constants::LOWER_N, common_lang_constants::LOWER_N))
+                    {
+                    return false;
+                    }
+                // tr
+                if (suffix.length() >= 2 &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 2],
+                        common_lang_constants::LOWER_T, common_lang_constants::LOWER_T) &&
+                    stem<string_typeT>::is_either(suffix[suffix.length() - 1],
+                        common_lang_constants::LOWER_R, common_lang_constants::LOWER_R))
+                    {
+                    return false;
+                    }
+                }
+            return true;
+            }
+
         bool m_transliterate_umlauts{ true };
         };
     }
