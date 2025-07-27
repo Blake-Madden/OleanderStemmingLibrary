@@ -454,7 +454,7 @@ namespace stemming
                h, iet, uit, fab, cit, dit, alit, ilit, mit, nit, pit, rit, sit, tit,
                ivit, kvit, xit, kom, rak, pak, stak */
 
-            std::basic_string_view<string_typeT::value_type> textView{ text };
+            std::basic_string_view<typename string_typeT::value_type> textView{ text };
 
             const auto isValidEtEnding = [&textView]()
                 {
@@ -709,7 +709,7 @@ namespace stemming
 
             const auto lastVowel = textView.find_last_of(SWEDISH_VOWELS);
             // we need one letter, a vowel, and non-vowel in front of the 'et'
-            if (lastVowel == std::basic_string_view<string_typeT::value_type>::npos ||
+            if (lastVowel == std::basic_string_view<typename string_typeT::value_type>::npos ||
                 lastVowel != textView.length() - 2)
                 {
                 return false;

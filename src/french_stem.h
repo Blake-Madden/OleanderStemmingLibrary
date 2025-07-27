@@ -1864,7 +1864,7 @@ namespace stemming
                 common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
                 if (text.length() >= 6 &&
-                    has_ais_suffix(std::basic_string_view<string_typeT::value_type>{ text.c_str(), text.length() - 5 }))
+                    has_ais_suffix(std::basic_string_view<typename string_typeT::value_type>{ text.c_str(), text.length() - 5 }))
                     {
                     text.erase(text.length() - 5);
                     stem<string_typeT>::update_r_sections(text);
@@ -1986,7 +1986,7 @@ namespace stemming
                 common_lang_constants::LOWER_E, common_lang_constants::UPPER_E) )
                 {
                 if (text.length() >= 5 &&
-                    has_ais_suffix(std::basic_string_view<string_typeT::value_type>{ text.c_str(), text.length() - 4 }))
+                    has_ais_suffix(std::basic_string_view<typename string_typeT::value_type>{ text.c_str(), text.length() - 4 }))
                     {
                     text.erase(text.length() - 4);
                     stem<string_typeT>::update_r_sections(text);
@@ -2000,7 +2000,7 @@ namespace stemming
                 common_lang_constants::LOWER_S, common_lang_constants::UPPER_S) )
                 {
                 if (text.length() >= 4 &&
-                    has_ais_suffix(std::basic_string_view<string_typeT::value_type>{ text.c_str(), text.length() - 3 }))
+                    has_ais_suffix(std::basic_string_view<typename string_typeT::value_type>{ text.c_str(), text.length() - 3 }))
                     {
                     text.erase(text.length() - 3);
                     stem<string_typeT>::update_r_sections(text);

@@ -318,7 +318,7 @@ namespace stemming
                     L'L', L'M', L'N', L'R', L'S', L'T', L'Z', L'Ä',
                     UPPER_U_HASH, LOWER_U_HASH };
                 if (stem<string_typeT>::is_one_of(text[text.length() - 3], VALID_ET_SUFFIX_CHARACTERS) &&
-                    has_et_suffix(std::basic_string_view<string_typeT::value_type>{ text.c_str(), text.length() - 2 }))
+                    has_et_suffix(std::basic_string_view<typename string_typeT::value_type>{ text.c_str(), text.length() - 2 }))
                     {
                     text.erase(text.length() - 2);
                     stem<string_typeT>::update_r_sections(text);
