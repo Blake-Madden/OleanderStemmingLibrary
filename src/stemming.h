@@ -124,9 +124,10 @@ namespace stemming
     static const wchar_t DUTCH_S_ENDING[] = { 97, 101, 0xE8, 105, 111, 117, 121, 106, 65, 69,
         0xC8, 73, 79, 85, 89, 74, 0 };
 
-    static const wchar_t NORWEGIAN_VOWELS[] = { 97, 101, 105, 111, 0xF8, 117, 121, 0xE5,
-        0xE6, 0xC5, 65, 0xC6, 69, 73, 79,
-        0xD8, 85, 89, 0 };
+    static const wchar_t NORWEGIAN_VOWELS[] = { L'a', L'e', L'ê', L'i', L'o', L'ò', L'ó',
+        L'ô', L'u', L'y', L'æ', L'å', L'ø',
+        L'A', L'E', L'Ê', L'I', L'O', L'Ò', L'Ó',
+        L'Ô', L'U', L'Y', L'Æ', L'Å', L'Ø', 0 };
     static const wchar_t PORTUGUESE_VOWELS[] = { 97, 101, 105, 111, 117, 0xE1, 0xE9,
         0xED, 0xF3, 0xFA, 0xE2,
         0xEA, 0xF4, 65, 69, 73, 79, 85, 0xC1,
@@ -332,8 +333,8 @@ namespace stemming
            @note If the word begins with two vowels, RV is the region after the third letter,
             otherwise the region after the first vowel not at the beginning of the word,
             or the end of the word if these positions cannot be found.
-            (Exceptionally, par, col or tap, at the beginning of a word is also taken
-            to be the region before RV.)*/
+            (Exceptionally, par, col, tap, or ni[vowel] at the beginning of a word is also taken
+             to be the region before RV.)*/
         void find_french_rv(const string_typeT& text,
                             const wchar_t* vowel_list)
             {
@@ -351,21 +352,27 @@ namespace stemming
                 stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_A,
                                               common_lang_constants::UPPER_A) &&
                 stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_R,
-                                              common_lang_constants::UPPER_R) ) || // par
+                                              common_lang_constants::UPPER_R)) || // par
 
                 (stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_C,
                                                common_lang_constants::UPPER_C) &&
                 stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_O,
                                               common_lang_constants::UPPER_O) &&
                 stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_L,
-                                              common_lang_constants::UPPER_L) ) || // col
+                                              common_lang_constants::UPPER_L)) || // col
 
                 (stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_T,
                                                common_lang_constants::UPPER_T) &&
                 stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_A,
                                               common_lang_constants::UPPER_A) &&
                 stem<string_typeT>::is_either(text[2], common_lang_constants::LOWER_P,
-                                              common_lang_constants::UPPER_P) )) // tap
+                                              common_lang_constants::UPPER_P)) ||
+
+                (stem<string_typeT>::is_either(text[0], common_lang_constants::LOWER_N,
+                                               common_lang_constants::UPPER_N) &&
+                 stem<string_typeT>::is_either(text[1], common_lang_constants::LOWER_I,
+                                              common_lang_constants::UPPER_I) &&
+                 stem<string_typeT>::is_one_of(text[2], vowel_list))) // ni[vowel]
                 )
                 {
                 m_rv = 3;
