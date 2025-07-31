@@ -22,6 +22,7 @@ book:
       - finnish.qmd
       - french.qmd
       - german.qmd
+      - swedish.qmd
     - part: "Index"
       chapters:
       - glossary.qmd
