@@ -1,0 +1,43 @@
+# Defining _R1_ and _R2_
+
+Most of the stemmers make use of at least one of the region definitions _R1_ and _R2_ They are defined as follows:
+
+_R1_ is the region after the first non-vowel following a vowel, or is the null region at the end of the word if there is no such non-vowel.
+
+_R2_ is the region after the first non-vowel following a vowel in _R1_, or is the null region at the end of the word if there is no such non-vowel.
+
+The definition of _vowel_ varies from language to language. In French, for example, **_é_** is a vowel, and in Italian **_i_** between two other vowels is not a vowel. The class of letters that constitute vowels is made clear in each stemmer.
+
+Below, _R1_ and _R2_ are shown for a number of English words,
+
+    b   e   a   u   t   i   f   u   l
+                      |<------------->|    _R1_
+                              |<----->|    _R2_
+
+Letter **_t_** is the first non-vowel following a vowel in _beautiful_, so _R1_ is **_iful_**. In **_iful_**, the letter **_f_** is the first non-vowel following a vowel, so _R2_ is **_ul_**.
+
+    b   e   a   u   t   y
+                      |<->|    _R1_
+                        ->|<-  _R2_
+
+In _beauty_, the last letter **_y_** is classed as a vowel. Again, letter **_t_** is the first non-vowel following a vowel, so _R1_ is just the last letter, **_y_**. _R1_ contains no non-vowel, so _R2_ is the null region at the end of the word.
+
+    b   e   a   u
+                ->|<-  _R1_
+                ->|<-  _R2_
+
+In _beau_, _R1_ and _R2_ are both null.
+
+Other examples:
+
+    a   n   i   m   a   d   v   e   r   s   i   o   n
+          |<----------------------------------------->|    _R1_
+                  |<--------------------------------->|    _R2_
+
+    s   p   r   i   n   k   l   e   d
+                      |<------------->|    _R1_
+                                    ->|<-  _R2_
+
+    e   u   c   h   a   r   i   s   t
+              |<--------------------->|    _R1_
+                          |<--------->|    _R2_

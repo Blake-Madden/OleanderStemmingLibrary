@@ -1,0 +1,30 @@
+# The apostrophe character
+
+Representing apostrophe is problematical for various reasons,
+
+1.  There are two Unicode characters for apostrophe, U+0027 and U+2019. The former is also in both ASCII and ISO-8859-1 (Latin1) whereas the latter is not. Compare,
+    
+            Hamlet's father's ghost (U+0027)
+            Hamlet’s father’s ghost (U+2019)
+    
+2.  Although conceptually different from an apostrophe, a single closing quote is also represented by character U+2019.
+    
+3.  Character U+0027 is used for apostrophe, single closing quote and single opening quote (U+2018).
+    
+4.  A fourth character, U+201B, like U+2018 but with the tail ‘rising’ instead of ‘descending’, is also sometimes used as apostrophe (in the house style of certain publishers, for surnames like _M’Coy_ and so on.)
+    
+
+In the English stemming algorithm, it is assumed that apostrophe is represented by U+0027. This makes it ASCII compatible. Clearly other codes for apostrophe can be mapped to this code prior to stemming.
+
+In English orthography, apostrophe has one of three functions.
+
+1.  It indicates a contraction in what is now accepted as a single word: _o’clock_, _O’Reilly_, _M’Coy_. Except in proper names such forms are rare: the apostrophe in _Hallowe’en_ is disappearing, and in _’bus_ has disappeared.
+    
+2.  It indicates a standard contraction with auxiliary or modal verbs: _you’re_, _isn’t_, _we’d_. There are about forty of these forms in contemporary English, and their use is increasing as they displace the full forms that were at one time used in formal documents. Although they can be reduced to word pairs, it is more convenient to treat them as single items (usually stopwords) in IR work. And then preserving the apostrophe is important, so that _he’ll_, _she’ll_, _we’ll_ are not equated with _hell_, _shell_, _well_ etc.
+    
+3.  It is used to form the ‘English genitive’, _John's book_, _the horses’ hooves_ etc. This is a development of (1), where historically the apostrophe stood for an elided **_e_**. (Similarly the printed form **_’d_** for **_ed_** was very common before the nineteenth century.) Although in decline (witness _pigs trotters_, _Girls School Trust_), its use continues in contemporary English, where it is fiercely promoted as correct grammar, despite (or it might be closer to the truth to say _because of_) its complete semantic redundancy.
+    
+
+For these reasons, the English stemmer treats apostrophe as if it were a letter, removing it from the beginning of a word, where it might have stood for an opening quote, from the end of the word, where it might have stood for a closing quote, or been an apostrophe following **_s_**. The form **_’s_** is also treated as an ending.
+
+The Kraaij Pohlmann stemmer for Dutch (Kraaij, 1994, 1995) removes hyphen and treats apostrophe as part of the alphabet (so **_’s_**, **_’tje_** and **_’je_** are three of their endings). The Dutch stemmer presented here assumes hyphen and apostrophe have already been removed from the word to be stemmed.

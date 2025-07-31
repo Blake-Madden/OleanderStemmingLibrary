@@ -1,0 +1,39 @@
+# Marking vowels as consonants
+
+Some of the algorithms begin with a step which puts letters which are normally classed as vowels into upper case to indicate that they are are to be treated as consonants (the assumption being that the words are presented to the stemmers in lower case). Upper case therefore acts as a flag indicating a consonant.
+
+For example, the English stemmer begins with the step
+
+Set initial **_y_**, or **_y_** after a vowel, to **_Y_**,
+
+giving rise to the following changes,
+
+|     |     |     |     |     |
+| --- | --- | --- | --- | --- |
+| _youth_ |     | →   |     | _Youth_ |
+| _boy_ |     | →   |     | _boY_ |
+| _boyish_ |     | →   |     | _boYish_ |
+| _fly_ |     | →   |     | _fly_ |
+| _flying_ |     | →   |     | _flying_ |
+| _syzygy_ |     | →   |     | _syzygy_ |
+
+This process works from left to right, and if a word contains **_Vyy_**, where **_V_** is a vowel, the first **_y_** is put into upper case, but the second **_y_** is left alone, since it is preceded by upper case **_Y_** which is a consonant. A sequence **_Vyyyyy..._** would be changed to **_VYyYyY..._**.
+
+The combination **_yy_** never occurs in English, although it might appear in foreign words:
+
+|     |     |     |     |     |
+| --- | --- | --- | --- | --- |
+| _sayyid_ |     | →   |     | _saYyid_ |
+
+(A _sayyid_, my dictionary tells me, is a descendant of Mohammed's daughter Fatima.) But the left-to-right process is significant in other languages, for example French. In French the rule for marking vowels as consonants is,
+
+Put into upper case **_u_** or **_i_** preceded and followed by a vowel, and **_y_** preceded or followed by a vowel. Put **_u_** after **_q_** into upper case.
+
+which gives rise to,
+
+|     |     |     |     |     |
+| --- | --- | --- | --- | --- |
+| _ennuie_ |     | →   |     | _ennuIe_ |
+| _inquiétude_ |     | →   |     | _inqUiétude_ |
+
+In the first word, **_i_** is put into upper case since it has a vowel on both sides of it. In the second word, **_u_** after **_q_** is put into upper case, and again the following **_i_** is left alone, since it is preceded by upper case **_U_** which is a consonant.
