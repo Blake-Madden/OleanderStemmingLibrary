@@ -1,0 +1,132 @@
+# Finnish stemming algorithm
+
+## Design Notes
+
+Finnish is not an Indo-European language, but belongs to the Finno-Ugric group, which again belongs to the Uralic group [(\*)](glossary.qmd). Distinctions between _a_\-, _i_\- and _d_\-suffixes can be made in Finnish, but they are much less sharply separated than in an Indo-European language. The system of endings is extremely elaborate, but strictly defined, and applies equally to all nominals, that is, to nouns, adjectives and pronouns. Verb endings have a close similarity to nominal endings, which again makes Finnish very different from any Indo-European language.
+
+More problematical than the endings themselves is the change that can be effected in a stem as a result of taking a particular ending. A stem typically has two forms, _strong_ and _weak_, where one class of ending follows the strong form and the complementary class the weak. Normalising strong and weak forms after ending removal is not generally possible, although the common case where strong and weak forms only differ in the single or double form of a final consonant can be dealt with.
+
+The letter **_å_** is also in the Finnish alphabet, but is only used in Scandanavian names. Treating it as a vowel in the stemmer does not improve retrieval results (instead it makes things very slightly worse as it will tend to cause the stemmer to conflate names with other words more).
+
+## The stemming algorithm
+
+Finnish includes the following accented forms,
+
+**_ä ö_**
+
+The following letters are vowels:
+
+**_a e i o u y ä ö_**
+
+_R1_ and _R2_ are then defined in the usual way (see the [note](r1r2.qmd) on _R1_ and _R2_).
+
+Do each of steps 1, 2, 3, 4, 5 and 6.
+
+Step 1: particles etc
+
+Search for the longest among the following suffixes in _R1_, and perform the action indicated  
+  
+
+(_a_) **_kin kaan kään ko kö han hän pa pä_**
+
+delete if preceded by **_n_**, **_t_** or a vowel
+
+(_b_) **_sti_**
+
+delete if in _R2_
+
+Note that only the suffix needs to be in _R1_, the **_n_**, **_t_** or vowel of 1(_a_) is not required to be. And similarly below.
+
+Step 2: possessives
+
+Search for the longest among the following suffixes in _R1_, and perform the action indicated  
+  
+
+**_si_**
+
+delete if not preceded by **_k_**
+
+**_ni_**
+
+delete
+
+if preceded by **_kse_**, replace with **_ksi_**
+
+**_nsa nsä mme nne_**
+
+delete
+
+**_an_**
+
+delete if preceded by one of **_ta ssa sta lla lta na_**
+
+**_än_**
+
+delete if preceded by one of **_tä ssä stä llä ltä nä_**
+
+**_en_**
+
+delete if preceded by one of **_lle ine_**
+
+The remaining steps require a few definitions.
+
+Define a _v_ (vowel) as one of **_a e i o u y ä ö_**.  
+Define a _V_ (restricted vowel) as one of **_a e i o u ä ö_**.  
+So _V_**_i_** means a _V_ followed by letter **_i_**.  
+Define _LV_ (long vowel) as one of **_aa ee ii oo uu ää öö_**.  
+Define a _c_ (consonant) as a character from ASCII a-z which isn't in _v_ (originally this was "a character other than a _v_ but since 2018-04-11 we've changed this definition to avoid the stemmer from altering sequences of digits).  
+So _cv_ means a _c_ followed by a _v_.
+
+Step 3: cases
+
+Search for the longest among the following suffixes in _R1_, and perform the action indicated
+
+**_h_**_X_**_n_** preceded by _X_, where _X_ is a _V_ other than **_u_** (**_a/han_**, **_e/hen_** etc)
+
+**_siin den tten_** preceded by _V_**_i_**
+
+**_seen_** preceded by _LV_
+
+**_a ä_** preceded by _cv_
+
+**_tta ttä_** preceded by **_e_**
+
+**_ta tä ssa ssä sta stä lla llä lta ltä lle na nä ksi ine_**
+
+delete
+
+**_n_**
+
+delete, and if preceded by _LV_ or **_ie_**, delete the last vowel
+
+So _aarteisiin_ → _aartei_, the longest matching suffix being **_siin_**, preceded as it is by _V_**_i_**. But _adressiin_ → _adressi_. The longest matching suffix is not **_siin_**, because there is no preceding _V_**_i_**, but **_n_**, and then the last vowel of the preceding _LV_ is removed.
+
+Step 4: other endings
+
+Search for the longest among the following suffixes in _R2_, and perform the action indicated  
+  
+
+**_mpi mpa mpä mmi mma mmä_**
+
+delete if not preceded by **_po_**
+
+**_impi impa impä immi imma immä eja ejä_**
+
+delete
+
+Step 5: plurals
+
+If an ending was removed in step 3, delete a final **_i_** or **_j_** if in _R1_; otherwise, if an ending was not removed in step 3, delete a final **_t_** in _R1_ if it follows a vowel, and, if a **_t_** is removed, delete a final **_mma_** or **_imma_** in _R2_, unless the **_mma_** is preceded by **_po_**.
+
+Step 6: tidying up
+
+Do in turn steps (_a_), (_b_), (_c_), (_d_), restricting all tests to the region _R1_.
+
+_a_) If _R1_ ends _LV_ delete the last letter  
+_b_) If _R1_ ends _cX_, _c_ a consonant and _X_ one of **_a ä e i_**, delete the last letter  
+_c_) If _R1_ ends **_oj_** or **_uj_** delete the last letter  
+_d_) If _R1_ ends **_jo_** delete the last letter
+
+Do step (_e_), which is not restricted to _R1_.
+
+_e_) If the word ends with a double consonant followed by zero or more vowels, remove the last consonant (so _eläkk_ → _eläk_, _aatonaatto_ → _aatonaato_)
