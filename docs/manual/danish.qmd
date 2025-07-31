@@ -1,4 +1,4 @@
-Danish stemming algorithm
+# Danish stemming algorithm
 
 ## The stemming algorithm
 

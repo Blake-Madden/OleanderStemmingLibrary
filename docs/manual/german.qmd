@@ -1,0 +1,148 @@
+# German stemming algorithm
+
+## Design Notes
+
+Despite its inflexional complexities, German has quite a simple suffix structure, so that, if one ignores the almost intractable problems of compound words, separable verb prefixes, and prefixed and infixed **_ge_**, an algorithmic stemmer can be made quite short. (Infixed **_zu_** can be removed algorithmically, but this minor feature is not shown here.) The umlaut in German is a regular feature of plural formation, so its removal is a natural feature of stemming, but this leads to certain false conflations (for example, _schön_, beautiful; _schon_, already).
+
+There are a few short suffixes (for example, _\-t_) where removal would cause problems so the stemmer leaves these alone - for example _holen_, _hole_, _hol_ and _holest_ are stemmed to _hol_; ideally _holt_ would be too, but a rule to remove _\-t_ would adversely affect too many other words.
+
+For similar reasons, some suffixes are only removed when in _R2_: for example _\-end_.
+
+Suffixes _\-et_, _\-s_ and _\-st_ are removed in some cases. The stemmer checks the end of the stem which would be left to determine when to remove these suffixes, erring on the side of non-removal when it might be problematic.
+
+As with the other stemmers, words are assumed to be lower cased before stemming. This potentially loses information since nouns are always capitalised in German, which results in some possibly avoidable conflations (e.g. _Planet_ means "planet" but _planet_ is a form of the verb "to plan"). However words are also capitalised for other reasons (e.g. at the start of a sentence or in a title) so capitalisation is not a completely reliable indicator.
+
+In German, **_ä_**, **_ö_**, **_ü_** and **_ß_ **are sometimes transliterated as **_ae_**, **_oe_**, **_ue_** and **_ss_** respectively. There is now a capital version of **_ss_**, but it's a fairly recent invention (added to Unicode in 2008) and prior to this in capitalised text such as on street signs **_SS_** was used instead. Swiss German always uses **_ss_** instead of **_ß_**, and also uses the transliterated forms for capital letters with umlauts. The German spelling reform of 1996 also reduced use of **_ß_**, replacing it with **_ss_** in some words. Finally (but much less relevant nowadays) these transliterations are used when writing in character sets which lack these characters, or with a keyboard lacking an easy way to type them. The stemmer will conflate words spelled using these characters with those spelled using the transliterated versions.
+
+### Compound words {-}
+
+Famously, German allows for the formation of long compound words, written without spaces. For retrieval purposes, it is useful to be able to search on the parts of such words, as well as the on the complete words themselves. This is not just peculiar to German: Dutch, Danish, Norwegian, Swedish, Icelandic and Finnish have the same property. To split up compound words cannot be done without a dictionary, and the purely algorithmic stemmers presented here do not attempt it.
+
+We would suggest, however, that the need for compound word splitting in these languages has been somewhat overstated. In the case of German:
+
+1.  There are many English compounds one would see no advantage in splitting,
+    
+    |     |     |     |     |     |     |     |     |     |
+    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    | blackberry |     | blackboard |     | rainbow |     | coastguard |     | .... |
+    
+    Many German compounds are like this,
+    
+    |     |     |     |     |     |
+    | --- | --- | --- | --- | --- |
+    | Bleistift (pencil) |     | \=  |     | Blei (lead) + Stift (stick) |
+    | Eisenbahn (railway) |     | \=  |     | Eisen (iron) + Bahn (road) |
+    | Unterseeboot (submarine) |     | \=  |     | under + sea + boat |
+    
+2.  Other compounds correspond to what in English one would want to do by phrase searching, so they are ready made for that purpose,
+    
+    |     |     |     |     |     |
+    | --- | --- | --- | --- | --- |
+    | Gesundheitspflege |     | \=  |     | ‘health care’ |
+    | Fachhochschule |     | \=  |     | ‘technical college’ |
+    | Kunstmuseum |     | \=  |     | ‘museum of fine art’ |
+    
+3.  In any case, longer compounds, especially involving personal names, are frequently hyphenated,
+    
+    Heinrich-Heine-Universität
+    
+4.  It is possible to construct participial adjectives of almost any length, but they are little used in contemporary German, and regarded now as poor style.
+    
+
+## History of functional changes to the algorithm
+
+*   Snowball 2.0.0 (2009-12-11): Extra rule for -nisse ending added
+*   Snowball 3.0.0: Handle ASCII transliterations of umlauts (merging the "german2" variant into the standard algorithm).
+*   Snowball 3.0.0: Special case for **_\-system_** added.
+*   Snowball 3.0.0: Replace **_\-ln_** and **_\-lns_** with **_l_**.
+*   Snowball 3.0.0: Remove **_\-erin_** and **_\-erinnen_**.
+*   Snowball 3.0.0: Remove **_\-et_** when safe to do so.
+
+## The stemming algorithm
+
+German includes the following accented forms,
+
+**_ä ö ü_**
+
+and a special letter, **_ß_**, equivalent to double **_s_**.
+
+The following letters are vowels:
+
+**_a e i o u y ä ö ü_**
+
+First put **_u_** and **_y_** between vowels into upper case, and then do the following mappings,
+
+(_a_) replace **_ß_** with **_ss_**,  
+(_a_) replace **_ae_** with **_ä_**,  
+(_a_) replace **_oe_** with **_ö_**,  
+(_a_) replace **_ue_** with **_ü_** unless preceded by **_q_**.
+
+(The rules here for **_ae_**, **_oe_** and **_ue_** were added in Snowball 3.0.0, but were previously present as a variant of the algorithm termed "german2"). The condition on the replacement of **_ue_** prevents the unwanted changing of _quelle_. Also note that _feuer_ is not modified because the first part of the rule changes it to _feUer_, so **_ue_** is not found.)
+
+_R1_ and _R2_ are first set up in the standard way (see the [note](r1r2.qmd) on _R1_ and _R2_), but then _R1_ is adjusted so that the region before it contains at least 3 letters.
+
+Define a valid **_s_**\-ending as one of **_b_**, **_d_**, **_f_**, **_g_**, **_h_**, **_k_**, **_l_**, **_m_**, **_n_**, **_r_** or **_t_**.
+
+Define a valid **_st_**\-ending as the same list, excluding letter **_r_**.
+
+Define a valid **_et_**\-ending as one of **_d_**, **_f_**, **_g_**, **_k_**, **_l_**, **_m_**, **_n_**, **_r_**, **_s_**, **_t_**, **_U_**, **_z_** or **_ä_**.
+
+Do each of steps 1, 2 and 3.
+
+Step 1:
+
+Search for the longest among the following suffixes,
+
+(_a_) **_em_** (not preceded by **_syst_** \[condition added in Snowball 3.0.0\])  
+(_b_) **_ern er_**  
+(_c_) **_e en es_**  
+(_d_) **_s_** (preceded by a valid **_s_**\-ending)  
+(_e_) **_erin erinnen_** \[added in Snowball 3.0.0\]  
+(_f_) **_ln lns_** \[added in Snowball 3.0.0\]
+
+and if in _R1_ then delete (for (a) to (e)) or replace with _l_ (for (f)). (Note that only the suffix needs to be in _R1_, the letter of the valid **_s_**\-ending is not required to be.)
+
+If an ending of group (_c_) is deleted, and the ending is preceded by **_niss_**, delete the final **_s_**.
+
+(For example, _äckern_ → _äck_, _ackers_ → _acker_, _armes_ → _arm_, _bedürfnissen_ → _bedürfnis_)
+
+Step 2:
+
+Search for the longest among the following suffixes,
+
+(_a_) **_en er est_**  
+(_b_) **_st_** (preceded by a valid **_st_**\-ending, itself preceded by at least 3 (_c_) **_et_** (preceded by a valid **_et_**\-ending, itself not preceded any of **_geordn_**, **_intern_**, **_plan_**, **_tick_** or **_tr_**).
+
+and delete the suffix if in _R1_.
+
+(For example, _derbsten_ → _derbst_ by step 1, and _derbst_ → _derb_ by step 2, since **_b_** is a valid **_st_**\-ending, and is preceded by just 3 letters)
+
+Step 3: _d_\-suffixes [(\*)](glossary.qmd)
+
+Search for the longest among the following suffixes, and perform the action indicated.
+
+**_end ung_**
+
+delete if in _R2_
+
+if preceded by **_ig_**, delete if in _R2_ and not preceded by **_e_**
+
+**_ig ik isch_**
+
+delete if in _R2_ and not preceded by **_e_**
+
+**_lich heit_**
+
+delete if in _R2_
+
+if preceded by **_er_** or **_en_**, delete if in _R1_
+
+**_keit_**
+
+delete if in _R2_
+
+if preceded by **_lich_** or **_ig_**, delete if in _R2_
+
+Finally,
+
+turn **_U_** and **_Y_** back into lower case, and remove the umlaut accent from **_a_**, **_o_** and **_u_**.

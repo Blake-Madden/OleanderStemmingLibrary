@@ -16,66 +16,6 @@ namespace stemming
     {
     /**
     @brief German stemmer.
-
-    @par Definitions:
-
-    German includes the following accented forms,
-    -ä ö ü and a special letter, ß, equivalent to double s.
-
-    The following letters are vowels:
-    -a e i o u y ä ö ü
-
-    @par Algorithm:
-
-    <b>Step 0:</b>
-
-    - Replace ß with ss, ae with ä, oe with ö, ue with ü (unless preceded by q).
-
-        The rules here for ae, oe and ue were
-        added in Snowball 2.3.0, but were previously present as a variant of the
-        algorithm termed "german2." The condition on the replacement of ue prevents
-        the unwanted changing of quelle. Also note that feuer is not modified
-        because the first part of the rule changes it to feUer, so ue is not found.
-
-    <b>Step 1:</b>
-
-    Search for the longest among the following suffixes:
-        a.) em (not preceded by 'syst')
-        b.) ern er
-        c.) en es e
-        d.) s (preceded by a valid s-ending)
-    and delete if in R1. (Of course the letter of the valid s-ending is not necessarily in R1).
-    If an ending of group (c) is deleted, and the ending is preceded by 'niss', delete the final s.
-
-    (For example, äckern -> äck, ackers -> acker, armes -> arm, bedürfnissen -> bedürfnis).
-
-    <b>Step 2:</b>
-
-    Search for the longest among the following suffixes:
-        - en er est
-        - st (preceded by a valid st-ending, itself preceded by at least 3 letters)
-    and delete if in R1.
-
-    (For example, derbsten -> derbst by step 1, and derbst -> derb by step 2,
-    because b is a valid st-ending, and is preceded by just 3 letters).
-
-    <b>Step 3:</b>
-
-    Search for the longest among the following suffixes, and perform the action indicated.
-        - end ung
-            - Delete if in R2
-            - If preceded by ig, delete if in R2 and not preceded by e
-
-        - ig ik isch
-            - Delete if in R2 and not preceded by e
-
-        - lich heit
-            - Delete if in R2
-            - If preceded by er or en, delete if in R1
-
-        - keit
-            - Delete if in R2
-            - If preceded by lich or ig, delete if in R2
     */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>

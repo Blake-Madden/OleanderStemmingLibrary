@@ -19,6 +19,7 @@ book:
       chapters:
     - english.qmd
       - danish.qmd
+      - german.qmd
     - part: "Index"
       chapters:
       - glossary.qmd
