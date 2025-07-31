@@ -1,0 +1,24 @@
+project:
+  type: book
+  output-dir: "book"
+
+biblio-title: References
+bibliography: cites.bib
+biblio-style: mla
+
+book:
+  title: "Stemming Manual"
+  author:
+    - name: Dr. Martin Porter
+    - name: Richard Boulton
+  date: today
+  date-format: "YYYY"
+  chapters:
+    - index.qmd
+    - english.qmd
+
+format:
+  pdf:
+    documentclass: scrreprt
+    citation-package: biblatex
+    cite-method: biblatex
