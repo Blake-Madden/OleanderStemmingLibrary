@@ -3,7 +3,7 @@
 (Revised slightly, December 2001)  
 (Further revised, September 2002)
 
-Martin Porter made more than one attempt to improve the structure of the Porter algorithm by making it follow the pattern of ending removal of the Romance language stemmers. It is not hard to see why one should want to do this: step 1b of the Porter stemmer removes **_ed_** and **_ing_**, which are _i_\-suffixes [(\*)](glossary.md) attached to verbs. If these suffixes are removed, there should be no need to remove _d_\-suffixes which are not verbal, although it will try to do so. This seems to be a deficiency in the Porter stemmer, not shared by the Romance stemmers. Again, the divisions between steps 2, 3 and 4 seem rather arbitrary, and are not found in the Romance stemmers.
+Martin Porter made more than one attempt to improve the structure of the Porter algorithm by making it follow the pattern of ending removal of the Romance language stemmers. It is not hard to see why one should want to do this: step 1b of the Porter stemmer removes **_ed_** and **_ing_**, which are _i_\-suffixes [(\*)](glossary.qmd) attached to verbs. If these suffixes are removed, there should be no need to remove _d_\-suffixes which are not verbal, although it will try to do so. This seems to be a deficiency in the Porter stemmer, not shared by the Romance stemmers. Again, the divisions between steps 2, 3 and 4 seem rather arbitrary, and are not found in the Romance stemmers.
 
 Nevertheless, these attempts at improvement were abandoned. They seem to lead to a more complicated algorithm with no very obvious improvements. A reason for not taking note of the outcome of step 1b may be that English endings do not determine word categories quite as strongly as endings in the Romance languages. For example, _condition_ and _position_ in French have to be nouns, but in English they can be verbs as well as nouns,
 
@@ -22,7 +22,7 @@ But it is hardly surprising that after twenty years of use of the Porter stemmer
 6.  A few additional suffixes are included for removal, including suffix **_ly_**
 7.  A small list of exceptional forms is included
 8.  \[December 2001\] Steps 5a and 5b of the old Porter stemmer were combined into a single step. This means that undoubling final **_ll_** is not done with removal of final **_e_**
-9.  \[December 2001\] In Step 3 **_ative_** is removed only when in region R2.
+9.  \[December 2001\] In Step 3 **_ative_** is removed only when in region _R2_.
 10.  \[September 2002\] Exception added to prevent **_herring_** from stemming to **_her_**.
 11.  \[May 2005\] **_commun_** added to exceptional forms
 12.  \[July 2005\] A small adjustment was made (including a new step 0) to handle apostrophe.
@@ -37,13 +37,13 @@ But it is hardly surprising that after twenty years of use of the Porter stemmer
 21.  Snowball 3.0.0 Avoid conflating **_lateral_**/**_laterally_** with **_later_**.
 22.  Snowball 3.0.0 Replace **_\-ogist_** with **_\-og_** to conflate **_geologist_** with **_geology_**, etc.
 23.  Snowball 3.0.0 Handle **_\-eed_** and **_\-ing_** exceptions in respective rules.
-24.  Snowball 3.1.0 Restored exception for **_skis_** which **b** is needed.
+24.  Snowball 3.0.1 Restored exception for **_skis_** which **b** is needed.
 
 ## Design Notes
 
-Most comparatives (**_\-er_**) are not handled. There is a rule to remove **_\-er_** in R2 (intended mostly for other forms with that ending rather than comparatives - e.g. _flatterer_, _observer_, _publisher_) which means longer comparatives are handled (e.g. _cleverer_, _yellower_) but most longer adjectives form the comparative with _more_ e.g. _more attractive_ rather than _attractiver_). Extending this rule to check R1 as well would affect too many words where removal would be problematic - for example _charter_, _master_, _meter_, _number_, _mother_, _offer_, _proper_, _sober_, _solder_, _temper_, _wither_. The problem is worse in US English where many words which end **_\-re_** in British English are instead spelled **_\-er_** - e.g. _center_, _fiber_, _liter_, _luster_.
+Most comparatives (**_\-er_**) are not handled. There is a rule to remove **_\-er_** in _R2_ (intended mostly for other forms with that ending rather than comparatives - e.g. _flatterer_, _observer_, _publisher_) which means longer comparatives are handled (e.g. _cleverer_, _yellower_) but most longer adjectives form the comparative with _more_ e.g. _more attractive_ rather than _attractiver_). Extending this rule to check _R1_ as well would affect too many words where removal would be problematic - for example _charter_, _master_, _meter_, _number_, _mother_, _offer_, _proper_, _sober_, _solder_, _temper_, _wither_. The problem is worse in US English where many words which end **_\-re_** in British English are instead spelled **_\-er_** - e.g. _center_, _fiber_, _liter_, _luster_.
 
-Superlatives are not handled at all due to too many cases where it would be problematic - for example _attest_, _behest_, _request_, _tempest_. There is not a rule to remove **_\-est_** only in R2 because it would help in very few cases but be harmful for e.g. _deforest_, _disinterest_, _interest_, _manifest_, _redigest_. These could be avoided by additional conditions on the removal, but the added complexity doesn't seem justifiable by the small number of words removing _\-est_ in R2 would improve the stemming of.
+Superlatives are not handled at all due to too many cases where it would be problematic - for example _attest_, _behest_, _request_, _tempest_. There is not a rule to remove **_\-est_** only in _R2_ because it would help in very few cases but be harmful for e.g. _deforest_, _disinterest_, _interest_, _manifest_, _redigest_. These could be avoided by additional conditions on the removal, but the added complexity doesn't seem justifiable by the small number of words removing _\-est_ in _R2_ would improve the stemming of.
 
 Suffix _\-ian_ is not removed. A significant problem with removal is that sometimes we want to remove the whole three letters (e.g. _orwellian_, _politician_), sometimes _\-an_ (e.g. _comedian_, _historian_, _italian_) and sometimes just _\-n_ (e.g. _indian_, _bolivian_, _californian_).
 
@@ -63,19 +63,19 @@ Define a _valid **_li_**\-ending_ as one of
 
 **_c d e g h k m n r t_**
 
-R1 is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel. (This definition may be modified for certain exceptional words — see below.)
+_R1_ is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel. (This definition may be modified for certain exceptional words — see below.)
 
-R2 is the region after the first non-vowel following a vowel in R1, or the end of the word if there is no such non-vowel. (See [note](r1r2.md) on R1 and R2.)
+_R2_ is the region after the first non-vowel following a vowel in _R1_, or the end of the word if there is no such non-vowel. (See [note](r1r2.qmd) on _R1_ and _R2_.)
 
 Define a _short syllable_ in a word as either (_a_) a vowel followed by a non-vowel other than **_w_**, **_x_** or **_Y_** and preceded by a non-vowel, or `*` (_b_) a vowel at the beginning of the word followed by a non-vowel, or (_c_) **_past_**.
 
 So _rap_, _trap_, _entrap_ end with a short syllable, and _ow_, _on_, _at_, _past_ are classed as short syllables. But _uproot_, _bestow_, _disturb_ do not end with a short syllable.
 
-A word is called _short_ if it ends in a short syllable, and if R1 is null.
+A word is called _short_ if it ends in a short syllable, and if _R1_ is null.
 
 So _bed_, _shed_ and _shred_ are short words, _bead_, _embed_, _beds_ are not short words.
 
-An apostrophe (**_'_**) may be regarded as a letter. (See [note](apostrophe.md) on apostrophes in English.)
+An apostrophe (**_'_**) may be regarded as a letter. (See [note](apostrophe.qmd) on apostrophes in English.)
 
 If the word has two letters or less, leave it as it is.
 
@@ -83,7 +83,7 @@ Otherwise, do each of the following operations,
 
 Remove initial **_'_**, if present. `+` Then,
 
-Set initial **_y_**, or **_y_** after a vowel, to **_Y_**, and then establish the regions R1 and R2\. (See [note](vowelmarking.md) on vowel marking.)
+Set initial **_y_**, or **_y_** after a vowel, to **_Y_**, and then establish the regions _R1_ and _R2_\. (See [note](vowelmarking.qmd) on vowel marking.)
 
 Step 0: `+`
 
@@ -123,7 +123,7 @@ Search for the longest among the following suffixes, and perform the action indi
 
 **_eed eedly_**`+`
 
-replace by **_ee_** if in R1
+replace by **_ee_** if in _R1_
 
 **_ed edly_**`+` **_ing ingly_**`+`
 
@@ -146,7 +146,7 @@ replace suffix **_y_** or **_Y_** by **_i_** if preceded by a non-vowel which is
 
 Step 2:
 
-Search for the longest among the following suffixes, and, if found and in R1, perform the action indicated.
+Search for the longest among the following suffixes, and, if found and in _R1_, perform the action indicated.
 
 **_tional_**: replace by **_tion_**
 
@@ -184,7 +184,7 @@ Search for the longest among the following suffixes, and, if found and in R1, pe
 
 Step 3:
 
-Search for the longest among the following suffixes, and, if found and in R1, perform the action indicated.
+Search for the longest among the following suffixes, and, if found and in _R1_, perform the action indicated.
 
 **_tional_**`+`: replace by **_tion_**
 
@@ -196,11 +196,11 @@ Search for the longest among the following suffixes, and, if found and in R1, pe
 
 **_ful ness_**: delete
 
-**_ative_**`*`: delete if in R2
+**_ative_**`*`: delete if in _R2_
 
 Step 4:
 
-Search for the longest among the following suffixes, and, if found and in R2, perform the action indicated.
+Search for the longest among the following suffixes, and, if found and in _R2_, perform the action indicated.
 
 **_al ance ence er ic able ible ant ement ment ent ism ate iti ous ive ize_**
 
@@ -216,10 +216,10 @@ Search for the following suffixes, and, if found, perform the action indicated.
 
 **_e_**
 
-delete if in R2, or in R1 and not preceded by a short syllable
+delete if in _R2_, or in _R1_ and not preceded by a short syllable
 
 **_l_**
 
-delete if in R2 and preceded by **_l_**
+delete if in _R2_ and preceded by **_l_**
 
 Finally, turn any remaining **_Y_** letters in the word back into lower case.
