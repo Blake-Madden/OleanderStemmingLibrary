@@ -64,7 +64,7 @@ namespace stemming
     */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>
-    class dutch_stem final : public stem<string_typeT>
+    class dutch_porter_stem final : public stem<string_typeT>
         {
     public:
         /** @brief Stems a Dutch word.

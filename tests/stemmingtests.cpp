@@ -145,8 +145,8 @@ TEST_CASE("danish", "[stemming][dutch]")
 
 TEST_CASE("dutch", "[stemming][dutch]")
     {
-    stemming::dutch_stem stemmer;
-    TestLanguage("dutch/voc.txt", "dutch/output.txt", stemmer);
+    stemming::dutch_porter_stem stemmer;
+    TestLanguage("dutch_porter/voc.txt", "dutch_porter/output.txt", stemmer);
     }
 
 TEST_CASE("english", "[stemming][english]")
