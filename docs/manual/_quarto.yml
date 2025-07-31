@@ -15,7 +15,16 @@ book:
   date-format: "YYYY"
   chapters:
     - index.qmd
+    - part: "Algorithms"
+      chapters:
     - english.qmd
+      - danish.qmd
+    - part: "Index"
+      chapters:
+      - glossary.qmd
+      - r1r2.qmd
+      - vowelmarking.qmd
+      - apostrophe.qmd
 
 format:
   pdf:

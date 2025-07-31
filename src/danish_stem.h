@@ -17,59 +17,10 @@ namespace stemming
     /**
     @brief Danish stemmer.
 
-    @par Definitions:
-
-    The Danish alphabet includes the following additional letters:
-    - æ å ø
-
-    The following letters are vowels:
-    - a e i o u y æ å ø
-
-    A consonant is defined as a non-vowel.
-
-    R2 is not used: R1 is defined in the same way as in the German stemmer.
-
-    Define a valid s-ending as one of 
-    - a b c d f g h j k l m n o p r t v y z å
-
-    <b>Step 1:</b>
-
-    Search for the longest among the following suffixes in R1, and perform the action indicated: 
-            - hed ethed ered e erede ende erende ene erne ere en heden
-               eren er heder erer heds es endes erendes enes ernes eres
-               ens hedens erens ers ets erets et eret.
-               - Delete.
-            - s
-               - Delete, if preceded by a valid s-ending.
-
-    (Of course the letter of the valid s-ending is not necessarily in R1).
-
-    <b>Step 2:</b>
-
-    Search for one of the following suffixes in R1, and if found delete the last letter.:
-            - gd dt gt kt
-
-    (For example, friskt -> frisk).
-
-    <b>Step 3:</b>
-
-    If the word ends with igst, remove the final st.
-    Search for the longest among the following suffixes in R1, and perform the action indicated:
-            - ig lig elig els
-                - Delete, and then repeat step 2.
-            - løst
-                - Replace with løs.
-
-    <b>Step 4 (undouble):</b>
-
-    If the word ends with double consonant in R1, then remove one of the consonants. 
-
-    (For example, bestemmelse -> bestemmels (step 1) -> bestemm (step 3a) -> bestem in this step).
-
     @par Example:
     \code
     std::wstring word(L"ramningen");
-    stemming::danish_stem<myString> StemDanish;
+    stemming::danish_stem<> StemDanish;
     StemDanish(word);
     \endcode
     */
