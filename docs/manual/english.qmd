@@ -53,15 +53,15 @@ To begin with, here is the basic algorithm without reference to the exceptional 
 
 Define a _vowel_ as one of
 
-**_a e i o u y_**
+**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; y_**
 
 Define a _double_ as one of
 
-**_bb dd ff gg mm nn pp rr tt_**
+**_bb &nbsp; dd &nbsp; ff &nbsp; gg &nbsp; mm &nbsp; nn &nbsp; pp &nbsp; rr &nbsp; tt_**
 
 Define a _valid **_li_**\-ending_ as one of
 
-**_c d e g h k m n r t_**
+**_c &nbsp; d &nbsp; e &nbsp; g &nbsp; h &nbsp; k &nbsp; m &nbsp; n &nbsp; r &nbsp; t_**
 
 _R1_ is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel. (This definition may be modified for certain exceptional words — see below.)
 
@@ -105,7 +105,7 @@ Search for the longest among the following suffixes, and perform the action indi
 
 replace by **_ss_**
 
-**_ied_**`+` **_ies_**`*`
+**_ied_**`+` &nbsp; **_ies_**`*`
 
 replace by **_i_** if preceded by more than one letter, otherwise by **_ie_** (so _ties_ → _tie_, _cries_ → _cri_)
 
@@ -113,7 +113,7 @@ replace by **_i_** if preceded by more than one letter, otherwise by **_ie_** (s
 
 delete if the preceding word part contains a vowel not immediately before the **_s_** (so _gas_ and _this_ retain the **_s_**, _gaps_ and _kiwis_ lose it)
 
-**_us_**`+` **_ss_**
+**_us_**`+` &nbsp; **_ss_**
 
 do nothing
 
@@ -121,11 +121,11 @@ Step 1b:
 
 Search for the longest among the following suffixes, and perform the action indicated.
 
-**_eed eedly_**`+`
+**_eed &nbsp; eedly_**`+`
 
 replace by **_ee_** if in _R1_
 
-**_ed edly_**`+` **_ing ingly_**`+`
+**_ed &nbsp; edly_**`+` **_ing &nbsp; ingly_**`+`
 
 for **_ing_**, check if the word before the suffix is exactly one of the following exceptional cases:
 
@@ -158,19 +158,19 @@ Search for the longest among the following suffixes, and, if found and in _R1_, 
 
 **_entli_**: replace by **_ent_**
 
-**_izer ization_**: replace by **_ize_**
+**_izer &nbsp; ization_**: replace by **_ize_**
 
-**_ational ation ator_**: replace by **_ate_**
+**_ational &nbsp; ation &nbsp; ator_**: replace by **_ate_**
 
-**_alism aliti alli_**: replace by **_al_**
+**_alism &nbsp; aliti &nbsp; alli_**: replace by **_al_**
 
 **_fulness_**: replace by **_ful_**
 
-**_ousli ousness_**: replace by **_ous_**
+**_ousli &nbsp; ousness_**: replace by **_ous_**
 
-**_iveness iviti_**: replace by **_ive_**
+**_iveness &nbsp; iviti_**: replace by **_ive_**
 
-**_biliti bli_**`+`: replace by **_ble_**
+**_biliti &nbsp; bli_**`+`: replace by **_ble_**
 
 **_ogist_**`+`: replace by **_og_**
 
@@ -192,9 +192,9 @@ Search for the longest among the following suffixes, and, if found and in _R1_, 
 
 **_alize_**: replace by **_al_**
 
-**_icate iciti ical_**: replace by **_ic_**
+**_icate &nbsp; iciti &nbsp; ical_**: replace by **_ic_**
 
-**_ful ness_**: delete
+**_ful &nbsp; ness_**: delete
 
 **_ative_**`*`: delete if in _R2_
 
@@ -202,7 +202,7 @@ Step 4:
 
 Search for the longest among the following suffixes, and, if found and in _R2_, perform the action indicated.
 
-**_al ance ence er ic able ible ant ement ment ent ism ate iti ous ive ize_**
+**_al &nbsp; ance &nbsp; ence &nbsp; er &nbsp; ic &nbsp; able &nbsp; ible &nbsp; ant &nbsp; ement &nbsp; ment &nbsp; ent &nbsp; ism &nbsp; ate &nbsp; iti &nbsp; ous &nbsp; ive &nbsp; ize_**
 
 delete
 

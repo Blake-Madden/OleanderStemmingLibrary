@@ -16,7 +16,7 @@ _R2_ is not used: _R1_ is defined in the same way as in the [German stemmer](ger
 
 Define a valid **_s_**\-ending as one of
 
-**_a b c d f g h j k l m n o p r t v y z å_**
+**_a &nbsp; b &nbsp; c &nbsp; d &nbsp; f &nbsp; g &nbsp; h &nbsp; j &nbsp; k &nbsp; l &nbsp; m &nbsp; n &nbsp; o &nbsp; p &nbsp; r &nbsp; t &nbsp; v &nbsp; y &nbsp; z &nbsp; å_**
 
 Do each of steps 1, 2, 3 and 4.
 
@@ -24,7 +24,7 @@ Step 1:
 
 Search for the longest among the following suffixes in _R1_, and perform the action indicated.
 
-(_a_) **_hed ethed ered e erede ende erende ene erne ere en heden eren er heder erer heds es endes erendes enes ernes eres ens hedens erens ers ets erets et eret_**
+(_a_) **_hed &nbsp; ethed &nbsp; ered &nbsp; e &nbsp; erede &nbsp; ende &nbsp; erende &nbsp; ene &nbsp; erne &nbsp; ere &nbsp; en &nbsp; heden &nbsp; eren &nbsp; er &nbsp; heder &nbsp; erer &nbsp; heds &nbsp; es &nbsp; endes &nbsp; erendes &nbsp; enes &nbsp; ernes &nbsp; eres &nbsp; ens &nbsp; hedens &nbsp; erens &nbsp; ers &nbsp; ets &nbsp; erets &nbsp; et &nbsp; eret_**
 
 delete
 
@@ -38,7 +38,7 @@ Step 2:
 
 Search for one of the following suffixes in _R1_, and if found delete the last letter.
 
-**_gd dt gt kt_**
+**_gd &nbsp; dt &nbsp; gt &nbsp; kt_**
 
 (For example, _friskt_ → _frisk_)
 
@@ -48,7 +48,7 @@ If the word ends **_igst_**, remove the final **_st_**.
 
 Search for the longest among the following suffixes in _R1_, and perform the action indicated.
 
-(_a_) **_ig lig elig els_**
+(_a_) **_ig &nbsp; lig &nbsp; elig &nbsp; els_**
 
 delete, and then repeat step 2
 

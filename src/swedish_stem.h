@@ -1,14 +1,16 @@
 /** @addtogroup Stemming
     @brief Library for stemming words down to their root words.
-    @date 2004-2023
+    @date 2004-2025
     @copyright Oleander Software, Ltd.
     @author Blake Madden
     @details This program is free software; you can redistribute it and/or modify
-    it under the terms of the BSD License.
+     it under the terms of the BSD License.
+
+    SPDX-License-Identifier: BSD-3-Clause
 * @{*/
 
-#ifndef __SWEDISH_STEM_H__
-#define __SWEDISH_STEM_H__
+#ifndef OLEAN_SWEDISH_STEM_H
+#define OLEAN_SWEDISH_STEM_H
 
 #include "stemming.h"
 
@@ -16,58 +18,6 @@ namespace stemming
     {
     /**
     @brief Swedish stemmer.
-
-    @par Definitions:
-
-    The Swedish alphabet includes the following additional letters,
-        - ä   å   ö
-
-    The following letters are vowels:
-        - a   e   i   o   u   y   ä   å   ö
-
-    R2 is not used: R1 is defined in the same way as in the German stemmer.
-
-    Define a valid s-ending as one of:
-        - b c d f g h j k l m n o p r t v y
-
-    Define a valid öst-ending as one of:
-
-        - i k l n p r t u v
-    
-    @par Algorithm:
-
-    <b>Step 1:</b>
-
-    Search for the longest among the following suffixes in R1, and perform the action indicated.
-        - a   arna   erna   heterna   orna   ad   e   ade   ande   arne   are   aste   en   anden
-              aren   heten   ern   ar   er   heter   or   as   arnas   ernas   ornas   es   ades
-              andes   ens   arens   hetens   erns   at   andet   het   ast
-            - Delete.
-        - s
-         - Delete if preceded by a valid s-ending.
-
-    (Of course the letter of the valid s-ending is not necessarily in R1).
-
-    <b>Step 2:</b>
-
-    Search for one of the following suffixes in R1, and if found delete the last letter. 
-        - dd   gd   nn   dt   gt   kt   tt 
-
-    (For example, friskt -> frisk, fröknarnn -> fröknarn).
-    
-    <b>Step 3:</b>
-
-    Search for the longest among the following suffixes in R1, and perform the action indicated.
-        - lig   ig   els
-            - Delete.
-        - öst
-            - Replace with ös if preceded by a valid öst-ending.
-
-              The letter of the valid öst-ending is not necessarily in R1.
-              Prior to Snowball 2.3.0, öst-ending was effectively just
-              l and was required to be in R1.
-        - fullt
-            - Replace with full.
     */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>
@@ -731,4 +681,4 @@ namespace stemming
 
 /** @}*/
 
-#endif // __SWEDISH_STEM_H__
+#endif // OLEAN_SWEDISH_STEM_H

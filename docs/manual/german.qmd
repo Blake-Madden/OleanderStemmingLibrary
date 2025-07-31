@@ -62,13 +62,13 @@ We would suggest, however, that the need for compound word splitting in these la
 
 German includes the following accented forms,
 
-**_ä ö ü_**
+**_ä &nbsp; ö &nbsp; ü_**
 
 and a special letter, **_ß_**, equivalent to double **_s_**.
 
 The following letters are vowels:
 
-**_a e i o u y ä ö ü_**
+**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; y &nbsp; ä &nbsp; ö &nbsp; ü_**
 
 First put **_u_** and **_y_** between vowels into upper case, and then do the following mappings,
 
@@ -94,11 +94,11 @@ Step 1:
 Search for the longest among the following suffixes,
 
 (_a_) **_em_** (not preceded by **_syst_** \[condition added in Snowball 3.0.0\])  
-(_b_) **_ern er_**  
-(_c_) **_e en es_**  
+(_b_) **_ern &nbsp; er_**  
+(_c_) **_e &nbsp; en &nbsp; es_**  
 (_d_) **_s_** (preceded by a valid **_s_**\-ending)  
-(_e_) **_erin erinnen_** \[added in Snowball 3.0.0\]  
-(_f_) **_ln lns_** \[added in Snowball 3.0.0\]
+(_e_) **_erin &nbsp; erinnen_** \[added in Snowball 3.0.0\]  
+(_f_) **_ln &nbsp; lns_** \[added in Snowball 3.0.0\]
 
 and if in _R1_ then delete (for (a) to (e)) or replace with _l_ (for (f)). (Note that only the suffix needs to be in _R1_, the letter of the valid **_s_**\-ending is not required to be.)
 
@@ -110,7 +110,7 @@ Step 2:
 
 Search for the longest among the following suffixes,
 
-(_a_) **_en er est_**  
+(_a_) **_en &nbsp; er &nbsp; est_**  
 (_b_) **_st_** (preceded by a valid **_st_**\-ending, itself preceded by at least 3 (_c_) **_et_** (preceded by a valid **_et_**\-ending, itself not preceded any of **_geordn_**, **_intern_**, **_plan_**, **_tick_** or **_tr_**).
 
 and delete the suffix if in _R1_.
@@ -121,17 +121,17 @@ Step 3: _d_\-suffixes [(\*)](glossary.qmd)
 
 Search for the longest among the following suffixes, and perform the action indicated.
 
-**_end ung_**
+**_end &nbsp; ung_**
 
 delete if in _R2_
 
 if preceded by **_ig_**, delete if in _R2_ and not preceded by **_e_**
 
-**_ig ik isch_**
+**_ig &nbsp; ik &nbsp; isch_**
 
 delete if in _R2_ and not preceded by **_e_**
 
-**_lich heit_**
+**_lich &nbsp; heit_**
 
 delete if in _R2_
 

@@ -1,0 +1,87 @@
+# Swedish stemming algorithm
+
+## The stemming algorithm
+
+The Swedish alphabet includes the following additional letters,
+
+**_ä &nbsp; å &nbsp; ö_**
+
+The following letters are vowels:
+
+**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; y &nbsp; ä &nbsp; å &nbsp; ö_**
+
+_R2_ is not used: _R1_ is defined in the same way as in the [German stemmer](german.qmd). (See the [note](r1r2.qmd) on _R1_ and _R2_.)
+
+Define a valid **_s_**\-ending as one of
+
+**_b_** &nbsp; **_c_** &nbsp; **_d_** &nbsp; **_f_** &nbsp; **_g_** &nbsp; **_h_** &nbsp; **_j_** &nbsp; **_k_** &nbsp; **_l_** &nbsp; **_m_** &nbsp; **_n_** &nbsp; **_o_** &nbsp; **_p_** &nbsp; **_r_** &nbsp; **_t_** &nbsp; **_v_** &nbsp; **_y_**
+
+Define a valid **_öst_**\-ending as one of
+
+**_i_** &nbsp; **_k_** &nbsp; **_l_** &nbsp; **_n_** &nbsp; **_p_** &nbsp; **_r_** &nbsp; **_t_** &nbsp; **_u_** &nbsp; **_v_**
+
+Define a valid **_et_**\-ending as at least one letter followed by a vowel followed by a non-vowel, which does not have one of the following as a suffix
+
+**_h_** &nbsp; **_iet_** &nbsp; **_uit_** &nbsp; **_fab_** &nbsp; **_cit_** &nbsp; **_dit_** &nbsp; **_alit_** &nbsp; **_ilit_** &nbsp; **_mit_** &nbsp; **_nit_** &nbsp; **_pit_** &nbsp; **_rit_** &nbsp; **_sit_** &nbsp; **_tit_** &nbsp; **_ivit_** &nbsp; **_kvit_** &nbsp; **_xit_** &nbsp; **_kom_** &nbsp; **_rak_** &nbsp; **_pak_** &nbsp; **_stak_**
+
+Do each of steps 1, 2 and 3.
+
+Step 1:
+
+Search for the longest among the following suffixes in _R1_, and perform the action indicated.
+
+(_a_) **_a &nbsp; arna &nbsp; erna &nbsp; heterna &nbsp; orna &nbsp; ad &nbsp; e &nbsp; ade &nbsp; ande &nbsp; arne &nbsp; are &nbsp; aste &nbsp; en &nbsp; anden &nbsp; aren &nbsp; heten &nbsp; ern &nbsp; ar &nbsp; er &nbsp; heter &nbsp; or &nbsp; as &nbsp; arnas &nbsp; ernas &nbsp; ornas &nbsp; es &nbsp; ades &nbsp; andes &nbsp; ens &nbsp; arens &nbsp; hetens &nbsp; erns &nbsp; at &nbsp; andet &nbsp; het &nbsp; ast_**
+
+delete
+
+(_b_) **_s_**
+
+if preceded by **_et_** and that is preceded by a valid **_et_**\-ending remove both **_s_** and **_et_**, otherwise delete if preceded by a valid **_s_**\-ending
+
+(_c_) **_et_**
+
+delete if preceded by a valid **_et_**\-ending
+
+(Note that only the suffix needs to be in _R1_, the letter(s) of the valid **_s_**\-ending or **_et_**\-ending are not required to be.)
+
+Step 2:
+
+Search for one of the following suffixes in _R1_, and if found delete the last letter.
+
+**_dd &nbsp; gd &nbsp; nn &nbsp; dt &nbsp; gt &nbsp; kt &nbsp; tt_**
+
+(For example, _friskt_ → _frisk_, _fröknarnn_ _fröknarn_)
+
+Step 3:
+
+Search for the longest among the following suffixes in _R1_, and perform the action indicated.
+
+**_lig &nbsp; ig &nbsp; els_**
+
+delete
+
+**_öst_**
+
+replace with **_ös_** if preceded by a valid **_öst_**\-ending
+
+**_fullt_**
+
+replace with **_full_**
+
+(The letter of the valid **_öst_**\-ending is not necessarily in _R1_\. Prior to Snowball 3.0.0, **_öst_**\-ending was effectively just **_l_** and _was_ required to be in _R1_.)
+
+## Design Notes
+
+Swedish has a noun ending corresponding to the definite article (_the_ in English). This occurs very commonly but cannot always be removed with certainty. Currently the algorithm removes the **_en_** form, and the **_et_** form in some cases, but not the **_t_** or **_n_** forms,
+
+|     |     |     |     |     |
+| --- | --- | --- | --- | --- |
+| husen |     |     |     | hus |
+| valet |     |     |     | val |
+| flickan |     | →   |     | flickan |
+| äpplet |     |     |     | äpplet |
+
+## History of functional changes to the algorithm
+
+*   Snowball 3.0.0: Change **_öst_** suffix to **_ös_** in more situations.
+*   Snowball 3.0.0: New rule to remove some **_et_** suffixes.

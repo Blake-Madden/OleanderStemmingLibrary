@@ -14,13 +14,13 @@ The suffix **_\-eux_** is removed if in _R2_. For a few short words (**_cheveux_
 
 Letters in French include the following accented forms,
 
-**_â à ç ë é ê è ï î ô û ù_**
+**_â &nbsp; à &nbsp; ç &nbsp; ë &nbsp; é &nbsp; ê &nbsp; è &nbsp; ï &nbsp; î &nbsp; ô &nbsp; û &nbsp; ù_**
 
 The following letters are vowels:
 
-**_a e i o u y â à ë é ê è ï î ô û ù_**
+**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; y &nbsp; â &nbsp; à &nbsp; ë &nbsp; é &nbsp; ê &nbsp; è &nbsp; ï &nbsp; î &nbsp; ô &nbsp; û &nbsp; ù_**
 
-The first step removes elisions. If the word starts with one of **_c_** **_d_** **_j_** **_l_** **_m_** **_n_** **_s_** **_t_** or **_qu_**, followed by an apostrophe (**_'_**) which is not at the end of the word, then remove from the prefix of the word up to and including this apostrophe.
+The first step removes elisions. If the word starts with one of **_c_** &nbsp; **_d_** &nbsp; **_j_** &nbsp; **_l_** &nbsp; **_m_** &nbsp; **_n_** &nbsp; **_s_** &nbsp; **_t_** &nbsp; or &nbsp; **_qu_**, followed by an apostrophe (**_'_**) which is not at the end of the word, then remove from the prefix of the word up to and including this apostrophe.
 
 Assume the word is in lower case. Then, taking the letters in turn from the beginning to end of the word, put **_u_** or **_i_** into upper case when it is both preceded and followed by a vowel; put **_y_** into upper case when it is either preceded or followed by a vowel; and put **_u_** into upper case when it follows **_q_**. For example,
 
@@ -73,11 +73,11 @@ Step 1: Standard suffix removal
 
 Search for the longest among the following suffixes, and perform the action indicated.
 
-**_ance iqUe isme able iste eux ances iqUes ismes ables istes_**
+**_ance &nbsp; iqUe &nbsp; isme &nbsp; able &nbsp; iste &nbsp; eux &nbsp; ances &nbsp; iqUes &nbsp; ismes &nbsp; ables &nbsp; istes_**
 
 delete if in _R2_
 
-**_atrice ateur ation atrices ateurs ations_**
+**_atrice &nbsp; ateur &nbsp; ation &nbsp; atrices &nbsp; ateurs &nbsp; ations_**
 
 delete if in _R2_
 
@@ -87,11 +87,11 @@ if preceded by **_ic_**, delete if in _R2_, else replace by **_iqU_**
 
 replace with **_log_** if in _R2_
 
-**_usion ution usions utions_**
+**_usion &nbsp; ution &nbsp; usions &nbsp; utions_**
 
 replace with **_u_** if in _R2_
 
-**_ence ences_**
+**_ence &nbsp; ences_**
 
 replace with **_ent_** if in _R2_
 
@@ -117,7 +117,7 @@ if preceded by **_ic_**, delete if in _R2_, else replace by **_iqU_**, otherwise
 
 if preceded by **_iv_**, delete if in _R2_
 
-**_if ive ifs ives_**
+**_if &nbsp; ive &nbsp; ifs &nbsp; ives_**
 
 delete if in _R2_
 
@@ -133,7 +133,7 @@ replace with **_al_** if in _R1_
 
 **_oux_**
 
-replace with **_ou_** if preceded by one of **_b_** **_h_** **_j_** **_l_** **_n_** **_p_**
+replace with **_ou_** if preceded by one of **_b_** &nbsp; **_h_** &nbsp; **_j_** &nbsp; **_l_** &nbsp; **_n_** &nbsp; **_p_**
 
 **_euse euses_**
 
@@ -173,17 +173,17 @@ Search for the longest among the following suffixes in RV, and perform the actio
 
 delete if in _R2_
 
-**_é ée ées és èrent er era erai eraIent erais erait eras erez eriez erions erons eront ez iez_**
+**_é &nbsp; ée &nbsp; ées &nbsp; és &nbsp; èrent &nbsp; er &nbsp; era &nbsp; erai &nbsp; eraIent &nbsp; erais &nbsp; erait &nbsp; eras &nbsp; erez &nbsp; eriez &nbsp; erions &nbsp; erons &nbsp; eront &nbsp; ez &nbsp; iez_**
 
 delete
 
-**_âmes ât âtes a ai aIent ait ant ante antes ants as asse assent asses assiez assions_**
+**_âmes &nbsp; ât &nbsp; âtes &nbsp; a &nbsp; ai &nbsp; aIent &nbsp; ait &nbsp; ant &nbsp; ante &nbsp; antes &nbsp; ants &nbsp; as &nbsp; asse &nbsp; assent &nbsp; asses &nbsp; assiez &nbsp; assions_**
 
 delete
 
 if preceded by **_e_** which is also in RV, delete the **_e_** as well
 
-**_ais aise aises_**
+**_ais &nbsp; aise &nbsp; aises_**
 
 delete unless preceded by one of: **_al_** preceded by exactly one character, **_auv_**, **_épl_**
 
@@ -207,7 +207,7 @@ Search for the longest among the following suffixes, and perform the action indi
 
 delete if in _R2_ and preceded by **_s_** or **_t_**
 
-**_ier ière Ier Ière_**
+**_ier &nbsp; ière &nbsp; Ier &nbsp; Ière_**
 
 replace with **_i_**
 
