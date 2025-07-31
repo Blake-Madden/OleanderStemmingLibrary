@@ -1,0 +1,244 @@
+# French stemming algorithm
+
+## Design Notes
+
+In French the verb endings **_\-ent_** and **_\-ons_** cannot be removed without unacceptable overstemming (of _accident_ and _garçons_ for example). The **_\-ons_** form is rarer, but **_\-ent_** forms are quite common, and will appear regularly throughout a stemmed vocabulary.
+
+The rule to replace **_\-oux_** with **_\-ou_** will produce linguistically incorrect stems by removing **_x_** from **_époux_** and **_jaloux_**, but this is harmless as no unwanted conflation results.
+
+The rule to replace **_\-aux_** with **_\-al_** stems **_travaux_** to **_traval_** and **_vitraux_** to **_vitral_** wheras **_\-ail_** would be lingusitically correct; similarly **_esquimaux_**, **_noyaux_** and **_tuyaux_** where **_\-au_** would be more correct. None of these seem to result in unwanted conflation though.
+
+The suffix **_\-eux_** is removed if in _R2_. For a few short words (**_cheveux_**, **_jeux_**, **_lieux_** and **_neveux_**) removing **_\-x_** would conflate a plural form with its singular, but the complexity of the rule needed to avoid adversely affecting other short words ending **_\-eux_** does not seem justified for just four cases of understemming.
+
+## The stemming algorithm
+
+Letters in French include the following accented forms,
+
+**_â à ç ë é ê è ï î ô û ù_**
+
+The following letters are vowels:
+
+**_a e i o u y â à ë é ê è ï î ô û ù_**
+
+The first step removes elisions. If the word starts with one of **_c_** **_d_** **_j_** **_l_** **_m_** **_n_** **_s_** **_t_** or **_qu_**, followed by an apostrophe (**_'_**) which is not at the end of the word, then remove from the prefix of the word up to and including this apostrophe.
+
+Assume the word is in lower case. Then, taking the letters in turn from the beginning to end of the word, put **_u_** or **_i_** into upper case when it is both preceded and followed by a vowel; put **_y_** into upper case when it is either preceded or followed by a vowel; and put **_u_** into upper case when it follows **_q_**. For example,
+
+|     |     |     |     |     |
+| --- | --- | --- | --- | --- |
+| jouer |     | →   |     | joUer |
+| ennuie |     | →   |     | ennuIe |
+| yeux |     | →   |     | Yeux |
+| quand |     | →   |     | qUand |
+| croyiez |     | →   |     | croYiez |
+
+In the last example, **_y_** becomes **_Y_** because it is between two vowels, but **_i_** does not become **_I_** because it is between **_Y_** and **_e_**, and **_Y_** is not defined as a vowel above.
+
+(The upper case forms are not then classed as vowels — see [note](vowelmarking.qmd) on vowel marking.)
+
+Replace **_ë_** and **_ï_** with **_He_** and **_Hi_**. The **_H_** marks the vowel as having originally had a diaeresis, while the vowel itself, lacking an accent, is able to match suffixes beginning in **_e_** or **_i_**.
+
+_RV_ is defined as the region to the right of the first of these which is true (the examples show _RV_ underlined):
+
+1.  The word starts with two vowels followed by another letter - e.g. _aimer_
+2.  The word starts **_par_**
+  - e.g. _parie_
+3.  The word starts **_col_**
+  - e.g. _colis_
+4.  The word starts **_tap_**
+  - e.g. _tapis_
+5.  The word starts **_ni_** followed by any vowel
+  - e.g. _niaises_
+6.  The first vowel not at the beginning of the word
+  - e.g. _adorer_, _voler_
+7.  The end of the word - e.g. _arcs_ (RV is an empty region at the end of the word)
+
+_R1_ is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel.
+
+_R2_ is the region after the first non-vowel following a vowel in _R1_, or the end of the word if there is no such non-vowel. (See [note](r1r2.qmd) on _R1_ and _R2_.)
+
+For example:
+
+    f a m e u s e m e n t
+         |......R1.......|
+               |...R2....|
+
+Note that _R1_ can contain _RV_ (_adorer_), and _RV_ can contain _R1_ (_voler_).
+
+Below, ‘delete if in _R2_’ means that a found suffix should be removed if it lies entirely in _R2_, but not if it overlaps _R2_ and the rest of the word. ‘delete if in _R1_ and preceded by _X_’ means that _X_ itself does not have to come in _R1_, while ‘delete if preceded by _X_ in _R1_’ means that _X_, like the suffix, must be entirely in _R1_.
+
+Start with step 1
+
+Step 1: Standard suffix removal
+
+Search for the longest among the following suffixes, and perform the action indicated.
+
+**_ance iqUe isme able iste eux ances iqUes ismes ables istes_**
+
+delete if in _R2_
+
+**_atrice ateur ation atrices ateurs ations_**
+
+delete if in _R2_
+
+if preceded by **_ic_**, delete if in _R2_, else replace by **_iqU_**
+
+**_logie logies_**
+
+replace with **_log_** if in _R2_
+
+**_usion ution usions utions_**
+
+replace with **_u_** if in _R2_
+
+**_ence ences_**
+
+replace with **_ent_** if in _R2_
+
+**_ement ements_**
+
+delete if in _RV_
+
+if preceded by **_iv_**, delete if in _R2_ (and if further preceded by **_at_**, delete if in _R2_), otherwise,
+
+if preceded by **_eus_**, delete if in _R2_, else replace by **_eux_** if in _R1_, otherwise,
+
+if preceded by **_abl_** or **_iqU_**, delete if in _R2_, otherwise,
+
+if preceded by **_ièr_** or **_Ièr_**, replace by **_i_** if in _RV_
+
+**_ité ités_**
+
+delete if in _R2_
+
+if preceded by **_abil_**, delete if in _R2_, else replace by **_abl_**, otherwise,
+
+if preceded by **_ic_**, delete if in _R2_, else replace by **_iqU_**, otherwise,
+
+if preceded by **_iv_**, delete if in _R2_
+
+**_if ive ifs ives_**
+
+delete if in _R2_
+
+if preceded by **_at_**, delete if in _R2_ (and if further preceded by **_ic_**, delete if in _R2_, else replace by **_iqU_**)
+
+**_eaux_**
+
+replace with **_eau_**
+
+**_aux_**
+
+replace with **_al_** if in _R1_
+
+**_oux_**
+
+replace with **_ou_** if preceded by one of **_b_** **_h_** **_j_** **_l_** **_n_** **_p_**
+
+**_euse euses_**
+
+delete if in _R2_, else replace by **_eux_** if in _R1_
+
+**_issement issements_**
+
+delete if in _R1_ and preceded by a non-vowel
+
+**_amment_**
+
+replace with **_ant_** if in _RV_
+
+**_emment_**
+
+replace with **_ent_** if in _RV_
+
+**_ment ments_**
+
+delete if preceded by a vowel in _RV_
+
+Do step 2_a_ if either no ending was removed by step 1, or if one of endings **_amment_**, **_emment_**, **_ment_**, **_ments_** was found.
+
+Step 2_a_: Verb suffixes beginning **_i_**
+
+Search for the longest among the following suffixes in RV and if found, delete if the preceding character is also in RV and is neither a vowel nor **_H_**.
+
+**_îmes ît îtes i ie ies ir ira irai iraIent irais irait iras irent irez iriez irions irons iront is issaIent issais issait issant issante issantes issants isse issent isses issez issiez issions issons it_**
+
+Do step 2_b_ if step 2_a_ was done, but failed to remove a suffix.
+
+Step 2_b_: Other verb suffixes
+
+Search for the longest among the following suffixes in RV, and perform the action indicated.
+
+**_ions_**
+
+delete if in _R2_
+
+**_é ée ées és èrent er era erai eraIent erais erait eras erez eriez erions erons eront ez iez_**
+
+delete
+
+**_âmes ât âtes a ai aIent ait ant ante antes ants as asse assent asses assiez assions_**
+
+delete
+
+if preceded by **_e_** which is also in RV, delete the **_e_** as well
+
+**_ais aise aises_**
+
+delete unless preceded by one of: **_al_** preceded by exactly one character, **_auv_**, **_épl_**
+
+If the last step to be obeyed — either step 1, 2_a_ or 2_b_ — altered the word, do step 3
+
+Step 3
+
+Replace final **_Y_** with **_i_** or final **_ç_** with **_c_**
+
+Alternatively, if the last step to be obeyed did not alter the word, do step 4
+
+Step 4: Residual suffix
+
+If the word ends **_s_**, not preceded by **_a_**, **_i_** (unless itself preceded by **_H_**), **_o_**, **_u_**, **_è_** or **_s_**, delete it.
+
+In the rest of step 4, all tests are confined to the _RV_ region.
+
+Search for the longest among the following suffixes, and perform the action indicated.
+
+**_ion_**
+
+delete if in _R2_ and preceded by **_s_** or **_t_**
+
+**_ier ière Ier Ière_**
+
+replace with **_i_**
+
+**_e_**
+
+delete
+
+  
+(So note that **_ion_** is removed only when it is in _R2_ — as well as being in _RV_ — and preceded by **_s_** or **_t_** which must be in _RV_.)
+
+Always do steps 5 and 6.
+
+Step 5: Undouble
+
+If the word ends **_enn_**, **_onn_**, **_ett_**, **_ell_** or **_eill_**, delete the last letter
+
+Step 6: Un-accent
+
+If the words ends **_é_** or **_è_** followed by at least one non-vowel, remove the accent from the **_e_**.
+
+And finally:
+
+Turn any remaining **_I_**, **_U_** and **_Y_** letters in the word back into lower case.
+
+Turn **_He_** and **_Hi_** back into **_ë_** and **_ï_**, and remove any remaining **_H_**.
+
+## History of functional changes to the algorithm
+
+*   September 2002: New rule for _\-ièr_
+*   Snowball 2.0.0: Suffixes that begin with a diaereses are now removed (done by replacing **_ë_** and **_ï_** with **_He_** and **_Hi_**, during stemming then undoing afterwards).
+*   Snowball 3.0.0: Added a new first step which removes elisions.
+*   Snowball 3.0.0: Added rule to replace **_\-oux_** with **_\-ou_**.
+*   Snowball 3.0.0: Added RV exceptions for **_ni_** followed by a vowel.
+*   Snowball 3.0.0: Restrict removal of **_\-ais_**; remove **_\-aise_** and **_\-aises_**.

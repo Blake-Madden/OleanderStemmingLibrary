@@ -1,14 +1,16 @@
 /** @addtogroup Stemming
     @brief Library for stemming words down to their root words.
-    @date 2004-2023
+    @date 2004-2025
     @copyright Oleander Software, Ltd.
     @author Blake Madden
     @details This program is free software; you can redistribute it and/or modify
-    it under the terms of the BSD License.
+     it under the terms of the BSD License.
+
+    SPDX-License-Identifier: BSD-3-Clause
 * @{*/
 
-#ifndef __DANISH_STEM_H__
-#define __DANISH_STEM_H__
+#ifndef OLEAN_DANISH_STEM_H
+#define OLEAN_DANISH_STEM_H
 
 #include "stemming.h"
 
@@ -414,4 +416,4 @@ namespace stemming
 
 /** @}*/
 
-#endif // __DANISH_STEM_H__
+#endif // OLEAN_DANISH_STEM_H

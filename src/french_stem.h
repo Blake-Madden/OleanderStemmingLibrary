@@ -1,14 +1,16 @@
 /** @addtogroup Stemming
     @brief Library for stemming words down to their root words.
-    @date 2004-2023
+    @date 2004-2025
     @copyright Oleander Software, Ltd.
     @author Blake Madden
     @details This program is free software; you can redistribute it and/or modify
-    it under the terms of the BSD License.
+     it under the terms of the BSD License.
+
+    SPDX-License-Identifier: BSD-3-Clause
 * @{*/
 
-#ifndef __FRENCH_STEM_H__
-#define __FRENCH_STEM_H__
+#ifndef OLEAN_FRENCH_STEM_H
+#define OLEAN_FRENCH_STEM_H
 
 #include "stemming.h"
 
@@ -16,183 +18,6 @@ namespace stemming
     {
     /**
     @brief French stemmer.
-
-    @par Definitions:
-
-    Letters in French include the following accented forms:
-        - â à ç ë é ê è ï î ô û ù 
-
-    The following letters are vowels:
-        - a e i o u y â à ë é ê è ï î ô û ù
-
-    Assume the word is in lower case. Then, taking the letters in turn from the beginning
-    to end of the word, put u or i into upper case when it is both preceded and followed by a vowel;
-    put y into upper case when it is either preceded or followed by a vowel;
-    and put u into upper case when it follows q. For example,
-
-    jouer    ->  joUer
-    ennuie   ->  ennuIe
-    yeux     ->  Yeux
-    quand    ->  qUand
-    croyiez  ->  croYiez
-
-    In the last example, y becomes Y because it is between two vowels, but i does not become
-    I because it is between Y and e, and Y is not defined as a vowel above.
-
-    (The upper case forms are not then classed as vowels — see note on vowel marking.)
-
-    Replace ë and ï with He and Hi. The H marks the vowel as having originally had a diaeresis,
-    while the vowel itself, lacking an accent, is able to match suffixes beginning in e or i.
-
-    If the word begins with two vowels, RV is the region after the third letter,
-    otherwise the region after the first vowel not at the beginning of the word,
-    or the end of the word if these positions cannot be found.
-    (Exceptionally, par, col or tap, at the beginning of a word is also taken to
-     define RV as the region to their right.)
-
-    For example,
-
-        a i m e r     a d o r e r     v o l e r    t a p i s
-             |...|         |.....|       |.....|        |...|
-
-    R1 is the region after the first non-vowel following a vowel, or the end of the
-    word if there is no such non-vowel.
-
-    R2 is the region after the first non-vowel following a vowel in R1,
-    or the end of the word if there is no such non-vowel. (See note on R1 and R2.)
-
-    For example:
-
-        f a m e u s e m e n t
-             |......R1.......|
-                   |...R2....|
-
-    Note that R1 can contain RV (adorer), and RV can contain R1 (voler).
-
-    Below, ‘delete if in R2’ means that a found suffix should be removed if it lies
-    entirely in R2, but not if it overlaps R2 and the rest of the word.
-    ‘delete if in R1 and preceded by X’ means that X itself does not have to come in R1,
-    while ‘delete if preceded by X in R1’ means that X, like the suffix, must be entirely in R1.
-
-    Start with step 1
-
-    @par Algorithm:
-
-    <b>Step 1:</b>
-
-    Search for the longest among the following suffixes, and perform the action indicated.
-        - ance iqUe isme able iste eux ances iqUes ismes ables istes
-            - Delete if in R2.
-        - atrice ateur ation atrices ateurs ations
-            - Delete if in R2.
-            - If preceded by ic, delete if in R2, else replace by iqU.
-        - logie logies
-            - Replace with log if in R2.
-        - usion ution usions utions
-            - Replace with u if in R2.
-        -ence ences
-            - Replace with ent if in R2.
-        - ement ements
-            - Delete if in RV
-            - If preceded by iv, delete if in R2 (and if further preceded by at, delete if in R2), otherwise,
-            - If preceded by eus, delete if in R2, else replace by eux if in R1, otherwise,
-            - If preceded by abl or iqU, delete if in R2, otherwise,
-        - If preceded by ièr or Ièr, replace by i if in RV
-        - ité ités
-            - Delete if in R2
-            - If preceded by abil, delete if in R2, else replace by abl, otherwise,
-            - If preceded by ic, delete if in R2, else replace by iqU, otherwise,
-            - If preceded by iv, delete if in R2
-            - If ive ifs ives, delete if in R2
-            - If preceded by "at", delete if in R2
-              (and if further preceded by ic, delete if in R2, else replace by iqU).
-        - eaux
-            - Replace with eau.
-        - aux
-            - Replace with al if in R1.
-        - euse euses
-            - Delete if in R2, else replace by eux if in R1.
-        - issement issements
-            - Delete if in R1 and preceded by a non-vowel.
-        - amment
-            - Replace with ant if in RV.
-        - emment
-            - Replace with ent if in RV.
-        -ment ments
-            - Delete if preceded by a vowel in RV.
-
-    In steps 2(a) and 2(b) all tests are confined to the RV region.
-
-    Do step 2(a) if either no ending was removed by step 1, or if one of endings
-    amment, emment, ment, ments was found.
-
-    <b>Step 2(a):</b>
-
-    Search for the longest among the following suffixes and if found,
-    delete if the preceding character is neither a vowel nor <b>H</b>:
-
-        - îmes ît îtes i ie ies ir ira irai iraIent irais irait iras irent irez
-          iriez irions irons iront is issaIent
-          issais issait issant issante issantes issants isse issent isses issez
-          issiez issions issons it
-
-    (Note that the non-vowel itself must also be in RV).
-
-    Do step 2b if step 2a was done, but failed to remove a suffix.
-
-    <b>Step 2(b):</b>
-
-    Search for the longest among the following suffixes, and perform the action indicated. 
-        - ions
-            - Delete if in R2.
-        - é ée ées és èrent er era erai eraIent erais erait eras erez eriez erions erons eront ez iez
-            - Delete.
-        - âmes ât âtes a ai aIent ais ait ant ante antes ants as asse assent asses assiez assions
-            - Delete.
-            - If preceded by e, delete.
-
-    (Note that the e that may be deleted in this last step must also be in RV).
-
-    If the last step to be obeyed - either step 1, 2a or 2b - altered the word, do step 3.
-
-    <b>Step 3:</b>
-
-    Replace final Y with i or final ç with c.
-
-    Alternatively, if the last step to be obeyed did not alter the word, do step 4.
-
-    <b>Step 4:</b>
-
-    If the word ends s, not preceded by a, i (unless itself preceded by <b>H</b>), o, u, è or s, delete it. 
-
-    In the rest of step 4, all tests are confined to the RV region.
-
-    Search for the longest among the following suffixes, and perform the action indicated:
-        - ion
-            - Delete if in R2 and preceded by s or t.
-        - ier ière Ier Ière
-            - Replace with i.
-        - e
-            - Delete.
-        - ë 
-            - If preceded by gu, delete.
-
-    (So note that ion is removed only when it is in R2 - as well as being in RV -
-    and preceded by s or t which must be in RV).
-
-    <b>Step 5:</b>
-
-    If the word ends enn, onn, ett, ell or eill, then delete the last letter.
-
-    <b>Step 6:</b>
-
-    If the words ends with é or è followed by at least one non-vowel, then remove the accent from the 'e'.
-
-    And finally:
-
-    Turn any remaining I, U and Y letters in the word back into lower case.
-
-    Turn He and Hi back into ë and ï, and remove any remaining <b>H</b>.
     */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>
@@ -2393,4 +2218,4 @@ namespace stemming
 
 /** @}*/
 
-#endif // __FRENCH_STEM_H__
+#endif // OLEAN_FRENCH_STEM_H
