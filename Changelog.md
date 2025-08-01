@@ -1,14 +1,23 @@
 ## Change Log
 
+### 2025 Release
+
+- Updated German, Norwegian, French, Swedish, English, and Spanish to the *Snowball* 3.0.1 standard.\
+  Note that Dutch is currently still using the Porter variant algorithm instead of Kraaij-Pohlmann.\
+  (The addition of the Kraaij-Pohlmann algorithm is planned for a future release.)\
+  The current Dutch stemmer class has been renamed `dutch_porter_stemmer` to reflect this.
+- Algorithm documentation has been moved into a new manual.
+- C++20 is now required.
+
 ### 2023.1 Release
-- Updated the Swedish and German stemmers to the latest Snowball 2.3 standard.
+- Updated the Swedish and German stemmers to the *Snowball* 2.3 standard.
 
 ### 2023 Release
-- Updated Spanish, Russian, Italian, and French stemmers to the latest Snowball standard.
-- Made stemming less aggressive with punctuation at the end of a word. Now, only trailing `'` and `'s'
+- Updated Spanish, Russian, Italian, and French stemmers to the latest *Snowball* standard.
+- Made stemming less aggressive with punctuation at the end of a word. Now, only trailing "\'" and "\'s"
   are removed.
-- Added Catch2 unit tests which compare results against the latest Snowball datasets.\n
-  (Unit tests can be built with CMake.)
+- Added *Catch2* unit tests which compare results against the latest *Snowball* datasets.\n
+  (Unit tests can be built with *CMake*.)
 
 ### 2022 Release
 - Modernized code to C++17.
@@ -21,8 +30,9 @@
 
 ### 2015 Release
 - Overhaul of Doxygen documentation.
-- Updates to compile with GCC.
-- Files are now UTF-8 (without BOM) encoded, which is compatible with Visual Studio 2008 and GCC. Note that this is no longer compatible with earlier versions of Visual Studio.
+- Updates to compile with *GCC*.
+- Files are now UTF-8 (without BOM) encoded, which is compatible with *Visual Studio 2008* and *GCC*.
+  Note that this is no longer compatible with earlier versions of *Visual Studio*.
 
 ### 2010 Release
 - Added Russian stemmer.
@@ -35,19 +45,20 @@
 - Removed "common_lang_constants.cpp" so that the library now consists only of header files.
 
 ### 2.0 Release
-- All extended ASCII characters are written in numeric value, so that you can compile on GCC without needing to encode the source code files to UTF-8.
+- All extended ASCII characters are written in numeric value, so that you can compile on *GCC* without needing to encode the source code files to UTF-8.
 - Fixed a few access violations.
 - Fixed a bug in step 1 of the French stemmer.
 - Updated the English and Spanish stemmers to the newer 2006 algorithms.
 - General optimizations.
 
-**NOTE:** This release is now only compatible with `std::wstring` (Unicode strings). If you need to stem an ANSI string, then convert it to a wstring using `mbstowcs()` and then stem the `std::wstring`.
+**NOTE:** This release is now only compatible with `std::wstring` (Unicode strings).
+If you need to stem an ANSI string, then convert it to a `wstring` using `mbstowcs()` and then stem the `std::wstring`.
 
 ### 1.2 Release
-- Fixed a couple of bugs when compiling with GCC.
+- Fixed a couple of bugs when compiling with *GCC*.
 
 ### 1.1 Release
-- Fixed an error when compiling with Visual Studio 2005.
+- Fixed an error when compiling with *Visual Studio 2005*.
 
 ### 1.0 Release
 - Added updates to English, Italian, Spanish, Norwegian, and Portuguese stemmers to include latest changes made to the Porter algorithms.
@@ -55,7 +66,8 @@
 - Fixed bug in Portuguese stemmer where an "i" was sometimes incorrectly removed from the suffix.
 - Fixed a bug in the English stemmer were some words ending in "e" would be incorrectly stemmed.
 - Unicode now supported. If the symbol `UNICODE` is globally defined, stemmers now work with `std::wstring`s; otherwise, `std::string`s are expected.
-- Removed template arguments for stemmers. Now you can just declare `english_stem EnglishStemmer;` instead of `english_stem<char> EnglishStemmer;` and it will know whether to expect either `std::wstring` or `std::string` types based on whether UNICODE is enabled.
+- Removed template arguments for stemmers.
+  Now you can just declare `english_stem EnglishStemmer;` instead of `english_stem<char> EnglishStemmer;` and it will know whether to expect either `std::wstring` or `std::string` types based on whether `UNICODE` is enabled.
 - Now licensed under the BSD license.
 - Added more helper functions in "utilities.h" and "string_util.h".
 
@@ -73,5 +85,5 @@
 
 ### 0.2 Release
 
-- Fixed a couple of syntax errors in Finnish and French stemmers that GCC picked up.
+- Fixed a couple of syntax errors in Finnish and French stemmers that *GCC* picked up.
 - Added support for German variant algorithm, where umlauted words are expanded to the English equivalent.
