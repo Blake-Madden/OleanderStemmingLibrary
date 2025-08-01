@@ -2,12 +2,8 @@ project:
   type: book
   output-dir: "book"
 
-biblio-title: References
-bibliography: cites.bib
-biblio-style: mla
-
 book:
-  title: "Stemming Manual"
+  title: "Snowball Stemming Manual"
   author:
     - name: Dr. Martin Porter
     - name: Richard Boulton
@@ -15,23 +11,36 @@ book:
   date-format: "YYYY"
   chapters:
     - index.qmd
+    - part: "Overviews"
+      chapters:
+      - r1r2.qmd
+      - vowelmarking.qmd
+      - apostrophe.qmd
     - part: "Algorithms"
       chapters:
-    - english.qmd
       - danish.qmd
+      - dutch_porter.qmd
+      - english.qmd
       - finnish.qmd
       - french.qmd
       - german.qmd
+      - italian.qmd
+      - norwegian.qmd
+      - portuguese.qmd
+      - russian.qmd
+      - spanish.qmd
       - swedish.qmd
     - part: "Index"
       chapters:
       - glossary.qmd
-      - r1r2.qmd
-      - vowelmarking.qmd
-      - apostrophe.qmd
+      - references.qmd
 
 format:
   pdf:
-    documentclass: scrreprt
-    citation-package: biblatex
-    cite-method: biblatex
+    documentclass: report
+    pdf-engine: xelatex
+    header-includes:
+      - \usepackage[Lenny]{fncychap}
+      - \usepackage{fontspec}
+      - \usepackage{noto}
+      - \usepackage[letterpaper, margin=1in]{geometry}

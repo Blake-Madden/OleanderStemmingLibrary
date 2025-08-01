@@ -1,4 +1,4 @@
-# Glossary
+# Glossary {-}
 
 ## _a_\-suffix {-}
 
@@ -17,8 +17,8 @@ An _i_\-suffix, or _inflectional_ suffix, forms part of the basic grammar of a l
 
 |     |     |     |     |     |
 | --- | --- | --- | --- | --- |
-| fit + **_ed_** |     | →   |     | fitted (double **_t_**) |
-| love + **_ed_** |     | →   |     | loved (drop the final **_e_** of love) |
+| fit + **_ed_** |     | »   |     | fitted (double **_t_**) |
+| love + **_ed_** |     | »   |     | loved (drop the final **_e_** of love) |
 
 ## _d_\-suffix {-}
 

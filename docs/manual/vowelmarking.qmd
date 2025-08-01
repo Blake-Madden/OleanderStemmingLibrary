@@ -10,12 +10,12 @@ giving rise to the following changes,
 
 |     |     |     |     |     |
 | --- | --- | --- | --- | --- |
-| _youth_ |     | →   |     | _Youth_ |
-| _boy_ |     | →   |     | _boY_ |
-| _boyish_ |     | →   |     | _boYish_ |
-| _fly_ |     | →   |     | _fly_ |
-| _flying_ |     | →   |     | _flying_ |
-| _syzygy_ |     | →   |     | _syzygy_ |
+| _youth_ |     | »   |     | _Youth_ |
+| _boy_ |     | »   |     | _boY_ |
+| _boyish_ |     | »   |     | _boYish_ |
+| _fly_ |     | »   |     | _fly_ |
+| _flying_ |     | »   |     | _flying_ |
+| _syzygy_ |     | »   |     | _syzygy_ |
 
 This process works from left to right, and if a word contains **_Vyy_**, where **_V_** is a vowel, the first **_y_** is put into upper case, but the second **_y_** is left alone, since it is preceded by upper case **_Y_** which is a consonant. A sequence **_Vyyyyy..._** would be changed to **_VYyYyY..._**.
 
@@ -23,7 +23,7 @@ The combination **_yy_** never occurs in English, although it might appear in fo
 
 |     |     |     |     |     |
 | --- | --- | --- | --- | --- |
-| _sayyid_ |     | →   |     | _saYyid_ |
+| _sayyid_ |     | »   |     | _saYyid_ |
 
 (A _sayyid_, my dictionary tells me, is a descendant of Mohammed's daughter Fatima.) But the left-to-right process is significant in other languages, for example French. In French the rule for marking vowels as consonants is,
 
@@ -33,7 +33,7 @@ which gives rise to,
 
 |     |     |     |     |     |
 | --- | --- | --- | --- | --- |
-| _ennuie_ |     | →   |     | _ennuIe_ |
-| _inquiétude_ |     | →   |     | _inqUiétude_ |
+| _ennuie_ |     | »   |     | _ennuIe_ |
+| _inquiétude_ |     | »   |     | _inqUiétude_ |
 
 In the first word, **_i_** is put into upper case since it has a vowel on both sides of it. In the second word, **_u_** after **_q_** is put into upper case, and again the following **_i_** is left alone, since it is preceded by upper case **_U_** which is a consonant.

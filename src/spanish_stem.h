@@ -1,124 +1,23 @@
 /** @addtogroup Stemming
     @brief Library for stemming words down to their root words.
-    @date 2004-2023
+    @date 2004-2025
     @copyright Oleander Software, Ltd.
     @author Blake Madden
     @details This program is free software; you can redistribute it and/or modify
     it under the terms of the BSD License.
+
+    SPDX-License-Identifier: BSD-3-Clause
 * @{*/
 
-#ifndef __SPANISH_STEM_H__
-#define __SPANISH_STEM_H__
+#ifndef OLEAN_SPANISH_STEM_H
+#define OLEAN_SPANISH_STEM_H
 
 #include "stemming.h"
 
 namespace stemming
     {
     /**
-    @brief Spanish stemmer.
-
-    @par Definitions:
-
-    Letters in Spanish include the following accented forms:
-        - á é í ó ú ü ñ
-    
-    The following letters are vowels:
-        - a e i o u á é í ó ú ü
-    
-    R2 is defined in the usual way - see the note on R1 and R2.
-
-    RV is defined as follows (and this is not the same as the French stemmer definition):
-
-    If the second letter is a consonant, RV is the region after the next following vowel,
-    or if the first two letters are vowels, RV is the region after the next consonant,
-    and otherwise (consonant-vowel case) RV is the region after the third letter.
-    But RV is the end of the word if these positions cannot be found.
-
-    For example,
-
-        m a c h o     o l i v a     t r a b a j o     á u r e o
-             |...|         |...|         |.......|         |...|
-
-    @par Algorithm:
-
-    Always do steps 0 and 1.
-
-    <b>Step 0:</b>
-
-    Search for the longest among the following suffixes
-        - me se sela selo selas selos la le lo las les los nos
-            - Delete it, if comes after one of 
-                - iéndo ándo ár ér ír
-                - ando iendo ar er ir
-                - yendo, following u
-
-    in RV. In the case of (c), yendo must lie in RV, but the preceding u can be outside it.
-
-    In the case of (a), deletion is followed by removing the acute accent
-    (for example, haciéndola -> haciendo).
-
-    <b>Step 1:</b>
-
-    Search for the longest among the following suffixes, and perform the action indicated.
-        - anza anzas ico ica icos icas ismo ismos able ables ible ibles ista istas oso osa
-          osos osas amiento amientos imiento imientos
-            - Delete if in R2.
-        - adora ador ación adoras adores aciones ante antes ancia ancias
-            - Delete if in R2.
-            - If preceded by ic, delete if in R2
-        - logía logías
-            - Replace with log if in R2.
-        - ución uciones
-            - Replace with u if in R2.
-        - encia encias
-            - Replace with ente if in R2.
-        - amente
-            - Delete if in R1.
-            - If preceded by iv, delete if in R2 (and if further preceded by at, delete if in R2), otherwise,
-            - If preceded by os, ic or ad, delete if in R2.
-        - mente
-            - Delete if in R2.
-            - If preceded by ante, able or ible, delete if in R2.
-        - idad idades
-            - Delete if in R2
-            - If preceded by abil, ic or iv, delete if in R2.
-        - iva ivo ivas ivos
-            - Delete if in R2.
-            - If preceded by at, delete if in R2.
-
-    Do step 2(a) if no ending was removed by step 1.
-
-    <b>Step 2(a):</b>
-
-    Search for the longest among the following suffixes in RV, and if found, delete if preceded by u.
-        - ya ye yan yen yeron yendo yo yó yas yes yais yamos
-
-    (Note that the preceding u need not be in RV).
-
-    <b>Step 2(b):</b>
-
-    Do Step 2(b) if step 2(a) was done, but failed to remove a suffix.
-
-    Search for the longest among the following suffixes in RV, and perform the action indicated.
-            - en es éis emos
-                - Delete, and if preceded by gu delete the u (the gu need not be in RV).
-            - arían arías arán arás aríais aría aréis aríamos aremos ará aré erían erías
-            erán erás eríais ería eréis eríamos eremos erá eré irían irías irán irás iríais
-            iría iréis iríamos iremos irá iré aba ada ida ía ara iera ad ed id ase iese aste
-            iste an aban ían aran ieran asen iesen aron ieron ado ido ando iendo ió ar er ir
-            as abas adas idas ías aras ieras ases ieses ís áis abais íais arais ierais
-            aseis ieseis asteis isteis ados idos amos ábamos íamos imos áramos iéramos iésemos ásemos
-                - Delete.
-
-    Always do step 3.
-
-    <b>Step 3:</b>
-
-    Search for the longest among the following suffixes in RV, and perform the action indicated.
-            - os a o á í ó
-                - Delete if in RV.
-            - e é
-                - Delete if in RV, and if preceded by gu with the u in RV delete the u.
+        @brief Spanish stemmer.
     */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>
@@ -2230,4 +2129,4 @@ namespace stemming
 
 /** @}*/
 
-#endif // __SPANISH_STEM_H__
+#endif // OLEAN_SPANISH_STEM_H

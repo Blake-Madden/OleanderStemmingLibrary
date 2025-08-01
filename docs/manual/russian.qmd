@@ -1,0 +1,116 @@
+# Russian stemming algorithm
+
+## The stemming algorithm
+
+_i_\-suffixes of Russian tend to be quite regular, with irregularities of declension involving a change to the stem. Irregular forms therefore usually just generate two or more possible stems. Stems in Russian can be very short, and many of the suffixes are also particle words that make ‘natural stopwords’, so a tempting way of running the stemmer is to set a minimum stem length of zero, and thereby reduce to null all words which are made up entirely of suffix parts. We have been a little more cautious, and have insisted that a minimum stem contains one vowel.
+
+The 32 letters of the Russian alphabet are as follows, with the transliterated forms that we will use here shown in brackets:
+
+|     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| а (**_a_**) |     | б (**_b_**) |     | в (**_v_**) |     | г (**_g_**) |     | д (**_d_**) |     | е (**_e_**) |     | ж (**_zh_**) |     | з (**_z_**) |
+| и (**_i_**) |     | й (**_ì_**) |     | к (**_k_**) |     | л (**_l_**) |     | м (**_m_**) |     | н (**_n_**) |     | о (**_o_**) |     | п (**_p_**) |
+| р (**_r_**) |     | с (**_s_**) |     | т (**_t_**) |     | у (**_u_**) |     | ф (**_f_**) |     | х (**_kh_**) |     | ц (**_ts_**) |     | ч (**_ch_**) |
+| ш (**_sh_**) |     | щ (**_shch_**) |     | ъ (**_\"_**) |     | ы (**_y_**) |     | ь (**_\'_**) |     | э (**_è_**) |     | ю (**_iu_**) |     | я (**_ia_**) |
+
+There is a 33rd letter, ё (**_e\"_**), but it is rarely used and often replaced by е in informal writing. The original algorithm here assumed it had already been mapped to е (**_e_**); since 2018-03-16 the Snowball implementation we provide performs this mapping for you.
+
+The following are vowels:
+
+&ensp;&ensp;а (**_a_**) &nbsp; е (**_e_**) &nbsp; и (**_i_**) &nbsp; о (**_o_**) &nbsp; у (**_u_**) &nbsp; ы (**_y_**) &nbsp; э (**_è_**) &nbsp; ю (**_iu_**) &nbsp; я (**_ia_**)
+
+In any word, _RV_ is the region after the first vowel, or the end of the word if it contains no vowel.
+
+_R1_ is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel.
+
+_R2_ is the region after the first non-vowel following a vowel in _R1_, or the end of the word if there is no such non-vowel.
+
+For example:
+
+    p r o t i v o e s t e s t v e n n o m
+         |<------       RV        ------>|
+           |<-----       R1       ------>|
+               |<-----     R2     ------>|
+
+(See [note](r1r2.qmd) on _R1_ and _R2_.)
+
+We now define the following classes of ending:
+
+PERFECTIVE GERUND:
+
+&ensp;&ensp;group 1: &nbsp; в (**_v_**) &nbsp; вши (**_vshi_**) &nbsp; вшись (**_vshis\'_**)
+
+&ensp;&ensp;group 2: &nbsp; ив (**_iv_**) &nbsp; ивши (**_ivshi_**) &nbsp; ившись (**_ivshis\'_**) &nbsp; ыв (**_yv_**) &nbsp; ывши (**_yvshi_**) &nbsp; ывшись (**_yvshis\'_**)
+
+group 1 endings must follow а (**_a_**) or я (**_ia_**)
+
+ADJECTIVE:
+
+&ensp;&ensp;ее (**_ee_**) &nbsp; ие (**_ie_**) &nbsp; ые (**_ye_**) &nbsp; ое (**_oe_**) &nbsp; ими (**_imi_**) &nbsp; ыми (**_ymi_**) &nbsp; ей (**_eì_**) &nbsp; ий (**_iì_**) &nbsp; ый (**_yì_**) &nbsp; ой (**_oì_**) &nbsp; ем (**_em_**) &nbsp; им (**_im_**) &nbsp; ым (**_ym_**) &nbsp; ом (**_om_**) &nbsp; его (**_ego_**) &nbsp; ого (**_ogo_**) &nbsp; ему (**_emu_**) &nbsp; ому (**_omu_**) &nbsp; их (**_ikh_**) &nbsp; ых (**_ykh_**) &nbsp; ую (**_uiu_**) &nbsp; юю (**_iuiu_**) &nbsp; ая (**_aia_**) &nbsp; яя (**_iaia_**) &nbsp; ою (**_oiu_**) &nbsp; ею (**_eiu_**)
+
+PARTICIPLE:
+
+&ensp;&ensp;group 1: &nbsp; ем (**_em_**) &nbsp; нн (**_nn_**) &nbsp; вш (**_vsh_**) &nbsp; ющ (**_iushch_**) &nbsp; щ (**_shch_**)
+
+&ensp;&ensp;group 2: &nbsp; ивш (**_ivsh_**) &nbsp; ывш (**_yvsh_**) &nbsp; ующ (**_uiushch_**)
+
+group 1 endings must follow а (**_a_**) or я (**_ia_**)
+
+REFLEXIVE:
+
+&ensp;&ensp;ся (**_sia_**) &nbsp; сь (**_s\'_**)
+
+VERB:
+
+&ensp;&ensp;group 1: ла (**_la_**) &nbsp; на (**_na_**) &nbsp; ете (**_ete_**) &nbsp; йте (**_ìte_**) &nbsp; ли (**_li_**) &nbsp; й (**_ì_**) &nbsp; л (**_l_**) &nbsp; ем (**_em_**) &nbsp; н (**_n_**) &nbsp; ло (**_lo_**) &nbsp; но (**_no_**) &nbsp; ет (**_et_**) &nbsp; ют (**_iut_**) &nbsp; ны (**_ny_**) &nbsp; ть (**_t\'_**) &nbsp; ешь (**_esh\'_**) &nbsp; нно (**_nno_**)
+
+&ensp;&ensp;group 2: ила (**_ila_**) &nbsp; ыла (**_yla_**) &nbsp; ена (**_ena_**) &nbsp; ейте (**_eìte_**) &nbsp; уйте (**_uìte_**) &nbsp; ите (**_ite_**) &nbsp; или (**_ili_**) &nbsp; ыли (**_yli_**) &nbsp; ей (**_eì_**) &nbsp; уй (**_uì_**) &nbsp; ил (**_il_**) &nbsp; ыл (**_yl_**) &nbsp; им (**_im_**) &nbsp; ым (**_ym_**) &nbsp; ен (**_en_**) &nbsp; ило (**_ilo_**) &nbsp; ыло (**_ylo_**) &nbsp; ено (**_eno_**) &nbsp; ят (**_iat_**) &nbsp; ует (**_uet_**) &nbsp; уют (**_uiut_**) &nbsp; ит (**_it_**) &nbsp; ыт (**_yt_**) &nbsp; ены (**_eny_**) &nbsp; ить (**_it\'_**) &nbsp; ыть (**_yt\'_**) &nbsp; ишь (**_ish\'_**) &nbsp; ую (**_uiu_**) &nbsp; ю (**_iu_**)
+
+group 1 endings must follow а (**_a_**) or я (**_ia_**)
+
+NOUN:
+
+&ensp;&ensp;а (**_a_**) &nbsp; ев (**_ev_**) &nbsp; ов (**_ov_**) &nbsp; ие (**_ie_**) &nbsp; ье (**_\'e_**) &nbsp; е (**_e_**) &nbsp; иями (**_iiami_**) &nbsp; ями (**_iami_**) &nbsp; ами (**_ami_**) &nbsp; еи (**_ei_**) &nbsp; ии (**_ii_**) &nbsp; и (**_i_**) &nbsp; ией (**_ieì_**) &nbsp; ей (**_eì_**) &nbsp; ой (**_oì_**) &nbsp; ий (**_iì_**) &nbsp; й (**_ì_**) &nbsp; иям (**_iiam_**) &nbsp; ям (**_iam_**) &nbsp; ием (**_iem_**) &nbsp; ем (**_em_**) &nbsp; ам (**_am_**) &nbsp; ом (**_om_**) &nbsp; о (**_o_**) &nbsp; у (**_u_**) &nbsp; ах (**_akh_**) &nbsp; иях (**_iiakh_**) &nbsp; ях (**_iakh_**) &nbsp; ы (**_y_**) &nbsp; ь (**_\'_**) &nbsp; ию (**_iiu_**) &nbsp; ью (**_\'iu_**) &nbsp; ю (**_iu_**) &nbsp; ия (**_iia_**) &nbsp; ья (**_\'ia_**) &nbsp; я (**_ia_**)
+
+SUPERLATIVE:
+
+&ensp;&ensp;ейш (**_eìsh_**) &nbsp; ейше (**_eìshe_**)
+
+These are all _i_\-suffixes. The list of _d_\-suffixes is very short,
+
+DERIVATIONAL:
+
+&ensp;&ensp;ост (**_ost_**) &nbsp; ость (**_ost\'_**)
+
+Define an ADJECTIVAL ending as an ADJECTIVE ending optionally preceded by a PARTICIPLE ending.
+
+For example, in
+
+|     |     |     |     |     |     |     |     |     |     |     |     |     |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| бегавшая |     | \=  |     | бега |     | +   |     | вш  |     | +   |     | ая  |
+| (_begavshaia_ |     | \=  |     | _bega_ |     | +   |     | **_vsh_** |     | +   |     | **_aia_**) |
+
+ая (**_aia_**) is an adjective ending, and вш (**_vsh_**) a participle ending of group 1 (preceded by the final а (**_a_**) of бега (**_bega_**)), so вшая (**_vshaia_**) is an adjectival ending.
+
+In searching for an ending in a class, always choose the longest one from the class.
+
+So in seaching for a NOUN ending for величие (_velichie_), choose ие (**_ie_**) rather than е (**_e_**).
+
+Undouble н (**_n_**) means, if the word ends нн (**_nn_**), remove the last letter.
+
+Here now are the stemming rules.
+
+All tests take place in the _RV_ part of the word.
+
+So in the test for perfective gerund, the а (**_a_**) or я (**_ia_**) which the group 1 endings must follow must itself be in _RV_. In other words the letters before the _RV_ region are never examined in the stemming process.
+
+Do each of steps 1, 2, 3 and 4.
+
+Step 1: Search for a PERFECTIVE GERUND ending. If one is found remove it, and that is then the end of step 1. Otherwise try and remove a REFLEXIVE ending, and then search in turn for (1) an ADJECTIVAL, (2) a VERB or (3) a NOUN ending. As soon as one of the endings (1) to (3) is found remove it, and terminate step 1.
+
+Step 2: If the word ends with и (**_i_**), remove it.
+
+Step 3: Search for a DERIVATIONAL ending in _R2_ (i.e. the entire ending must lie in _R2_), and if one is found, remove it.
+
+Step 4: (1) Undouble н (**_n_**), or, (2) if the word ends with a SUPERLATIVE ending, remove it and undouble н (**_n_**), or (3) if the word ends ь (**_\'_**) (soft sign) remove it.

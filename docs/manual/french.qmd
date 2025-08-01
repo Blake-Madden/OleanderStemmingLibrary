@@ -14,11 +14,11 @@ The suffix **_\-eux_** is removed if in _R2_. For a few short words (**_cheveux_
 
 Letters in French include the following accented forms,
 
-**_â &nbsp; à &nbsp; ç &nbsp; ë &nbsp; é &nbsp; ê &nbsp; è &nbsp; ï &nbsp; î &nbsp; ô &nbsp; û &nbsp; ù_**
+&ensp;&ensp;**_â &nbsp; à &nbsp; ç &nbsp; ë &nbsp; é &nbsp; ê &nbsp; è &nbsp; ï &nbsp; î &nbsp; ô &nbsp; û &nbsp; ù_**
 
 The following letters are vowels:
 
-**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; y &nbsp; â &nbsp; à &nbsp; ë &nbsp; é &nbsp; ê &nbsp; è &nbsp; ï &nbsp; î &nbsp; ô &nbsp; û &nbsp; ù_**
+&ensp;&ensp;**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; y &nbsp; â &nbsp; à &nbsp; ë &nbsp; é &nbsp; ê &nbsp; è &nbsp; ï &nbsp; î &nbsp; ô &nbsp; û &nbsp; ù_**
 
 The first step removes elisions. If the word starts with one of **_c_** &nbsp; **_d_** &nbsp; **_j_** &nbsp; **_l_** &nbsp; **_m_** &nbsp; **_n_** &nbsp; **_s_** &nbsp; **_t_** &nbsp; or &nbsp; **_qu_**, followed by an apostrophe (**_'_**) which is not at the end of the word, then remove from the prefix of the word up to and including this apostrophe.
 
@@ -26,11 +26,11 @@ Assume the word is in lower case. Then, taking the letters in turn from the begi
 
 |     |     |     |     |     |
 | --- | --- | --- | --- | --- |
-| jouer |     | →   |     | joUer |
-| ennuie |     | →   |     | ennuIe |
-| yeux |     | →   |     | Yeux |
-| quand |     | →   |     | qUand |
-| croyiez |     | →   |     | croYiez |
+| jouer |     | »   |     | joUer |
+| ennuie |     | »   |     | ennuIe |
+| yeux |     | »   |     | Yeux |
+| quand |     | »   |     | qUand |
+| croyiez |     | »   |     | croYiez |
 
 In the last example, **_y_** becomes **_Y_** because it is between two vowels, but **_i_** does not become **_I_** because it is between **_Y_** and **_e_**, and **_Y_** is not defined as a vowel above.
 
@@ -40,17 +40,18 @@ Replace **_ë_** and **_ï_** with **_He_** and **_Hi_**. The **_H_** marks the 
 
 _RV_ is defined as the region to the right of the first of these which is true (the examples show _RV_ underlined):
 
-1.  The word starts with two vowels followed by another letter - e.g. _aimer_
-2.  The word starts **_par_**
-  - e.g. _parie_
-3.  The word starts **_col_**
-  - e.g. _colis_
-4.  The word starts **_tap_**
-  - e.g. _tapis_
-5.  The word starts **_ni_** followed by any vowel
-  - e.g. _niaises_
-6.  The first vowel not at the beginning of the word
-  - e.g. _adorer_, _voler_
+1.  The word starts with two vowels followed by another letter\
+  \- e.g. _aimer_
+2.  The word starts **_par_**\
+  \- e.g. _parie_
+3.  The word starts **_col_**\
+  \- e.g. _colis_
+4.  The word starts **_tap_**\
+  \- e.g. _tapis_
+5.  The word starts **_ni_** followed by any vowel\
+  \- e.g. _niaises_
+6.  The first vowel not at the beginning of the word\
+  \- e.g. _adorer_, _voler_
 7.  The end of the word - e.g. _arcs_ (RV is an empty region at the end of the word)
 
 _R1_ is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel.
@@ -71,158 +72,157 @@ Start with step 1
 
 Step 1: Standard suffix removal
 
-Search for the longest among the following suffixes, and perform the action indicated.
+&ensp;&ensp;Search for the longest among the following suffixes, and perform the action indicated.
 
-**_ance &nbsp; iqUe &nbsp; isme &nbsp; able &nbsp; iste &nbsp; eux &nbsp; ances &nbsp; iqUes &nbsp; ismes &nbsp; ables &nbsp; istes_**
+&ensp;&ensp;&ensp;&ensp;**_ance &nbsp; iqUe &nbsp; isme &nbsp; able &nbsp; iste &nbsp; eux &nbsp; ances &nbsp; iqUes &nbsp; ismes &nbsp; ables &nbsp; istes_**
 
-delete if in _R2_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_
 
-**_atrice &nbsp; ateur &nbsp; ation &nbsp; atrices &nbsp; ateurs &nbsp; ations_**
+&ensp;&ensp;&ensp;&ensp;**_atrice &nbsp; ateur &nbsp; ation &nbsp; atrices &nbsp; ateurs &nbsp; ations_**
 
-delete if in _R2_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_
 
-if preceded by **_ic_**, delete if in _R2_, else replace by **_iqU_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_ic_**, delete if in _R2_, else replace by **_iqU_**
 
-**_logie logies_**
+&ensp;&ensp;&ensp;&ensp;**_logie logies_**
 
-replace with **_log_** if in _R2_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_log_** if in _R2_
 
-**_usion &nbsp; ution &nbsp; usions &nbsp; utions_**
+&ensp;&ensp;&ensp;&ensp;**_usion &nbsp; ution &nbsp; usions &nbsp; utions_**
 
-replace with **_u_** if in _R2_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_u_** if in _R2_
 
-**_ence &nbsp; ences_**
+&ensp;&ensp;&ensp;&ensp;**_ence &nbsp; ences_**
 
-replace with **_ent_** if in _R2_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_ent_** if in _R2_
 
-**_ement ements_**
+&ensp;&ensp;&ensp;&ensp;**_ement ements_**
 
-delete if in _RV_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _RV_
 
-if preceded by **_iv_**, delete if in _R2_ (and if further preceded by **_at_**, delete if in _R2_), otherwise,
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_iv_**, delete if in _R2_ (and if further preceded by **_at_**, delete if in _R2_), otherwise,
 
-if preceded by **_eus_**, delete if in _R2_, else replace by **_eux_** if in _R1_, otherwise,
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_eus_**, delete if in _R2_, else replace by **_eux_** if in _R1_, otherwise,
 
-if preceded by **_abl_** or **_iqU_**, delete if in _R2_, otherwise,
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_abl_** or **_iqU_**, delete if in _R2_, otherwise,
 
-if preceded by **_ièr_** or **_Ièr_**, replace by **_i_** if in _RV_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_ièr_** or **_Ièr_**, replace by **_i_** if in _RV_
 
-**_ité ités_**
+&ensp;&ensp;&ensp;&ensp;**_ité ités_**
 
-delete if in _R2_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_
 
-if preceded by **_abil_**, delete if in _R2_, else replace by **_abl_**, otherwise,
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_abil_**, delete if in _R2_, else replace by **_abl_**, otherwise,
 
-if preceded by **_ic_**, delete if in _R2_, else replace by **_iqU_**, otherwise,
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_ic_**, delete if in _R2_, else replace by **_iqU_**, otherwise,
 
-if preceded by **_iv_**, delete if in _R2_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_iv_**, delete if in _R2_
 
-**_if &nbsp; ive &nbsp; ifs &nbsp; ives_**
+&ensp;&ensp;&ensp;&ensp;**_if &nbsp; ive &nbsp; ifs &nbsp; ives_**
 
-delete if in _R2_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_
 
-if preceded by **_at_**, delete if in _R2_ (and if further preceded by **_ic_**, delete if in _R2_, else replace by **_iqU_**)
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_at_**, delete if in _R2_ (and if further preceded by **_ic_**, delete if in _R2_, else replace by **_iqU_**)
 
-**_eaux_**
+&ensp;&ensp;&ensp;&ensp;**_eaux_**
 
-replace with **_eau_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_eau_**
 
-**_aux_**
+&ensp;&ensp;&ensp;&ensp;**_aux_**
 
-replace with **_al_** if in _R1_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_al_** if in _R1_
 
-**_oux_**
+&ensp;&ensp;&ensp;&ensp;**_oux_**
 
-replace with **_ou_** if preceded by one of **_b_** &nbsp; **_h_** &nbsp; **_j_** &nbsp; **_l_** &nbsp; **_n_** &nbsp; **_p_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_ou_** if preceded by one of **_b_** &nbsp; **_h_** &nbsp; **_j_** &nbsp; **_l_** &nbsp; **_n_** &nbsp; **_p_**
 
-**_euse euses_**
+&ensp;&ensp;&ensp;&ensp;**_euse euses_**
 
-delete if in _R2_, else replace by **_eux_** if in _R1_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_, else replace by **_eux_** if in _R1_
 
-**_issement issements_**
+&ensp;&ensp;&ensp;&ensp;**_issement issements_**
 
-delete if in _R1_ and preceded by a non-vowel
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R1_ and preceded by a non-vowel
 
-**_amment_**
+&ensp;&ensp;&ensp;&ensp;**_amment_**
 
-replace with **_ant_** if in _RV_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_ant_** if in _RV_
 
-**_emment_**
+&ensp;&ensp;&ensp;&ensp;**_emment_**
 
-replace with **_ent_** if in _RV_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_ent_** if in _RV_
 
-**_ment ments_**
+&ensp;&ensp;&ensp;&ensp;**_ment ments_**
 
-delete if preceded by a vowel in _RV_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if preceded by a vowel in _RV_
 
-Do step 2_a_ if either no ending was removed by step 1, or if one of endings **_amment_**, **_emment_**, **_ment_**, **_ments_** was found.
+Do step _2a_ if either no ending was removed by step 1, or if one of endings **_amment_**, **_emment_**, **_ment_**, **_ments_** was found.
 
-Step 2_a_: Verb suffixes beginning **_i_**
+Step _2a_: Verb suffixes beginning **_i_**
 
-Search for the longest among the following suffixes in RV and if found, delete if the preceding character is also in RV and is neither a vowel nor **_H_**.
+&ensp;&ensp;Search for the longest among the following suffixes in RV and if found, delete if the preceding character is also in RV and is neither a vowel nor **_H_**.
 
-**_îmes ît îtes i ie ies ir ira irai iraIent irais irait iras irent irez iriez irions irons iront is issaIent issais issait issant issante issantes issants isse issent isses issez issiez issions issons it_**
+&ensp;&ensp;&ensp;&ensp;**_îmes ît îtes i ie ies ir ira irai iraIent irais irait iras irent irez iriez irions irons iront is issaIent issais issait issant issante issantes issants isse issent isses issez issiez issions issons it_**
 
-Do step 2_b_ if step 2_a_ was done, but failed to remove a suffix.
+Do step _2b_ if step _2a_ was done, but failed to remove a suffix.
 
-Step 2_b_: Other verb suffixes
+Step _2b_: Other verb suffixes
 
-Search for the longest among the following suffixes in RV, and perform the action indicated.
+&ensp;&ensp;Search for the longest among the following suffixes in RV, and perform the action indicated.
 
-**_ions_**
+&ensp;&ensp;&ensp;&ensp;**_ions_**
 
-delete if in _R2_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_
 
-**_é &nbsp; ée &nbsp; ées &nbsp; és &nbsp; èrent &nbsp; er &nbsp; era &nbsp; erai &nbsp; eraIent &nbsp; erais &nbsp; erait &nbsp; eras &nbsp; erez &nbsp; eriez &nbsp; erions &nbsp; erons &nbsp; eront &nbsp; ez &nbsp; iez_**
+&ensp;&ensp;&ensp;&ensp;**_é &nbsp; ée &nbsp; ées &nbsp; és &nbsp; èrent &nbsp; er &nbsp; era &nbsp; erai &nbsp; eraIent &nbsp; erais &nbsp; erait &nbsp; eras &nbsp; erez &nbsp; eriez &nbsp; erions &nbsp; erons &nbsp; eront &nbsp; ez &nbsp; iez_**
 
-delete
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete
 
-**_âmes &nbsp; ât &nbsp; âtes &nbsp; a &nbsp; ai &nbsp; aIent &nbsp; ait &nbsp; ant &nbsp; ante &nbsp; antes &nbsp; ants &nbsp; as &nbsp; asse &nbsp; assent &nbsp; asses &nbsp; assiez &nbsp; assions_**
+&ensp;&ensp;&ensp;&ensp;**_âmes &nbsp; ât &nbsp; âtes &nbsp; a &nbsp; ai &nbsp; aIent &nbsp; ait &nbsp; ant &nbsp; ante &nbsp; antes &nbsp; ants &nbsp; as &nbsp; asse &nbsp; assent &nbsp; asses &nbsp; assiez &nbsp; assions_**
 
-delete
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete
 
-if preceded by **_e_** which is also in RV, delete the **_e_** as well
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_e_** which is also in RV, delete the **_e_** as well
 
-**_ais &nbsp; aise &nbsp; aises_**
+&ensp;&ensp;&ensp;&ensp;**_ais &nbsp; aise &nbsp; aises_**
 
-delete unless preceded by one of: **_al_** preceded by exactly one character, **_auv_**, **_épl_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete unless preceded by one of: **_al_** preceded by exactly one character, **_auv_**, **_épl_**
 
-If the last step to be obeyed — either step 1, 2_a_ or 2_b_ — altered the word, do step 3
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;If the last step to be obeyed — either step 1, _2a_ or _2b_ — altered the word, do step 3
 
 Step 3
 
-Replace final **_Y_** with **_i_** or final **_ç_** with **_c_**
+&ensp;&ensp;Replace final **_Y_** with **_i_** or final **_ç_** with **_c_**
 
 Alternatively, if the last step to be obeyed did not alter the word, do step 4
 
 Step 4: Residual suffix
 
-If the word ends **_s_**, not preceded by **_a_**, **_i_** (unless itself preceded by **_H_**), **_o_**, **_u_**, **_è_** or **_s_**, delete it.
+&ensp;&ensp;If the word ends **_s_**, not preceded by **_a_**, **_i_** (unless itself preceded by **_H_**), **_o_**, **_u_**, **_è_** or **_s_**, delete it.
 
-In the rest of step 4, all tests are confined to the _RV_ region.
+&ensp;&ensp;In the rest of step 4, all tests are confined to the _RV_ region.
 
-Search for the longest among the following suffixes, and perform the action indicated.
+&ensp;&ensp;Search for the longest among the following suffixes, and perform the action indicated.
 
-**_ion_**
+&ensp;&ensp;&ensp;&ensp;**_ion_**
 
-delete if in _R2_ and preceded by **_s_** or **_t_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_ and preceded by **_s_** or **_t_**
 
-**_ier &nbsp; ière &nbsp; Ier &nbsp; Ière_**
+&ensp;&ensp;&ensp;&ensp;**_ier &nbsp; ière &nbsp; Ier &nbsp; Ière_**
 
-replace with **_i_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_i_**
 
-**_e_**
+&ensp;&ensp;&ensp;&ensp;**_e_**
 
-delete
-
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete
   
-(So note that **_ion_** is removed only when it is in _R2_ — as well as being in _RV_ — and preceded by **_s_** or **_t_** which must be in _RV_.)
+&ensp;&ensp;(So note that **_ion_** is removed only when it is in _R2_ — as well as being in _RV_ — and preceded by **_s_** or **_t_** which must be in _RV_.)
 
 Always do steps 5 and 6.
 
 Step 5: Undouble
 
-If the word ends **_enn_**, **_onn_**, **_ett_**, **_ell_** or **_eill_**, delete the last letter
+&ensp;&ensp;If the word ends **_enn_**, **_onn_**, **_ett_**, **_ell_** or **_eill_**, delete the last letter
 
 Step 6: Un-accent
 
@@ -230,9 +230,9 @@ If the words ends **_é_** or **_è_** followed by at least one non-vowel, remov
 
 And finally:
 
-Turn any remaining **_I_**, **_U_** and **_Y_** letters in the word back into lower case.
+&ensp;&ensp;Turn any remaining **_I_**, **_U_** and **_Y_** letters in the word back into lower case.
 
-Turn **_He_** and **_Hi_** back into **_ë_** and **_ï_**, and remove any remaining **_H_**.
+&ensp;&ensp;Turn **_He_** and **_Hi_** back into **_ë_** and **_ï_**, and remove any remaining **_H_**.
 
 ## History of functional changes to the algorithm
 

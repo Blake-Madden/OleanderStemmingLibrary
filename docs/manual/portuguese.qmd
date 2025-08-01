@@ -1,0 +1,121 @@
+# Portuguese stemming algorithm
+
+## Design Notes
+
+This stemming algorithm aims to work with both European Portuguese and Brazilian Portuguese. It does not specifically attempt to normalise differences between the two, though removing suffixes will naturally tend to do this to some extent.
+
+## History of functional changes to the algorithm
+
+*   2005-06-15: Added rules to remove _\-ante_, _\-antes_ and _\-ância_
+
+## The stemming algorithm
+
+Letters in Portuguese include the following accented forms,
+
+&ensp;&ensp;**_á &nbsp; é &nbsp; í &nbsp; ó &nbsp; ú &nbsp; â &nbsp; ê &nbsp; ô &nbsp; ç &nbsp; ã &nbsp; õ &nbsp; ü_**
+
+The following letters are vowels:
+
+&ensp;&ensp;**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; á &nbsp; é &nbsp; í &nbsp; ó &nbsp; ú &nbsp; â &nbsp; ê &nbsp; ô_**
+
+And the two nasalised vowel forms,
+
+&ensp;&ensp;**_ã &nbsp; õ_**
+
+should be treated as a vowel followed by a consonant.
+
+&ensp;&ensp;**_ã_** and **_õ_** are therefore replaced by **_a~_** and **_o~_** in the word, where **_~_** is a separate character to be treated as a consonant. And then —
+
+_R2_ (see the [note](r1r2.qmd) on _R1_ and _R2_) and _RV_ have the same definition as in the [Spanish stemmer](spanish.qmd).
+
+Always do step 1.
+
+Step 1: Standard suffix removal
+
+&ensp;&ensp;Search for the longest among the following suffixes, and perform the action indicated.
+
+&ensp;&ensp;&ensp;&ensp;**_eza &nbsp; ezas &nbsp; ico &nbsp; ica &nbsp; icos &nbsp; icas &nbsp; ismo &nbsp; ismos &nbsp; ável &nbsp; ível &nbsp; ista &nbsp; istas &nbsp; oso &nbsp; osa &nbsp; osos &nbsp; osas &nbsp; amento &nbsp; amentos &nbsp; imento &nbsp; imentos &nbsp; adora &nbsp; ador &nbsp; aça~o &nbsp; adoras &nbsp; adores &nbsp; aço~es &nbsp; ante &nbsp; antes &nbsp; ância_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;**_logia &nbsp; logias_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_log_** if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;**_ução &nbsp; uções_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_u_** if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;**_ência &nbsp; ências_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_ente_** if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;**_amente_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R1_
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_iv_**, delete if in _R2_ (and if further preceded by **_at_**, delete if in _R2_), otherwise,
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_os_**, **_ic_** or **_ad_**, delete if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;**_mente_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_ante_**, **_avel_** or **_ível_**, delete if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;**_idade &nbsp; idades_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_abil_**, **_ic_** or **_iv_**, delete if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;**_iva &nbsp; ivo &nbsp; ivas &nbsp; ivos_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_at_**, delete if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;**_ira &nbsp; iras_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_ir_** if in _RV_ and preceded by **_e_**
+
+Do step 2 if no ending was removed by step 1.
+
+Step 2: Verb suffixes
+
+&ensp;&ensp;Search for the longest among the following suffixes in _RV_, and if found, delete.
+
+&ensp;&ensp;&ensp;&ensp;**_ada &nbsp; ida &nbsp; ia &nbsp; aria &nbsp; eria &nbsp; iria &nbsp; ará &nbsp; ara &nbsp; erá &nbsp; era &nbsp; irá &nbsp; ava &nbsp; asse &nbsp; esse &nbsp; isse &nbsp; aste &nbsp; este &nbsp; iste &nbsp; ei &nbsp; arei &nbsp; erei &nbsp; irei &nbsp; am &nbsp; iam &nbsp; ariam &nbsp; eriam &nbsp; iriam &nbsp; aram &nbsp; eram &nbsp; iram &nbsp; avam &nbsp; em &nbsp; arem &nbsp; erem &nbsp; irem &nbsp; assem &nbsp; essem &nbsp; issem &nbsp; ado &nbsp; ido &nbsp; ando &nbsp; endo &nbsp; indo &nbsp; ara~o &nbsp; era~o &nbsp; ira~o &nbsp; ar &nbsp; er &nbsp; ir &nbsp; as &nbsp; adas &nbsp; idas &nbsp; ias &nbsp; arias &nbsp; erias &nbsp; irias &nbsp; arás &nbsp; aras &nbsp; erás &nbsp; eras &nbsp; irás &nbsp; avas &nbsp; es &nbsp; ardes &nbsp; erdes &nbsp; irdes &nbsp; ares &nbsp; eres &nbsp; ires &nbsp; asses &nbsp; esses &nbsp; isses &nbsp; astes &nbsp; estes &nbsp; istes &nbsp; is &nbsp; ais &nbsp; eis &nbsp; íeis &nbsp; aríeis &nbsp; eríeis &nbsp; iríeis &nbsp; áreis &nbsp; areis &nbsp; éreis &nbsp; ereis &nbsp; íreis &nbsp; ireis &nbsp; ásseis &nbsp; ésseis &nbsp; ísseis &nbsp; áveis &nbsp; ados &nbsp; idos &nbsp; ámos &nbsp; amos &nbsp; íamos &nbsp; aríamos &nbsp; eríamos &nbsp; iríamos &nbsp; áramos &nbsp; éramos &nbsp; íramos &nbsp; ávamos &nbsp; emos &nbsp; aremos &nbsp; eremos &nbsp; iremos &nbsp; ássemos &nbsp; êssemos &nbsp; íssemos &nbsp; imos &nbsp; armos &nbsp; ermos &nbsp; irmos &nbsp; eu &nbsp; iu &nbsp; ou &nbsp; ira &nbsp; iras_**
+
+If the last step to be obeyed — either step 1 or 2 — altered the word, do step 3
+
+Step 3
+
+&ensp;&ensp;Delete suffix **_i_** if in _RV_ and preceded by **_c_**
+
+Alternatively, if neither steps 1 nor 2 altered the word, do step 4
+
+Step 4: Residual suffix
+
+&ensp;&ensp;If the word ends with one of the suffixes
+
+&ensp;&ensp;&ensp;&ensp;**_os &nbsp; a &nbsp; i &nbsp; o &nbsp; á &nbsp; í &nbsp; ó_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;in _RV_, delete it
+
+Always do step 5
+
+Step 5:
+
+&ensp;&ensp;If the word ends with one of
+
+&ensp;&ensp;&ensp;&ensp;**_e &nbsp; é &nbsp; ê_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;in _RV_, delete it, and if preceded by **_gu_** (or **_ci_**) with the **_u_** (or **_i_**) in _RV_, delete the **_u_** (or **_i_**).
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Or if the word ends **_ç_** remove the cedilla
+
+And finally:
+
+&ensp;&ensp;Turn **_a~_**, **_o~_** back into **_ã_**, **_õ_**

@@ -1,0 +1,75 @@
+# Norwegian stemming algorithm
+
+## The stemming algorithm
+
+The Norwegian alphabet includes the following additional letters,
+
+&ensp;&ensp;**_æ &nbsp; å &nbsp; ø_**
+
+The following letters are vowels:
+
+&ensp;&ensp;**_a &nbsp; e &nbsp; ê &nbsp; i &nbsp; o &nbsp; ò &nbsp; ó &nbsp; ô &nbsp; u &nbsp; y &nbsp; æ &nbsp; å &nbsp; ø_**
+
+_R2_ is not used: _R1_ is defined in the same way as in the [German stemmer](german.qmd). (See the [note](r1r2.qmd) on _R1_ and _R2_.)
+
+Define a valid **_s_**\-ending as one of
+
+&ensp;&ensp;**_b_** &nbsp; **_c_** &nbsp; **_d_** &nbsp; **_f_** &nbsp; **_g_** &nbsp; **_h_** &nbsp; **_j_** &nbsp; **_l_** &nbsp; **_m_** &nbsp; **_n_** &nbsp; **_o_** &nbsp; **_p_** &nbsp; **_t_** &nbsp; **_v_** &nbsp; **_y_** &nbsp; **_z_**,  
+&ensp;&ensp;or **_r_** not preceded by **_e_**,  
+&ensp;&ensp;or **_k_** not preceded by a vowel.
+
+Do each of steps 1, 2 and 3.
+
+Step 1:
+
+&ensp;&ensp;Search for the longest among the following suffixes in _R1_, and perform the action indicated.
+
+&ensp;&ensp;&ensp;&ensp;(_a_) **_a &nbsp; e &nbsp; ede &nbsp; ande &nbsp; ende &nbsp; ane &nbsp; ene &nbsp; hetene &nbsp; en &nbsp; heten &nbsp; ar &nbsp; er &nbsp; heter &nbsp; as &nbsp; es &nbsp; edes &nbsp; endes &nbsp; enes &nbsp; hetenes &nbsp; ens &nbsp; hetens &nbsp; ets &nbsp; et &nbsp; het &nbsp; ast_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete
+
+&ensp;&ensp;&ensp;&ensp;(_b_) **_ers_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;find the longest suffix preceding **_ers_**, and perform the action indicated.
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(_i_\> **_amm &nbsp; ast &nbsp; ind &nbsp; kap &nbsp; kk &nbsp; lt &nbsp; nk &nbsp; omm &nbsp; pp &nbsp; v &nbsp; øst_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;do nothing
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(_ii_\> **_giv &nbsp; hav &nbsp; skap_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete **_ers_** suffix
+
+&ensp;&ensp;&ensp;&ensp;(_c_) **_s_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if preceded by a valid **_s_**\-ending
+
+&ensp;&ensp;&ensp;&ensp;(_d_) **_erte &nbsp; ert_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_er_**
+
+&ensp;&ensp;(Note that only the suffix needs to be in _R1_, the letter of the valid **_s_**\-ending is not required to be.)
+
+Step 2:
+
+&ensp;&ensp;If the word ends **_dt_** or **_vt_** in _R1_, delete the **_t_**.
+
+&ensp;&ensp;(For example, _meldt_ » _meld_, _operativt_ » _operativ_)
+
+Step 3:
+
+&ensp;&ensp;Search for the longest among the following suffixes in _R1_, and if found, delete.
+
+&ensp;&ensp;&ensp;&ensp;**_leg &nbsp; eleg &nbsp; ig &nbsp; eig &nbsp; lig &nbsp; elig &nbsp; els &nbsp; lov &nbsp; elov &nbsp; slov &nbsp; hetslov_**
+
+## Design Notes
+
+This algorithm aims to stem both Bokmål and Nynorsk, which are the two legally-recognised forms of written Norwegian.
+
+Some other accented vowels are used in a small number of Norwegian words but these are deliberately not included in the list of vowels for this algorithm. This is not due to the small number of affected words but because including them doesn't actually improve the results of stemming. In most cases it would make no difference, but for **_é_** the reasoning is more subtle. Including it would make one difference - it would conflate forms of **_léta_** (to paint) but **_lét_** is both the imperative of **_léta_** and the past tense of **_la_** (to let/allow) so overall this conflation doesn't seem an improvement.
+
+## History of functional changes to the algorithm
+
+*   Snowball 2.0.0: **_s_**\-ending definition adjusted to only include **_k_** when preceded by a non-vowel.
+*   Snowball 3.0.0: Improve handling of words ending **_ers_**.
+*   Snowball 3.0.0: Include **_ê_**, **_ò_**, **_ó_** and **_ô_** in the list of vowels.

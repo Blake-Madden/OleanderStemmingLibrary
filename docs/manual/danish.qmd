@@ -4,11 +4,11 @@
 
 The Danish alphabet includes the following additional letters,
 
-**_æ å ø_**
+&ensp;&ensp;**_æ &nbsp; å &nbsp; ø_**
 
 The following letters are vowels:
 
-**_a e i o u y æ å ø_**
+&ensp;&ensp;**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; y &nbsp; æ &nbsp; å &nbsp; ø_**
 
 A consonant is defined as a character from ASCII a-z which isn't a vowel (originally this was "A consonant is defined as a non-vowel" but since 2018-11-15 we've changed this definition to avoid the stemmer altering alphanumeric codes which end with a repeated digit).
 
@@ -16,48 +16,48 @@ _R2_ is not used: _R1_ is defined in the same way as in the [German stemmer](ger
 
 Define a valid **_s_**\-ending as one of
 
-**_a &nbsp; b &nbsp; c &nbsp; d &nbsp; f &nbsp; g &nbsp; h &nbsp; j &nbsp; k &nbsp; l &nbsp; m &nbsp; n &nbsp; o &nbsp; p &nbsp; r &nbsp; t &nbsp; v &nbsp; y &nbsp; z &nbsp; å_**
+&ensp;&ensp;**_a &nbsp; b &nbsp; c &nbsp; d &nbsp; f &nbsp; g &nbsp; h &nbsp; j &nbsp; k &nbsp; l &nbsp; m &nbsp; n &nbsp; o &nbsp; p &nbsp; r &nbsp; t &nbsp; v &nbsp; y &nbsp; z &nbsp; å_**
 
 Do each of steps 1, 2, 3 and 4.
 
 Step 1:
 
-Search for the longest among the following suffixes in _R1_, and perform the action indicated.
+&ensp;&ensp;Search for the longest among the following suffixes in _R1_, and perform the action indicated.
 
-(_a_) **_hed &nbsp; ethed &nbsp; ered &nbsp; e &nbsp; erede &nbsp; ende &nbsp; erende &nbsp; ene &nbsp; erne &nbsp; ere &nbsp; en &nbsp; heden &nbsp; eren &nbsp; er &nbsp; heder &nbsp; erer &nbsp; heds &nbsp; es &nbsp; endes &nbsp; erendes &nbsp; enes &nbsp; ernes &nbsp; eres &nbsp; ens &nbsp; hedens &nbsp; erens &nbsp; ers &nbsp; ets &nbsp; erets &nbsp; et &nbsp; eret_**
+&ensp;&ensp;&ensp;&ensp;(_a_) **_hed &nbsp; ethed &nbsp; ered &nbsp; e &nbsp; erede &nbsp; ende &nbsp; erende &nbsp; ene &nbsp; erne &nbsp; ere &nbsp; en &nbsp; heden &nbsp; eren &nbsp; er &nbsp; heder &nbsp; erer &nbsp; heds &nbsp; es &nbsp; endes &nbsp; erendes &nbsp; enes &nbsp; ernes &nbsp; eres &nbsp; ens &nbsp; hedens &nbsp; erens &nbsp; ers &nbsp; ets &nbsp; erets &nbsp; et &nbsp; eret_**
 
-delete
+&ensp;&ensp;&ensp;&ensp;delete
 
-(_b_) **_s_**
+&ensp;&ensp;(_b_) **_s_**
 
-delete if preceded by a valid **_s_**\-ending
+&ensp;&ensp;&ensp;&ensp;delete if preceded by a valid **_s_**\-ending
 
 (Note that only the suffix needs to be in _R1_, the letter of the valid **_s_**\-ending is not required to be.)
 
 Step 2:
 
-Search for one of the following suffixes in _R1_, and if found delete the last letter.
+&ensp;&ensp;Search for one of the following suffixes in _R1_, and if found delete the last letter.
 
-**_gd &nbsp; dt &nbsp; gt &nbsp; kt_**
+&ensp;&ensp;&ensp;&ensp;**_gd &nbsp; dt &nbsp; gt &nbsp; kt_**
 
-(For example, _friskt_ → _frisk_)
+&ensp;&ensp;(For example, _friskt_ » _frisk_)
 
 Step 3:
 
-If the word ends **_igst_**, remove the final **_st_**.
+&ensp;&ensp;If the word ends **_igst_**, remove the final **_st_**.
 
-Search for the longest among the following suffixes in _R1_, and perform the action indicated.
+&ensp;&ensp;Search for the longest among the following suffixes in _R1_, and perform the action indicated.
 
-(_a_) **_ig &nbsp; lig &nbsp; elig &nbsp; els_**
+&ensp;&ensp;&ensp;&ensp;(_a_) **_ig &nbsp; lig &nbsp; elig &nbsp; els_**
 
-delete, and then repeat step 2
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete, and then repeat step 2
 
-(_b_) **_løst_**
+&ensp;&ensp;&ensp;&ensp;(_b_) **_løst_**
 
-replace with **_løs_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_løs_**
 
 Step 4: undouble
 
-If the word ends with double consonant in _R1_, remove one of the consonants.
+&ensp;&ensp;If the word ends with double consonant in _R1_, remove one of the consonants.
 
-(For example, _bestemmelse_ → _bestemmels_ (step 1) → _bestemm_ (step 3_a_) → _bestem_ in this step.)
+&ensp;&ensp;(For example, _bestemmelse_ » _bestemmels_ (step 1) » _bestemm_ (step _3a_) » _bestem_ in this step.)

@@ -1,61 +1,23 @@
 /** @addtogroup Stemming
     @brief Library for stemming words down to their root words.
-    @date 2004-2023
+    @date 2004-2025
     @copyright Oleander Software, Ltd.
     @author Blake Madden
     @details This program is free software; you can redistribute it and/or modify
     it under the terms of the BSD License.
+
+    SPDX-License-Identifier: BSD-3-Clause
 * @{*/
 
-#ifndef __NORWEGIAN_STEM_H__
-#define __NORWEGIAN_STEM_H__
+#ifndef OLEAN_NORWEGIAN_STEM_H
+#define OLEAN_NORWEGIAN_STEM_H
 
 #include "stemming.h"
 
 namespace stemming
     {
     /**
-    @brief Norwegian stemmer.
-    @date 2004
-    @par Definitions:
-
-    The Norwegian alphabet includes the following additional letters:
-        - æ   å   ø
-
-    The following letters are vowels:
-        - a   e   i   o   u   y   æ   å   ø
-
-    R2 is not used: R1 is defined in the same way as in the German stemmer.
-
-    Define a valid s-ending as one of
-        - b   c   d   f   g   h   j   l   m   n   o   p   r   t   v   y   z,
-        - or 'k', not preceded by a vowel.
-    
-    @par Algorithm:
-
-    <b>Step 1:</b>
-
-    Search for the longest among the following suffixes in R1, and perform the action indicated: 
-        - a e ede ande ende ane ene hetene en heten ar er heter as es edes
-          endes enes hetenes ens hetens ers ets et het ast 
-            - Delete.
-        - s 
-            - Delete if preceded by a valid s-ending.
-
-        - erte   ert 
-            - Replace with "er".
-
-        (Of course the letter of the valid s-ending is not necessarily in R1).
-
-    <b>Step 2:</b>
-
-    If the word ends dt or vt in R1, then delete the 't'.
-    (For example, meldt -> meld, operativt -> operativ).
-
-    <b>Step 3:</b>
-
-    Search for the longest among the following suffixes in R1, and if found, delete:
-        - leg eleg ig eig lig elig els lov elov slov hetslov
+        @brief Norwegian stemmer.
     */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>
@@ -634,4 +596,4 @@ namespace stemming
 
 /** @}*/
 
-#endif // __NORWEGIAN_STEM_H__
+#endif // OLEAN_NORWEGIAN_STEM_H

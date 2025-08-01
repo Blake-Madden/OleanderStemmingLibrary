@@ -62,20 +62,20 @@ We would suggest, however, that the need for compound word splitting in these la
 
 German includes the following accented forms,
 
-**_ä &nbsp; ö &nbsp; ü_**
+&ensp;&ensp;**_ä &nbsp; ö &nbsp; ü_**
 
 and a special letter, **_ß_**, equivalent to double **_s_**.
 
 The following letters are vowels:
 
-**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; y &nbsp; ä &nbsp; ö &nbsp; ü_**
+&ensp;&ensp;**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; y &nbsp; ä &nbsp; ö &nbsp; ü_**
 
 First put **_u_** and **_y_** between vowels into upper case, and then do the following mappings,
 
-(_a_) replace **_ß_** with **_ss_**,  
-(_a_) replace **_ae_** with **_ä_**,  
-(_a_) replace **_oe_** with **_ö_**,  
-(_a_) replace **_ue_** with **_ü_** unless preceded by **_q_**.
+&ensp;&ensp;(_a_) replace **_ß_** with **_ss_**,  
+&ensp;&ensp;(_b_) replace **_ae_** with **_ä_**,  
+&ensp;&ensp;(_c_) replace **_oe_** with **_ö_**,  
+&ensp;&ensp;(_d_) replace **_ue_** with **_ü_** unless preceded by **_q_**.
 
 (The rules here for **_ae_**, **_oe_** and **_ue_** were added in Snowball 3.0.0, but were previously present as a variant of the algorithm termed "german2"). The condition on the replacement of **_ue_** prevents the unwanted changing of _quelle_. Also note that _feuer_ is not modified because the first part of the rule changes it to _feUer_, so **_ue_** is not found.)
 
@@ -93,56 +93,56 @@ Step 1:
 
 Search for the longest among the following suffixes,
 
-(_a_) **_em_** (not preceded by **_syst_** \[condition added in Snowball 3.0.0\])  
-(_b_) **_ern &nbsp; er_**  
-(_c_) **_e &nbsp; en &nbsp; es_**  
-(_d_) **_s_** (preceded by a valid **_s_**\-ending)  
-(_e_) **_erin &nbsp; erinnen_** \[added in Snowball 3.0.0\]  
-(_f_) **_ln &nbsp; lns_** \[added in Snowball 3.0.0\]
+&ensp;&ensp;(_a_) **_em_** (not preceded by **_syst_** \[condition added in Snowball 3.0.0\])  
+&ensp;&ensp;(_b_) **_ern &nbsp; er_**  
+&ensp;&ensp;(_c_) **_e &nbsp; en &nbsp; es_**  
+&ensp;&ensp;(_d_) **_s_** (preceded by a valid **_s_**\-ending)  
+&ensp;&ensp;(_e_) **_erin &nbsp; erinnen_** \[added in Snowball 3.0.0\]  
+&ensp;&ensp;(_f_) **_ln &nbsp; lns_** \[added in Snowball 3.0.0\]
 
 and if in _R1_ then delete (for (a) to (e)) or replace with _l_ (for (f)). (Note that only the suffix needs to be in _R1_, the letter of the valid **_s_**\-ending is not required to be.)
 
 If an ending of group (_c_) is deleted, and the ending is preceded by **_niss_**, delete the final **_s_**.
 
-(For example, _äckern_ → _äck_, _ackers_ → _acker_, _armes_ → _arm_, _bedürfnissen_ → _bedürfnis_)
+(For example, _äckern_ » _äck_, _ackers_ » _acker_, _armes_ » _arm_, _bedürfnissen_ » _bedürfnis_)
 
 Step 2:
 
-Search for the longest among the following suffixes,
+&ensp;&ensp;Search for the longest among the following suffixes,
 
-(_a_) **_en &nbsp; er &nbsp; est_**  
-(_b_) **_st_** (preceded by a valid **_st_**\-ending, itself preceded by at least 3 (_c_) **_et_** (preceded by a valid **_et_**\-ending, itself not preceded any of **_geordn_**, **_intern_**, **_plan_**, **_tick_** or **_tr_**).
+&ensp;&ensp;&ensp;&ensp;(_a_) **_en &nbsp; er &nbsp; est_**  
+&ensp;&ensp;&ensp;&ensp;(_b_) **_st_** (preceded by a valid **_st_**\-ending, itself preceded by at least 3 (_c_) **_et_** (preceded by a valid **_et_**\-ending, itself not preceded any of **_geordn_**, **_intern_**, **_plan_**, **_tick_** or **_tr_**).
 
-and delete the suffix if in _R1_.
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;and delete the suffix if in _R1_.
 
-(For example, _derbsten_ → _derbst_ by step 1, and _derbst_ → _derb_ by step 2, since **_b_** is a valid **_st_**\-ending, and is preceded by just 3 letters)
+(For example, _derbsten_ » _derbst_ by step 1, and _derbst_ » _derb_ by step 2, since **_b_** is a valid **_st_**\-ending, and is preceded by just 3 letters)
 
-Step 3: _d_\-suffixes [(\*)](glossary.qmd)
+Step 3: _d_\-suffixes
 
-Search for the longest among the following suffixes, and perform the action indicated.
+&ensp;&ensp;Search for the longest among the following suffixes, and perform the action indicated.
 
-**_end &nbsp; ung_**
+&ensp;&ensp;&ensp;&ensp;**_end &nbsp; ung_**
 
-delete if in _R2_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_
 
-if preceded by **_ig_**, delete if in _R2_ and not preceded by **_e_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_ig_**, delete if in _R2_ and not preceded by **_e_**
 
-**_ig &nbsp; ik &nbsp; isch_**
+&ensp;&ensp;&ensp;&ensp;**_ig &nbsp; ik &nbsp; isch_**
 
-delete if in _R2_ and not preceded by **_e_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_ and not preceded by **_e_**
 
-**_lich &nbsp; heit_**
+&ensp;&ensp;&ensp;&ensp;**_lich &nbsp; heit_**
 
-delete if in _R2_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_
 
-if preceded by **_er_** or **_en_**, delete if in _R1_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_er_** or **_en_**, delete if in _R1_
 
-**_keit_**
+&ensp;&ensp;&ensp;&ensp;**_keit_**
 
-delete if in _R2_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_
 
-if preceded by **_lich_** or **_ig_**, delete if in _R2_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_lich_** or **_ig_**, delete if in _R2_
 
 Finally,
 
-turn **_U_** and **_Y_** back into lower case, and remove the umlaut accent from **_a_**, **_o_** and **_u_**.
+&ensp;&ensp;turn **_U_** and **_Y_** back into lower case, and remove the umlaut accent from **_a_**, **_o_** and **_u_**.

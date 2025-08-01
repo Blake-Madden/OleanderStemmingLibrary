@@ -1,0 +1,116 @@
+# Italian stemming algorithm
+
+## The stemming algorithm
+
+Italian can include the following accented forms:
+
+&ensp;&ensp;**_á &nbsp; é &nbsp; í &nbsp; ó &nbsp; ú &nbsp; à &nbsp; è &nbsp; ì &nbsp; ò &nbsp; ù_**
+
+First, replace all acute accents by grave accents. And, as in French, put **_u_** after **_q_**, and **_u_**, **_i_** between vowels into upper case. (See [note](vowelmarking.qmd) on vowel marking.)
+
+The vowels are then
+
+&ensp;&ensp;**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; à &nbsp; è &nbsp; ì &nbsp; ò &nbsp; ù_**
+
+_R2_ (see the [note](r1r2.qmd) on _R1_ and _R2_) and _RV_ have the same definition as in the [Spanish stemmer](spanish.qmd).
+
+_R2_ is defined in the usual way — see the [note](r1r2.qmd) on _R1_ and _R2_.
+
+_RV_ is defined as follows (this is the same as the [Spanish stemmer](spanish.qmd) definition, except for the initial exceptional case):
+
+If the word begins _divan_ then _RV_ starts after this prefix. If the second letter is a consonant, _RV_ is the region after the next following vowel, or if the first two letters are vowels, _RV_ is the region after the next consonant, and otherwise (consonant-vowel case) _RV_ is the region after the third letter. But _RV_ is the end of the word if these positions cannot be found.
+
+Always do steps 0 and 1.
+
+Step 0: Attached pronoun
+
+&ensp;&ensp;Search for the longest among the following suffixes
+
+&ensp;&ensp;&ensp;&ensp;**_ci &nbsp; gli &nbsp; la &nbsp; le &nbsp; li &nbsp; lo &nbsp; mi &nbsp; ne &nbsp; si &nbsp; ti &nbsp; vi &nbsp; sene &nbsp; gliela &nbsp; gliele &nbsp; glieli &nbsp; glielo &nbsp; gliene &nbsp; mela &nbsp; mele &nbsp; meli &nbsp; melo &nbsp; mene &nbsp; tela &nbsp; tele &nbsp; teli &nbsp; telo &nbsp; tene &nbsp; cela &nbsp; cele &nbsp; celi &nbsp; celo &nbsp; cene &nbsp; vela &nbsp; vele &nbsp; veli &nbsp; velo &nbsp; vene_**
+
+&ensp;&ensp;following one of
+
+&ensp;&ensp;&ensp;&ensp;(_a_) **_ando &nbsp; endo_**  
+&ensp;&ensp;&ensp;&ensp;(_b_) **_ar &nbsp; er &nbsp; ir_**
+
+&ensp;&ensp;in _RV_. In case of (_a_) the suffix is deleted, in case\
+&ensp;&ensp;(_b_) it is replace by **_e_**\
+&ensp;&ensp;(_guardandogli_ » _guardando_, _accomodarci_ » _accomodare_)
+
+Step 1: Standard suffix removal
+
+&ensp;&ensp;Search for the longest among the following suffixes, and perform the action indicated.
+
+&ensp;&ensp;&ensp;&ensp;**_anza &nbsp; anze &nbsp; ico &nbsp; ici &nbsp; ica &nbsp; ice &nbsp; iche &nbsp; ichi &nbsp; ismo &nbsp; ismi &nbsp; abile &nbsp; abili &nbsp; ibile &nbsp; ibili &nbsp; ista &nbsp; iste &nbsp; isti &nbsp; istà &nbsp; istè &nbsp; istì &nbsp; oso &nbsp; osi &nbsp; osa &nbsp; ose &nbsp; mente &nbsp; atrice &nbsp; atrici &nbsp; ante &nbsp; anti_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;**_azione &nbsp; azioni &nbsp; atore &nbsp; atori_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_; if preceded by **_ic_** which is also in _R2_, delete that too
+
+&ensp;&ensp;&ensp;&ensp;**_logia &nbsp; logie_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_log_** if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;**_uzione &nbsp; uzioni &nbsp; usione &nbsp; usioni_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_u_** if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;**_enza &nbsp; enze_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_ente_** if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;**_amento &nbsp; amenti &nbsp; imento &nbsp; imenti_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _RV_
+
+&ensp;&ensp;&ensp;&ensp;**_amente_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R1_
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_iv_**, delete if in _R2_ (and if further preceded by **_at_**,\
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_), otherwise,
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_os_**, **_ic_** or **_abil_**, delete if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;**_ità_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_abil_**, **_ic_** or **_iv_**, delete if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;**_ivo &nbsp; ivi &nbsp; iva &nbsp; ive_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_at_**, delete if in _R2_ (and if further preceded by **_ic_**,\
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_)
+
+Do step 2 if no ending was removed by step 1.
+
+Step 2: Verb suffixes
+
+&ensp;&ensp;Search for the longest among the following suffixes in _RV_, and if found, delete.
+
+&ensp;&ensp;&ensp;&ensp;**_ammo &nbsp; ando &nbsp; ano &nbsp; are &nbsp; arono &nbsp; asse &nbsp; assero &nbsp; assi &nbsp; assimo &nbsp; ata &nbsp; ate &nbsp; ati &nbsp; ato &nbsp; ava &nbsp; avamo &nbsp; avano &nbsp; avate &nbsp; avi &nbsp; avo &nbsp; emmo &nbsp; enda &nbsp; ende &nbsp; endi &nbsp; endo &nbsp; erà &nbsp; erai &nbsp; eranno &nbsp; ere &nbsp; erebbe &nbsp; erebbero &nbsp; erei &nbsp; eremmo &nbsp; eremo &nbsp; ereste &nbsp; eresti &nbsp; erete &nbsp; erò &nbsp; erono &nbsp; essero &nbsp; ete &nbsp; eva &nbsp; evamo &nbsp; evano &nbsp; evate &nbsp; evi &nbsp; evo &nbsp; Yamo &nbsp; iamo &nbsp; immo &nbsp; irà &nbsp; irai &nbsp; iranno &nbsp; ire &nbsp; irebbe &nbsp; irebbero &nbsp; irei &nbsp; iremmo &nbsp; iremo &nbsp; ireste &nbsp; iresti &nbsp; irete &nbsp; irò &nbsp; irono &nbsp; isca &nbsp; iscano &nbsp; isce &nbsp; isci &nbsp; isco &nbsp; iscono &nbsp; issero &nbsp; ita &nbsp; ite &nbsp; iti &nbsp; ito &nbsp; iva &nbsp; ivamo &nbsp; ivano &nbsp; ivate &nbsp; ivi &nbsp; ivo &nbsp; ono &nbsp; uta &nbsp; ute &nbsp; uti &nbsp; uto &nbsp; ar &nbsp; ir_**
+
+Always do steps 3a and 3b.
+
+&ensp;&ensp;Step 3a
+
+&ensp;&ensp;Delete a final **_a_**, **_e_**, **_i_**, **_o_**, **_à_**, **_è_**, **_ì_** or **_ò_** if it is in _RV_, and a preceding **_i_**\
+&ensp;&ensp;if it is in _RV_ (_crocchi_ » _crocch_, _crocchio_ » _crocch_)
+
+Step 3b
+
+&ensp;&ensp;Replace final **_ch_** (or **_gh_**) with **_c_** (or **_g_**) if in _RV_ (_crocch_ » _crocc_)
+
+Finally,
+
+&ensp;&ensp;turn **_I_** and **_U_** back into lower case
+
+## History of functional changes to the algorithm
+
+*   2005-06-15: Remove suffixes _\-ante_ and _\-anti_.
+*   Snowball 3.0.0: Add exception to _RV_ definition to avoid overstemming _divano_.

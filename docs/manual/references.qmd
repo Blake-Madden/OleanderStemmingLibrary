@@ -1,0 +1,31 @@
+# References {-}
+
+Farber DJ, Griswold RE and Polonsky IP (1964) SNOBOL, a string manipulation language. _Journal of the Association for Computing Machinery_, **11**: 21-30.
+
+Griswold RE, Poage JF and Polonsky IP (1968) _The SNOBOL4 programming language_. Prentice-Hall, New Jersey.
+
+Harman D (1991) How effective is suffixing? _Journal of the American Society for Information Science_, **42**: 7-15.
+
+Jesperson O (1921) _Language, its nature, origin and development._ George Allen & Unwin, London.
+
+Kraaij W and Pohlmann R. (1994) Porter’s stemming algorithm for Dutch. In Noordman LGM and de Vroomen WAM, eds. _Informatiewetenschap 1994: Wetenschappelijke bijdragen aan de derde STINFON Conferentie_, Tilburg, 1994. pp. 167-180.
+
+Kraaij W and Pohlmann R (1995) Evaluation of a Dutch stemming algorithm. Rowley J, ed. _The New Review of Document and Text Management_, volume 1, Taylor Graham, London, 1995. pp. 25-43,
+
+Krovetz B (1995) _Word sense disambiguation for large text databases_. PhD Thesis. Department of Computer Science, University of Massachusetts Amherst.
+
+Lennon M, Pierce DS, Tarry BD and Willett P (1981) An evaluation of some conflation algorithms for information retrieval. _Journal of Information Science_, **3**: 177-183.
+
+Lovins JB (1968) Development of a stemming algorithm. _Mechanical Translation and Computational Linguistics_, **11**: 22-31.
+
+Palmer FR (1965) _A linguistic study of the English verb_. Longmans, London.
+
+Popovic M and Willett P (1990) Processing of documents and queries in a Slovene language free text retrieval system. _Literary and Linguistic Computing_, **5**: 182-190.
+
+Porter MF (1980) An algorithm for suffix stripping. _Program_, 14: 130-137.
+
+Rijsbergen CJ (1979) _Information retrieval_. Second edition. Butterworths, London.
+
+Savoy J (1993) Stemming of French words based on grammatical categories. _Journal of the American Society for Information Science_, **44**: 1-9.
+
+Schinke R, Greengrass M, Robertson AM and Willett P (1996) A stemming algorithm for Latin text databases. _Journal of Documentation_, **52**: 172-187.

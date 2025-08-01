@@ -2,7 +2,7 @@
 
 ## Design Notes
 
-Finnish is not an Indo-European language, but belongs to the Finno-Ugric group, which again belongs to the Uralic group [(\*)](glossary.qmd). Distinctions between _a_\-, _i_\- and _d_\-suffixes can be made in Finnish, but they are much less sharply separated than in an Indo-European language. The system of endings is extremely elaborate, but strictly defined, and applies equally to all nominals, that is, to nouns, adjectives and pronouns. Verb endings have a close similarity to nominal endings, which again makes Finnish very different from any Indo-European language.
+Finnish is not an Indo-European language, but belongs to the Finno-Ugric group, which again belongs to the Uralic group. Distinctions between _a_\-, _i_\- and _d_\-suffixes can be made in Finnish, but they are much less sharply separated than in an Indo-European language. The system of endings is extremely elaborate, but strictly defined, and applies equally to all nominals, that is, to nouns, adjectives and pronouns. Verb endings have a close similarity to nominal endings, which again makes Finnish very different from any Indo-European language.
 
 More problematical than the endings themselves is the change that can be effected in a stem as a result of taking a particular ending. A stem typically has two forms, _strong_ and _weak_, where one class of ending follows the strong form and the complementary class the weak. Normalising strong and weak forms after ending removal is not generally possible, although the common case where strong and weak forms only differ in the single or double form of a final consonant can be dealt with.
 
@@ -12,11 +12,11 @@ The letter **_å_** is also in the Finnish alphabet, but is only used in Scandan
 
 Finnish includes the following accented forms,
 
-**_ä &nbsp; ö_**
+&ensp;&ensp;**_ä &nbsp; ö_**
 
 The following letters are vowels:
 
-**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; y &nbsp; ä &nbsp; ö_**
+&ensp;&ensp;**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; y &nbsp; ä &nbsp; ö_**
 
 _R1_ and _R2_ are then defined in the usual way (see the [note](r1r2.qmd) on _R1_ and _R2_).
 
@@ -24,49 +24,47 @@ Do each of steps 1, 2, 3, 4, 5 and 6.
 
 Step 1: particles etc
 
-Search for the longest among the following suffixes in _R1_, and perform the action indicated  
-  
+&ensp;&ensp;Search for the longest among the following suffixes in _R1_, and perform the action indicated  
 
-(_a_) **_kin &nbsp; kaan &nbsp; kään &nbsp; ko &nbsp; kö &nbsp; han &nbsp; hän &nbsp; pa &nbsp; pä_**
+&ensp;&ensp;&ensp;&ensp;(_a_) **_kin &nbsp; kaan &nbsp; kään &nbsp; ko &nbsp; kö &nbsp; han &nbsp; hän &nbsp; pa &nbsp; pä_**
 
-delete if preceded by **_n_**, **_t_** or a vowel
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if preceded by **_n_**, **_t_** or a vowel
 
-(_b_) **_sti_**
+&ensp;&ensp;&ensp;&ensp;(_b_) **_sti_**
 
-delete if in _R2_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_
 
 Note that only the suffix needs to be in _R1_, the **_n_**, **_t_** or vowel of 1(_a_) is not required to be. And similarly below.
 
 Step 2: possessives
 
-Search for the longest among the following suffixes in _R1_, and perform the action indicated  
+&ensp;&ensp;Search for the longest among the following suffixes in _R1_, and perform the action indicated  
   
+&ensp;&ensp;&ensp;&ensp;**_si_**
 
-**_si_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if not preceded by **_k_**
 
-delete if not preceded by **_k_**
+&ensp;&ensp;&ensp;&ensp;**_ni_**
 
-**_ni_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete
 
-delete
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_kse_**, replace with **_ksi_**
 
-if preceded by **_kse_**, replace with **_ksi_**
+&ensp;&ensp;&ensp;&ensp;**_nsa &nbsp; nsä &nbsp; mme &nbsp; nne_**
 
-**_nsa &nbsp; nsä &nbsp; mme &nbsp; nne_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete
 
-delete
+&ensp;&ensp;&ensp;&ensp;**_an_**
 
-**_an_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if preceded by one of **_ta &nbsp; ssa &nbsp; sta &nbsp; lla &nbsp; lta &nbsp; na_**
 
-delete if preceded by one of **_ta &nbsp; ssa &nbsp; sta &nbsp; lla &nbsp; lta &nbsp; na_**
+&ensp;&ensp;&ensp;&ensp;**_än_**
 
-**_än_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if preceded by one of **_tä &nbsp; ssä &nbsp; stä &nbsp; llä &nbsp; ltä &nbsp; nä_**
 
-delete if preceded by one of **_tä &nbsp; ssä &nbsp; stä &nbsp; llä &nbsp; ltä &nbsp; nä_**
+&ensp;&ensp;&ensp;&ensp;**_en_**
 
-**_en_**
-
-delete if preceded by one of **_lle ine_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if preceded by one of **_lle ine_**
 
 The remaining steps require a few definitions.
 
@@ -79,54 +77,53 @@ So _cv_ means a _c_ followed by a _v_.
 
 Step 3: cases
 
-Search for the longest among the following suffixes in _R1_, and perform the action indicated
+&ensp;&ensp;Search for the longest among the following suffixes in _R1_, and perform the action indicated
 
-**_h_**_X_**_n_** preceded by _X_, where _X_ is a _V_ other than **_u_** (**_a/han_**, **_e/hen_** etc)
+&ensp;&ensp;&ensp;&ensp;**_hXn_** preceded by _X_, where _X_ is a _V_ other than **_u_** (**_a/han_**, **_e/hen_** etc)
 
-**_siin &nbsp; den &nbsp; tten_** preceded by _V_**_i_**
+&ensp;&ensp;&ensp;&ensp;**_siin &nbsp; den &nbsp; tten_** preceded by _V_**_i_**
 
-**_seen_** preceded by _LV_
+&ensp;&ensp;&ensp;&ensp;**_seen_** preceded by _LV_
 
-**_a &nbsp; ä_** preceded by _cv_
+&ensp;&ensp;&ensp;&ensp;**_a &nbsp; ä_** preceded by _cv_
 
-**_tta &nbsp; ttä_** preceded by **_e_**
+&ensp;&ensp;&ensp;&ensp;**_tta &nbsp; ttä_** preceded by **_e_**
 
-**_ta &nbsp; tä &nbsp; ssa &nbsp; ssä &nbsp; sta &nbsp; stä &nbsp; lla &nbsp; llä &nbsp; lta &nbsp; ltä &nbsp; lle &nbsp; na &nbsp; nä &nbsp; ksi &nbsp; ine_**
+&ensp;&ensp;&ensp;&ensp;**_ta &nbsp; tä &nbsp; ssa &nbsp; ssä &nbsp; sta &nbsp; stä &nbsp; lla &nbsp; llä &nbsp; lta &nbsp; ltä &nbsp; lle &nbsp; na &nbsp; nä &nbsp; ksi &nbsp; ine_**
 
-delete
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete
 
-**_n_**
+&ensp;&ensp;&ensp;&ensp;**_n_**
 
-delete, and if preceded by _LV_ or **_ie_**, delete the last vowel
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete, and if preceded by _LV_ or **_ie_**, delete the last vowel
 
-So _aarteisiin_ → _aartei_, the longest matching suffix being **_siin_**, preceded as it is by _V_**_i_**. But _adressiin_ → _adressi_. The longest matching suffix is not **_siin_**, because there is no preceding _V_**_i_**, but **_n_**, and then the last vowel of the preceding _LV_ is removed.
+So _aarteisiin_ » _aartei_, the longest matching suffix being **_siin_**, preceded as it is by _V_**_i_**. But _adressiin_ » _adressi_. The longest matching suffix is not **_siin_**, because there is no preceding _V_**_i_**, but **_n_**, and then the last vowel of the preceding _LV_ is removed.
 
 Step 4: other endings
 
-Search for the longest among the following suffixes in _R2_, and perform the action indicated  
-  
+&ensp;&ensp;Search for the longest among the following suffixes in _R2_, and perform the action indicated  
 
-**_mpi &nbsp; mpa &nbsp; mpä &nbsp; mmi &nbsp; mma &nbsp; mmä_**
+&ensp;&ensp;&ensp;&ensp;**_mpi &nbsp; mpa &nbsp; mpä &nbsp; mmi &nbsp; mma &nbsp; mmä_**
 
-delete if not preceded by **_po_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if not preceded by **_po_**
 
-**_impi &nbsp; impa &nbsp; impä &nbsp; immi &nbsp; imma &nbsp; immä &nbsp; eja &nbsp; ejä_**
+&ensp;&ensp;&ensp;&ensp;**_impi &nbsp; impa &nbsp; impä &nbsp; immi &nbsp; imma &nbsp; immä &nbsp; eja &nbsp; ejä_**
 
-delete
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete
 
 Step 5: plurals
 
-If an ending was removed in step 3, delete a final **_i_** or **_j_** if in _R1_; otherwise, if an ending was not removed in step 3, delete a final **_t_** in _R1_ if it follows a vowel, and, if a **_t_** is removed, delete a final **_mma_** or **_imma_** in _R2_, unless the **_mma_** is preceded by **_po_**.
+&ensp;&ensp;If an ending was removed in step 3, delete a final **_i_** or **_j_** if in _R1_; otherwise, if an ending was not removed in step 3, delete a final **_t_** in _R1_ if it follows a vowel, and, if a **_t_** is removed, delete a final **_mma_** or **_imma_** in _R2_, unless the **_mma_** is preceded by **_po_**.
 
 Step 6: tidying up
 
-Do in turn steps (_a_), (_b_), (_c_), (_d_), restricting all tests to the region _R1_.
+&ensp;&ensp;Do in turn steps (_a_), (_b_), (_c_), (_d_), restricting all tests to the region _R1_.
 
-_a_) If _R1_ ends _LV_ delete the last letter  
-_b_) If _R1_ ends _cX_, _c_ a consonant and _X_ one of **_a ä e i_**, delete the last letter  
-_c_) If _R1_ ends **_oj_** or **_uj_** delete the last letter  
-_d_) If _R1_ ends **_jo_** delete the last letter
+&ensp;&ensp;_a_) If _R1_ ends _LV_ delete the last letter  
+&ensp;&ensp;_b_) If _R1_ ends _cX_, _c_ a consonant and _X_ one of **_a ä e i_**, delete the last letter  
+&ensp;&ensp;_c_) If _R1_ ends **_oj_** or **_uj_** delete the last letter  
+&ensp;&ensp;_d_) If _R1_ ends **_jo_** delete the last letter
 
-Do step (_e_), which is not restricted to _R1_.
+&ensp;&ensp;Do step (_e_), which is not restricted to _R1_.
 
-_e_) If the word ends with a double consonant followed by zero or more vowels, remove the last consonant (so _eläkk_ → _eläk_, _aatonaatto_ → _aatonaato_)
+&ensp;&ensp;_e_) If the word ends with a double consonant followed by zero or more vowels, remove the last consonant (so _eläkk_ » _eläk_, _aatonaatto_ » _aatonaato_)

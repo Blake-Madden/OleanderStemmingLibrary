@@ -1,0 +1,79 @@
+# Dutch stemming algorithm (Porter variant)
+
+## The stemming algorithm
+
+Dutch includes the following accented forms
+
+&ensp;&ensp;**_ä &nbsp; ë &nbsp; ï &nbsp; ö &nbsp; ü &nbsp; á &nbsp; é &nbsp; í &nbsp; ó &nbsp; ú &nbsp; è_**
+
+First, remove all umlaut and acute accents listed above. A vowel is then one of,
+
+&ensp;&ensp;**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; y &nbsp; è_**
+
+Put initial **_y_**, **_y_** after a vowel, and **_i_** between vowels into upper case. _R1_ and _R2_ (see the [note](r1r2.qmd) on _R1_ and _R2_) are then defined as in German.  
+  
+Define a valid **_s_**\-ending as a non-vowel other than **_j_**.  
+  
+Define a valid **_en_**\-ending as a non-vowel, and not **_gem_**.  
+  
+Define undoubling the ending as removing the last letter if the word ends **_kk_**, **_dd_** or **_tt_**.  
+  
+Do each of steps 1, 2 3 and 4.  
+  
+Step 1:
+
+&ensp;&ensp;Search for the longest among the following suffixes, and perform the action indicated  
+
+&ensp;&ensp;&ensp;&ensp;(_a_) **_heden_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace with **_heid_** if in _R1_  
+  
+&ensp;&ensp;&ensp;&ensp;(_b_) **_en &nbsp; ene_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R1_ and preceded by a valid **_en_**\-ending, and then undouble the ending  
+  
+&ensp;&ensp;&ensp;&ensp;(_c_) **_s &nbsp; se_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R1_ and preceded by a valid **_s_**\-ending
+
+Step 2:
+
+&ensp;&ensp;Delete suffix **_e_** if in _R1_ and preceded by a non-vowel, and then undouble the ending
+
+Step 3a: **_heid_**
+
+&ensp;&ensp;delete **_heid_** if in _R2_ and not preceded by **_c_**, and treat a preceding **_en_** as in step 1(_b_)
+
+Step 3b: _d_\-suffixes
+
+&ensp;&ensp;Search for the longest among the following suffixes, and perform the action indicated.  
+
+&ensp;&ensp;&ensp;&ensp;**_end &nbsp; ing_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if preceded by **_ig_**, delete if in _R2_ and not preceded by **_e_**, otherwise undouble the ending  
+  
+&ensp;&ensp;&ensp;&ensp;**_ig_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_ and not preceded by **_e_**  
+  
+&ensp;&ensp;&ensp;&ensp;**_lijk_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_, and then repeat step 2  
+
+&ensp;&ensp;&ensp;&ensp;**_baar_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_  
+  
+&ensp;&ensp;&ensp;&ensp;**_bar_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_ and if step 2 actually removed an **_e_**
+
+Step 4: undouble vowel
+
+&ensp;&ensp;If the words ends _CVD_, where _C_ is a non-vowel, _D_ is a non-vowel other than **_I_**, and _V_ is double **_a_**, **_e_**, **_o_** or **_u_**, remove one of the vowels from _V_ (for example, _maan_ » _man_, _brood_ » _brod_).
+
+Finally,
+
+&ensp;&ensp;Turn **_I_** and **_Y_** back into lower case.

@@ -3,7 +3,7 @@
 (Revised slightly, December 2001)  
 (Further revised, September 2002)
 
-Martin Porter made more than one attempt to improve the structure of the Porter algorithm by making it follow the pattern of ending removal of the Romance language stemmers. It is not hard to see why one should want to do this: step 1b of the Porter stemmer removes **_ed_** and **_ing_**, which are _i_\-suffixes [(\*)](glossary.qmd) attached to verbs. If these suffixes are removed, there should be no need to remove _d_\-suffixes which are not verbal, although it will try to do so. This seems to be a deficiency in the Porter stemmer, not shared by the Romance stemmers. Again, the divisions between steps 2, 3 and 4 seem rather arbitrary, and are not found in the Romance stemmers.
+Martin Porter made more than one attempt to improve the structure of the Porter algorithm by making it follow the pattern of ending removal of the Romance language stemmers. It is not hard to see why one should want to do this: step 1b of the Porter stemmer removes **_ed_** and **_ing_**, which are _i_\-suffixes attached to verbs. If these suffixes are removed, there should be no need to remove _d_\-suffixes which are not verbal, although it will try to do so. This seems to be a deficiency in the Porter stemmer, not shared by the Romance stemmers. Again, the divisions between steps 2, 3 and 4 seem rather arbitrary, and are not found in the Romance stemmers.
 
 Nevertheless, these attempts at improvement were abandoned. They seem to lead to a more complicated algorithm with no very obvious improvements. A reason for not taking note of the outcome of step 1b may be that English endings do not determine word categories quite as strongly as endings in the Romance languages. For example, _condition_ and _position_ in French have to be nouns, but in English they can be verbs as well as nouns,
 
@@ -53,15 +53,15 @@ To begin with, here is the basic algorithm without reference to the exceptional 
 
 Define a _vowel_ as one of
 
-**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; y_**
+&ensp;&ensp;**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; y_**
 
 Define a _double_ as one of
 
-**_bb &nbsp; dd &nbsp; ff &nbsp; gg &nbsp; mm &nbsp; nn &nbsp; pp &nbsp; rr &nbsp; tt_**
+&ensp;&ensp;**_bb &nbsp; dd &nbsp; ff &nbsp; gg &nbsp; mm &nbsp; nn &nbsp; pp &nbsp; rr &nbsp; tt_**
 
 Define a _valid **_li_**\-ending_ as one of
 
-**_c &nbsp; d &nbsp; e &nbsp; g &nbsp; h &nbsp; k &nbsp; m &nbsp; n &nbsp; r &nbsp; t_**
+&ensp;&ensp;**_c &nbsp; d &nbsp; e &nbsp; g &nbsp; h &nbsp; k &nbsp; m &nbsp; n &nbsp; r &nbsp; t_**
 
 _R1_ is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel. (This definition may be modified for certain exceptional words — see below.)
 
@@ -87,139 +87,139 @@ Set initial **_y_**, or **_y_** after a vowel, to **_Y_**, and then establish th
 
 Step 0: `+`
 
-Search for the longest among the suffixes,
+&ensp;&ensp;Search for the longest among the suffixes,
 
-**_'_**
+&ensp;&ensp;&ensp;&ensp;**_'_**
 
-**_'s_**
+&ensp;&ensp;&ensp;&ensp;**_'s_**
 
-**_'s'_**
+&ensp;&ensp;&ensp;&ensp;**_'s'_**
 
-and remove if found.
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;and remove if found.
 
 Step 1a:
 
-Search for the longest among the following suffixes, and perform the action indicated.
+&ensp;&ensp;Search for the longest among the following suffixes, and perform the action indicated.
 
-**_sses_**
+&ensp;&ensp;&ensp;&ensp;**_sses_**
 
-replace by **_ss_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace by **_ss_**
 
-**_ied_**`+` &nbsp; **_ies_**`*`
+&ensp;&ensp;&ensp;&ensp;**_ied_**`+` &nbsp; **_ies_**`*`
 
-replace by **_i_** if preceded by more than one letter, otherwise by **_ie_** (so _ties_ → _tie_, _cries_ → _cri_)
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace by **_i_** if preceded by more than one letter, otherwise by **_ie_** (so _ties_ » _tie_, _cries_ » _cri_)
 
-**_s_**
+&ensp;&ensp;&ensp;&ensp;**_s_**
 
-delete if the preceding word part contains a vowel not immediately before the **_s_** (so _gas_ and _this_ retain the **_s_**, _gaps_ and _kiwis_ lose it)
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if the preceding word part contains a vowel not immediately before the **_s_** (so _gas_ and _this_ retain the **_s_**, _gaps_ and _kiwis_ lose it)
 
-**_us_**`+` &nbsp; **_ss_**
+&ensp;&ensp;&ensp;&ensp;**_us_**`+` &nbsp; **_ss_**
 
-do nothing
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;do nothing
 
 Step 1b:
 
-Search for the longest among the following suffixes, and perform the action indicated.
+&ensp;&ensp;Search for the longest among the following suffixes, and perform the action indicated.
 
-**_eed &nbsp; eedly_**`+`
+&ensp;&ensp;&ensp;&ensp;**_eed &nbsp; eedly_**`+`
 
-replace by **_ee_** if in _R1_
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;replace by **_ee_** if in _R1_
 
-**_ed &nbsp; edly_**`+` **_ing &nbsp; ingly_**`+`
+&ensp;&ensp;&ensp;&ensp;**_ed &nbsp; edly_**`+` **_ing &nbsp; ingly_**`+`
 
-for **_ing_**, check if the word before the suffix is exactly one of the following exceptional cases:
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;for **_ing_**, check if the word before the suffix is exactly one of the following exceptional cases:
 
-*   if it's a non-vowel followed by **_y_**, replace **_y_** and **_ing_** with **_ie_** (so _dying_ → _die_), then go to step 1c.
-*   if it's exactly one of _inn_, _out_, _cann_, _herr_, _earr_ or _even_ then go to step 1c.
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;* if it's a non-vowel followed by **_y_**, replace **_y_** and **_ing_** with **_ie_** (so _dying_ » _die_), then go to step 1c.\
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;* if it's exactly one of _inn_, _out_, _cann_, _herr_, _earr_ or _even_ then go to step 1c.
 
-delete if the preceding word part contains a vowel, and after the deletion:
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if the preceding word part contains a vowel, and after the deletion:
 
-if the word ends **_at_**, **_bl_** or **_iz_** add **_e_** (so _luxuriat_ → _luxuriate_), or
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if the word ends **_at_**, **_bl_** or **_iz_** add **_e_** (so _luxuriat_ » _luxuriate_), or
 
-if the word ends with a _double_ preceded by something other than exactly **_a_**, **_e_** or **_o_** then remove the last letter (so _hopp_ → _hop_ but _add_, _egg_ and _off_ are not changed), or
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if the word ends with a _double_ preceded by something other than exactly **_a_**, **_e_** or **_o_** then remove the last letter (so _hopp_ » _hop_ but _add_, _egg_ and _off_ are not changed), or
 
-if the word does not end with a _double_ and is short, add **_e_** (so _hop_ → _hope_)
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;if the word does not end with a _double_ and is short, add **_e_** (so _hop_ » _hope_)
 
 Step 1c: `*`
 
-replace suffix **_y_** or **_Y_** by **_i_** if preceded by a non-vowel which is not the first letter of the word (so _cry_ → _cri_, _by_ → _by_, _say_ → _say_)
+&ensp;&ensp;replace suffix **_y_** or **_Y_** by **_i_** if preceded by a non-vowel which is not the first letter of the word (so _cry_ » _cri_, _by_ » _by_, _say_ » _say_)
 
 Step 2:
 
-Search for the longest among the following suffixes, and, if found and in _R1_, perform the action indicated.
+&ensp;&ensp;Search for the longest among the following suffixes, and, if found and in _R1_, perform the action indicated.
 
-**_tional_**: replace by **_tion_**
+&ensp;&ensp;&ensp;&ensp;**_tional_**: replace by **_tion_**
 
-**_enci_**: replace by **_ence_**
+&ensp;&ensp;&ensp;&ensp;**_enci_**: replace by **_ence_**
 
-**_anci_**: replace by **_ance_**
+&ensp;&ensp;&ensp;&ensp;**_anci_**: replace by **_ance_**
 
-**_abli_**: replace by **_able_**
+&ensp;&ensp;&ensp;&ensp;**_abli_**: replace by **_able_**
 
-**_entli_**: replace by **_ent_**
+&ensp;&ensp;&ensp;&ensp;**_entli_**: replace by **_ent_**
 
-**_izer &nbsp; ization_**: replace by **_ize_**
+&ensp;&ensp;&ensp;&ensp;**_izer &nbsp; ization_**: replace by **_ize_**
 
-**_ational &nbsp; ation &nbsp; ator_**: replace by **_ate_**
+&ensp;&ensp;&ensp;&ensp;**_ational &nbsp; ation &nbsp; ator_**: replace by **_ate_**
 
-**_alism &nbsp; aliti &nbsp; alli_**: replace by **_al_**
+&ensp;&ensp;&ensp;&ensp;**_alism &nbsp; aliti &nbsp; alli_**: replace by **_al_**
 
-**_fulness_**: replace by **_ful_**
+&ensp;&ensp;&ensp;&ensp;**_fulness_**: replace by **_ful_**
 
-**_ousli &nbsp; ousness_**: replace by **_ous_**
+&ensp;&ensp;&ensp;&ensp;**_ousli &nbsp; ousness_**: replace by **_ous_**
 
-**_iveness &nbsp; iviti_**: replace by **_ive_**
+&ensp;&ensp;&ensp;&ensp;**_iveness &nbsp; iviti_**: replace by **_ive_**
 
-**_biliti &nbsp; bli_**`+`: replace by **_ble_**
+&ensp;&ensp;&ensp;&ensp;**_biliti &nbsp; bli_**`+`: replace by **_ble_**
 
-**_ogist_**`+`: replace by **_og_**
+&ensp;&ensp;&ensp;&ensp;**_ogist_**`+`: replace by **_og_**
 
-**_ogi_**`+`: replace by **_og_** if preceded by **_l_**
+&ensp;&ensp;&ensp;&ensp;**_ogi_**`+`: replace by **_og_** if preceded by **_l_**
 
-**_fulli_**`+`: replace by **_ful_**
+&ensp;&ensp;&ensp;&ensp;**_fulli_**`+`: replace by **_ful_**
 
-**_lessli_**`+`: replace by **_less_**
+&ensp;&ensp;&ensp;&ensp;**_lessli_**`+`: replace by **_less_**
 
-**_li_**`+`: delete if preceded by a valid **_li_**\-ending
+&ensp;&ensp;&ensp;&ensp;**_li_**`+`: delete if preceded by a valid **_li_**\-ending
 
 Step 3:
 
-Search for the longest among the following suffixes, and, if found and in _R1_, perform the action indicated.
+&ensp;&ensp;Search for the longest among the following suffixes, and, if found and in _R1_, perform the action indicated.
 
-**_tional_**`+`: replace by **_tion_**
+&ensp;&ensp;&ensp;&ensp;**_tional_**`+`: replace by **_tion_**
 
-**_ational_**`+`: replace by **_ate_**
+&ensp;&ensp;&ensp;&ensp;**_ational_**`+`: replace by **_ate_**
 
-**_alize_**: replace by **_al_**
+&ensp;&ensp;&ensp;&ensp;**_alize_**: replace by **_al_**
 
-**_icate &nbsp; iciti &nbsp; ical_**: replace by **_ic_**
+&ensp;&ensp;&ensp;&ensp;**_icate &nbsp; iciti &nbsp; ical_**: replace by **_ic_**
 
-**_ful &nbsp; ness_**: delete
+&ensp;&ensp;&ensp;&ensp;**_ful &nbsp; ness_**: delete
 
-**_ative_**`*`: delete if in _R2_
+&ensp;&ensp;&ensp;&ensp;**_ative_**`*`: delete if in _R2_
 
 Step 4:
 
-Search for the longest among the following suffixes, and, if found and in _R2_, perform the action indicated.
+&ensp;&ensp;Search for the longest among the following suffixes, and, if found and in _R2_, perform the action indicated.
 
-**_al &nbsp; ance &nbsp; ence &nbsp; er &nbsp; ic &nbsp; able &nbsp; ible &nbsp; ant &nbsp; ement &nbsp; ment &nbsp; ent &nbsp; ism &nbsp; ate &nbsp; iti &nbsp; ous &nbsp; ive &nbsp; ize_**
+&ensp;&ensp;&ensp;&ensp;**_al &nbsp; ance &nbsp; ence &nbsp; er &nbsp; ic &nbsp; able &nbsp; ible &nbsp; ant &nbsp; ement &nbsp; ment &nbsp; ent &nbsp; ism &nbsp; ate &nbsp; iti &nbsp; ous &nbsp; ive &nbsp; ize_**
 
-delete
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete
 
-**_ion_**
+&ensp;&ensp;&ensp;&ensp;**_ion_**
 
-delete if preceded by **_s_** or **_t_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if preceded by **_s_** or **_t_**
 
 Step 5: `*`
 
-Search for the following suffixes, and, if found, perform the action indicated.
+&ensp;&ensp;Search for the following suffixes, and, if found, perform the action indicated.
 
-**_e_**
+&ensp;&ensp;&ensp;&ensp;**_e_**
 
-delete if in _R2_, or in _R1_ and not preceded by a short syllable
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_, or in _R1_ and not preceded by a short syllable
 
-**_l_**
+&ensp;&ensp;&ensp;&ensp;**_l_**
 
-delete if in _R2_ and preceded by **_l_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete if in _R2_ and preceded by **_l_**
 
 Finally, turn any remaining **_Y_** letters in the word back into lower case.

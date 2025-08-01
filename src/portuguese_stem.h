@@ -1,109 +1,23 @@
 /** @addtogroup Stemming
     @brief Library for stemming words down to their root words.
-    @date 2004-2023
+    @date 2004-2025
     @copyright Oleander Software, Ltd.
     @author Blake Madden
     @details This program is free software; you can redistribute it and/or modify
     it under the terms of the BSD License.
+
+    SPDX-License-Identifier: BSD-3-Clause
 * @{*/
 
-#ifndef __PORTUGUESE_STEM_H__
-#define __PORTUGUESE_STEM_H__
+#ifndef OLEAN_PORTUGUESE_STEM_H
+#define OLEAN_PORTUGUESE_STEM_H
 
 #include "stemming.h"
 
 namespace stemming
     {
     /**
-    @brief Portuguese stemmer.
-
-    @par Definitions:
-
-    Letters in Portuguese include the following accented forms,
-        - á é í ó ú â ê ô ç ã õ ü ñ
-
-    The following letters are vowels:
-        - a e i o u á é í ó ú â ê ô
-
-    And the two nasalised vowel forms
-     - ã õ
-
-    should be treated as a vowel followed by a consonant. 
-
-    ã and õ are therefore replaced by a~ and o~ in the word, where ~ is a separate character
-    to be treated as a consonant.
-    And then R2 and RV have the same definition as in the Spanish stemmer.
-
-    @par Algorithm:
-
-    <b>Step 1:</b>
-
-    Search for the longest among the following suffixes, and perform the action indicated.
-        - eza   ezas   ico   ica   icos   icas   ismo   ismos   ável   ível   ista   istas
-         oso   osa   osos   osas   amento   amentos   imento   imentos   adora   ador   aça~o
-         adoras   adores   aço~es   ante   antes   ância
-            - Delete if in R2.
-        - logia logias
-            - Replace with log if in R2.
-        - uça~o uço~es
-            - Replace with u if in R2
-        - ência ências
-            - Replace with ente if in R2.
-        - amente
-            - Delete if in R1.
-            - If preceded by iv, delete if in R2 (and if further preceded by at,
-              delete if in R2), otherwise,
-            - If preceded by os, ic or ad, delete if in R2.
-        - mente
-            - Delete if in R2.
-            - If preceded by ante, avel or ível, delete if in R2.
-        - idade idades
-            - Delete if in R2.
-            - If preceded by abil, ic or iv, delete if in R2.
-        - iva ivo ivas ivos
-            - Delete if in R2.
-            - If preceded by at, delete if in R2.
-        - ira iras
-            - Replace with ir if in RV and preceded by e.
-
-    Do step 2 if no ending was removed by step 1.
-
-    <b>Step 2:</b>
-
-    Search for the longest among the following suffixes in RV, and if found, delete. 
-
-    - ada ida ia aria eria iria ará ara erá era irá ava asse esse isse aste este iste
-    ei arei erei irei am iam ariam eriam iriam aram eram iram avam em arem erem irem
-    assem essem issem ado ido ando endo indo ara~o era~o ira~o ar er ir as adas idas
-    ias arias erias irias arás aras erás eras irás avas es ardes erdes irdes ares eres
-    ires asses esses isses astes estes istes is ais eis íeis aríeis eríeis iríeis áreis
-    areis éreis ereis íreis ireis ásseis ésseis ísseis áveis ados idos ámos amos íamos
-    aríamos eríamos iríamos áramos éramos íramos ávamos emos aremos eremos iremos ássemos
-    êssemos íssemos imos armos ermos irmos eu iu ou ira iras
-
-    If the last step to be obeyed - either step 1 or 2 - altered the word, do step 3.
-
-    <b>Step 3:</b>
-
-    Delete suffix 'i' if in RV and preceded by 'c'.
-    Alternatively, if neither steps 1 nor 2 altered the word, do step 4.
-
-    <b>Step 4:</b>
-    
-    If the word ends with one of the suffixes 
-        - os a i o á í ó 
-
-    in RV, delete it.
-
-    Always do step 5.
-
-    <b>Step 5:</b>
-    
-    If the word ends with one of
-        - e é ê 
-
-    in RV, delete it, and if preceded by gu (or ci) with the u (or i) in RV, delete the u (or i). 
-    Or if the word ends ç remove the cedilla.
+        @brief Portuguese stemmer.
     */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>
@@ -2013,4 +1927,4 @@ namespace stemming
 
 /** @}*/
 
-#endif // __PORTUGUESE_STEM_H__
+#endif // OLEAN_PORTUGUESE_STEM_H

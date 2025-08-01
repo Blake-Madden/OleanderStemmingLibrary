@@ -1,14 +1,16 @@
 /** @addtogroup Stemming
     @brief Library for stemming words down to their root words.
-    @date 2004-2023
+    @date 2004-2025
     @copyright Oleander Software, Ltd.
     @author Blake Madden
     @details This program is free software; you can redistribute it and/or modify
     it under the terms of the BSD License.
+
+    SPDX-License-Identifier: BSD-3-Clause
 * @{*/
 
-#ifndef __RUSSIAN_STEM_H__
-#define __RUSSIAN_STEM_H__
+#ifndef OLEAN_RUSSIAN_STEM_H
+#define OLEAN_RUSSIAN_STEM_H
 
 #include "stemming.h"
 
@@ -115,62 +117,7 @@ namespace stemming
     static constexpr wchar_t RUSSIAN_YA_LOWER = 0x044F;
 
     /**
-    @brief Russian stemmer.
-
-    i-suffixes of Russian tend to be quite regular, with irregularities of
-    declension involving a change to the stem. Irregular forms therefore
-    usually just generate two or more possible stems. Stems in Russian can
-    be very short, and many of the suffixes are also particle words that make
-    ‘natural stopwords,’ so a tempting way of running the stemmer is to set a
-    minimum stem length of zero, and thereby reduce to null all words which
-    are made up entirely of suffix parts. We have been a little more cautious,
-    and have insisted that a minimum stem contains one vowel.
-
-    @par Definitions:
-
-    PERFECTIVE GERUND:
-        - Group 1: в вши вшись
-        - Group 2: ив ивши ившись ыв ывши ывшись
-
-    Group 1 endings must follow 'а' or 'я'.
-    
-    REFLEXIVE:
-        - ся сь
-
-    NOUN:
-        - а ев ов ие ье е иями ями ами еи ии и ией ей ой ий й иям ям ием ем ам ом о у ах иях ях ы ь ию ью ю ия ья я
-
-    NOTE:
-        There is a 33rd letter of the Russian alphabet, 'ё', but it is rarely used and often
-        replaced by 'е' in informal writing.  The original algorithm here assumed it
-        had already been mapped to 'е'; this algorithm will now map it for you.
-
-    @par Algorithm:
-
-    <b>Step 1:</b>
-
-    Search for a PERFECTIVE GERUND ending. If one is found remove it,
-    and that is then the end of step 1. Otherwise try and remove a REFLEXIVE ending,
-    and then search in turn for:
-        -# an ADJECTIVAL,
-        -# a VERB or
-        -# a NOUN ending.
-    As soon as one of the endings (1) to (3) is found remove it, and terminate step 1.
-
-    <b>Step 2:</b>
-
-    If the word ends with 'и', then remove it.
-
-    <b>Step 3:</b>
-
-    Search for a DERIVATIONAL (ост, ость) ending in R2 (i.e., the entire ending must lie in R2),
-    and if one is found, then remove it.
-
-    <b>Step 4:</b>
-
-    -# Undouble 'н', or
-    -# if the word ends with a SUPERLATIVE (ейш or ейше) ending, remove it and undouble 'н', or
-    -# if the word ends 'ь', then remove it.
+        @brief Russian stemmer.
     */
     template <typename string_typeT = std::wstring>
     class russian_stem final : public stem<string_typeT>
@@ -730,4 +677,4 @@ namespace stemming
 
 /** @}*/
 
-#endif // __RUSSIAN_STEM_H__
+#endif // OLEAN_RUSSIAN_STEM_H

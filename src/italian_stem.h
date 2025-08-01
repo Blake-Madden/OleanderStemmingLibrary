@@ -1,105 +1,23 @@
 /** @addtogroup Stemming
     @brief Library for stemming words down to their root words.
-    @date 2004-2023
+    @date 2004-2025
     @copyright Oleander Software, Ltd.
     @author Blake Madden
     @details This program is free software; you can redistribute it and/or modify
     it under the terms of the BSD License.
+
+    SPDX-License-Identifier: BSD-3-Clause
 * @{*/
 
-#ifndef __ITALIAN_STEM_H__
-#define __ITALIAN_STEM_H__
+#ifndef OLEAN_ITALIAN_STEM_H
+#define OLEAN_ITALIAN_STEM_H
 
 #include "stemming.h"
 
 namespace stemming
     {
     /**
-    @brief Italian stemmer.
-
-    @par Definitions:
-
-    Italian can include the following accented forms:
-        - á é í ó ú à è ì ò ù
-
-    First, replace all acute accents by grave accents.
-    And, as in French, put u after q, and u or i between vowels into upper case. The vowels are then:
-        - a e i o u à è ì ò ù
-
-    R2 and RV have the same definition as in the Spanish stemmer.
-
-    First exceptional cases are checked for. These need to match the whole word, and currently are:
-        - divano: replace with divan (to avoid conflating with diva) [Added 2022-11-16]
-    
-    If found then handle as described and that's it.
-
-    Otherwise always do steps 0 and 1.
-
-    @par Algorithm:
-
-    <b>Step 0:</b> Attached pronoun
-
-    Search for the longest among the following suffixes
-        - ci gli la le li lo mi ne si ti vi sene gliela gliele glieli glielo gliene mela
-        mele meli melo mene tela tele teli telo tene cela cele celi celo cene vela vele veli velo vene 
-
-    following one of:
-        - ando endo
-        - ar er ir 
-
-    in RV. In case of (a) the suffix is deleted, in case (b) it is replace by e
-    (guardandogli -> guardando, accomodarci -> accomodare).
-
-    <b>Step 1:</b>
-
-    Search for the longest among the following suffixes, and perform the action indicated.
-        - anza   anze   ico   ici   ica   ice   iche   ichi   ismo   ismi   abile   abili   ibile
-         ibili   ista   iste   isti   istà   istè   istì   oso   osi   osa   ose   mente   atrice
-         atrici  ante   anti
-            - Delete if in R2.
-        - azione   azioni   atore   atori delete if in R2
-            - If preceded by ic, delete if in R2.
-        - logia   logie
-            - Replace with log if in R2.
-        - uzione   uzioni   usione   usioni
-            - Replace with u if in R2.
-        - enza   enze
-            - Replace with ente if in R2.
-        - amento   amenti   imento   imenti
-            - Delete if in RV.
-        - amente
-            - Delete if in R1.
-            - If preceded by iv, delete if in R2 (and if further preceded by at, delete if in R2), otherwise,
-            - If preceded by os, ic or abil, delete if in R2.
-        - ità
-            - Delete if in R2.
-            - If preceded by abil, ic or iv, delete if in R2.
-        - ivo   ivi   iva   ive
-            - Delete if in R2.
-            - If preceded by at, delete if in R2 (and if further preceded by ic, delete if in R2).
-
-    Do step 2 if no ending was removed by step 1.
-
-    <b>Step 2:</b>
-    Search for the longest among the following suffixes in RV, and if found, delete.
-        - ammo ando ano are arono asse assero assi assimo ata ate ati ato
-        ava avamo avano avate avi avo emmo enda ende endi endo erà erai
-        eranno ere erebbe erebbero erei eremmo eremo ereste eresti erete
-        erò erono essero ete eva evamo evano evate evi evo Yamo iamo immo 
-        irà irai iranno ire irebbe irebbero irei iremmo iremo ireste iresti
-        irete irò irono isca iscano isce isci isco iscono issero ita ite iti
-        ito iva ivamo ivano ivate ivi ivo ono uta ute uti uto ar ir
-
-    Always do steps 3a and 3b.
-
-    <b>Step 3(a):</b>
-
-    Delete a final a, e, i, o, à, è, ì, or ò if it is in RV, and a preceding 'i'
-    if it is in RV (crocchi -> crocch, crocchio -> crocch).
-
-    <b>Step 3(b):</b>
-
-    Replace final ch (or gh) with c (or g) if in RV (crocch -> crocc).
+        @brief Italian stemmer.
     */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>
@@ -1911,4 +1829,4 @@ namespace stemming
 
 /** @}*/
 
-#endif // __ITALIAN_STEM_H__
+#endif // OLEAN_ITALIAN_STEM_H

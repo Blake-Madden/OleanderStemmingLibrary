@@ -17,52 +17,7 @@
 namespace stemming
     {
     /**
-    @brief Dutch stemmer.
-
-    @par Definitions:
-
-   Dutch includes the following accented forms:
-    - ä ë ï ö ü á é í ó ú è
-
-    <b>Step 1:</b>
-
-    Search for the longest among the following suffixes, and perform the action indicated: 
-            - heden 
-                - Replace with heid if in R1.
-            - en ene 
-                - Delete if in R1 and preceded by a valid en-ending, and then undouble the ending.
-            - s se 
-                - Delete if in R1 and preceded by a valid s-ending.
-
-    <b>Step 2:</b>
-
-    Delete suffix e if in R1 and preceded by a non-vowel, and then undouble the ending.
-
-    <b>Step 3a (heid):</b>
-
-    Delete heid if in R2 and not preceded by c, and treat a preceding en as in step 1(b).
-
-    <b>Step 3b (d-suffixes [*]):</b>
-    
-    Search for the longest among the following suffixes, and perform the action indicated. 
-            - end ing
-                - Delete if in R2.
-                - If preceded by ig, delete if in R2 and not preceded by e, otherwise undouble the ending.
-            - ig
-                - Delete if in R2 and not preceded by e.
-            - lijk
-                - Delete if in R2, and then repeat step 2.
-            - baar
-                - Delete if in R2.
-            - bar
-                - Delete if in R2 and if step 2 actually removed an e.
-
-    <b>Step 4 (undouble vowel):</b>
-    
-    If the words ends CVD, where C is a non-vowel, D is a non-vowel other than I,
-    and V is double a, e, o, or u, then remove one of the vowels from V.
-    
-    (for example, maan -> man, brood -> brod).
+        @brief Dutch stemmer (Porter algorithm).
     */
     //------------------------------------------------------
     template <typename string_typeT = std::wstring>
