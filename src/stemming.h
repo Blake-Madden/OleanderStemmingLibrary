@@ -22,9 +22,9 @@
 namespace stemming
     {
     /// @brief The library's major version.
-    constexpr int OLEANDER_STEM_MAJOR_VERSION = 2023;
+    constexpr int OLEANDER_STEM_MAJOR_VERSION = 2025;
     /// @brief The library's minor version.
-    constexpr int OLEANDER_STEM_MINOR_VERSION = 1;
+    constexpr int OLEANDER_STEM_MINOR_VERSION = 0;
     /// @brief The library's patch version.
     constexpr int OLEANDER_STEM_PATCH_VERSION = 0;
     /// @brief The library's tweak version.
@@ -35,10 +35,13 @@ namespace stemming
 
     /// @brief The Snowball standard implemented by the library
     ///     (major version).
-    constexpr int SNOWBALL_MAJOR_VERSION = 2;
+    constexpr int SNOWBALL_MAJOR_VERSION = 3;
     /// @brief The Snowball standard implemented by the library
     ///     (minor version).
-    constexpr int SNOWBALL_MINOR_VERSION = 3;
+    constexpr int SNOWBALL_MINOR_VERSION = 0;
+    /// @brief The Snowball standard implemented by the library
+    ///     (minor version).
+    constexpr int SNOWBALL_PATCH_VERSION = 1;
 
     /// @brief Languages available for stemming.
     enum class stemming_type
