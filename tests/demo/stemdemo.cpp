@@ -65,7 +65,7 @@ int main()
 
     // many other stemmers are also available
     stemming::danish_stem<> StemDanish;
-    stemming::dutch_stem<> StemDutch;
+    stemming::dutch_porter_stem<> StemDutch;
     stemming::finnish_stem<> StemFinnish;
     stemming::italian_stem<> StemItalian;
     stemming::german_stem<> StemGerman;
