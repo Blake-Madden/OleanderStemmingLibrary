@@ -40,6 +40,6 @@ Equivalent English forms are shown in upper case. In English, ATE is a valid end
 
 The important combining forms are summarised in the following picture:
 
-![Graph showing important combining forms in English](english-combining-forms.png)
+![Graph showing important combining forms in English](english-combining-forms.png){width=50%}
 
 In English, ABLE combines with LY to form ABLY. So in French, for example, **_able_** combines with (**_e_**)**_ment_** to form **_ablement_**. In some languages particular combinations are rare. In Italian, for example, ANT + LY, which would be the ending **_antemente_**, is so rare that it does not figure in the stemming algorithm. According to the picture, we should encounter the forms ICATIVELY and ICATIVITY, and dictionaries instance a few English words with these endings (_communicatively_ for example). But in practice three is the maximum number of derivational suffixes that one need consider in combination.

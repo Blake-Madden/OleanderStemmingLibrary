@@ -1,4 +1,4 @@
-# German stemming algorithm
+# German stemming algorithm {#sec-german}
 
 ## Design Notes
 

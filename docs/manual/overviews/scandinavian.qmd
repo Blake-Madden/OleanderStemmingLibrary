@@ -8,5 +8,5 @@ The Scandinavian languages have a noun ending corresponding to the definite arti
 | --- | --- | --- | --- | --- |
 | husen |     |     |     | hus |
 | valet |     |     |     | val |
-| flickan |     | →   |     | flickan |
+| flickan |     | »   |     | flickan |
 | äpplet |     |     |     | äpplet |

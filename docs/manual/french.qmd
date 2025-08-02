@@ -1,4 +1,4 @@
-# French stemming algorithm
+# French stemming algorithm {#sec-french}
 
 ## Design Notes
 

@@ -1,4 +1,4 @@
-# Spanish stemming algorithm
+# Spanish stemming algorithm {#sec-spanish}
 
 ## Design Notes
 
@@ -21,7 +21,7 @@ The following letters are vowels:
 
 _R2_ is defined in the usual way — see the [note](#sec-r1r2) on _R1_ and _R2_.
 
-_RV_ is defined as follows (and this is not the same as the [French stemmer](french.qmd) definition):
+_RV_ is defined as follows (and this is not the same as the [French stemmer](#sec-french) definition):
 
 If the second letter is a consonant, _RV_ is the region after the next following vowel, or if the first two letters are vowels, _RV_ is the region after the next consonant, and otherwise (consonant-vowel case) _RV_ is the region after the third letter. But _RV_ is the end of the word if these positions cannot be found.
 

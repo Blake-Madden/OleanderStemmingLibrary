@@ -13,12 +13,12 @@ book:
     - index.qmd
     - part: "Overviews"
       chapters:
-      - overviews\r1r2.qmd
-      - overviews\vowelmarking.qmd
-      - overviews\apostrophe.qmd
       - overviews\germanic.qmd
       - overviews\romance.qmd
       - overviews\scandinavian.qmd
+      - overviews\r1r2.qmd
+      - overviews\vowelmarking.qmd
+      - overviews\apostrophe.qmd
     - part: "Algorithms"
       chapters:
       - danish.qmd

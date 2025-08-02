@@ -193,7 +193,7 @@ We have suggested that stemming stopwords is not useful. There is a grammatical 
 
 Switching from English to French, consider _être_, the equivalent form of _be_. It has about 40 different forms, including,
 
-**_suis &nbsp; es &nbsp; sommes &nbsp; serez &nbsp; étaient &nbsp; fus &nbsp; furent &nbsp; sois &nbsp; été_**
+&ensp;&ensp;**_suis &nbsp; es &nbsp; sommes &nbsp; serez &nbsp; étaient &nbsp; fus &nbsp; furent &nbsp; sois &nbsp; été_**
 
 (and _suis_ incidentally is a homonym, as part of the verb _suivre_.) Passing all forms through a rule-based stemmer creates something of a mess. An alternative approach is to recognise this group of words, and other groups, and take special action. The recognition could take place inside the stemmer, or be done before the stemmer is called. One special action would be to stem (perhaps one should say ‘map’) all the forms to a standard form, ETRE, to indicate that they are parts of the verb _être_. Deciding what to do with the term ETRE, and it would probably be to discard it, would be done outside the stemming process. Another special action would be to recognize a whole class of stopwords and simply discard them.
 

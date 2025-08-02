@@ -12,7 +12,7 @@ The following letters are vowels:
 
 A consonant is defined as a character from ASCII a-z which isn't a vowel (originally this was "A consonant is defined as a non-vowel" but since 2018-11-15 we've changed this definition to avoid the stemmer altering alphanumeric codes which end with a repeated digit).
 
-_R2_ is not used: _R1_ is defined in the same way as in the [German stemmer](german.qmd). (See the [note](#sec-r1r2) on _R1_ and _R2_.)
+_R2_ is not used: _R1_ is defined in the same way as in the [German stemmer](#sec-german). (See the [note](#sec-r1r2) on _R1_ and _R2_.)
 
 Define a valid **_s_**\-ending as one of
 
