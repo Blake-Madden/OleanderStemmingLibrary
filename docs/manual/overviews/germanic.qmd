@@ -1,0 +1,45 @@
+# Germanic language stemmers
+
+Despite its inflexional complexities, German has quite a simple suffix structure, so that, if one ignores the almost intractable problems of compound words, separable verb prefixes, and prefixed and infixed **_ge_**, an algorithmic stemmer can be made quite short. (Infixed **_zu_** can be removed algorithmically, but this minor feature is not shown here.) The umlaut in German is a regular feature of plural formation, so its removal is a natural feature of stemming, but this leads to certain false conflations (for example, _schön_, beautiful; _schon_, already).
+
+By contrast, Dutch is inflexionally simple, but even so, this does not make for any great difference between the stemmers. A feature of Dutch that makes it markedly different from German is that the grammar of the written language has changed, and continues to change, relatively rapidly, and that it has assimilated a large and mixed foreign vocabulary with some of the accompanying foreign suffixes. Foreign words may, or may not, be transliterated into a Dutch style. Naturally these create problems in stemming. The stemmer here is intended for native words of contemporary Dutch.
+
+In a Dutch noun, a vowel may double in the singular form (manen = moons, maan = moon). We attempt to solve this by undoubling the double vowel (Kraaij Pohlman by contrast attempt to double the single vowel). The endings **_je_**, **_tje_**, **_pje_** etc., although extremely common, are not stemmed. They are diminutives and can significantly alter word meaning.
+
+## A note on compound words
+
+Famously, German allows for the formation of long compound words, written without spaces. For retrieval purposes, it is useful to be able to search on the parts of such words, as well as the on the complete words themselves. This is not just peculiar to German: Dutch, Danish, Norwegian, Swedish, Icelandic and Finnish have the same property. To split up compound words cannot be done without a dictionary, and the purely algorithmic stemmers presented here do not attempt it.
+
+We would suggest, however, that the need for compound word splitting in these languages has been somewhat overstated. In the case of German:
+
+1) There are many English compounds one would see no advantage in splitting,
+
+|     |     |     |     |     |     |     |     |     |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| blackberry |     | blackboard |     | rainbow |     | coastguard |     | .... |
+
+Many German compounds are like this,
+
+|     |     |     |     |     |
+| --- | --- | --- | --- | --- |
+| Bleistift (pencil) |     | \=  |     | Blei (lead) + Stift (stick) |
+| Eisenbahn (railway) |     | \=  |     | Eisen (iron) + Bahn (road) |
+| Unterseeboot (submarine) |     | \=  |     | under + sea + boat |
+
+2) Other compounds correspond to what in English one would want to do by phrase searching, so they are ready made for that purpose,
+
+|     |     |     |     |     |
+| --- | --- | --- | --- | --- |
+| Gesundheitspflege |     | \=  |     | ‘health care’ |
+| Fachhochschule |     | \=  |     | ‘technical college’ |
+| Kunstmuseum |     | \=  |     | ‘museum of fine art’ |
+
+3) In any case, longer compounds, especially involving personal names, are frequently hyphenated,
+
+Heinrich-Heine-Universität
+
+4) It is possible to construct participial adjectives of almost any length, but they are little used in contemporary German, and regarded now as poor style. As in English, very long words are not always to be taken too seriously. On the author's last visit to Germany, the longest word he had to struggle with was
+
+Nasenspitzenwurzelentzündung
+
+It means ‘inflammation of the root of the tip of the nose’, and comes from a cautionary tale for children.

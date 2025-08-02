@@ -1,0 +1,45 @@
+# Romance language stemmers
+
+The Romance languages have a wealth of different _i_\-suffixes among the verb forms, and relatively few for the other parts of speech. In addition to this, many verbs exhibit irregularities. Many also have short stems, leading to dangers of over-stemming. The verb, therefore, tends to dominate initial thinking about stemming in these languages.
+
+An algorithmic stemmer can usually reduce the multiple forms of a verb to at most two or three, and often just one. This is probably adequate for standard IR use, where the verb is used rather less than other parts of speech in short queries.
+
+In French the verb endings **_ent_** and **_ons_** cannot be removed without unacceptable overstemming. The **_ons_** form is rarer, but **_ent_** forms are quite common, and will appear regularly throughout a stemmed vocabulary.
+
+In Italian, the final vowel of nouns and adjectives indicates number and gender (_amico_ is male friend, _amica_ is female friend) and its removal is a necessary part of stemming, but the final vowel sometimes separates words of different meanings (_banco_ is bench, _banca_ is bank), which leads to some over-stemming.
+
+The _d_\-suffixes of all four languages follow a similar pattern. They can be tabulated as follows,
+
+|     |     |     |     |     |     |     |     |     |     |     |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|     |     |     |     | French |     | Spanish |     | Portug. |     | Italian |
+|     |
+| noun |     | ANCE |     | **_ance_** |     | **_anza_** |     | **_eza_** |     | **_anza_** |
+| adjective |     | IC  |     | **_ique_** |     | **_ico_** |     | **_ico_** |     | **_ico_** |
+| noun |     | ISM |     | **_isme_** |     | **_ismo_** |     | **_ismo_** |     | **_ismo_** |
+| adjective |     | ABLE |     | **_able_** |     | **_able_** |     | **_ável_** |     | **_abile_** |
+| adjective |     | IBLE |     | \-  |     | **_ible_** |     | **_ível_** |     | **_ibile_** |
+| noun |     | IST |     | **_iste_** |     | **_ista_** |     | **_ista_** |     | **_ista_** |
+| adjective |     | OUS |     | **_eux_** |     | **_oso_** |     | **_oso_** |     | **_oso_** |
+| noun |     | MENT |     | **_ment_** |     | **_amiento_** |     | **_amento_** |     | **_mente_** |
+| noun |     | ATOR |     | **_ateur_** |     | **_ador_** |     | **_ador_** |     | **_attore_** |
+| noun |     | ATRESS |     | **_atrice_** |     | \-  |     | \-  |     | **_atrice_** |
+| noun |     | ATION |     | **_ation_** |     | **_ación_** |     | **_ação_** |     | **_azione_** |
+| noun |     | LOGY |     | **_logie_** |     | **_logía_** |     | **_logía_** |     | **_logia_** |
+| noun |     | USION |     | **_usion_** |     | **_ución_** |     | **_ución_** |     | **_uzione_** |
+| noun |     | ENCE |     | **_ence_** |     | **_encia_** |     | **_ência_** |     | **_enza_** |
+| adjective |     | ENT |     | **_ent_** |     | **_ente_** |     | **_ente_** |     | **_ente_** |
+| noun |     | ANCE |     | **_ance_** |     | **_ancia_** |     | **_ância_** |     | **_anza_** |
+| noun |     | ANT |     | **_ant_** |     | **_ante_** |     | **_ante_** |     | **_ante_** |
+| adverb |     | LY  |     | (**_e_**)**_ment_** |     | (**_a_**)**_mente_** |     | (**_a_**)**_mente_** |     | (**_a_**)**_mente_** |
+| noun |     | ITY |     | **_ité_** |     | **_idad_** |     | **_idade_** |     | **_ità_** |
+| adjective |     | IVE |     | **_if_** |     | **_ive_** |     | **_ivo_** |     | **_ivo_** |
+| verb |     | ATE |     | **_at_** |     | **_at_** |     | **_at_** |     | **_at_** |
+
+Equivalent English forms are shown in upper case. In English, ATE is a valid ending, but in the Romance languages it only exists in combinations. The endings can appear in a number of styles. In Italian, **_oso_** can also be **_osa_**, **_osi_** or **_ose_**, French **_ique_** becomes **_ic_** in combinations.
+
+The important combining forms are summarised in the following picture:
+
+![Graph showing important combining forms in English](english-combining-forms.png)
+
+In English, ABLE combines with LY to form ABLY. So in French, for example, **_able_** combines with (**_e_**)**_ment_** to form **_ablement_**. In some languages particular combinations are rare. In Italian, for example, ANT + LY, which would be the ending **_antemente_**, is so rare that it does not figure in the stemming algorithm. According to the picture, we should encounter the forms ICATIVELY and ICATIVITY, and dictionaries instance a few English words with these endings (_communicatively_ for example). But in practice three is the maximum number of derivational suffixes that one need consider in combination.

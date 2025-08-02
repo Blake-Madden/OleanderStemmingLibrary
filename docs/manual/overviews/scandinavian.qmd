@@ -1,0 +1,12 @@
+# Scandinavian language stemmers
+
+The stemmers for the three Scandinavian languages are all very simple, and quite similar to each other. But between the languages there is a difference in which endings can be removed without difficulty, even though the endings are very similar. For example, in Norwegian the ending **_ede_** can be removed safely, but not in Danish.
+
+The Scandinavian languages have a noun ending corresponding to the definite article (_the_ in English). This ending cannot always be removed with certainty. In Swedish, for example, the **_en_** form is removed, and the **_et_** form in some cases, but not the **_t_** or **_n_** form,
+
+|     |     |     |     |     |
+| --- | --- | --- | --- | --- |
+| husen |     |     |     | hus |
+| valet |     |     |     | val |
+| flickan |     | →   |     | flickan |
+| äpplet |     |     |     | äpplet |

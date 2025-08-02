@@ -16,6 +16,9 @@ book:
       - overviews\r1r2.qmd
       - overviews\vowelmarking.qmd
       - overviews\apostrophe.qmd
+      - overviews\germanic.qmd
+      - overviews\romance.qmd
+      - overviews\scandinavian.qmd
     - part: "Algorithms"
       chapters:
       - danish.qmd
@@ -32,10 +35,10 @@ book:
       - swedish.qmd
     - part: "Index"
       chapters:
-      - glossary.qmd
-      - license.qmd
-      - credits.qmd
-      - references.qmd
+      - indices\glossary.qmd
+      - indices\license.qmd
+      - indices\credits.qmd
+      - indices\references.qmd
 
 format:
   pdf:
