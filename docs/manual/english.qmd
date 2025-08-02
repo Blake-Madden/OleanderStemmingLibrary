@@ -65,7 +65,7 @@ Define a _valid **_li_**\-ending_ as one of
 
 _R1_ is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel. (This definition may be modified for certain exceptional words — see below.)
 
-_R2_ is the region after the first non-vowel following a vowel in _R1_, or the end of the word if there is no such non-vowel. (See [note](r1r2.qmd) on _R1_ and _R2_.)
+_R2_ is the region after the first non-vowel following a vowel in _R1_, or the end of the word if there is no such non-vowel. (See [note](#sec-r1r2) on _R1_ and _R2_.)
 
 Define a _short syllable_ in a word as either (_a_) a vowel followed by a non-vowel other than **_w_**, **_x_** or **_Y_** and preceded by a non-vowel, or `*` (_b_) a vowel at the beginning of the word followed by a non-vowel, or (_c_) **_past_**.
 
@@ -75,7 +75,7 @@ A word is called _short_ if it ends in a short syllable, and if _R1_ is null.
 
 So _bed_, _shed_ and _shred_ are short words, _bead_, _embed_, _beds_ are not short words.
 
-An apostrophe (**_'_**) may be regarded as a letter. (See [note](apostrophe.qmd) on apostrophes in English.)
+An apostrophe (**_'_**) may be regarded as a letter. (See [note](#sec-apostrophe) on apostrophes in English.)
 
 If the word has two letters or less, leave it as it is.
 
@@ -83,7 +83,7 @@ Otherwise, do each of the following operations,
 
 Remove initial **_'_**, if present. `+` Then,
 
-Set initial **_y_**, or **_y_** after a vowel, to **_Y_**, and then establish the regions _R1_ and _R2_\. (See [note](vowelmarking.qmd) on vowel marking.)
+Set initial **_y_**, or **_y_** after a vowel, to **_Y_**, and then establish the regions _R1_ and _R2_\. (See [note](#sec-vowel-marking) on vowel marking.)
 
 Step 0: `+`
 

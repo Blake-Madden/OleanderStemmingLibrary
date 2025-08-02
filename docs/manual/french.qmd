@@ -34,7 +34,7 @@ Assume the word is in lower case. Then, taking the letters in turn from the begi
 
 In the last example, **_y_** becomes **_Y_** because it is between two vowels, but **_i_** does not become **_I_** because it is between **_Y_** and **_e_**, and **_Y_** is not defined as a vowel above.
 
-(The upper case forms are not then classed as vowels — see [note](vowelmarking.qmd) on vowel marking.)
+(The upper case forms are not then classed as vowels — see [note](#sec-vowel-marking) on vowel marking.)
 
 Replace **_ë_** and **_ï_** with **_He_** and **_Hi_**. The **_H_** marks the vowel as having originally had a diaeresis, while the vowel itself, lacking an accent, is able to match suffixes beginning in **_e_** or **_i_**.
 
@@ -56,7 +56,7 @@ _RV_ is defined as the region to the right of the first of these which is true (
 
 _R1_ is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel.
 
-_R2_ is the region after the first non-vowel following a vowel in _R1_, or the end of the word if there is no such non-vowel. (See [note](r1r2.qmd) on _R1_ and _R2_.)
+_R2_ is the region after the first non-vowel following a vowel in _R1_, or the end of the word if there is no such non-vowel. (See [note](#sec-r1r2) on _R1_ and _R2_.)
 
 For example:
 

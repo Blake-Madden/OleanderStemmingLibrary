@@ -6,15 +6,15 @@ Italian can include the following accented forms:
 
 &ensp;&ensp;**_á &nbsp; é &nbsp; í &nbsp; ó &nbsp; ú &nbsp; à &nbsp; è &nbsp; ì &nbsp; ò &nbsp; ù_**
 
-First, replace all acute accents by grave accents. And, as in French, put **_u_** after **_q_**, and **_u_**, **_i_** between vowels into upper case. (See [note](vowelmarking.qmd) on vowel marking.)
+First, replace all acute accents by grave accents. And, as in French, put **_u_** after **_q_**, and **_u_**, **_i_** between vowels into upper case. (See [note](#sec-vowel-marking) on vowel marking.)
 
 The vowels are then
 
 &ensp;&ensp;**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; à &nbsp; è &nbsp; ì &nbsp; ò &nbsp; ù_**
 
-_R2_ (see the [note](r1r2.qmd) on _R1_ and _R2_) and _RV_ have the same definition as in the [Spanish stemmer](spanish.qmd).
+_R2_ (see the [note](#sec-r1r2) on _R1_ and _R2_) and _RV_ have the same definition as in the [Spanish stemmer](spanish.qmd).
 
-_R2_ is defined in the usual way — see the [note](r1r2.qmd) on _R1_ and _R2_.
+_R2_ is defined in the usual way — see the [note](#sec-r1r2) on _R1_ and _R2_.
 
 _RV_ is defined as follows (this is the same as the [Spanish stemmer](spanish.qmd) definition, except for the initial exceptional case):
 

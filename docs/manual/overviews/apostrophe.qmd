@@ -1,10 +1,10 @@
-# The apostrophe character
+# The apostrophe character {#sec-apostrophe}
 
 Representing apostrophe is problematical for various reasons,
 
 1.  There are two Unicode characters for apostrophe, U+0027 and U+2019. The former is also in both ASCII and ISO-8859-1 (Latin1) whereas the latter is not. Compare,
     
-            Hamlet's father's ghost (U+0027)
+            Hamlet\'s father\'s ghost (U+0027)
             Hamlet’s father’s ghost (U+2019)
     
 2.  Although conceptually different from an apostrophe, a single closing quote is also represented by character U+2019.

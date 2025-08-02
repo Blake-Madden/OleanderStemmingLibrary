@@ -10,7 +10,7 @@ The following letters are vowels:
 
 &ensp;&ensp;**_a &nbsp; e &nbsp; ê &nbsp; i &nbsp; o &nbsp; ò &nbsp; ó &nbsp; ô &nbsp; u &nbsp; y &nbsp; æ &nbsp; å &nbsp; ø_**
 
-_R2_ is not used: _R1_ is defined in the same way as in the [German stemmer](german.qmd). (See the [note](r1r2.qmd) on _R1_ and _R2_.)
+_R2_ is not used: _R1_ is defined in the same way as in the [German stemmer](german.qmd). (See the [note](#sec-r1r2) on _R1_ and _R2_.)
 
 Define a valid **_s_**\-ending as one of
 

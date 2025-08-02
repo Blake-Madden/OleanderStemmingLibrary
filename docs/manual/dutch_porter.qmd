@@ -10,7 +10,7 @@ First, remove all umlaut and acute accents listed above. A vowel is then one of,
 
 &ensp;&ensp;**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; y &nbsp; è_**
 
-Put initial **_y_**, **_y_** after a vowel, and **_i_** between vowels into upper case. _R1_ and _R2_ (see the [note](r1r2.qmd) on _R1_ and _R2_) are then defined as in German.  
+Put initial **_y_**, **_y_** after a vowel, and **_i_** between vowels into upper case. _R1_ and _R2_ (see the [note](#sec-r1r2) on _R1_ and _R2_) are then defined as in German.  
   
 Define a valid **_s_**\-ending as a non-vowel other than **_j_**.  
   

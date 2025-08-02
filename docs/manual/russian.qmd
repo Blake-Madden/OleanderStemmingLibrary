@@ -32,7 +32,7 @@ For example:
            |<-----       R1       ------>|
                |<-----     R2     ------>|
 
-(See [note](r1r2.qmd) on _R1_ and _R2_.)
+(See [note](#sec-r1r2) on _R1_ and _R2_.)
 
 We now define the following classes of ending:
 

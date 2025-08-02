@@ -26,7 +26,7 @@ should be treated as a vowel followed by a consonant.
 
 &ensp;&ensp;**_ã_** and **_õ_** are therefore replaced by **_a~_** and **_o~_** in the word, where **_~_** is a separate character to be treated as a consonant. And then —
 
-_R2_ (see the [note](r1r2.qmd) on _R1_ and _R2_) and _RV_ have the same definition as in the [Spanish stemmer](spanish.qmd).
+_R2_ (see the [note](#sec-r1r2) on _R1_ and _R2_) and _RV_ have the same definition as in the [Spanish stemmer](spanish.qmd).
 
 Always do step 1.
 

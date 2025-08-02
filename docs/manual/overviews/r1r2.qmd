@@ -1,4 +1,4 @@
-# Defining _R1_ and _R2_
+# Defining _R1_ and _R2_ {#sec-r1r2}
 
 Most of the stemmers make use of at least one of the region definitions _R1_ and _R2_ They are defined as follows:
 

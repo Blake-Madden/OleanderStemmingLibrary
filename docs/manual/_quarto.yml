@@ -13,9 +13,9 @@ book:
     - index.qmd
     - part: "Overviews"
       chapters:
-      - r1r2.qmd
-      - vowelmarking.qmd
-      - apostrophe.qmd
+      - overviews\r1r2.qmd
+      - overviews\vowelmarking.qmd
+      - overviews\apostrophe.qmd
     - part: "Algorithms"
       chapters:
       - danish.qmd
@@ -33,6 +33,8 @@ book:
     - part: "Index"
       chapters:
       - glossary.qmd
+      - license.qmd
+      - credits.qmd
       - references.qmd
 
 format:

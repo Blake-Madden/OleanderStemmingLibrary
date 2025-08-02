@@ -19,7 +19,7 @@ The following letters are vowels:
 
 &ensp;&ensp;**_a &nbsp; e &nbsp; i &nbsp; o &nbsp; u &nbsp; á &nbsp; é &nbsp; í &nbsp; ó &nbsp; ú &nbsp; ü_**
 
-_R2_ is defined in the usual way — see the [note](r1r2.qmd) on _R1_ and _R2_.
+_R2_ is defined in the usual way — see the [note](#sec-r1r2) on _R1_ and _R2_.
 
 _RV_ is defined as follows (and this is not the same as the [French stemmer](french.qmd) definition):
 
