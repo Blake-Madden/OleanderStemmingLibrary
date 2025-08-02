@@ -26,7 +26,7 @@ namespace stemming
     /// @brief The library's minor version.
     constexpr int OLEANDER_STEM_MINOR_VERSION = 0;
     /// @brief The library's patch version.
-    constexpr int OLEANDER_STEM_PATCH_VERSION = 0;
+    constexpr int OLEANDER_STEM_PATCH_VERSION = 1;
     /// @brief The library's tweak version.
     constexpr int OLEANDER_STEM_TWEAK_VERSION = 0;
 
