@@ -3,16 +3,22 @@ Oleander Stemming Library
 
 ![logo](stemming.png)
 
-[![Linux Build & Unit Tests](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/unit-tests.yml)
-[![macOS Build & Unit Tests](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/mac-unit-tests.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/mac-unit-tests.yml)
-[![Windows Build & Unit Tests](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/windows-unit-tests.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/windows-unit-tests.yml)
+| Platforms  | Result |
+| ------------- | ------------- |
+| Linux  | [![Linux Build & Unit Tests](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/unit-tests.yml)  |
+| macOS  | [![macOS Build & Unit Tests](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/mac-unit-tests.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/mac-unit-tests.yml)  |
+| Windows | [![Windows Build & Unit Tests](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/windows-unit-tests.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/windows-unit-tests.yml)  |
 
-[![cppcheck](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/cppcheck.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/cppcheck.yml)
-[![CodeQL](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/codeql.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/codeql.yml)
-[![Microsoft C++ Code Analysis](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/msvc.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/msvc.yml)
+| Code Analyses  | Result |
+| ------------- | ------------- |
+| cppcheck | [![cppcheck](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/cppcheck.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/cppcheck.yml) |
+| CodeQL | [![CodeQL](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/codeql.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/codeql.yml) |
+| MS PREfast | [![Microsoft C++ Code Analysis](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/msvc.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/msvc.yml) |
+| Quneiform | [![Quneiform](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/quneiform.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/quneiform.yml) |
 
-[![doxygen](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/doxygen.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/doxygen.yml)
-[![Quneiform](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/quneiform.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/quneiform.yml)
+| Documentation | Result |
+| ------------- | ------------- |
+| Doxygen | [![doxygen](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/doxygen.yml/badge.svg)](https://github.com/Blake-Madden/OleanderStemmingLibrary/actions/workflows/doxygen.yml) |
 
 About
 =============================
@@ -26,6 +32,8 @@ Afterwards, these roots can be combined, tabulated, categorized, etc.
 For example, a stemmer can trim words such as *connection*, *connections*, *connective*, *connected*, and *connecting*
 down to the word *connect*. From there, the frequency counts of these words can be tabulated to determine how many
 times words related to *connect* exist in the corpus.
+
+A handbook explaining the stemming algorithms more in depth is available [here](docs/manual/book/Snowball-Stemming-Manual.pdf).
 
 Features
 =============================
