@@ -404,7 +404,8 @@ namespace stemming
                h, iet, uit, fab, cit, dit, alit, ilit, mit, nit, pit, rit, sit, tit,
                ivit, kvit, xit, kom, rak, pak, stak */
 
-            std::basic_string_view<typename string_typeT::value_type> textView{ text };
+            std::basic_string_view<typename string_typeT::value_type>
+                textView{ text.c_str(), text.length() };
 
             const auto isValidEtEnding = [&textView]()
                 {
