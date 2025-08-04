@@ -30,13 +30,17 @@ Step 1:
 
 &ensp;&ensp;&ensp;&ensp;(_b_) **_ers_**
 
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;find the longest suffix preceding **_ers_**, and perform the action indicated.
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;check the suffix preceding **_ers_** and perform the action indicated for the first match found:
 
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(_i_\> **_amm &nbsp; ast &nbsp; ind &nbsp; kap &nbsp; kk &nbsp; lt &nbsp; nk &nbsp; omm &nbsp; pp &nbsp; v &nbsp; øst_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(_i_) **_giv &nbsp; hav &nbsp; skap_**
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete **_ers_** suffix
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(_ii_) **_amm &nbsp; ast &nbsp; ind &nbsp; kap &nbsp; kk &nbsp; lt &nbsp; nk &nbsp; omm &nbsp; pp &nbsp; v &nbsp; øst_**
 
 &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;do nothing
 
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(_ii_\> **_giv &nbsp; hav &nbsp; skap_**
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(_iii_) if none of these suffixes are present
 
 &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;delete **_ers_** suffix
 
