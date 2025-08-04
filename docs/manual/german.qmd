@@ -111,7 +111,7 @@ Step 2:
 &ensp;&ensp;Search for the longest among the following suffixes,
 
 &ensp;&ensp;&ensp;&ensp;(_a_) **_en &nbsp; er &nbsp; est_**  
-&ensp;&ensp;&ensp;&ensp;(_b_) **_st_** (preceded by a valid **_st_**\-ending, itself preceded by at least 3
+&ensp;&ensp;&ensp;&ensp;(_b_) **_st_** (preceded by a valid **_st_**\-ending, itself preceded by at least 3 letters.
 &ensp;&ensp;&ensp;&ensp;(_c_) **_et_** (preceded by a valid **_et_**\-ending, itself not preceded any of **_geordn_**, **_intern_**, **_plan_**, **_tick_** or **_tr_**).
 
 &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;and delete the suffix if in _R1_.

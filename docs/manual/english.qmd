@@ -37,7 +37,7 @@ But it is hardly surprising that after twenty years of use of the Porter stemmer
 21.  Snowball 3.0.0 Avoid conflating **_lateral_**/**_laterally_** with **_later_**.
 22.  Snowball 3.0.0 Replace **_\-ogist_** with **_\-og_** to conflate **_geologist_** with **_geology_**, etc.
 23.  Snowball 3.0.0 Handle **_\-eed_** and **_\-ing_** exceptions in respective rules.
-24.  Snowball 3.0.1 Restored exception for **_skis_** which **b** is needed.
+24.  Snowball 3.1.0 Restored exception for **_skis_** which **b** is needed.
 
 ## Design Notes
 
