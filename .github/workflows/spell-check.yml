@@ -3,19 +3,22 @@ on: [push]
 
 jobs:
   check-unix:
-    runs-on: ubuntu-latest
     name: Check Spelling
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install codespell
         run: |
           pip install codespell
       - name: Run codespell
         run: |
-          codespell src/ *.md
+          # just spellcheck the overviews and manual, that's where the bulk of docs are
+          codespell *.md *.qmd
           rc=$?
           if [ $rc != 0 ]; then
           cat <<EOF

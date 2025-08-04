@@ -5,8 +5,10 @@ jobs:
   build:
     name: cppcheck-test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: create test file
         run: |
@@ -16,7 +18,7 @@ jobs:
         uses: deep5050/cppcheck-action@main
         with:
           github_token: ${{ secrets.GITHUB_TOKEN}}
-          std: c++17
+          std: c++20
           inline_suppression: enable
           exclude_check: ./tests
           output_file: cppcheck_report.txt
