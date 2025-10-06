@@ -28,7 +28,7 @@ namespace stemming
     /// @brief The library's patch version.
     constexpr int OLEANDER_STEM_PATCH_VERSION = 1;
     /// @brief The library's tweak version.
-    constexpr int OLEANDER_STEM_TWEAK_VERSION = 0;
+    constexpr int OLEANDER_STEM_TWEAK_VERSION = 1;
 
     /// @brief The library's copyright notice.
     constexpr wchar_t OLEANDER_STEM_COPYRIGHT[] = L"Copyright (c) 2004-2025 Blake Madden";
