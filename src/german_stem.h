@@ -258,7 +258,7 @@ namespace stemming
                     L'd', L'f', L'g', L'k', L'l', L'm', L'n', L'r',
                     L's', L't', L'z', L'ä', L'D', L'F', L'G', L'K',
                     L'L', L'M', L'N', L'R', L'S', L'T', L'Z', L'Ä',
-                    UPPER_U_HASH, LOWER_U_HASH };
+                    UPPER_U_HASH, LOWER_U_HASH, 0 };
                 if (stem<string_typeT>::is_one_of(text[text.length() - 3], VALID_ET_SUFFIX_CHARACTERS) &&
                     has_et_suffix(std::basic_string_view<typename string_typeT::value_type>
                                   { text.c_str(), text.length() - 2 }))
