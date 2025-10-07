@@ -13,6 +13,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(OleanderStemTestRunner)
 
+# Enable AddressSanitizer
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        add_compile_options(-fsanitize=address -fno-omit-frame-pointer)
+        add_link_options(-fsanitize=address)
+    elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        add_compile_options(/fsanitize=address)
+        add_link_options(/fsanitize=address)
+    endif()
+endif()
+
 add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
