@@ -16,7 +16,7 @@
 #include <string>
 
 namespace common_lang_constants
-    {
+{
     constexpr wchar_t TAB = 0x09;
     constexpr wchar_t SPACE = 0x20;
     constexpr wchar_t COMMA = 0x2C;
@@ -185,7 +185,7 @@ namespace common_lang_constants
     const std::wstring COMPOUND_WORD_SEPARATORS{ HYPHEN, HYPHEN_FULL_WIDTH, SOFT_HYPHEN,
                                                  FORWARD_SLASH, FORWARD_SLASH_FULL_WIDTH,
                                                  BACK_SLASH, BACK_SLASH_FULL_WIDTH };
-    constexpr wchar_t NUMBERS_AND_DOT[] = {
+    inline constexpr wchar_t NUMBERS_AND_DOT[]{
         NUMBER_0, NUMBER_1, NUMBER_2, NUMBER_3, NUMBER_4,
         NUMBER_5, NUMBER_6, NUMBER_7, NUMBER_8, NUMBER_9,
         NUMBER_0_FULL_WIDTH, NUMBER_1_FULL_WIDTH,
@@ -194,7 +194,7 @@ namespace common_lang_constants
         NUMBER_6_FULL_WIDTH, NUMBER_7_FULL_WIDTH,
         NUMBER_8_FULL_WIDTH, NUMBER_9_FULL_WIDTH,
         PERIOD, 0 };
-    }
+}
 
 /** @}*/
 

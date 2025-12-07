@@ -168,8 +168,9 @@ namespace stemming
     inline constexpr wchar_t full_width_to_narrow(const wchar_t ch) noexcept
         {
         return
-            // lower area of Unicode, most likely branch
+            // not in the fullwidth/halfwidth Unicode ranges; return character unchanged
             (ch < 65'000) ? ch :
+            // fullwidth Latin letters, digits, and punctuation
             (ch >= 65'281 && ch <= 65'374) ? (ch - 65'248) :
             // cent and pound sterling
             (ch >= 65'504 && ch <= 65'505) ? (ch - 65'342) :
@@ -214,7 +215,7 @@ namespace stemming
         [[nodiscard]]
         virtual stemming_type get_language() const noexcept = 0;
         /// Destructor.
-        virtual ~stem() {}
+        virtual ~stem() = default;
     protected:
         // R1, R2, RV functions
         /// @brief Finds the start of R1.
@@ -224,7 +225,7 @@ namespace stemming
                      const wchar_t* vowel_list) noexcept
             {
             // see where the R1 section begin
-            // R1 is the region after the first consonant after the first vowel
+            // R1 is the region after the first non-vowel after the first vowel
             size_t start = text.find_first_of(vowel_list, 0);
             if (start == string_typeT::npos)
                 {
@@ -252,7 +253,7 @@ namespace stemming
             {
             size_t start = 0;
             // look for R2--not required for all criteria.
-            // R2 is the region after the first consonant after the first vowel after R1
+            // R2 is the region after the first non-vowel after the first vowel after R1
             if (get_r1() != text.length() )
                 {
                 start = text.find_first_of(vowel_list, get_r1());
