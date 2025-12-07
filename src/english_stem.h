@@ -1109,7 +1109,7 @@ namespace stemming
                     stem<string_typeT>::update_r_sections(text);
                     }
                 }
-            else if (text.length() >= 2 &&
+            else if (text.length() >= 3 &&
                     stem<string_typeT>::get_r1() <= (text.length()-2) &&
                     stem<string_typeT>::is_suffix(text,
                         /*li*/
