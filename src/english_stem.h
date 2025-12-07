@@ -676,9 +676,9 @@ namespace stemming
                     }
                 else if (text.length() == 7 &&
                     ((stem<string_typeT>::is_either(text[0],
-                        common_lang_constants::LOWER_C, common_lang_constants::UPPER_I) &&
+                        common_lang_constants::LOWER_C, common_lang_constants::UPPER_C) &&
                      stem<string_typeT>::is_either(text[1],
-                        common_lang_constants::LOWER_A, common_lang_constants::UPPER_N) &&
+                        common_lang_constants::LOWER_A, common_lang_constants::UPPER_A) &&
                      stem<string_typeT>::is_either(text[2],
                         common_lang_constants::LOWER_N, common_lang_constants::UPPER_N) &&
                      stem<string_typeT>::is_either(text[3],
