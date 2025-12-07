@@ -257,7 +257,7 @@ namespace stemming
             if (stem<string_typeT>::delete_if_is_in_rv(text,
                     RUSSIAN_I_LOWER, RUSSIAN_I_UPPER,
                     RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
-                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_YERU_UPPER, RUSSIAN_YERU_LOWER,
+                stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_YERU_LOWER, RUSSIAN_YERU_UPPER,
                     RUSSIAN_EM_LOWER, RUSSIAN_EM_UPPER, RUSSIAN_I_LOWER, RUSSIAN_I_UPPER, false) ||
                 stem<string_typeT>::delete_if_is_in_rv(text, RUSSIAN_IE_LOWER, RUSSIAN_IE_UPPER,
                     RUSSIAN_GHE_LOWER, RUSSIAN_GHE_UPPER, RUSSIAN_O_LOWER, RUSSIAN_O_UPPER, false) ||
