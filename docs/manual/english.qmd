@@ -142,7 +142,7 @@ Step 1b:
 
 Step 1c: `*`
 
-&ensp;&ensp;replace suffix **_y_** or **_Y_** by **_i_** if preceded by a non-vowel which is not the first letter of the word (so _cry_ » _cri_, _by_ » _by_, _say_ » _say_)
+&ensp;&ensp;For strings of length 3 or more, replace suffix **_y_** or **_Y_** by **_i_** if preceded by a non-vowel which is not the first letter of the word (so _cry_ » _cri_, _by_ » _by_, _say_ » _say_)
 
 Step 2:
 
