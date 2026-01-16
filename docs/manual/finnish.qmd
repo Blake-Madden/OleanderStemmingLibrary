@@ -6,7 +6,7 @@ Finnish is not an Indo-European language, but belongs to the Finno-Ugric group, 
 
 More problematical than the endings themselves is the change that can be effected in a stem as a result of taking a particular ending. A stem typically has two forms, _strong_ and _weak_, where one class of ending follows the strong form and the complementary class the weak. Normalising strong and weak forms after ending removal is not generally possible, although the common case where strong and weak forms only differ in the single or double form of a final consonant can be dealt with.
 
-The letter **_å_** is also in the Finnish alphabet, but is only used in Scandanavian names. Treating it as a vowel in the stemmer does not improve retrieval results (instead it makes things very slightly worse as it will tend to cause the stemmer to conflate names with other words more).
+The letter **_å_** is also in the Finnish alphabet, but is only used in Scandinavian names. Treating it as a vowel in the stemmer does not improve retrieval results (instead it makes things very slightly worse as it will tend to cause the stemmer to conflate names with other words more).
 
 ## The stemming algorithm
 

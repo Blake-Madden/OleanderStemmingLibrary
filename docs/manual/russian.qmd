@@ -95,7 +95,7 @@ For example, in
 
 In searching for an ending in a class, always choose the longest one from the class.
 
-So in seaching for a NOUN ending for величие (_velichie_), choose ие (**_ie_**) rather than е (**_e_**).
+So in searching for a NOUN ending for величие (_velichie_), choose ие (**_ie_**) rather than е (**_e_**).
 
 Undouble н (**_n_**) means, if the word ends нн (**_nn_**), remove the last letter.
 

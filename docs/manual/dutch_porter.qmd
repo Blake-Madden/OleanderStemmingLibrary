@@ -18,7 +18,7 @@ Define a valid **_en_**\-ending as a non-vowel, and not **_gem_**.
   
 Define undoubling the ending as removing the last letter if the word ends **_kk_**, **_dd_** or **_tt_**.  
   
-Do each of steps 1, 2 3 and 4.  
+Do each of steps 1, 2, 3 and 4.  
   
 Step 1:
 

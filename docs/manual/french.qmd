@@ -6,7 +6,7 @@ In French the verb endings **_\-ent_** and **_\-ons_** cannot be removed without
 
 The rule to replace **_\-oux_** with **_\-ou_** will produce linguistically incorrect stems by removing **_x_** from **_époux_** and **_jaloux_**, but this is harmless as no unwanted conflation results.
 
-The rule to replace **_\-aux_** with **_\-al_** stems **_travaux_** to **_traval_** and **_vitraux_** to **_vitral_** wheras **_\-ail_** would be lingusitically correct; similarly **_esquimaux_**, **_noyaux_** and **_tuyaux_** where **_\-au_** would be more correct. None of these seem to result in unwanted conflation though.
+The rule to replace **_\-aux_** with **_\-al_** stems **_travaux_** to **_traval_** and **_vitraux_** to **_vitral_** whereas **_\-ail_** would be linguistically correct; similarly **_esquimaux_**, **_noyaux_** and **_tuyaux_** where **_\-au_** would be more correct. None of these seem to result in unwanted conflation though.
 
 The suffix **_\-eux_** is removed if in _R2_. For a few short words (**_cheveux_**, **_jeux_**, **_lieux_** and **_neveux_**) removing **_\-x_** would conflate a plural form with its singular, but the complexity of the rule needed to avoid adversely affecting other short words ending **_\-eux_** does not seem justified for just four cases of understemming.
 

@@ -1,6 +1,6 @@
 # Defining _R1_ and _R2_ {#sec-r1r2}
 
-Most of the stemmers make use of at least one of the region definitions _R1_ and _R2_ They are defined as follows:
+Most of the stemmers make use of at least one of the region definitions _R1_ and _R2_. They are defined as follows:
 
 _R1_ is the region after the first non-vowel following a vowel, or is the null region at the end of the word if there is no such non-vowel.
 

@@ -50,7 +50,7 @@ Step 2:
 
 &ensp;&ensp;&ensp;&ensp;**_dd &nbsp; gd &nbsp; nn &nbsp; dt &nbsp; gt &nbsp; kt &nbsp; tt_**
 
-&ensp;&ensp;(For example, _friskt_ » _frisk_, _fröknarnn_ _fröknarn_)
+&ensp;&ensp;(For example, _friskt_ » _frisk_, _fröknarnn_ » _fröknarn_)
 
 Step 3:
 
